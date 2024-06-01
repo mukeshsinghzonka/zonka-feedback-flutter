@@ -1,28 +1,27 @@
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 import 'package:zonka_feedback/services/sharedprefrence_service.dart';
 import 'package:zonka_feedback/utils/constants.dart';
 import 'package:zonka_feedback/utils/sharedpref_constant.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class HttpUtil {
   late Dio dio;
+
   static final HttpUtil _instance = HttpUtil._internal();
   factory HttpUtil() => _instance;
-  late var logger;
 
   HttpUtil._internal() {
     BaseOptions options = BaseOptions(
       baseUrl: AppConstants.SERVER_API_URL,
-      connectTimeout: const Duration(seconds: 5),
-      receiveTimeout: const Duration(seconds: 5),
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
       headers: {},
-      contentType: 'application/json; charset=utf-8',
+      contentType: 'application/json',
+        receiveDataWhenStatusError: true,
       responseType: ResponseType.json,
     );
-    
-    logger = Logger(
-    printer: PrettyPrinter(),
-  );
+
+   
 
     dio = Dio(options);
 
@@ -33,18 +32,27 @@ class HttpUtil {
       },
       onResponse: (response, handler) {
         // Do something with response data
+
         return handler.next(response); // continue
       },
       onError: (e, handler) {
-        logger.e('Error! Something bad happened', error:e);
+     
       },
+
     ));
-   
+
+    dio.interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: true,
+      ));
+
   }
 
   Map<String, dynamic>? getAuthorizationHeader() {
     var headers = <String, dynamic>{};
-    var accessToken = MySharedPreferences().getString(SharedPrefConstant.authorizationToken);
+    var accessToken =
+        MySharedPreferences().getString(SharedPrefConstant.authorizationToken);
     if (accessToken.isNotEmpty) {
       headers['Authorization'] = 'Bearer $accessToken';
     }
@@ -76,18 +84,18 @@ class HttpUtil {
     Map<String, dynamic>? queryParameters,
     Options? options,
   }) async {
-    
     Options requestOptions = options ?? Options();
     requestOptions.headers = requestOptions.headers ?? {};
     Map<String, dynamic>? authorization = getAuthorizationHeader();
     if (authorization != null) {
       requestOptions.headers!.addAll(authorization);
     }
-   var response = await dio.get(
+    var response = await dio.get(
       path,
       queryParameters: queryParameters,
       options: options,
     );
+    print("response $response");
     return response.data;
   }
 }

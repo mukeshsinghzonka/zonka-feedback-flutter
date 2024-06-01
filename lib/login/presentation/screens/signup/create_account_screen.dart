@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/login/presentation/manager/signup_controller.dart';
+import 'package:zonka_feedback/login/presentation/manager/switch_screen_controller.dart';
 import 'package:zonka_feedback/login/presentation/widget/input_text_field.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 
@@ -14,6 +15,7 @@ class CreateScreen extends StatefulWidget {
 
 class _CreateScreenState extends State<CreateScreen> {
   final signUpController = Get.put(SignupController());
+  final switchScreenController = Get.put(SwitchScreenController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool showPassword = true;
   @override
@@ -135,14 +137,19 @@ class _CreateScreenState extends State<CreateScreen> {
                         fontSize: 15.sp,
                         color: const Color(ColorConstant.signupTextColor)),
                   ),
-                  Text(
-                    "Sign In",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15.sp,
-                        color:const  Color(
-                          ColorConstant.signUpButtonColor,
-                        )),
+                  GestureDetector(
+                    onTap: () {
+                     switchScreenController.changeScreen(Screen.login);
+                    },
+                    child: Text(
+                      "Sign In",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15.sp,
+                          color:const  Color(
+                            ColorConstant.signUpButtonColor,
+                          )),
+                    ),
                   )
                 ],
               ),

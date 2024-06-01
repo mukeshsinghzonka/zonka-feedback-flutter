@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:zonka_feedback/login/presentation/manager/switch_screen_controller.dart';
+import 'package:zonka_feedback/login/presentation/screens/signin/signin_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/signup/create_account_screen.dart';
+import 'package:zonka_feedback/login/presentation/screens/signup/signup_screen.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
@@ -13,8 +18,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   bool first = true;
+  final switchScreenController = Get.put(SwitchScreenController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,12 +31,37 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 10.h,
             ),
-            SvgPicture.asset(ImageConstant.zonkaImageLogo),
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    first = !first;
+                  });
+                },
+                child: SvgPicture.asset(ImageConstant.zonkaImageLogo)),
             SizedBox(
               height: 50.h,
             ),
+            Obx(() {
+              return AnimatedSwitcher(
+                switchOutCurve: Curves.linear,
+                duration:const Duration(seconds: 1),
+          //          transitionBuilder: (child, animation) {
+          //   return SlideTransition(
+          //     position: Tween<Offset>(begin: Offset(1.2, 0), end: Offset(0, 0))
+          //         .animate(animation),
+          //     child: child,
+          //   );
+          // },
+                child:
+                    switchScreenController.currentScreen.value == Screen.login
+                        ? const SignInScreen()
+                        : switchScreenController.currentScreen.value == Screen.signup
+                        ? const SignUpScreen()  
+                        : switchScreenController.currentScreen.value == Screen.createaccount ? const CreateScreen() 
+                        : Container(),
+              );
+            }),
          
-           CreateScreen()
           ],
         ),
       )),

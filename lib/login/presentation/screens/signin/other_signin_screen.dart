@@ -28,7 +28,7 @@ class _OtherLoginWidgetState extends State<OtherLoginWidget> {
               children: [
                  SvgPicture.asset(ImageConstant.microSoftImageLogo),
                  SizedBox(width: 10.w,),
-                 Text('Sign in with Microsoft',style: TextStyle(fontWeight: FontWeight.w600),)
+                 const Text('Sign in with Microsoft',style: TextStyle(fontWeight: FontWeight.w600),)
               ],
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/login/presentation/manager/login_controller.dart';
+import 'package:zonka_feedback/login/presentation/manager/switch_screen_controller.dart';
 import 'package:zonka_feedback/login/presentation/screens/signin/other_signin_screen.dart';
 
 import 'package:zonka_feedback/login/presentation/widget/input_text_field.dart';
@@ -16,8 +17,16 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final loginController = Get.put(LoginController());
+  final switchScreenController = Get.put(SwitchScreenController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool showPassword = true;
+
+  @override
+  void initState() {
+    // loginController.loginUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -78,28 +87,47 @@ class _SignInScreenState extends State<SignInScreen> {
             SizedBox(
               height: 40.h,
             ),
-            Container(
-              width: 331.w,
-              height: 46.h,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: const Color(ColorConstant.signUpButtonColor),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(6.r),
+            GestureDetector(
+              onTap: () {
+                loginController.loginUser();
+              },
+              child: Container(
+                width: 331.w,
+                height: 46.h,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: const Color(ColorConstant.signUpButtonColor),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6.r),
+                  ),
                 ),
-              ),
-              child: Text(
-                'Sign In',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18.sp),
+                child: loginController.obx(
+              (data) {
+                return Text(
+                  'Sign In',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18.sp),
+                );
+              },
+              onLoading: const CircularProgressIndicator(),
+              onError: (error) => Text(error.toString()),
+              onEmpty:  Text(
+                  'Sign In',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18.sp),
+                ),
+               ), 
               ),
             ),
             SizedBox(
               height: 20.h,
             ),
-            Row(children: [
+            Row(
+              children: [
               Expanded(
                   child: Divider(
                 endIndent: 15.w,
@@ -140,16 +168,23 @@ class _SignInScreenState extends State<SignInScreen> {
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 15.sp,
-                        color: Color(ColorConstant.signupTextColor)),
+                        color:const  Color(ColorConstant.signupTextColor)),
                   ),
-                  Text(
-                    "Sign Up",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15.sp,
-                        color: Color(
-                          ColorConstant.signUpButtonColor,
-                        )),
+                  GestureDetector(
+                    onTap: () {
+                      
+                      switchScreenController.changeScreen(Screen.signup);
+                    
+                    },
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15.sp,
+                          color: const Color(
+                            ColorConstant.signUpButtonColor,
+                          )),
+                    ),
                   )
                 ],
               ),
