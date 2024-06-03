@@ -1,4 +1,4 @@
 class AppConstants {
 
-  static const  String SERVER_API_URL = "https://jsonplaceholder.typicode.com";
+  static const  String SERVER_API_URL = "https://us1.zonkasurvey.com";
 }

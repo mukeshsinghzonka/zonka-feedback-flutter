@@ -4,30 +4,28 @@ import 'package:zonka_feedback/login/data/data_source/login_ds.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/network/network_exceptions.dart';
 
-class LoginController extends GetxController with StateMixin<bool> {
+enum LoginStatus { initial, loading, success, error }
+
+class LoginController extends GetxController  {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
   LoginUserDs loginUserDs = LoginUserDs();
+ 
+  final Rx<LoginStatus> _loginStatus = LoginStatus.initial.obs;   
+  Rx<LoginStatus> get loginStatus => _loginStatus;
+  void setStatus(LoginStatus status) {
+    _loginStatus.value = status;
+  }
+
+  
 
   void loginUser() async {
-      change(
-        null,
-        status: RxStatus.empty(),
-      );
-    ApiResult<void> response = await loginUserDs.loginUser(
-        email: emailTextController.text, password: passwordTextController.text);
+    setStatus(LoginStatus.loading);
+    ApiResult<void> response = await loginUserDs.loginUser(email: emailTextController.text, password: passwordTextController.text);
     response.when(success: (data) async {
-      change(
-        true,
-        status: RxStatus.success(),
-      );
+      setStatus(LoginStatus.success);
     }, failure: (error) async {
-      change(
-        false,
-        status: RxStatus.error(
-          NetworkExceptions.getErrorMessage(error!),
-        ),
-      );
+      setStatus(LoginStatus.error);
     });
   }
 }

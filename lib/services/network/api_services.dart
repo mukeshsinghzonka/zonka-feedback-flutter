@@ -15,13 +15,13 @@ class HttpUtil {
       baseUrl: AppConstants.SERVER_API_URL,
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
-      headers: {},
+      headers: {
+        "Content-Type":'application/json'
+      },
       contentType: 'application/json',
-        receiveDataWhenStatusError: true,
+      receiveDataWhenStatusError: true,
       responseType: ResponseType.json,
     );
-
-   
 
     dio = Dio(options);
 
@@ -32,21 +32,18 @@ class HttpUtil {
       },
       onResponse: (response, handler) {
         // Do something with response data
-
         return handler.next(response); // continue
       },
       onError: (e, handler) {
-     
+        return handler.next(e); //continue
       },
-
     ));
 
     dio.interceptors.add(PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: true,
-      ));
-
+      requestHeader: true,
+      requestBody: true,
+      responseHeader: true,
+    ));
   }
 
   Map<String, dynamic>? getAuthorizationHeader() {
@@ -59,26 +56,30 @@ class HttpUtil {
     return headers;
   }
 
-  Future post(
-    String path, {
-    Object? data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-  }) async {
-    Options requestOptions = options ?? Options();
-    requestOptions.headers = requestOptions.headers ?? {};
+  Future<dynamic> post(
+  String path, {
+  Object? data,
+  Map<String, dynamic>? queryParameters,
+  Options? options,
+}) async {
+  Options requestOptions = options ?? Options();
+  requestOptions.headers = requestOptions.headers ?? {};
 
-    Map<String, dynamic>? authorization = getAuthorizationHeader();
+  Map<String, dynamic>? authorization = getAuthorizationHeader();
 
-    if (authorization != null) {
-      requestOptions.headers!.addAll(authorization);
-    }
-
-    var response = await dio.post(path,
-        data: data, queryParameters: queryParameters, options: requestOptions);
-    return response.data;
+  if (authorization != null) {
+    requestOptions.headers!.addAll(authorization);
   }
-
+    var response = await dio.post(
+      path,
+      options: requestOptions, // Use requestOptions here instead of options
+      data: data,
+      queryParameters: queryParameters,
+   
+    );
+  return response.data;
+ 
+}
   Future get(
     String path, {
     Map<String, dynamic>? queryParameters,

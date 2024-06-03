@@ -45,13 +45,6 @@ class _LoginScreenState extends State<LoginScreen> {
               return AnimatedSwitcher(
                 switchOutCurve: Curves.linear,
                 duration:const Duration(seconds: 1),
-          //          transitionBuilder: (child, animation) {
-          //   return SlideTransition(
-          //     position: Tween<Offset>(begin: Offset(1.2, 0), end: Offset(0, 0))
-          //         .animate(animation),
-          //     child: child,
-          //   );
-          // },
                 child:
                     switchScreenController.currentScreen.value == Screen.login
                         ? const SignInScreen()

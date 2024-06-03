@@ -104,22 +104,29 @@ class _CreateScreenState extends State<CreateScreen> {
               SizedBox(
                 height: 20.h,
               ),
-              Container(
-                width: 331.w,
-                height: 46.h,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: const Color(ColorConstant.signUpButtonColor),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(6.r),
+              InkWell(
+                onTap: () {
+                  if(_formKey.currentState!.validate()){
+                      signUpController.signupUser(context: context);
+                  }
+                },
+                child: Container(
+                  width: 331.w,
+                  height: 46.h,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: const Color(ColorConstant.signUpButtonColor),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6.r),
+                    ),
                   ),
-                ),
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18.sp),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.sp),
+                  ),
                 ),
               ),
 

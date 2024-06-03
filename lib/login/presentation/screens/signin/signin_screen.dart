@@ -6,6 +6,7 @@ import 'package:zonka_feedback/login/presentation/manager/switch_screen_controll
 import 'package:zonka_feedback/login/presentation/screens/signin/other_signin_screen.dart';
 
 import 'package:zonka_feedback/login/presentation/widget/input_text_field.dart';
+import 'package:zonka_feedback/services/dialog_util.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -23,7 +24,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   void initState() {
-    // loginController.loginUser();
     super.initState();
   }
 
@@ -89,7 +89,9 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             GestureDetector(
               onTap: () {
-                loginController.loginUser();
+         loginController.loginUser();
+          DialogUtils.showCustomErrorDialog(context, title: "Wrong Email Id ro Password. Please try again.");
+
               },
               child: Container(
                 width: 331.w,
@@ -101,26 +103,13 @@ class _SignInScreenState extends State<SignInScreen> {
                     Radius.circular(6.r),
                   ),
                 ),
-                child: loginController.obx(
-              (data) {
-                return Text(
+                child: Text(
                   'Sign In',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                       fontSize: 18.sp),
-                );
-              },
-              onLoading: const CircularProgressIndicator(),
-              onError: (error) => Text(error.toString()),
-              onEmpty:  Text(
-                  'Sign In',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18.sp),
-                ),
-               ), 
+                )
               ),
             ),
             SizedBox(
@@ -172,9 +161,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      
                       switchScreenController.changeScreen(Screen.signup);
-                    
                     },
                     child: Text(
                       "Sign Up",

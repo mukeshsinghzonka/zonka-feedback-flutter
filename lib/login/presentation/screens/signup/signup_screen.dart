@@ -124,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Text(value),
                       );
                     }).toList(),
-                    underline: null,
+                    underline: Container(),
                     hint: Container(
                         padding: EdgeInsets.symmetric(horizontal: 10.w),
                         child: const Text('Select Datacenter')),

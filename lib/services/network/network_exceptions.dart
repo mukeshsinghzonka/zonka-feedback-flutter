@@ -64,7 +64,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
                   networkExceptions = const NetworkExceptions.unauthorisedRequest();
                   break;
                 case 401:
-                  networkExceptions =const NetworkExceptions.unauthorisedRequest();
+                  networkExceptions = const NetworkExceptions.unauthorisedRequest();
                   break;
                 case 403:
                   networkExceptions =const NetworkExceptions.unauthorisedRequest();
@@ -87,7 +87,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
                 default:
                   var responseCode = error.response?.statusCode;
                   networkExceptions = NetworkExceptions.defaultError(
-                    "Received invalid status code: $responseCode",
+                    "Received invalid status code: $responseCode ${error.response?.statusMessage}}",
                   );
               }
               break;

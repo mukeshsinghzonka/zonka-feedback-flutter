@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
+import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/sharedprefrence_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MySharedPreferences().init();
+  setup();
   runApp(const MyApp());
 }
 
