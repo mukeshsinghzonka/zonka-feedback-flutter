@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
+import 'package:zonka_feedback/services/device_info/battery_info.dart';
+import 'package:zonka_feedback/services/device_info/device_info.dart';
+import 'package:zonka_feedback/services/device_info/location_info.dart';
+import 'package:zonka_feedback/services/device_info/pakage_info.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/sharedprefrence_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   MySharedPreferences().init();
+  DeviceInfoService().init();
+  BatteryInfoService().init();
+  LocationService().init();
+  PakageInfoService().init();
+  
   setup();
   runApp(const MyApp());
 }
@@ -15,6 +24,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

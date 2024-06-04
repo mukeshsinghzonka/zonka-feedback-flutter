@@ -7,6 +7,8 @@ import 'package:zonka_feedback/login/presentation/manager/switch_screen_controll
 import 'package:zonka_feedback/login/presentation/screens/signin/signin_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/signup/create_account_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/signup/signup_screen.dart';
+import 'package:zonka_feedback/services/device_info/device_info.dart';
+import 'package:zonka_feedback/services/device_info/location_info.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
@@ -20,6 +22,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool first = true;
   final switchScreenController = Get.put(SwitchScreenController());
+   
+   @override
+  void initState() {
+    LocationService().getLocation();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

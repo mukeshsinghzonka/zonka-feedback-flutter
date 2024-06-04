@@ -75,8 +75,7 @@ class HttpUtil {
       options: requestOptions, // Use requestOptions here instead of options
       data: data,
       queryParameters: queryParameters,
-   
-    );
+    );  
   return response.data;
  
 }

@@ -6,11 +6,10 @@ import 'package:zonka_feedback/services/network/api_services.dart';
 import 'package:zonka_feedback/services/network/network_exceptions.dart';
 
 class LoginUserDs {
-
+HttpUtil httpUtil = HttpUtil();
 
 Future<ApiResult<void>> loginUser({ String? email, String? password}) async {
   try {
-    HttpUtil httpUtil = HttpUtil();
     final response = await httpUtil.get('/users');
     return ApiResult.success(data: response);
   } catch (e) {
@@ -20,14 +19,11 @@ Future<ApiResult<void>> loginUser({ String? email, String? password}) async {
 
 Future<ApiResult<void>> signupUser({SignUpBodyModel ? signupBodyModel}) async {
   try {
-    HttpUtil httpUtil = HttpUtil();
-    final response = await httpUtil.post('/api/v1/signup',data:jsonEncode(signupBodyModel!.toJson()) );    
-    print("signupuserpostresponse $response");
+   
+    final response = await httpUtil.post('/api/v1/api2',data:jsonEncode(signupBodyModel!.toJsonAndroid()));
     return const ApiResult.success(data: "",);
   } catch (e) {
-    print("singupuserexceotion $e");
     return ApiResult.failure(error: NetworkExceptions.getDioException(e));
   }
 }
-
 }

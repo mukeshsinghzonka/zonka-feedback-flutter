@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/login/data/data_source/login_ds.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
-import 'package:zonka_feedback/services/network/network_exceptions.dart';
 
 enum LoginStatus { initial, loading, success, error }
 
@@ -17,7 +16,6 @@ class LoginController extends GetxController  {
     _loginStatus.value = status;
   }
 
-  
 
   void loginUser() async {
     setStatus(LoginStatus.loading);

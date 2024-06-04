@@ -8,7 +8,7 @@ class MySharedPreferences {
 
   factory MySharedPreferences() {
     return _instance;
-  }
+  } 
 
   MySharedPreferences._internal();
 

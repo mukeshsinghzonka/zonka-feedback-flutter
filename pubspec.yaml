@@ -47,6 +47,10 @@ dependencies:
   build_runner: ^2.4.10
   equatable: ^2.0.5
   get_it: ^7.7.0
+  device_info_plus: ^10.1.0
+  battery_plus: ^6.0.1
+  location: ^6.0.2
+  package_info_plus: 8.0.0
   
   
 
