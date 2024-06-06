@@ -1,0 +1,41 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "zonka_feedback",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "zonka_feedback (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            
+        },
+        {
+            "name": "zonka_feedback (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "zonka_feedback (debug mode - nightly)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "${workspaceFolder}/lib/main_dev.dart",
+        },
+
+        {
+            "name": "zonka_feedback (debug mode - prod)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "${workspaceFolder}/lib/main.dart",
+        }
+    ]
+}

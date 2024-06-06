@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,8 +13,7 @@ class OtherSignUpScreen extends StatefulWidget {
 class _OtherSignUpScreenState extends State<OtherSignUpScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
+    return  Column(
         children: [
           Container(
             width: 330.w,
@@ -29,14 +26,19 @@ class _OtherSignUpScreenState extends State<OtherSignUpScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 SvgPicture.asset(ImageConstant.microSoftImageLogo),
-                 SizedBox(width: 10.w,),
-                 Text('Sign Up with Microsoft',style: TextStyle(fontWeight: FontWeight.w600),)
+                SvgPicture.asset(ImageConstant.microSoftImageLogo),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Text(
+                  'Sign Up with Microsoft',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                )
               ],
             ),
           ),
         ],
-      ),
-    );
+      );
+    
   }
 }

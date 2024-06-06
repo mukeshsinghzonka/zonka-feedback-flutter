@@ -51,6 +51,8 @@ dependencies:
   battery_plus: ^6.0.1
   location: ^6.0.2
   package_info_plus: 8.0.0
+  sqflite: ^2.3.3+1
+  aad_oauth: ^1.0.1
   
   
 

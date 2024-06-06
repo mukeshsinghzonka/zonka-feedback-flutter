@@ -7,6 +7,7 @@ import 'package:zonka_feedback/login/presentation/screens/signin/other_signin_sc
 
 import 'package:zonka_feedback/login/presentation/widget/input_text_field.dart';
 import 'package:zonka_feedback/services/dialog_util.dart';
+import 'package:zonka_feedback/services/network/network_exceptions.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -88,9 +89,22 @@ class _SignInScreenState extends State<SignInScreen> {
               height: 40.h,
             ),
             GestureDetector(
-              onTap: () {
-         loginController.loginUser();
-          DialogUtils.showCustomErrorDialog(context, title: "Wrong Email Id ro Password. Please try again.");
+              onTap: () async {
+                 if(loginController.loginStatus.value ==  LoginStatus.initial){
+                 DialogUtils.showCustomLoadingDialog(context);
+                 FocusScope.of(context).unfocus();
+                 await loginController.loginUser();
+                 }
+                  if(loginController.loginStatus.value ==  LoginStatus.success){
+                    Navigator.of(context).pop();
+                    loginController.loginStatus.value= LoginStatus.initial;
+                  }
+
+                  if(loginController.loginStatus.value ==  LoginStatus.error){
+                    Navigator.of(context).pop();
+                    DialogUtils.showCustomErrorDialog(context, title:  NetworkExceptions.getErrorMessage(loginController.networkExceptions??const NetworkExceptions.defaultError("Default Error")));
+                    loginController.loginStatus.value= LoginStatus.initial;
+                  }
 
               },
               child: Container(

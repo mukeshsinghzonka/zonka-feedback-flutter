@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/login/presentation/manager/switch_screen_controller.dart';
 import 'package:zonka_feedback/login/presentation/screens/signin/signin_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/signup/create_account_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/signup/signup_screen.dart';
-import 'package:zonka_feedback/services/device_info/device_info.dart';
 import 'package:zonka_feedback/services/device_info/location_info.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
@@ -54,6 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
             Obx(() {
               return AnimatedSwitcher(
                 switchOutCurve: Curves.linear,
+                // transitionBuilder: (child, animation) {
+                  
+                // },
                 duration:const Duration(seconds: 1),
                 child:
                     switchScreenController.currentScreen.value == Screen.login

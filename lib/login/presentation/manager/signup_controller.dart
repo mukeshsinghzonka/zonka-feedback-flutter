@@ -29,7 +29,6 @@ class SignupController extends GetxController {
       name: nameTextController.text,
       companyName: companyNameTextController.text,
       region: dataCenter.value,
-      zonkaDebugFlag: false
     ));
     response.when(success: (data) async {
       print("Success");

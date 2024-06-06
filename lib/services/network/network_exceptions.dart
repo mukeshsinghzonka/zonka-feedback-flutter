@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'network_exceptions.freezed.dart';
@@ -44,7 +43,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
     if (error is Exception) {
       try {
         late NetworkExceptions networkExceptions;
-        if (error is DioException) {
+        if (error is DioException) {  
           switch (error.type) {
             case DioExceptionType.cancel:
               networkExceptions = const NetworkExceptions.requestCancelled();
