@@ -17,7 +17,7 @@ class _OtherSignUpScreenState extends State<OtherSignUpScreen> {
         children: [
           Container(
             width: 330.w,
-            height: 40.h,
+            height: 35.h,
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -32,7 +32,7 @@ class _OtherSignUpScreenState extends State<OtherSignUpScreen> {
                 ),
                 Text(
                   'Sign Up with Microsoft',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600,fontSize: 10.h),
                 )
               ],
             ),

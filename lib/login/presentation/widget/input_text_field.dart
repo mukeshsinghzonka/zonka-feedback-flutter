@@ -27,47 +27,49 @@ class InputTextFormField extends StatelessWidget {
           formFeildHeading,
           style: TextStyle(
               fontWeight: FontWeight.w700,
-              fontSize: 16.sp,
+              fontSize: 14.sp,
               color: const Color(ColorConstant.signupTextColor)),
         ),
         SizedBox(
-          height: 10.h,
+          height: 2.h,
         ),
-        TextFormField(
-          controller: controller,
-          validator: validator,
-          obscureText: obscureText ?? false,
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            errorText: errorText, 
-            suffixIcon: suffixWidget,
-            contentPadding: EdgeInsets.all(12.sp),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.r),
-              borderSide: const BorderSide(
-                color: Colors.blue,
+          TextFormField(
+            controller: controller,
+            validator: validator,
+            obscureText: obscureText ?? false,
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              errorText: errorText, 
+              isDense: true,
+              suffixIcon: suffixWidget,
+              contentPadding: EdgeInsets.all(8.sp),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: const BorderSide(
+                  color: Colors.blue,
+                ),
               ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.r),
-              borderSide: const BorderSide(
-                color: Colors.red,
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                ),
               ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.r),
-              borderSide: const BorderSide(
-                color: Color(ColorConstant.signUpTextBorderColor),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: const BorderSide(
+                  color: Color(ColorConstant.signUpTextBorderColor),
+                ),
               ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.r),
-              borderSide: const BorderSide(
-                color: Colors.red,
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                ),
               ),
             ),
           ),
-        )
+        
       ],
     );
   }

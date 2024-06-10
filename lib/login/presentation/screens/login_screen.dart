@@ -52,9 +52,6 @@ class _LoginScreenState extends State<LoginScreen> {
             Obx(() {
               return AnimatedSwitcher(
                 switchOutCurve: Curves.linear,
-                // transitionBuilder: (child, animation) {
-                  
-                // },
                 duration:const Duration(seconds: 1),
                 child:
                     switchScreenController.currentScreen.value == Screen.login

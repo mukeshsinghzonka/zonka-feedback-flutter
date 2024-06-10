@@ -4,6 +4,7 @@ import 'package:zonka_feedback/login/data/repositories/login_repo_impl.dart';
 import 'package:zonka_feedback/login/domain/repositories/login_repo.dart';
 import 'package:zonka_feedback/login/domain/usecase/signup_user_uc.dart';
 import 'package:zonka_feedback/login/presentation/manager/signup_controller.dart';
+import 'package:zonka_feedback/services/logger/logger.dart';
 
 final getIt = GetIt.instance;
 
@@ -19,8 +20,7 @@ void setup() {
     //Data Source
     ..registerLazySingleton(() => LoginUserDs());
 
-
+    getIt.registerLazySingleton(() => LoggerService());
 
     
-
 }

@@ -3,12 +3,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/dashboard/presentation/dashboard.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
+import 'package:zonka_feedback/services/navigator.dart';
+import 'package:zonka_feedback/utils/color_constant.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,13 @@ class MyApp extends StatelessWidget {
       builder: (_,child) {
         return MaterialApp(
           title: 'Flutter Demo',
+           navigatorKey:NavigationService.navigatorKey,
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: const Color(ColorConstant.themeColor) ),
             useMaterial3: true,
           ),
-          home: const LoginScreen()
+          home:  LoginScreen()
         );
       }
     );

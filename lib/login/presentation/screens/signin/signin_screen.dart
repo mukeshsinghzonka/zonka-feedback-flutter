@@ -109,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
               },
               child: Container(
                 width: 331.w,
-                height: 46.h,
+                height: 33.h,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: const Color(ColorConstant.signUpButtonColor),
@@ -122,7 +122,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
-                      fontSize: 18.sp),
+                      fontSize: 15.sp),
                 )
               ),
             ),

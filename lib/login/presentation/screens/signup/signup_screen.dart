@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             'Sign Up',
             style: TextStyle(
                 fontWeight: FontWeight.w700,
-                fontSize: 22.sp,
+                fontSize: 18.sp,
                 color: const Color(ColorConstant.signupTextColor)),
           ),
           SizedBox(
@@ -70,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             },
             child: Container(
               width: 330.w,
-              height: 46.h,
+              height: 35.h,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: Colors.black,
@@ -80,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 "Create Account",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w600),
               ),
             ),
@@ -106,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Obx(() {
                 return Container(
                   width: 330.w,
-                  height: 40.h,
+                  height: 35.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(

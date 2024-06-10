@@ -32,7 +32,7 @@ class _CreateScreenState extends State<CreateScreen> {
                 'Sign Up',
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 22.sp,
+                    fontSize: 18.sp,
                     color: const Color(ColorConstant.signupTextColor)),
               ),
               SizedBox(
@@ -81,8 +81,9 @@ class _CreateScreenState extends State<CreateScreen> {
                       });
                     },
                     child: showPassword
-                        ? const Icon(
+                        ? const  Icon(
                             Icons.visibility_off,
+                     
                             color: Color(ColorConstant.signUpTextBorderColor),
                           )
                         : const Icon(Icons.visibility,
@@ -112,7 +113,7 @@ class _CreateScreenState extends State<CreateScreen> {
                 },
                 child: Container(
                   width: 331.w,
-                  height: 46.h,
+                  height: 35.h,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: const Color(ColorConstant.signUpButtonColor),
@@ -125,7 +126,7 @@ class _CreateScreenState extends State<CreateScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
-                        fontSize: 18.sp),
+                        fontSize: 15.sp),
                   ),
                 ),
               ),
