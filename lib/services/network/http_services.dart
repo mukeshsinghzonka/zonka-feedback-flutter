@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:zonka_feedback/services/enum_util.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/services/sharedprefrence_service.dart';
 import 'package:zonka_feedback/utils/constants.dart';
 import 'package:zonka_feedback/utils/sharedpref_constant.dart';

@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:zonka_feedback/dashboard/presentation/dashboard.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
 import 'package:zonka_feedback/services/navigator.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
            navigatorKey:NavigationService.navigatorKey,
+           navigatorObservers: [FlutterSmartDialog.observer],
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: const Color(ColorConstant.themeColor) ),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:zonka_feedback/login/data/data_model/signin_body_model.dart';
 import 'package:zonka_feedback/login/data/data_model/signup_body_model.dart';
-import 'package:zonka_feedback/services/enum_util.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/network/http_services.dart';
 import 'package:zonka_feedback/services/network/network_exceptions.dart';

@@ -81,13 +81,19 @@ class _CreateScreenState extends State<CreateScreen> {
                       });
                     },
                     child: showPassword
-                        ? const  Icon(
-                            Icons.visibility_off,
-                     
-                            color: Color(ColorConstant.signUpTextBorderColor),
-                          )
-                        : const Icon(Icons.visibility,
-                            color: Color(ColorConstant.signUpTextBorderColor))),
+                        ? Container(
+                           margin: EdgeInsets.only(right: 10.w),
+                          child: const  Icon(
+                              Icons.visibility_off,
+                                               
+                              color: Color(ColorConstant.signUpTextBorderColor),
+                            ),
+                        )
+                        : Container(
+                           margin: EdgeInsets.only(right: 10.w),
+                          child: const Icon(Icons.visibility,
+                              color: Color(ColorConstant.signUpTextBorderColor)),
+                        )),
               ),
               SizedBox(
                 height: 20.h,

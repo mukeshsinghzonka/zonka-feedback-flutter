@@ -37,12 +37,16 @@ class InputTextFormField extends StatelessWidget {
             controller: controller,
             validator: validator,
             obscureText: obscureText ?? false,
+          
             decoration: InputDecoration(
               fillColor: Colors.white,
               errorText: errorText, 
               isDense: true,
               suffixIcon: suffixWidget,
-              contentPadding: EdgeInsets.all(8.sp),
+              suffixIconConstraints: suffixWidget !=null? BoxConstraints(
+                minHeight: 8.h,
+              ):null,
+              contentPadding: EdgeInsets.all(9.sp),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(6.r),
                 borderSide: const BorderSide(

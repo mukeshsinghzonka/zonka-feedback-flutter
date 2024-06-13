@@ -14,7 +14,9 @@ class SignInBodyModel {
     return {
       "email": emailId,
       "password":password,
-      "device": DeviceDetailsModel().toJson(),
+      // "device": DeviceDemtailsModel().toJson(),
+
+      
     };
   
   }
