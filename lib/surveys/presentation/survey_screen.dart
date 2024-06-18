@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zonka_feedback/surveys/widget/survey_widget.dart';
+import 'package:zonka_feedback/surveys/presentation/widget/survey_widget.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 

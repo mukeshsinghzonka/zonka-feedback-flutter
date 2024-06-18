@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:zonka_feedback/dashboard/widget/warning_widget.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
@@ -11,9 +10,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return  AppBar(
           elevation: 3,
-          // bottom: const PreferredSize(
-          //   preferredSize: Size.fromHeight(1000),
-          //   child: WarningWidget()),
           leading: Builder(
             builder : (context) => IconButton(
               icon: SvgPicture.asset(

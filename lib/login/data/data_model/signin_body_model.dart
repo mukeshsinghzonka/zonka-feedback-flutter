@@ -1,5 +1,3 @@
-import 'package:zonka_feedback/login/data/data_model/device_detail.dart';
-
 
 class SignInBodyModel {
   final String password;

@@ -20,3 +20,11 @@ enum ScreenActiveEnum{
   RequestDemoScreen,
   WebLogInScreen,
 }
+
+
+enum ApiCallStatus{
+  Loading,
+  Success,
+  Error,
+  Initial
+}

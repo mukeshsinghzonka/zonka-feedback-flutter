@@ -12,7 +12,7 @@ import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/network/http_services.dart';
 import 'package:zonka_feedback/services/sharedprefrence_service.dart';
 
-void main() {
+void main()async  {
   WidgetsFlutterBinding.ensureInitialized();
   MySharedPreferences().init();
   DeviceInfoService().init();
@@ -20,8 +20,7 @@ void main() {
   LocationService().init();
   PakageInfoService().init();
   FlutterSmartDialog.init();
-  HiveService().init();
-  openHiveBox();
+  await HiveService().init();
   HttpUtil().initServerType(ServerType.NIGHTLY);
   setup();
   runApp(const MyApp());

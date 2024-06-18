@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:zonka_feedback/login/presentation/manager/signup_controller.dart';
 import 'package:zonka_feedback/login/presentation/manager/switch_screen_controller.dart';
 import 'package:zonka_feedback/login/presentation/widget/input_text_field.dart';
+import 'package:zonka_feedback/services/api_call_handling.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 
 class CreateScreen extends StatefulWidget {
   const CreateScreen({super.key});
@@ -82,18 +84,18 @@ class _CreateScreenState extends State<CreateScreen> {
                     },
                     child: showPassword
                         ? Container(
-                           margin: EdgeInsets.only(right: 10.w),
-                          child: const  Icon(
+                            margin: EdgeInsets.only(right: 10.w),
+                            child: const Icon(
                               Icons.visibility_off,
-                                               
                               color: Color(ColorConstant.signUpTextBorderColor),
                             ),
-                        )
+                          )
                         : Container(
-                           margin: EdgeInsets.only(right: 10.w),
-                          child: const Icon(Icons.visibility,
-                              color: Color(ColorConstant.signUpTextBorderColor)),
-                        )),
+                            margin: EdgeInsets.only(right: 10.w),
+                            child: const Icon(Icons.visibility,
+                                color:
+                                    Color(ColorConstant.signUpTextBorderColor)),
+                          )),
               ),
               SizedBox(
                 height: 20.h,
@@ -113,8 +115,14 @@ class _CreateScreenState extends State<CreateScreen> {
               ),
               InkWell(
                 onTap: () {
-                  if(_formKey.currentState!.validate()){
-                      signUpController.signupUser(context: context);
+                  if (_formKey.currentState!.validate()) {
+                    ApiCallHandling(
+                            controller: signUpController,
+                            status: ApiCallStatus.Initial,
+                            success: () {
+                              _formKey.currentState!.reset();
+                            })
+                        .handleApiCall();
                   }
                 },
                 child: Container(
@@ -136,38 +144,37 @@ class _CreateScreenState extends State<CreateScreen> {
                   ),
                 ),
               ),
-
-             Container(
-              width: 297.w,
-              margin: EdgeInsets.symmetric(vertical: 20.h),
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Already have an account? ',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15.sp,
-                        color: const Color(ColorConstant.signupTextColor)),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                     switchScreenController.changeScreen(Screen.login);
-                    },
-                    child: Text(
-                      "Sign In",
+              Container(
+                width: 297.w,
+                margin: EdgeInsets.symmetric(vertical: 20.h),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account? ',
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15.sp,
-                          color:const  Color(
-                            ColorConstant.signUpButtonColor,
-                          )),
+                          color: const Color(ColorConstant.signupTextColor)),
                     ),
-                  )
-                ],
-              ),
-            )
+                    GestureDetector(
+                      onTap: () {
+                        switchScreenController.changeScreen(Screen.login);
+                      },
+                      child: Text(
+                        "Sign In",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15.sp,
+                            color: const Color(
+                              ColorConstant.signUpButtonColor,
+                            )),
+                      ),
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         ),

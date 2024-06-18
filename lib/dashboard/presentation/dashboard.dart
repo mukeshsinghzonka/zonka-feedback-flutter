@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zonka_feedback/appbar/presentation/app_bar.dart';
 import 'package:zonka_feedback/bottomnavigation/presentation/bottom_navigation_bar.dart';
 import 'package:zonka_feedback/dashboard/widget/schedule_demo_widget.dart';

@@ -1,6 +1,10 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart'as path_provider;
 import 'package:zonka_feedback/services/hive/open_hive_box.dart';
+import 'package:zonka_feedback/services/hive/register_hive_adaptor.dart';
 class HiveService {
   static final HiveService _hiveService = HiveService._internal();
   HiveService._internal();
@@ -8,16 +12,18 @@ class HiveService {
     return _hiveService;
   }
 
-  void init() async  {
+ Future<void> init() async  {
      final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
      Hive.init(appDocumentDir.path);
-     openHiveBox();
+     registerHiveAdaptor();
+     await openHiveBox();
   }
 
   Future<Box> openBox(String boxName) async {
-    return Hive.openBox(boxName);
+    return  Hive.openBox(boxName);
   }
 
+  
   Future<void> putData(String boxName, String key, dynamic value) async {
     final box = await openBox(boxName);
     await box.put(key, value);
@@ -59,4 +65,8 @@ class HiveService {
     final box = await openBox(boxName);
     await box.add(value);
   }
+
+
+  
+
 }

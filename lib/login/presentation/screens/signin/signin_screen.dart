@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 import 'package:zonka_feedback/login/presentation/manager/login_controller.dart';
 import 'package:zonka_feedback/login/presentation/manager/switch_screen_controller.dart';
 import 'package:zonka_feedback/login/presentation/screens/signin/other_signin_screen.dart';
-
 import 'package:zonka_feedback/login/presentation/widget/input_text_field.dart';
-import 'package:zonka_feedback/services/dialog_util.dart';
-import 'package:zonka_feedback/services/network/network_exceptions.dart';
+import 'package:zonka_feedback/services/api_call_handling.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -94,24 +93,17 @@ class _SignInScreenState extends State<SignInScreen> {
             SizedBox(
               height: 40.h,
             ),
+
+         
             GestureDetector(
-              onTap: () async {
-                 if(loginController.loginStatus.value ==  LoginStatus.initial){
-                 DialogUtils.showCustomLoadingDialog(context);
-                 FocusScope.of(context).unfocus();
-                 await loginController.loginUser();
-                 }
-                  if(loginController.loginStatus.value ==  LoginStatus.success){
-                    Navigator.of(context).pop();
-                    loginController.loginStatus.value= LoginStatus.initial;
+              onTap: () async { 
+               ApiCallHandling(
+                  controller: loginController,
+                  status: ApiCallStatus.Initial,
+                  success: (){
+                    
                   }
-
-                  if(loginController.loginStatus.value ==  LoginStatus.error){
-                    Navigator.of(context).pop();
-                    DialogUtils.showCustomErrorDialog(context, title:  NetworkExceptions.getErrorMessage(loginController.networkExceptions??const NetworkExceptions.defaultError("Default Error")));
-                    loginController.loginStatus.value= LoginStatus.initial;
-                  }
-
+                ).handleApiCall();
               },
               child: Container(
                 width: 331.w,
@@ -202,3 +194,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
+
+
+
+// current state success
