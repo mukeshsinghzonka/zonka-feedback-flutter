@@ -120,7 +120,8 @@ class _CreateScreenState extends State<CreateScreen> {
                             controller: signUpController,
                             status: ApiCallStatus.Initial,
                             success: () {
-                              _formKey.currentState!.reset();
+                              switchScreenController.changeScreen(Screen.login);
+                              signUpController.clearTextFields();
                             })
                         .handleApiCall();
                   }

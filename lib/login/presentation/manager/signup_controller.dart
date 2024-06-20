@@ -39,6 +39,11 @@ class SignupController extends BaseControllerWithOutParams<void> {
     });
   }
 
-  
+  void clearTextFields() {
+    emailTextController.clear();
+    passwordTextController.clear();
+    nameTextController.clear();
+    companyNameTextController.clear();
+  }
   
 }

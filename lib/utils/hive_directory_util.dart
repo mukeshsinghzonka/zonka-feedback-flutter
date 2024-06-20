@@ -1,3 +1,3 @@
 class HiveDirectoryUtil{
-  static const String loginBox = "loginData"; 
+  static const String loginBox = "loginBox"; 
 }

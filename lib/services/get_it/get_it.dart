@@ -1,4 +1,13 @@
 import 'package:get_it/get_it.dart';
+import 'package:zonka_feedback/dashboard/data/data_source/location_ds.dart';
+import 'package:zonka_feedback/dashboard/data/data_source/workspace_ds.dart';
+import 'package:zonka_feedback/dashboard/data/repositories_impl/location_repo_impl.dart';
+import 'package:zonka_feedback/dashboard/data/repositories_impl/workspace_repo_impl.dart';
+import 'package:zonka_feedback/dashboard/domain/repositories/location_repo.dart';
+import 'package:zonka_feedback/dashboard/domain/repositories/workspace_repo.dart';
+import 'package:zonka_feedback/dashboard/domain/usecase/location_uc.dart';
+import 'package:zonka_feedback/dashboard/domain/usecase/workspace_uc.dart';
+import 'package:zonka_feedback/dashboard/presentation/manager/location_controller.dart';
 import 'package:zonka_feedback/login/data/data_source/login_ds.dart';
 import 'package:zonka_feedback/login/data/repositories/login_repo_impl.dart';
 import 'package:zonka_feedback/login/domain/repositories/login_repo.dart';
@@ -7,25 +16,42 @@ import 'package:zonka_feedback/login/domain/usecase/signup_user_uc.dart';
 import 'package:zonka_feedback/login/presentation/manager/login_controller.dart';
 import 'package:zonka_feedback/login/presentation/manager/signup_controller.dart';
 import 'package:zonka_feedback/services/logger/logger.dart';
+import 'package:zonka_feedback/surveys/data/data_source/survey_ds.dart';
+import 'package:zonka_feedback/surveys/data/repositories_impl/survey_repo_impl.dart';
+import 'package:zonka_feedback/surveys/domain/repositories/survey_repo.dart';
+import 'package:zonka_feedback/surveys/domain/usecase/survey_uc.dart';
 
 final getIt = GetIt.instance;
 
 void setup() {
     getIt.registerFactory(() => SignupController());
     getIt.registerFactory(() => LoginController());
+    getIt.registerFactory(() => LocationController());
 
 
     //Use cases 
     getIt.registerLazySingleton(() => SignUpUserUC(loginUserRepository:getIt()));
     getIt.registerLazySingleton(() => LoginUserUc(loginUserRepository:getIt()));
+    getIt.registerLazySingleton(() => LocationUc(locationRepo:getIt()));
+    getIt.registerLazySingleton(() => WorkspaceUc(workspaceRepo:getIt())); 
+    getIt.registerLazySingleton(() => SurveyUseCase(surveyRepository:getIt())); 
+
 
 
     //Repository
     getIt.registerLazySingleton<LoginFeatureRepo>(() => LoginRepoImpl(loginDataSource: getIt()));
+    getIt.registerLazySingleton<LocationRepo>(() => LocationRepoImpl(locationDataSource: getIt()));
+    getIt.registerLazySingleton<WorkspaceRepo>(() => WorkspaceRepoImpl(workspaceDataSource: getIt()));
+    getIt.registerLazySingleton<SurveyRepository>(() => SurveyRepoImpl(surveyDataSource: getIt()));
+
+
 
 
     //Data Source
     getIt.registerLazySingleton(() => LoginUserDs());
+    getIt.registerLazySingleton(() => LocationDataSource());
+    getIt.registerLazySingleton(() => WorkspaceDataSource());
+    getIt.registerLazySingleton(() => SurveyDataSource());
 
 
 

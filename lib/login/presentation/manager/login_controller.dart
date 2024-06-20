@@ -20,11 +20,16 @@ class LoginController extends BaseControllerWithOutParams<void> {
      setStatus(ApiCallStatus.Success);
      return;
     }, failure: (error) async {
+      print("error $error");
     setStatus(ApiCallStatus.Error);
     setNetworkExceptions(error);
     });
   }
 
+  void clearTextFields() {
+    emailTextController.clear();
+    passwordTextController.clear();
+  }
 }
 
 

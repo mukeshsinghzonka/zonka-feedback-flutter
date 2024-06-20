@@ -1,7 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:zonka_feedback/login/data/data_model/login_response/login_response.dart';
+import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/services/sharedprefrence_service.dart';
 import 'package:zonka_feedback/utils/constants.dart';
+import 'package:zonka_feedback/utils/hive_directory_util.dart';
+import 'package:zonka_feedback/utils/hive_key.dart';
 import 'package:zonka_feedback/utils/sharedpref_constant.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -13,7 +17,7 @@ class HttpUtil {
 
   HttpUtil._internal() {
     BaseOptions options = BaseOptions(
-      baseUrl: AppConstants.LOGIN_ACCESS_API_PROD,
+      baseUrl: AppConstants.US_SERVER_API_URL_NIGHTLY,
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
       headers: {"Content-Type": 'application/json'},
@@ -97,13 +101,20 @@ class HttpUtil {
     }
   }
 
-  Map<String, dynamic>? getAuthorizationHeader() {
+  Future<Map<String, dynamic>?> getAuthorizationHeader() async {
     var headers = <String, dynamic>{};
-    var accessToken =
-        MySharedPreferences().getString(SharedPrefConstant.authorizationToken);
-    if (accessToken.isNotEmpty) {
-      headers['Authorization'] = 'Bearer $accessToken';
+
+    var accessToken = await HiveService().getData(
+      HiveDirectoryUtil.loginBox,
+      HiveKey.loginUser,
+    );
+    if (accessToken is LoginResponse && accessToken.token.isNotEmpty) {
+      headers['X-ACCESS-TOKEN'] = '${accessToken.token}';
     }
+    if (accessToken is LoginResponse && accessToken.deviceId.isNotEmpty) {
+      headers['X-DEVICE-ID'] = accessToken.deviceId;
+    }
+
     return headers;
   }
 
@@ -116,7 +127,7 @@ class HttpUtil {
     Options requestOptions = options ?? Options();
     requestOptions.headers = requestOptions.headers ?? {};
 
-    Map<String, dynamic>? authorization = getAuthorizationHeader();
+    Map<String, dynamic>? authorization = await getAuthorizationHeader();
 
     if (authorization != null) {
       requestOptions.headers!.addAll(authorization);
@@ -138,14 +149,15 @@ class HttpUtil {
   }) async {
     Options requestOptions = options ?? Options();
     requestOptions.headers = requestOptions.headers ?? {};
-    Map<String, dynamic>? authorization = getAuthorizationHeader();
+    Map<String, dynamic>? authorization = await getAuthorizationHeader();
     if (authorization != null) {
       requestOptions.headers!.addAll(authorization);
     }
     var response = await dio.get(
+     
       path,
       queryParameters: queryParameters,
-      options: options,
+      options: requestOptions,
     );
     print("response $response");
     return response.data;

@@ -12,6 +12,7 @@ class SurveyScreen extends StatefulWidget {
 }
 
 class _SurveyScreenState extends State<SurveyScreen> {
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

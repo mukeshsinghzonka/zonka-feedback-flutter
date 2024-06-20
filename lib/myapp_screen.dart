@@ -4,9 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:zonka_feedback/dashboard/presentation/dashboard.dart';
+import 'package:zonka_feedback/dashboard/presentation/screen/dashboard.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
-import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/services/navigator.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
@@ -38,12 +37,20 @@ class _MyAppState extends State<MyApp> {
               useMaterial3: true,
             ),
             home: ValueListenableBuilder(
-              valueListenable:Hive.box(HiveDirectoryUtil.loginBox).listenable(),
+              valueListenable:
+                  Hive.box(HiveDirectoryUtil.loginBox).listenable(),
               builder: (context, box, widget) {
-                if (box.get(HiveKey.loginUser) != null) {
-                  return const DashBoard();
-                }
-                return const LoginScreen();
+                
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder:
+                      (Widget child, Animation<double> animation) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
+                  child: box.get(HiveKey.loginUser) != null
+                      ? const DashBoard(key: ValueKey('DashBoard'))
+                      : const LoginScreen(key: ValueKey('LoginScreen')),
+                );
               },
             ),
           );

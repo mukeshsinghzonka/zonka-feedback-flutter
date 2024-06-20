@@ -11,20 +11,19 @@ import 'package:zonka_feedback/utils/hive_directory_util.dart';
 import 'package:zonka_feedback/utils/hive_key.dart';
 
 class LoginUserDs {
-  HttpUtil httpUtil = HttpUtil();
+ 
+ final HttpUtil _httpUtil = HttpUtil();
 
-  Future<ApiResult<LoginResponse>> loginUser(
-      {required SignInBodyModel? signInBodyModel}) async {
+  Future<ApiResult<LoginResponse>> loginUser({required SignInBodyModel? signInBodyModel}) async {
     try {
-      httpUtil.changeDioUrl(urlType: SetBaseUrl.LOGIN);
-      final response = await httpUtil.post('/api/v1/login',
-          data: jsonEncode(signInBodyModel!.toJsonAndroid()));
+      _httpUtil.changeDioUrl(urlType: SetBaseUrl.LOGIN);
+      final response = await _httpUtil.post('/api/v1/login',data: jsonEncode(signInBodyModel!.toJsonAndroid()));
       LoginResponse value = LoginResponse.fromJson(response["data"]);
-      await HiveService()
-          .putData(HiveDirectoryUtil.loginBox, HiveKey.loginUser, value);
+      await HiveService().putData(HiveDirectoryUtil.loginBox, HiveKey.loginUser, value);
       await value.save();
       return ApiResult.success(data: value);
     } catch (e) {
+      print("loginexception $e");
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }
   }
@@ -33,8 +32,8 @@ class LoginUserDs {
     try {
       bool value = await checkEmail(email: signupBodyModel!.email);
       if (value) {
-        httpUtil.changeDioUrl(urlType:signupBodyModel.region == 'US' ? SetBaseUrl.US : SetBaseUrl.EU);
-        final response = await httpUtil.post('/api/v1/signup',data: jsonEncode(signupBodyModel.toJsonAndroid()));
+        _httpUtil.changeDioUrl(urlType:signupBodyModel.region == 'US' ? SetBaseUrl.US : SetBaseUrl.EU);
+        final response = await _httpUtil.post('/api/v1/signup',data: jsonEncode(signupBodyModel.toJsonAndroid()));
         LoginResponse value = LoginResponse.fromJson(response["data"]);
         await HiveService()
             .putData(HiveDirectoryUtil.loginBox, HiveKey.loginUser, value);
@@ -51,11 +50,13 @@ class LoginUserDs {
 
   Future<bool> checkEmail({String? email}) async {
     try {
-      httpUtil.changeDioUrl(urlType: SetBaseUrl.EMAIL);
-      final response = await httpUtil.get('/api/v1/emailexist/$email');
+      _httpUtil.changeDioUrl(urlType: SetBaseUrl.EMAIL);
+      final response = await _httpUtil.get('/api/v1/emailexist/$email');
       return response["success"];
     } catch (e) {
       return false;
     }
   }
+
+
 }

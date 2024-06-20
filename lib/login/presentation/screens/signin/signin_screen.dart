@@ -101,7 +101,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   controller: loginController,
                   status: ApiCallStatus.Initial,
                   success: (){
-                    
+                    loginController.clearTextFields();
                   }
                 ).handleApiCall();
               },
