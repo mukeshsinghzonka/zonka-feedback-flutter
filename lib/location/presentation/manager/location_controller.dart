@@ -1,5 +1,5 @@
-import 'package:zonka_feedback/dashboard/data/data_model/location_model.dart';
-import 'package:zonka_feedback/dashboard/domain/usecase/location_uc.dart';
+import 'package:zonka_feedback/location/data/data_model/location_model.dart';
+import 'package:zonka_feedback/location/domain/usecase/location_uc.dart';
 import 'package:zonka_feedback/services/controller/base_controller.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';

@@ -1,14 +1,16 @@
-class WorkspaceModel{
+import 'package:equatable/equatable.dart';
+
+class WorkspaceModel extends Equatable{
   
-  final String id;
+  final String workSpaceId;
   final String workSpaceName;
   final String companyId;
   final bool widgetCodeInstalled;
   final bool isFirstWorkspace;
   final String modifiedByName;
 
-  WorkspaceModel({
-    required this.id,
+  const WorkspaceModel({
+    required this.workSpaceId,
     required this.workSpaceName,
     required this.companyId,
     required this.isFirstWorkspace,
@@ -20,7 +22,7 @@ class WorkspaceModel{
 
   factory WorkspaceModel.fromJson(Map<String, dynamic> json) {
     return WorkspaceModel(
-      id: json['_id']??"",
+      workSpaceId: json['_id']??"",
       workSpaceName: json['workSpaceName']??"",
       companyId: json['companyId']??"",
       isFirstWorkspace: json['isFirstWorkspace']??false,
@@ -28,4 +30,14 @@ class WorkspaceModel{
       modifiedByName: json['modifiedByName']??"",
     );
   }
+  
+  @override
+  List<Object?> get props => [
+    workSpaceId,
+    workSpaceName,
+    companyId,
+    isFirstWorkspace,
+    widgetCodeInstalled,
+    modifiedByName
+  ];
 }

@@ -11,10 +11,10 @@ class SurveyDataSource {
 
   Future<ApiResult<List<SurveyResModel>>> getSurveysDs({required List<SurveyReqModel> params}) async {
     try {
-      print("getsurveyreponse ${params.map((model) => model.toJson()).toList()}");
       final response = await _httpUtil.post('/api/v1/surveys/surveyByLocationsAndUsers',data:jsonEncode(params.map((model) => model.toJson()).toList()) );
-      print("getsurveyreponse $response");
-      return ApiResult.success(data: response);
+      List surveyMapping = response['data']['surveysMap'];
+      List<SurveyResModel> surveyList = surveyMapping.map((survey) => SurveyResModel.fromJson(survey)).toList();
+      return ApiResult.success(data: surveyList);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }

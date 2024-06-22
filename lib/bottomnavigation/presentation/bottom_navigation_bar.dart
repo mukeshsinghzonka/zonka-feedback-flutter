@@ -12,11 +12,12 @@ class BottomNavigationBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 55.h,
-        margin: EdgeInsets.only(left: 10.w, right: 10.w,bottom: 10.h),
+        margin: EdgeInsets.only(left: 10.w, right: 10.w),
         decoration: const BoxDecoration(
             color: Color(ColorConstant.bottomSheetBackgroundColor),
             borderRadius: BorderRadius.all(Radius.circular(20))),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
               child: Container(
@@ -28,6 +29,9 @@ class BottomNavigationBarWidget extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
                 child: Row(
                   children: [
+                     SizedBox(
+                      width: 7.w,
+                    ),
                     SvgPicture.asset(ImageConstant.updateCloudIcons),
                     SizedBox(
                       width: 10.w,
@@ -50,7 +54,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                                   'Last Update on 30 Mar 2020',
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: ConstantSize.small_1.sp),
+                                      fontSize: ConstantSize.extra_small_3.sp),
                                 ),
                               )
                             ],
@@ -65,8 +69,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
             Expanded(
               child: Container(
                    height: 45.h,
-                padding: EdgeInsets.all(5.w),
-                margin: EdgeInsets.only(top: 8.h , bottom: 8.h, right: 5.w,left: 5.w),
+                padding: EdgeInsets.all(3.w),
+                margin: EdgeInsets.only(top: 9.h , bottom: 10.h, right: 8.w,left: 5.w),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(10))),

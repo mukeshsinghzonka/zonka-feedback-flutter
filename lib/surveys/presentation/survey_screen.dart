@@ -17,11 +17,13 @@ class _SurveyScreenState extends State<SurveyScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
+     
       color: const Color(ColorConstant.dashboardBackgroundColor),
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 10.h, left: 13.w, right: 13.w),
+            height: 40.h,
+            margin: EdgeInsets.symmetric(horizontal: 10.w,vertical: 5.h),
             alignment: Alignment.center,
             child: TextFormField(
               decoration: InputDecoration(
@@ -47,13 +49,23 @@ class _SurveyScreenState extends State<SurveyScreen> {
             ),
           ),
           SizedBox(
-            height: size.height * 0.70,
+            height: size.height ,
             child: ListView.builder(
-                itemCount: 10,
+                itemCount: 11,
                 itemBuilder: (context, index) {
-                  return const  SurveyWidget();
+                    if(index==10){
+                      return Container(
+                        color: Colors.red,
+                        height: 100.h,);
+                    }
+
+                  return const SurveyWidget();
+
+
                 }),
           ),
+
+        
         ],
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:zonka_feedback/dashboard/data/data_model/location_model.dart';
+import 'package:zonka_feedback/location/data/data_model/location_model.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/network/http_services.dart';
 import 'package:zonka_feedback/services/network/network_exceptions.dart';

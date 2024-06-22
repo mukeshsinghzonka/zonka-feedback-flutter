@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:zonka_feedback/dashboard/presentation/manager/location_controller.dart';
+import 'package:zonka_feedback/location/presentation/manager/location_controller.dart';
 import 'package:zonka_feedback/services/controller/base_controller.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
@@ -12,26 +12,33 @@ import 'package:zonka_feedback/utils/hive_directory_util.dart';
 import 'package:zonka_feedback/utils/hive_key.dart';
 
 class SurveyController extends BaseControllerWithOutParams<void> {
+ 
   LocationController locationController =  Get.find<LocationController>();
 
   List<SurveyReqModel> _params = [];
-  List<SurveyReqModel> get params => _params;
-  void setParams(List<SurveyReqModel>? params) {
+  void _setParams(List<SurveyReqModel>? params) {
     _params = params ?? [];
     update();
   }
+
+
+  List<SurveyResModel> _surveyList = [];
+  List<SurveyResModel> get surveyList => _surveyList;
+  void setSurveyList(List<SurveyResModel>? surveyList) {
+    _surveyList = surveyList ?? [];
+    update();
+  }
+
 
   @override
   Future<void> call() async {
     setStatus(ApiCallStatus.Loading);
     await setParamsFromLocationController();
-    print("SurveyController: ${_params.length}");
-    ApiResult<List<SurveyResModel>> result =
-        await getIt.get<SurveyUseCase>().call(_params);
+    ApiResult<List<SurveyResModel>> result = await getIt.get<SurveyUseCase>().call(_params);
     result.when(success: (data) async {
-      setStatus(ApiCallStatus.Success);
-
-      return;
+    setSurveyList(data);
+    setStatus(ApiCallStatus.Success);
+    return;
     }, failure: (error) async {
       setStatus(ApiCallStatus.Error);
       setNetworkExceptions(error);
@@ -40,9 +47,8 @@ class SurveyController extends BaseControllerWithOutParams<void> {
 
   Future<void> setParamsFromLocationController() async {
     var data = await HiveService().getData(HiveDirectoryUtil.loginBox, HiveKey.loginUser);
-    print("SurveyController: ${data}");
     if (data != null) {
-      setParams(locationController.locationList
+      _setParams(locationController.locationList
           .map((locationItem) => SurveyReqModel(
                 branchId: locationItem.preMongifiedId,
                 branchName: locationItem.name,
@@ -56,12 +62,4 @@ class SurveyController extends BaseControllerWithOutParams<void> {
     }
   }
 }
-  //           BranchId: locationItem.pre_mongified_id.toString(),
-  //           BranchMongoId: locationItem._id,
-  //           BranchName: locationItem.name,
-  //           BgImage: locationItem.posterImage ? locationItem.posterImage : "",
-  //           BrandId: locationItem.groupId ? locationItem.groupId : "",
-  //           BrandTitle: "Brand Name", // fixed
-  //           IsDefaultBranch: "0", // fixed
-  //           CompanyId: companyDetail.pre_mongified_id.toString(),
-  //           CompanyName: companyDetail.name,
+ 

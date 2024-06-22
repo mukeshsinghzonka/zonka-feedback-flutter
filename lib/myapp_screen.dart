@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
             title: 'Flutter Demo',
             navigatorKey: NavigationService.navigatorKey,
             navigatorObservers: [FlutterSmartDialog.observer],
+            builder: FlutterSmartDialog.init(),
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
@@ -40,7 +41,6 @@ class _MyAppState extends State<MyApp> {
               valueListenable:
                   Hive.box(HiveDirectoryUtil.loginBox).listenable(),
               builder: (context, box, widget) {
-                
                 return AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   transitionBuilder:

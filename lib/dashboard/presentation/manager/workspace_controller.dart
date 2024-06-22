@@ -7,6 +7,13 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 
 class WorkspaceController extends BaseControllerWithOutParams<void>{
   
+  WorkspaceModel ? _selectedWorkspace;
+  WorkspaceModel ? get selectedWorkspace => _selectedWorkspace;
+  void setSelectedWorkspace(WorkspaceModel ?selectedWorkspace) {
+    _selectedWorkspace = selectedWorkspace;
+    update();
+  }
+
 
   List<WorkspaceModel> _workspaceList = [];
   List<WorkspaceModel> get workspaceList => _workspaceList;
@@ -22,6 +29,9 @@ class WorkspaceController extends BaseControllerWithOutParams<void>{
       result.when(success: (data) async {
       setStatus(ApiCallStatus.Success);
       setWorkspaceList(data);
+      if(data!.isNotEmpty){
+        setSelectedWorkspace(data.first);
+      }
       return;
     }, failure: (error) async {
       setStatus(ApiCallStatus.Error);
@@ -29,9 +39,4 @@ class WorkspaceController extends BaseControllerWithOutParams<void>{
     });
   }
   
-
-
-  // WorkspaceReqModel ? getWorkspaceReqModel() {
-  //   return WorkspaceReqModel();
-  // }
 }

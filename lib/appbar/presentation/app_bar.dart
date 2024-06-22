@@ -25,8 +25,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             children: [
               const Text(
                 'Workspaces',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                style:TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
               ),
               SizedBox(
                 width: 10.w,
@@ -52,21 +51,23 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           actions: [
             Container(
                 alignment: Alignment.center,
-                height: 20.w,
-                width: 20.w,
-                margin: EdgeInsets.only(right: 8.w),
+                height: 25.w,
+                width: 25.w,
+                margin: EdgeInsets.only(right: 15.w),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 1.8.w)),
                 child: Icon(
                   Icons.add,
-                  size: 14.w,
+                  size: 16.w,
                   color: Colors.white,
                   weight: 40.w,
                 )),
           ],
           centerTitle: true,
-          backgroundColor: const Color(ColorConstant.themeColor));
+          backgroundColor: const Color(ColorConstant.themeColor))
+          
+          ;
   }
   
   @override

@@ -13,4 +13,5 @@ class ColorConstant{
   static const int  kisokColor = 0xffFFEBDA;
   static const int  dashboardBackgroundColor =0xffEFF1FE;
   static const int  arrowForwardColor = 0xff3B82F6;
+  static const int  appBarBottomColor = 0xff55D0F5;
 }

@@ -1,4 +1,7 @@
 class ConstantSize {
+  static const double extra_small_1 = 4;
+  static const double extra_small_2 = 6;
+  static const double extra_small_3 = 8;
   static const double small_1 = 10;
   static const double small_2 = 12;
   static const double medium_1 = 14;

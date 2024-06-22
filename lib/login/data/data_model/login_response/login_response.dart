@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'login_response.g.dart';
 
 @HiveType(typeId: 0)
-class LoginResponse extends HiveObject{
+class LoginResponse extends HiveObject {
  
   @HiveField(0)
   final String token;

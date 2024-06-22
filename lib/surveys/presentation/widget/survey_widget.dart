@@ -16,7 +16,7 @@ class SurveyWidget extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(15.h)),
             border: Border.all(color: Colors.grey.shade400)),
         child: Container(
-          height: 115.h,
+          height: 100.h,
           width: 328.w,
           padding:
               EdgeInsets.only(left: 10.w, right: 10.w, top: 10.w, bottom: 10.w),
@@ -29,7 +29,7 @@ class SurveyWidget extends StatelessWidget {
                   Text(
                     'General Website Feedback',
                     style: TextStyle(
-                        fontSize: ConstantSize.medium_2.sp,
+                        fontSize: ConstantSize.small_2.sp,
                         fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -37,10 +37,10 @@ class SurveyWidget extends StatelessWidget {
                   ),
                   Container(
                     alignment: Alignment.center,
-                    width: 90.w,
+                    width: 80.w,
                     height: 20.h,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20.w)),
+                      borderRadius: BorderRadius.all(Radius.circular(10.w)),
                       color: const Color(ColorConstant.kisokColor),
                     ),
                     child: Row(
@@ -48,8 +48,8 @@ class SurveyWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
-                          height: 5.h,
-                          width: 5.h,
+                          height: 3.h,
+                          width: 3.h,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.black,
@@ -60,7 +60,7 @@ class SurveyWidget extends StatelessWidget {
                           'Kisok Mode',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: ConstantSize.small_1.sp),
+                              fontSize: ConstantSize.extra_small_3.sp),
                         ),
                       ],
                     ),
@@ -68,23 +68,25 @@ class SurveyWidget extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                   Row(
-                      children: [
-                        Text(
-                          '0 Response Today',
-                          style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: ConstantSize.small_2),
-                        ),
-                        SizedBox(
-                          width: 5.w,
-                        ),
-                        Text('0 Unsynced Response',
+                   Expanded(
+                     child: Row(
+                        children: [
+                          Text(
+                            '0 Response Today',
                             style: TextStyle(
                                 color: Colors.grey.shade400,
-                                fontSize: ConstantSize.small_2)),
-                      ],
-                    ),
+                                fontSize: ConstantSize.small_1.sp),
+                          ),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text('0 Unsynced Response',
+                              style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                  fontSize: ConstantSize.small_1.sp)),
+                        ],
+                      ),
+                   ),
                   
                   SizedBox(
                     height: 5.h,
@@ -93,7 +95,7 @@ class SurveyWidget extends StatelessWidget {
                       'Last Synced ${DateFormat.jm().format(DateTime.now())} ${DateFormat.yMMMEd().format(DateTime.now())}',
                       style: TextStyle(
                           color: Colors.grey.shade400,
-                          fontSize: ConstantSize.small_2))
+                          fontSize: ConstantSize.small_1.sp))
                 ],
               ),
               Container(
@@ -102,11 +104,12 @@ class SurveyWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(
                         width: 2.w,
-                        color: Color(
+                        color:const Color(
                           ColorConstant.arrowForwardColor,
                         ))),
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_forward_ios,
+                  size: 15,
                   color: Color(ColorConstant.arrowForwardColor),
                 ),
               )
