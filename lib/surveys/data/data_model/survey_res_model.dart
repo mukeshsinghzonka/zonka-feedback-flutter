@@ -4,6 +4,7 @@ class SurveyResModel {
   final List<SurveyLocationModel> surveyLocationList;
   final String viewMode;
   final String mode;
+  final bool iskioskmode;
   final String defaultLanguageCode;
   final bool  isActive;
   final String workSpaceId;
@@ -21,6 +22,7 @@ class SurveyResModel {
     required this.surveyId,
     required this.surveyName,
     required this.surveyMongifiedId,
+    this.iskioskmode = false,
   });
 
 
@@ -35,6 +37,7 @@ class SurveyResModel {
       surveyId: json['_id']??"",
       surveyName: json['name']??"",
       surveyMongifiedId: json['pre_mongified_id']??"",
+      iskioskmode:json['mode'] == 'kiosk'?true:false,
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:zonka_feedback/dashboard/presentation/widget/warning_widget.dart
 import 'package:zonka_feedback/drawer/drawer_screen.dart';
 import 'package:zonka_feedback/surveys/presentation/survey_screen.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
+import 'package:zonka_feedback/utils/constant_size.dart';
 
 import 'package:zonka_feedback/utils/image_constant.dart';
 
@@ -24,7 +25,7 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   final dashboardController = Get.put(DashboardController());
   final workspaceController = Get.put(WorkspaceController());
-  
+
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _DashBoardState extends State<DashBoard> {
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
+       surfaceTintColor: Colors.transparent,
           leading: Builder(
             builder: (context) => IconButton(
                 icon: SvgPicture.asset(
@@ -50,10 +52,14 @@ class _DashBoardState extends State<DashBoard> {
                   if (dashboardController.overlayController.isShowing) {
                     dashboardController.overlayController.hide();
                   }
+                 
                 }),
           ),
           title: GestureDetector(
-            onTap: dashboardController.overlayController.toggle,
+            onTap: () {
+             dashboardController.overlayController.toggle();
+            
+            },
             child: OverlayPortal(
               controller: dashboardController.overlayController,
               overlayChildBuilder: (context) {
@@ -89,14 +95,14 @@ class _DashBoardState extends State<DashBoard> {
                   const Text(
                     'Workspaces',
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w500),
+                        color: Colors.white, fontWeight: FontWeight.w500,fontSize: ConstantSize.medium_3),
                   ),
                   SizedBox(
                     width: 10.w,
                   ),
                   Container(
-                      width: 15.h,
-                      height: 15.h,
+                      width: 13.h,
+                      height: 13.h,
                       padding: EdgeInsets.all(3.w),
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -104,8 +110,8 @@ class _DashBoardState extends State<DashBoard> {
                       ),
                       child: SvgPicture.asset(
                         ImageConstant.arrowDownLogo,
-                        width: 15.h,
-                        height: 15.h,
+                        width: 13.h,
+                        height: 13.h,
                       )),
                 ],
               ),
@@ -132,14 +138,15 @@ class _DashBoardState extends State<DashBoard> {
       drawer: const DrawerScreen(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: const BottomNavigationBarWidget(),
-      body: const SingleChildScrollView(
-        child: Stack(
-          children: [
-            Column(
-              children: [WarningWidget(), ScheduleDemoWidget(), SurveyScreen()],
-            ),
-          ],
-        ),
+      body:  Stack(
+        children: [
+          Column(
+            children: [
+              WarningWidget(), 
+              
+              ScheduleDemoWidget(), SurveyScreen()],
+          ),
+        ],
       ),
     );
   }

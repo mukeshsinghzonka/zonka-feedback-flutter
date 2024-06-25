@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:zonka_feedback/surveys/presentation/manager/survey_manage_controller.dart';
 import 'package:zonka_feedback/surveys/presentation/widget/survey_widget.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
@@ -12,12 +15,14 @@ class SurveyScreen extends StatefulWidget {
 }
 
 class _SurveyScreenState extends State<SurveyScreen> {
+   
+  final SurveyManagerController _surveyManagerController = Get.put(SurveyManagerController());
+
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-     
       color: const Color(ColorConstant.dashboardBackgroundColor),
       child: Column(
         children: [
@@ -48,21 +53,20 @@ class _SurveyScreenState extends State<SurveyScreen> {
               ),
             ),
           ),
-          SizedBox(
-            height: size.height ,
-            child: ListView.builder(
-                itemCount: 11,
-                itemBuilder: (context, index) {
-                    if(index==10){
-                      return Container(
-                        color: Colors.red,
-                        height: 100.h,);
-                    }
-
-                  return const SurveyWidget();
-
-
-                }),
+          GetBuilder(
+            init: _surveyManagerController,
+            builder: (context) {
+              return SizedBox(
+                height: size.height * 0.72,
+                child: ListView.builder(
+                    itemCount: _surveyManagerController.filteredSurveyList.length,
+                    itemBuilder: (context, index) {
+                      return  SurveyWidget(
+                        surveyResModel: _surveyManagerController.filteredSurveyList[index], 
+                      );
+                    }),
+              );
+            }
           ),
 
         

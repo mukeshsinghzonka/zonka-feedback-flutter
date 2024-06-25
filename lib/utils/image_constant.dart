@@ -12,6 +12,7 @@ class ImageConstant {
   static const String drawerSurveyIcon = "assests/images/survey_icon.svg";
   static const String updateCloudIcons = "assests/images/download_cloud.svg";
   static const String syncServerIcons = "assests/images/sync_server.svg";
+  static const String arrowForward = "assests/images/arrow_forward.svg";
 
 }
 

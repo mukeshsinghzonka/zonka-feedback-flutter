@@ -23,7 +23,6 @@ class LoginUserDs {
       await value.save();
       return ApiResult.success(data: value);
     } catch (e) {
-      print("loginexception $e");
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }
   }
