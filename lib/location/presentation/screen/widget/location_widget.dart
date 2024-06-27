@@ -19,13 +19,7 @@ class LocationWidget extends StatelessWidget {
     return GetBuilder(
         init: _locationController,
         builder: (context) {
-          return Container(
-            color: _locationController.selectedLocation != null &&
-                      _locationController.selectedLocation == locationModel
-                  ? const Color(ColorConstant.chooseLocationColor)
-                  : Colors.white,
-                  
-            child: ListTile(
+          return  ListTile(
               trailing: _locationController.selectedLocation != null &&
                       _locationController.selectedLocation == locationModel
                   ? Container(
@@ -48,8 +42,8 @@ class LocationWidget extends StatelessWidget {
               onTap: () async {
               await _locationController.setSelectedLocation(locationModel);
               },
-            ),
-          );
+            );
+          
         });
   }
 }

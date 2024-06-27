@@ -1,4 +1,9 @@
 import 'package:get_it/get_it.dart';
+import 'package:zonka_feedback/feedback/data/data_source/survey_feedback_ds.dart';
+import 'package:zonka_feedback/feedback/data/repositories/survey_feedback_repo_impl.dart';
+import 'package:zonka_feedback/feedback/domain/repositories/survey_feedback_repo.dart';
+import 'package:zonka_feedback/feedback/domain/usecase/survey_feedback_uc.dart';
+import 'package:zonka_feedback/feedback/domain/usecase/survey_languages_uc.dart';
 import 'package:zonka_feedback/location/data/data_source/location_ds.dart';
 import 'package:zonka_feedback/dashboard/data/data_source/workspace_ds.dart';
 import 'package:zonka_feedback/location/data/repositories_impl/location_repo_impl.dart';
@@ -35,6 +40,8 @@ void setup() {
     getIt.registerLazySingleton(() => LocationUc(locationRepo:getIt()));
     getIt.registerLazySingleton(() => WorkspaceUc(workspaceRepo:getIt())); 
     getIt.registerLazySingleton(() => SurveyUseCase(surveyRepository:getIt())); 
+    getIt.registerLazySingleton(() => SurveyFeedbackUc(surveyFeedbackRepo:getIt()));
+    // getIt.registerLazySingleton(() => SurveyLanguagesUc(surveyFeedbackRepo:getIt())); 
 
 
 
@@ -43,7 +50,8 @@ void setup() {
     getIt.registerLazySingleton<LocationRepo>(() => LocationRepoImpl(locationDataSource: getIt()));
     getIt.registerLazySingleton<WorkspaceRepo>(() => WorkspaceRepoImpl(workspaceDataSource: getIt()));
     getIt.registerLazySingleton<SurveyRepository>(() => SurveyRepoImpl(surveyDataSource: getIt()));
-
+    getIt.registerLazySingleton<SurveyFeedbackRepo>(() => SurveyFeedbackRepoImpl(surveyFeedBackDataSource: getIt()));
+ 
 
 
 
@@ -52,8 +60,8 @@ void setup() {
     getIt.registerLazySingleton(() => LocationDataSource());
     getIt.registerLazySingleton(() => WorkspaceDataSource());
     getIt.registerLazySingleton(() => SurveyDataSource());
-
-
+    getIt.registerLazySingleton(() => SurveyFeedBackDataSource());
+  
 
     //Services
     getIt.registerLazySingleton(() => LoggerService());

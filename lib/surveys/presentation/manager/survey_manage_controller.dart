@@ -31,8 +31,7 @@ class SurveyManagerController extends GetxController {
   }
 
   Future<void> getSurveyListWorkspace() async {
-    var locationData = await HiveService()
-        .getData(HiveDirectoryUtil.locationBox, HiveKey.location);
+    var locationData = await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.location);
     if (locationData != null) {
       List<SurveyResModel> tempList = [];
       List<SurveyResModel> surveyWorkspaceFiltered = _surveyController.surveyList.where((element) =>

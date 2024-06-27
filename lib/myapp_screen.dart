@@ -46,12 +46,15 @@ class _MyAppState extends State<MyApp> {
                             .listenable(),
                         builder: (context, box, widget) {
 
-                          // print(box.get(HiveKey.location));
-print("Hivelocation ${box.get(HiveKey.location)}");
-                          return box.get(HiveKey.location) == null
-                              ? const ChooseDefaultLocation()
+                          return 
+                          (box.get(HiveKey.skipLocation)!=null && box.get(HiveKey.skipLocation) )?const DashBoard(key: ValueKey('DashBoard')):
+                          box.get(HiveKey.location) == null  
+                                ? const ChooseDefaultLocation()
                               : const DashBoard(key: ValueKey('DashBoard'));
-                        })
+                        
+            
+                        },
+                      )
                     : const LoginScreen(key: ValueKey('LoginScreen'));
               },
             ),

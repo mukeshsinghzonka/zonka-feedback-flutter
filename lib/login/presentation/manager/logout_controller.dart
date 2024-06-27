@@ -14,12 +14,12 @@ class LogoutController extends BaseControllerWithOutParams<void> {
     await _deleteData();
     await _clearBox();
     Get.deleteAll(); 
-    _clearList();
+    // _clearList();
   }
 
-  void _clearList(){
-    _searchLocationController.filteredLocationList.clear();
-  }
+  // void _clearList(){
+  //   _searchLocationController.filteredLocationList.clear();
+  // }
 
   Future<void> _deleteData() async {
     await HiveService().deleteData(HiveDirectoryUtil.locationBox, HiveKey.location);

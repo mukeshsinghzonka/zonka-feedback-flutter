@@ -2,11 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:zonka_feedback/login/data/data_model/login_response/login_response.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
-import 'package:zonka_feedback/services/sharedprefrence_service.dart';
 import 'package:zonka_feedback/utils/constants.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
 import 'package:zonka_feedback/utils/hive_key.dart';
-import 'package:zonka_feedback/utils/sharedpref_constant.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class HttpUtil {

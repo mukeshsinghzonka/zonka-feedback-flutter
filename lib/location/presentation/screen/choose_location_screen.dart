@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 import 'package:zonka_feedback/location/presentation/manager/location_controller.dart';
 import 'package:zonka_feedback/location/presentation/manager/search_location_controller.dart';
 import 'package:zonka_feedback/location/presentation/screen/widget/location_widget.dart';
+import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
+import 'package:zonka_feedback/utils/hive_directory_util.dart';
+import 'package:zonka_feedback/utils/hive_key.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
 class ChooseDefaultLocation extends StatefulWidget {
@@ -36,9 +39,7 @@ class _ChooseDefaultLocationState extends State<ChooseDefaultLocation> {
           child: GetBuilder(
               init: _locationController,
               builder: (context) {
-final  filterLocationList =  _locationSearchController
-                                          .filteredLocationList;
-
+              final  filterLocationList =  _locationSearchController.filteredLocationList;
                 return Container(
                   color: const Color(ColorConstant.chooseLocationColor),
                   height: size.height,
@@ -136,23 +137,28 @@ final  filterLocationList =  _locationSearchController
                           ],
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: size.width,
-                        margin: EdgeInsets.only(top: 100.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Skip',
-                              style: TextStyle(
-                                  color: Color(ColorConstant.themeColor)),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            SvgPicture.asset(ImageConstant.arrowForward)
-                          ],
+                      GestureDetector(
+                        onTap: () async {
+                        await HiveService().putData(HiveDirectoryUtil.locationBox, HiveKey.skipLocation, true);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: size.width,
+                          margin: EdgeInsets.only(top: 100.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Skip',
+                                style: TextStyle(
+                                    color: Color(ColorConstant.themeColor)),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              SvgPicture.asset(ImageConstant.arrowForward)
+                            ],
+                          ),
                         ),
                       )
                     ],

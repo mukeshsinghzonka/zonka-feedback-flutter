@@ -40,5 +40,19 @@ class SurveyResModel {
       iskioskmode:json['mode'] == 'kiosk'?true:false,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'locations': surveyLocationList.map((e) => e.toJson()).toList(),
+      'viewMode': viewMode,
+      'mode': mode,
+      'defaultLanguageCode': defaultLanguageCode,
+      'isActive': isActive,
+      'workSpace': workSpaceId,
+      '_id': surveyId,
+      'name': surveyName,
+      'pre_mongified_id': surveyMongifiedId,
+    };
+  }
 }
 

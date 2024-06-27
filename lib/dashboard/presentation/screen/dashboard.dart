@@ -138,15 +138,18 @@ class _DashBoardState extends State<DashBoard> {
       drawer: const DrawerScreen(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: const BottomNavigationBarWidget(),
-      body:  Stack(
-        children: [
-          Column(
-            children: [
-              WarningWidget(), 
-              
-              ScheduleDemoWidget(), SurveyScreen()],
-          ),
-        ],
+      body:  SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Stack(
+          children: [
+            Column(
+              children: [
+               WarningWidget(),   
+               const ScheduleDemoWidget(), 
+               const SurveyScreen()],
+            ),
+          ],
+        ),
       ),
     );
   }

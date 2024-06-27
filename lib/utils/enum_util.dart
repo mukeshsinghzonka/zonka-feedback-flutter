@@ -28,3 +28,23 @@ enum ApiCallStatus{
   Error,
   Initial
 }
+
+
+enum SurveyScreen{
+  buttonChoice,
+  radioChoice,
+  dropdownChoice,
+  checkboxChoice,
+  pictureChoice,
+
+  npsRating,
+  cesRating,
+  csatRating,
+  scaleRating,
+  rankingRating,
+  starRating,
+
+  
+  
+
+}
