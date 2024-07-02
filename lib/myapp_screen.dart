@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:zonka_feedback/dashboard/presentation/screen/dashboard.dart';
+import 'package:zonka_feedback/feedback/presentation/screens/survey_screen.dart';
 import 'package:zonka_feedback/location/presentation/screen/choose_location_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
 import 'package:zonka_feedback/services/navigator.dart';
@@ -47,10 +48,16 @@ class _MyAppState extends State<MyApp> {
                         builder: (context, box, widget) {
 
                           return 
-                          (box.get(HiveKey.skipLocation)!=null && box.get(HiveKey.skipLocation) )?const DashBoard(key: ValueKey('DashBoard')):
+                          (box.get(HiveKey.skipLocation)!=null && box.get(HiveKey.skipLocation) )?
+                          // const DashBoard(key: ValueKey('DashBoard'))
+                             SurveyScreen()
+                          
+                          :
                           box.get(HiveKey.location) == null  
                                 ? const ChooseDefaultLocation()
-                              : const DashBoard(key: ValueKey('DashBoard'));
+                              : 
+                     SurveyScreen();         
+                              // const DashBoard(key: ValueKey('DashBoard'));
                         
             
                         },

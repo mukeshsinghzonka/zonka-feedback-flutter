@@ -30,7 +30,7 @@ enum ApiCallStatus{
 }
 
 
-enum SurveyScreen{
+enum SurveyScreenenum{
   buttonChoice,
   radioChoice,
   dropdownChoice,

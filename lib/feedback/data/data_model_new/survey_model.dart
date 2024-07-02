@@ -242,7 +242,7 @@ class SurveyModel {
     final LanguagePage? languagePage;
     final int? sequenceOrder;
     final int? widgetSequenceOrder;
-    final List<SurveyScreen> surveyScreens;
+    final List<SurveyScreenModel> surveyScreens;
     // final List<dynamic> staffScreen;
     final bool? hideInDevice;
     final bool? isActive;
@@ -381,7 +381,7 @@ class SurveyModel {
             languagePage: json["languagePage"] == null ? null : LanguagePage.fromJson(json["languagePage"]),
             sequenceOrder: json["sequenceOrder"],
             widgetSequenceOrder: json["widgetSequenceOrder"],
-            surveyScreens: json["surveyScreens"] == null ? [] : List<SurveyScreen>.from(json["surveyScreens"]!.map((x) => SurveyScreen.fromJson(x))),
+            surveyScreens: json["surveyScreens"] == null ? [] : List<SurveyScreenModel>.from(json["surveyScreens"]!.map((x) => SurveyScreenModel.fromJson(x))),
             // staffScreen: json["staffScreen"] == null ? [] : List<dynamic>.from(json["staffScreen"]!.map((x) => x)),
             hideInDevice: json["hideInDevice"],
             isActive: json["isActive"],

@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/survey_screen_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_feedback_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/screens/survey_screen.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
@@ -15,11 +17,12 @@ class SurveyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-print("surveywidgetmodel ${surveyResModel.toJson()}");
 
     return GestureDetector(
       onTap: () {
         _surveryFeedbackController.call(surveyResModel.surveyId);
+
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyScreen()));
       },
       child: Container(
           margin: EdgeInsets.only(top: 10.h, left: 13.w, right: 13.w),

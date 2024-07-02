@@ -3,7 +3,6 @@ import 'package:zonka_feedback/feedback/data/data_source/survey_feedback_ds.dart
 import 'package:zonka_feedback/feedback/data/repositories/survey_feedback_repo_impl.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_feedback_repo.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_feedback_uc.dart';
-import 'package:zonka_feedback/feedback/domain/usecase/survey_languages_uc.dart';
 import 'package:zonka_feedback/location/data/data_source/location_ds.dart';
 import 'package:zonka_feedback/dashboard/data/data_source/workspace_ds.dart';
 import 'package:zonka_feedback/location/data/repositories_impl/location_repo_impl.dart';
