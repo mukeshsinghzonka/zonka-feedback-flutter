@@ -30,10 +30,11 @@ class _DropdownState extends State<Dropdown> {
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: ListView.separated(
+          padding: EdgeInsets.zero,
             separatorBuilder: (context, index) => const Divider(),
             itemCount: dropDownController.items.length,
             itemBuilder: (context, index) {
-              return DropDownItem(text: dropDownController.items[index]);
+              return DropDownItem(value: dropDownController.items[index].value, child: dropDownController.items[index].child);
             }),
       ),
     );

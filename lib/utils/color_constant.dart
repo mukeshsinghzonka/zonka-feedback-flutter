@@ -16,4 +16,5 @@ class ColorConstant{
   static const int  arrowForwardColor = 0xff3B82F6;
   static const int  appBarBottomColor = 0xff55D0F5;
   static const int  chooseLocationColor = 0xffEFF1FE;
+  static const int  surveyInputColor = 0xffE5E5E5;
 }

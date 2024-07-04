@@ -4,6 +4,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:zonka_feedback/dashboard/presentation/screen/dashboard.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/survey_screen.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/rank_rating_widget.dart';
 import 'package:zonka_feedback/location/presentation/screen/choose_location_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
 import 'package:zonka_feedback/services/navigator.dart';

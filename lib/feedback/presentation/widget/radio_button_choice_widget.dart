@@ -12,30 +12,28 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
   int _selectedValue = 0; 
   @override
   Widget build(BuildContext context) {
-    return  Scrollbar(
-      thumbVisibility: true,
-      child: GridView.builder(
-                gridDelegate:const  SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 3, // Number of columns
-      childAspectRatio: 3, // Aspect ratio of each grid item
-      mainAxisSpacing: 10.0, // Space between the items vertically
-      crossAxisSpacing: 10.0, // Space between the items horizontally
-                ),
-                itemCount: 10, // Total number of items
-            
-                itemBuilder: (context, index) {
-      return CustomRadioButton(
-        value: index,
-        groupValue: _selectedValue,
-        onChanged: (value) {
-          setState(() {
-            _selectedValue = value!;
-          });
-        },
-      );
-                },
+    return  GridView.builder(
+      padding: EdgeInsets.zero,
+              gridDelegate:const  SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 3, // Number of columns
+    childAspectRatio: 4, // Aspect ratio of each grid item
+    mainAxisSpacing: 10.0, // Space between the items vertically
+    crossAxisSpacing: 10.0, // Space between the items horizontally
               ),
+              itemCount: 10, // Total number of items
+          
+              itemBuilder: (context, index) {
+    return CustomRadioButton(
+      value: index,
+      groupValue: _selectedValue,
+      onChanged: (value) {
+        setState(() {
+          _selectedValue = value!;
+        });
+      },
     );
+              },
+            );
   }
 }
 
@@ -70,7 +68,7 @@ class CustomRadioButton extends StatelessWidget {
         child: Row(
           children: [
             Radio<int>(
-             fillColor: MaterialStateProperty.all(
+             fillColor: WidgetStateProperty.all(
               groupValue == value ?
               Colors.white:Colors.black),
               value: value,

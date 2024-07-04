@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/rank_rating_widget.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/services/network/http_services.dart';
@@ -22,5 +23,5 @@ void main() async  {
   await HiveService().init();
   HttpUtil().initServerType(ServerType.NIGHTLY);
   setup();
-  runApp(const MyApp());
+  runApp( const MyApp());
 }

@@ -23,12 +23,13 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
   @override
   Widget build(BuildContext context) {
     return  Scrollbar(
-      thumbVisibility: true,
+      // thumbVisibility: true,
       thickness: 2,
       child: GridView.builder(
+        padding: EdgeInsets.zero,
           itemCount: 10,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, childAspectRatio: 5),
+              crossAxisCount: 3, childAspectRatio: 4),
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {

@@ -13,6 +13,10 @@ class ImageConstant {
   static const String updateCloudIcons = "assests/images/download_cloud.svg";
   static const String syncServerIcons = "assests/images/sync_server.svg";
   static const String arrowForward = "assests/images/arrow_forward.svg";
-
+  static const String emojiNeutral = "assests/images/emoji/ic_neutral.svg";
+  static const String emojiStaisfied = "assests/images/emoji/ic_satisfied.svg";
+  static const String emojiVerySatisfied = "assests/images/emoji/ic_very_satisfied.svg";
+  static const String emojiVeryDissatisfied = "assests/images/emoji/ic_very_unsatisfied.svg";
+  static const String emojiUnsatisfied = "assests/images/emoji/ic_unsatisfied.svg";
 }
 

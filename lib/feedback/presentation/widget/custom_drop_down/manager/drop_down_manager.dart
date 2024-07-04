@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/drop_down.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/drop_down_item.dart';
 
-class DropDownManager extends GetxController {
+class DropDownManager<T> extends GetxController {
 
 
-  DropDownManager({required List<String>? items}) {
-    _items = items ?? [];
+  DropDownManager({required List<DropDownItem<T>> items}) {
+    _items = items ;
   }
-  late List<String> _items;
-  List<String> get items => _items;
-  set items(List<String> value) {
+
+  
+  late List<DropDownItem<T> > _items;
+  List<DropDownItem<T>>  get items => _items;
+  set items(List<DropDownItem<T>> value) {
     _items = value;
     update();
   }

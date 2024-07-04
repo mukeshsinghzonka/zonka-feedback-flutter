@@ -8,6 +8,7 @@ class ButtonChoiceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scrollbar(
       child: GridView.builder(
+            padding: EdgeInsets.zero,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 childAspectRatio: 3,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/custom_drop_down_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/drop_down_item.dart';
 
 class DropDownWidget extends StatefulWidget {
   const DropDownWidget({super.key});
@@ -13,14 +13,33 @@ class DropDownWidget extends StatefulWidget {
 class _DropDownWidgetState extends State<DropDownWidget> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 40.h,
-        child: CustomDropDownWidget(
-                text:'Call To Action',
-                items: ['Call To Action 1', 'Call To Action 2', 'Call To Action 3'],
-              ),
-      ),
+    return CustomDropDownWidget<String>(
+      text: 'Call To Action',
+      items: <String>['A','B','C'].map((String value) {
+        return DropDownItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
+
+//     return DropdownButton<CheckModel>(
+//   items: <CheckModel>[].map((CheckModel value) {
+//     return DropdownMenuItem<CheckModel>(
+//       value: value,
+//       child: Text(value.value),
+//     );
+//   }).toList(),
+//   onChanged: (CheckModel ?value) {
+//     print(value);
+//   },
+// );
   }
+}
+
+class CheckModel {
+  final String value;
+  final bool isChecked;
+
+  CheckModel({required this.value, required this.isChecked});
 }

@@ -33,18 +33,19 @@ enum ApiCallStatus{
 enum SurveyScreenenum{
   buttonChoice,
   radioChoice,
-  dropdownChoice,
+  // dropdownChoice,
   checkboxChoice,
   pictureChoice,
-
   npsRating,
   cesRating,
-  csatRating,
+  csatButtonRating,
   scaleRating,
   rankingRating,
   starRating,
-
-  
-  
+  emotionRating,
+  textWidget,
+  dateWidget,
+  imageWidget,
+  welcomeWidget
 
 }
