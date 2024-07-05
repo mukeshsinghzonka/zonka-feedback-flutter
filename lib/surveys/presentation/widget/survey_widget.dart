@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -21,8 +22,8 @@ class SurveyWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         _surveryFeedbackController.call(surveyResModel.surveyId);
-
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyScreen()));
+        SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyScreen())));
+    
       },
       child: Container(
           margin: EdgeInsets.only(top: 10.h, left: 13.w, right: 13.w),

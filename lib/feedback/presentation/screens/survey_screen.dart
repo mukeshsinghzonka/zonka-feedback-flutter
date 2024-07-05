@@ -5,19 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_screen_manager.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/button_choice_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/checkbox_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/csat_rating/csat_button_rating.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/date_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/drop_down_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/emotion_rating_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/nps_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/picture_choice_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/radio_button_choice_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/rank_rating_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/scale_rating_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/textbox_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/welcome_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/button_choice_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/checkbox_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/csat_rating/csat_button_rating.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/date_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/emotion_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/nps_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/picture_choice_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/radio_button_choice_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rank_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/scale_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/textbox_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welcome_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SurveyScreen extends StatefulWidget {
@@ -36,6 +35,12 @@ class _SurveyScreenState extends State<SurveyScreen> {
     super.initState();
   }
 
+
+@override
+  void dispose() {
+     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitDown]);
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -52,7 +57,6 @@ class _SurveyScreenState extends State<SurveyScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-            
                   Container(
                       height: size.height / 1.4,
                       width: size.width / 1.1,
@@ -67,6 +71,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                                GestureDetector(
                           onTap: () {
                             surveyScreenManager.previousScreen();
+                         
                           },
                            child: Container(
                             child: Icon(Icons.arrow_back_ios_new_sharp),

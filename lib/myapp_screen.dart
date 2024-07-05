@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:zonka_feedback/dashboard/presentation/screen/dashboard.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/survey_screen.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/rank_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rank_rating_widget.dart';
 import 'package:zonka_feedback/location/presentation/screen/choose_location_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
 import 'package:zonka_feedback/services/navigator.dart';
@@ -20,6 +21,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -50,17 +57,10 @@ class _MyAppState extends State<MyApp> {
 
                           return 
                           (box.get(HiveKey.skipLocation)!=null && box.get(HiveKey.skipLocation) )?
-                          // const DashBoard(key: ValueKey('DashBoard'))
-                             SurveyScreen()
-                          
-                          :
+                          const DashBoard(key: ValueKey('DashBoard')):
                           box.get(HiveKey.location) == null  
-                                ? const ChooseDefaultLocation()
-                              : 
-                     SurveyScreen();         
-                              // const DashBoard(key: ValueKey('DashBoard'));
-                        
-            
+                                ? const ChooseDefaultLocation(): 
+                              const DashBoard(key: ValueKey('DashBoard'));     
                         },
                       )
                     : const LoginScreen(key: ValueKey('LoginScreen'));
