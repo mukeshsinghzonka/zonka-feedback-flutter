@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ButtonChoiceWidget extends StatelessWidget {
-  const ButtonChoiceWidget({super.key});
+  const   ButtonChoiceWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,10 @@ class ButtonChoiceWidget extends StatelessWidget {
                 border: Border.all(color: Colors.black),
                 color: Colors.grey.shade300,
               ),
-              child: Center(child: Text('Choice $i')),
+              child: Center(child: Text('Choice $i',
+              style:const TextStyle(fontFamily: 'Source Sans Pro')
+              )
+              ),
             ),
           ),
     );

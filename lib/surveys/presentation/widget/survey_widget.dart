@@ -6,7 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/survey_screen_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_feedback_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/screens/survey_screen.dart';
+import 'package:zonka_feedback/feedback/presentation/screens/feedback_survey_screen.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
@@ -20,8 +20,8 @@ class SurveyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onTap: () {
-        _surveryFeedbackController.call(surveyResModel.surveyId);
+      onTap: () async{
+       await _surveryFeedbackController.call(surveyResModel.surveyId);
         SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyScreen())));
     
       },

@@ -21,7 +21,6 @@ class _WorkspacesListState extends State<WorkspacesList> {
 
   final _workspaceController = Get.find<WorkspaceController>();
   final _dashboardController = Get.find<DashboardController>();
-  
   final _surveyManagerController = Get.find<SurveyManagerController>();
   @override
   Widget build(BuildContext context) {

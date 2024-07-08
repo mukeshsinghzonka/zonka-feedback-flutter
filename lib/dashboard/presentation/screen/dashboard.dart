@@ -26,11 +26,24 @@ class _DashBoardState extends State<DashBoard> {
   final dashboardController = Get.put(DashboardController());
   final workspaceController = Get.put(WorkspaceController());
 
-
+  late double height, width, xPosition, yPosition;
   @override
   void initState() {
     dashboardController.initDashBoardApi();
+    // findDropdownData();
     super.initState();
+  }
+
+  final GlobalKey _actionKey = GlobalKey();
+
+  void findDropdownData() {
+    RenderBox renderBox =
+        _actionKey.currentContext!.findRenderObject() as RenderBox;
+    height = renderBox.size.height;
+    width = renderBox.size.width;
+    Offset offset = renderBox.localToGlobal(Offset.zero);
+    xPosition = offset.dx;
+    yPosition = offset.dy;
   }
 
   @override
@@ -38,8 +51,9 @@ class _DashBoardState extends State<DashBoard> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+          key: _actionKey,
           elevation: 0,
-       surfaceTintColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           leading: Builder(
             builder: (context) => IconButton(
                 icon: SvgPicture.asset(
@@ -52,19 +66,20 @@ class _DashBoardState extends State<DashBoard> {
                   if (dashboardController.overlayController.isShowing) {
                     dashboardController.overlayController.hide();
                   }
-                 
                 }),
           ),
           title: GestureDetector(
             onTap: () {
-             dashboardController.overlayController.toggle();
-            
+              findDropdownData();
+              dashboardController.overlayController.toggle();
             },
             child: OverlayPortal(
               controller: dashboardController.overlayController,
               overlayChildBuilder: (context) {
                 return Positioned(
-                    top: 70.h,
+                    left: xPosition,
+                    width: width,
+                    top: yPosition + height,
                     child: Column(
                       children: [
                         Container(
@@ -74,10 +89,12 @@ class _DashBoardState extends State<DashBoard> {
                           padding: EdgeInsets.symmetric(vertical: 5.h),
                           alignment: Alignment.topCenter,
                           child: ListView.builder(
-                              itemCount: workspaceController.workspaceList.length,
+                              itemCount:
+                                  workspaceController.workspaceList.length,
                               itemBuilder: (context, index) {
                                 return WorkspacesList(
-                                  workspaceModel: workspaceController.workspaceList[index],
+                                  workspaceModel:
+                                      workspaceController.workspaceList[index],
                                 );
                               }),
                         ),
@@ -95,7 +112,9 @@ class _DashBoardState extends State<DashBoard> {
                   const Text(
                     'Workspaces',
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w500,fontSize: ConstantSize.medium_3),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: ConstantSize.medium_3),
                   ),
                   SizedBox(
                     width: 10.w,
@@ -138,15 +157,16 @@ class _DashBoardState extends State<DashBoard> {
       drawer: const DrawerScreen(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: const BottomNavigationBarWidget(),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Stack(
           children: [
             Column(
               children: [
-               WarningWidget(),   
-               const ScheduleDemoWidget(), 
-               const SurveyScreen()],
+                WarningWidget(),
+                const ScheduleDemoWidget(),
+                const SurveyScreen()
+              ],
             ),
           ],
         ),
