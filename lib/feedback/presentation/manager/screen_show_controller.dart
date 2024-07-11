@@ -1,17 +1,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/button_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/checkbox_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/csat_rating/csat_button_rating.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/date_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/drop_down_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/emotion_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/legal_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/nps_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/picture_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/radio_button_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rank_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/scale_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/textbox_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/thank_you_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welcome_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
@@ -20,14 +24,16 @@ class ScreenFeedBackQuesController extends GetxController{
 
 
 
-  Widget getScreenType(String type){
-   return _switchWidget(screen: mapOfScreenByType(type));
+  Widget getScreenType(String type, Field field){
+   return _switchWidget(screen: mapOfScreenByType(type), field: field);
   }
 
   SurveyScreenenum mapOfScreenByType(String type) {
   switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.buttonChoice;
+    case 'dropdown':
+      return SurveyScreenenum.dropdownChoice;
     case 'radio':
       return SurveyScreenenum.radioChoice;
     case 'checkbox':
@@ -53,9 +59,11 @@ class ScreenFeedBackQuesController extends GetxController{
     case 'welcomeWidget':
       return SurveyScreenenum.welcomeWidget;
     case 'legalTerm':
-      return SurveyScreenenum.welcomeWidget;
+      return SurveyScreenenum.legalTerm;
     case 'camera':
-      return SurveyScreenenum.welcomeWidget;
+      return SurveyScreenenum.cameraWidget;
+    case 'thankYouWidget':
+      return SurveyScreenenum.thankYouWidget;
     default:
       return SurveyScreenenum.buttonChoice;
   }
@@ -63,16 +71,18 @@ class ScreenFeedBackQuesController extends GetxController{
 
 
 
-Widget  _switchWidget({required SurveyScreenenum screen}) {
+Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) {
   switch (screen) {
     case SurveyScreenenum.buttonChoice:
-    return const ButtonChoiceWidget();
+    return ButtonChoiceWidget(field: field,);
     case SurveyScreenenum.radioChoice:
-    return const RadioButtonWidget();
-    // case SurveyScreenenum.dropdownChoice:
-    //   return const DropDownWidget();
+    return  RadioButtonWidget(field: field,);
+    case SurveyScreenenum.dropdownChoice:
+      return  DropDownWidget(field: field,);
     case SurveyScreenenum.checkboxChoice:
-      return  const CheckboxWidget();
+      return   CheckboxWidget(
+        field: field,
+      );
     case SurveyScreenenum.pictureChoice:
       return  const PictureChoiceWidget();
     case SurveyScreenenum.npsRating:
@@ -86,13 +96,21 @@ Widget  _switchWidget({required SurveyScreenenum screen}) {
       return  const RankRatingWidget();
     case SurveyScreenenum.starRating:
     case SurveyScreenenum.emotionRating:
-      return  const EmotionRatingWidget();
+      return EmotionRatingWidget(
+        field: field,
+      );
     case SurveyScreenenum.textWidget:
       return  const TextboxWidget();
     case SurveyScreenenum.dateWidget:
-      return  const DateWidget();
+      return   DateWidget(
+        field: field,
+      );
     case SurveyScreenenum.welcomeWidget:
       return  const WelcomeWidget();
+    case SurveyScreenenum.thankYouWidget:
+      return  const ThankYouWidget();
+    case SurveyScreenenum.legalTerm:
+      return const LegalWidget();
     default:
       return  Container();
   }

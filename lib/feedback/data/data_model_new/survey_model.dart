@@ -1,6 +1,8 @@
 
 import 'package:zonka_feedback/feedback/data/data_model_new/intro_page_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/language_page_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/logo_image.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/survey_background_image.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/survey_screen_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/survey_translation_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/thankyou_model.dart';
@@ -142,6 +144,7 @@ class SurveyModel {
         required this.companyId,
         required this.createdBy,
         required this.modifiedBy,
+        required this.s3GalleryImageUrl,
       
     });
 
@@ -155,7 +158,7 @@ class SurveyModel {
     final bool? isUsedInTemplate;
     final String? webSurveyTitle;
     final String? webViewMode;
-    final dynamic logoGalleryImageId;
+    final LogoGalleryImageId logoGalleryImageId;
     final bool? hideLogoInDevice;
     final String? theme;
     final String? viewMode;
@@ -208,7 +211,7 @@ class SurveyModel {
     final dynamic themeApplied;
     final String? surveyBgColor;
     final bool? applySurveyBackgroundImage;
-    final dynamic surveyBgGalleryImageId;
+    final SurveyBgGalleryImageId surveyBgGalleryImageId;
     final String? fontFamily;
     final String? fontSize;
     final bool? applyCustomFontSize;
@@ -280,21 +283,23 @@ class SurveyModel {
     final String? companyId;
     final String? createdBy;
     final String? modifiedBy;
-   
+    final String  s3GalleryImageUrl;
 
     factory SurveyModel.fromJson(Map<String, dynamic> json){ 
+      print("s3image ${json["s3GalleryImageUrl"]}");
         return SurveyModel(
             newVersion: json["newVersion"],
             // locationTags: json["locationTags"] == null ? [] : List<dynamic>.from(json["locationTags"]!.map((x) => x)),
             // locations: json["locations"] == null ? [] : List<dynamic>.from(json["locations"]!.map((x) => x)),
             // distributionChannels: json["distributionChannels"] == null ? [] : List<dynamic>.from(json["distributionChannels"]!.map((x) => x)),
+            s3GalleryImageUrl: json["s3GalleryImageUrl"]??"https://zonkafeedback-gallery.s3.amazonaws.com/img_gallery/",
             description: json["description"],
             createdUsingAi: json["createdUsingAI"],
             isAiAssisted: json["isAIAssisted"],
             isUsedInTemplate: json["isUsedInTemplate"],
             webSurveyTitle: json["webSurveyTitle"],
             webViewMode: json["webViewMode"],
-            logoGalleryImageId: json["logoGalleryImageId"],
+            logoGalleryImageId: LogoGalleryImageId.fromJson(json["logoGalleryImageId"]) ,
             hideLogoInDevice: json["hideLogoInDevice"],
             theme: json["theme"],
             viewMode: json["viewMode"],
@@ -347,7 +352,7 @@ class SurveyModel {
             themeApplied: json["themeApplied"],
             surveyBgColor: json["surveyBgColor"],
             applySurveyBackgroundImage: json["applySurveyBackgroundImage"],
-            surveyBgGalleryImageId: json["surveyBgGalleryImageId"],
+            surveyBgGalleryImageId:SurveyBgGalleryImageId.fromJson( json["surveyBgGalleryImageId"]),
             fontFamily: json["fontFamily"],
             fontSize: json["fontSize"],
             applyCustomFontSize: json["applyCustomFontSize"],

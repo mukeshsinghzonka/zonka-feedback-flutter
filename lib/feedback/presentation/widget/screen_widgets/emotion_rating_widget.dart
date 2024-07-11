@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
 class EmotionRatingWidget extends StatefulWidget {
-  const EmotionRatingWidget({super.key});
+  final Field field;
+  const EmotionRatingWidget({super.key, required this.field});
 
   @override
   State<EmotionRatingWidget> createState() => _EmotionRatingWidgetState();

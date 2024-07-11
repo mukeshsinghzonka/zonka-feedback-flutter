@@ -1,6 +1,7 @@
 
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/filed_translation_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/heading_image.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/logic_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/option_model.dart';
 
@@ -103,7 +104,7 @@ class Field {
     final bool? randomizeChoices;
     final String? mediaType;
     final String? videoEmbedScript;
-    final List<dynamic> quesImages;
+    final List<HeadingImage> quesImages;
     final int? quizTimeout;
     final String? id;
     final List<Choice> choices;
@@ -118,6 +119,7 @@ class Field {
     final Map<String, FieldTranslation>? translations;
 
     factory Field.fromJson(Map<String, dynamic> json){ 
+      // print("Fieldlogic ${json["quesImages"]}");
         return Field(
             logic: json["logic"] == null ? null : Logic.fromJson(json["logic"]),
             screenType: json["screenType"],
@@ -160,7 +162,7 @@ class Field {
             randomizeChoices: json["randomizeChoices"],
             mediaType: json["mediaType"],
             videoEmbedScript: json["videoEmbedScript"],
-            quesImages: json["quesImages"] == null ? [] : List<dynamic>.from(json["quesImages"]!.map((x) => x)),
+            quesImages: json["quesImages"] == null ? [] : List<HeadingImage>.from(json["quesImages"].map((x) => HeadingImage.fromJson(x) )),
             quizTimeout: json["quizTimeout"],
             id: json["_id"],
             choices: json["choices"] == null ? [] : List<Choice>.from(json["choices"]!.map((x) => Choice.fromJson(x))),

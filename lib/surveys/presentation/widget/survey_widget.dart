@@ -21,9 +21,8 @@ class SurveyWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async{
-       await _surveryFeedbackController.call(surveyResModel.surveyId);
+        await _surveryFeedbackController.call(surveyResModel.surveyId);
         SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyScreen())));
-    
       },
       child: Container(
           margin: EdgeInsets.only(top: 10.h, left: 13.w, right: 13.w),
@@ -32,8 +31,7 @@ class SurveyWidget extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(15.h)),
               border: Border.all(color: Colors.grey.shade400)),
           child: Container(
-            height: 100.h,
-            width: 328.w,
+           
             padding: EdgeInsets.only(
               left: 10.w,
               right: 10.w,
@@ -51,18 +49,13 @@ class SurveyWidget extends StatelessWidget {
                           fontSize: ConstantSize.small_2.sp,
                           fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Builder(builder: (context) {
-                      if (surveyResModel.iskioskmode) {
-                        return Container(
+                 
+                    Container(
                         alignment: Alignment.center,
-                        width: 80.w,
-                        height: 20.h,
+                        padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 5.h),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.w)),
-                          color: const Color(ColorConstant.surveyModeColor),
+                          borderRadius: BorderRadius.all(Radius.circular(7.w)),
+                          color:surveyResModel.iskioskmode?const Color(ColorConstant.kisokColor): const Color(ColorConstant.surveyModeColor),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -78,52 +71,19 @@ class SurveyWidget extends StatelessWidget {
                             ),
                             SizedBox(width: 5.w),
                             Text(
-                              'Survey Mode',
+                           surveyResModel.iskioskmode? 'Kisok Mode':   'Survey Mode',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: ConstantSize.extra_small_3.sp),
                             ),
                           ],
                         ),
-                      );
-                      }
-                      return Container(
-                        alignment: Alignment.center,
-                        width: 80.w,
-                        height: 20.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.w)),
-                          color: const Color(ColorConstant.kisokColor),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 3.h,
-                              width: 3.h,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(width: 5.w),
-                            Text(
-                              'Kisok Mode',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: ConstantSize.extra_small_3.sp),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    SizedBox(
-                      height: 30.h,
+                      ),
+                 
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 5.h),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
@@ -131,7 +91,7 @@ class SurveyWidget extends StatelessWidget {
                                 '0 Response Today',
                                 style: TextStyle(
                                     color: Colors.grey.shade400,
-                                    fontSize: ConstantSize.small_1.sp),
+                                    fontSize: ConstantSize.extra_small_3.sp),
                               ),
                               SizedBox(
                                 width: 5.w,
@@ -139,14 +99,14 @@ class SurveyWidget extends StatelessWidget {
                               Text('0 Unsynced Response',
                                   style: TextStyle(
                                       color: Colors.grey.shade400,
-                                      fontSize: ConstantSize.small_1.sp)),
+                                      fontSize: ConstantSize.extra_small_3.sp)),
                             ],
                           ),
                           Text(
                               'Last Synced ${DateFormat.jm().format(DateTime.now())} ${DateFormat.yMMMEd().format(DateTime.now())}',
                               style: TextStyle(
                                   color: Colors.grey.shade400,
-                                  fontSize: ConstantSize.small_1.sp))
+                                  fontSize: ConstantSize.extra_small_3.sp))
                         ],
                       ),
                     ),

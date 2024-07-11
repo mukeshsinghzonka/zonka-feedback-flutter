@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/drop_down_item.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/manager/drop_down_manager.dart';
 
 class CustomDropDownWidget<T> extends StatefulWidget {
   final String text;
   final List<DropDownItem<T>> items;
-
-  const CustomDropDownWidget({super.key, required this.text, required this.items});
+  final ValueChanged<T?>? onChanged;
+  const CustomDropDownWidget({super.key, required this.text, required this.items, required this.onChanged});
 
   @override
   State<CustomDropDownWidget> createState() => _CustomDropDownWidgetState();
@@ -14,12 +17,12 @@ class CustomDropDownWidget<T> extends StatefulWidget {
 
 class _CustomDropDownWidgetState<T> extends State<CustomDropDownWidget<T>> {
 
- var dropDownController ;
+ final  dropDownController = Get.put(DropDownManager<T>(
+    items: [],
+ ));
 
  @override
   void initState() {
-    // print("initstate $T");
-    // dropDownController = Get.put(DropDownManager<T>(items: widget.items));
     super.initState();
   }
 

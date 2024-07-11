@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/custom_drop_down_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/drop_down_item.dart';
 
 class DropDownWidget extends StatefulWidget {
-  const DropDownWidget({super.key});
+  final Field field;
+  const DropDownWidget({super.key, required this.field});
 
   @override
   State<DropDownWidget> createState() => _DropDownWidgetState();
@@ -21,19 +23,12 @@ class _DropDownWidgetState extends State<DropDownWidget> {
           child: Text(value),
         );
       }).toList(),
+      onChanged: (String ?value) {
+        print(value);
+      },
     );
 
-//     return DropdownButton<CheckModel>(
-//   items: <CheckModel>[].map((CheckModel value) {
-//     return DropdownMenuItem<CheckModel>(
-//       value: value,
-//       child: Text(value.value),
-//     );
-//   }).toList(),
-//   onChanged: (CheckModel ?value) {
-//     print(value);
-//   },
-// );
+
   }
 }
 

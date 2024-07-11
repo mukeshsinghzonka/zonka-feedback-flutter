@@ -10,7 +10,10 @@ class DropDownItem<T> extends StatelessWidget {
   final Widget child;
   final T value;
   DropDownItem({super.key, required this.child, required this.value});
-  final dropDownController = Get.find<DropDownManager>();
+  final dropDownController = Get.put(DropDownManager<T>(
+    items: [],
+  ));
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

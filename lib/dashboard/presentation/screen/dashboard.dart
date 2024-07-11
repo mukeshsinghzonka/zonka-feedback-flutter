@@ -30,7 +30,6 @@ class _DashBoardState extends State<DashBoard> {
   @override
   void initState() {
     dashboardController.initDashBoardApi();
-    // findDropdownData();
     super.initState();
   }
 
@@ -139,15 +138,13 @@ class _DashBoardState extends State<DashBoard> {
           actions: [
             Container(
                 alignment: Alignment.center,
-                height: 25.w,
-                width: 25.w,
-                margin: EdgeInsets.only(right: 15.w),
+                margin: EdgeInsets.only(right: 10.w),
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 1.8.w)),
+                    border: Border.all(color: Colors.white, width: 1.w)),
                 child: Icon(
                   Icons.add,
-                  size: 16.w,
+                  size: 12.w,
                   color: Colors.white,
                   weight: 40.w,
                 )),

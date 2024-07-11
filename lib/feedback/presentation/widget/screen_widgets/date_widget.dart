@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 
 class DateWidget extends StatefulWidget {
-  const DateWidget({super.key});
+  final Field field;
+  const DateWidget({super.key, required this.field});
 
   @override
   State<DateWidget> createState() => _DateWidgetState();
@@ -29,9 +31,10 @@ class _DateWidgetState extends State<DateWidget> {
       },
       child: Container(
           width: 150.w,
-          padding: EdgeInsets.all(5.w),
+          height: 40.h,
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
           decoration: BoxDecoration(
-            color: Color(ColorConstant.surveyInputColor),
+            color:const Color(ColorConstant.surveyInputColor),
             border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(8.r),
           ),
@@ -41,7 +44,7 @@ class _DateWidgetState extends State<DateWidget> {
               const Spacer(),
               Icon(
                 Icons.calendar_today,
-                size: 10.sp,
+                size: 7.sp,
               )
             ],
           )),

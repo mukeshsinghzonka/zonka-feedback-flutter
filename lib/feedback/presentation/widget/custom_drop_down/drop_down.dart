@@ -3,11 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/drop_down_item.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/manager/drop_down_manager.dart';
 
-class Dropdown extends StatefulWidget {
+class Dropdown<T> extends StatefulWidget {
   final double itemheight;
   const Dropdown({super.key, required this.itemheight});
 
@@ -15,8 +14,8 @@ class Dropdown extends StatefulWidget {
   State<Dropdown> createState() => _DropdownState();
 }
 
-class _DropdownState extends State<Dropdown> {
-  final dropDownController = Get.find<DropDownManager>();
+class _DropdownState<T> extends State<Dropdown<T>> {
+  final dropDownController = Get.find<DropDownManager<T>>();
   
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 class RadioButtonWidget extends StatefulWidget {
-  const RadioButtonWidget({super.key});
+  final Field field;
+  const RadioButtonWidget({super.key, required this.field});
 
   @override
   State<RadioButtonWidget> createState() => _RadioButtonWidgetState();

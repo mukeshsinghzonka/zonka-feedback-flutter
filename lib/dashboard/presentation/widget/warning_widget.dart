@@ -15,26 +15,24 @@ final LogoutController  _logoutController = LogoutController();
     return  GestureDetector(
       onTap: () {
         _logoutController.call();
-        // print("clearhivedata");
-        //         HiveService().clearBox(HiveDirectoryUtil.loginBox);
       },
       child: Container(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                     height: 25.h,
                 color: const Color(ColorConstant.redColorExpire),
+                padding: EdgeInsets.symmetric(vertical: 5.h),
                 child:  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Your free trial expires in 3 days. ',
-                      style: TextStyle(color: Colors.red,fontSize: ConstantSize.small_2.sp),
+                      style: TextStyle(color: Colors.red,fontSize: ConstantSize.extra_small_3.sp),
                     ),
                     Text(
                       'Tap here to Uprade',
                       style: TextStyle(
                           decoration: TextDecoration.underline,
-                          fontSize: ConstantSize.small_2.sp,
+                          fontSize: ConstantSize.extra_small_3.sp,
                           decorationColor: Color(ColorConstant.themeColor),
                           color: Color(ColorConstant.themeColor)),
                     ),

@@ -5,10 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_feedback_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_field_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/screen_switch_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/screen_show_question_widget.dart';
+import 'package:zonka_feedback/utils/hexcolor_util.dart';
+
 
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({super.key});
@@ -21,9 +24,10 @@ class _SurveyScreenState extends State<SurveyScreen> {
       Get.put(SurveyScreenManager());
   final SurveryFeedbackController surveryFeedbackController =
       Get.find<SurveryFeedbackController>();
-
+  final  SurveyFieldController surveyFieldController = Get.put(SurveyFieldController());
   @override
   void initState() {
+    surveyFieldController.setFieldFromSurveyModel();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     super.initState();
   }
@@ -36,42 +40,62 @@ class _SurveyScreenState extends State<SurveyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      alignment: Alignment.topCenter,
-      decoration: BoxDecoration(
-      color: Colors.white, border: Border.all(color: Colors.blueAccent)),
-      child: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10.w),
-          width: size.width,
-          height: size.height,
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Expanded(flex: 2, child: ScreenSwitchWidget()),
+    return Obx(
+       () {
+        print("backgroundimage ${surveyFieldController.surveyBgImage.value}");
+
+        return Container(
+          alignment: Alignment.topCenter,
+          decoration: BoxDecoration(
+            
+            
+             image: DecorationImage(
+        onError: (exception, stackTrace) {
+     
+        },
+              fit: BoxFit.cover,
+                            image: 
+                            NetworkImage(
+                              surveyFieldController.surveyBgImage.value)
+                            
+                            )
+                            
+                            ,
           
-              Obx(
-               () {
-                  return Expanded(
-                    flex: 15,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blueAccent)),
-                      child: SwitchScreenWidget(
-                              feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value].fields,
-                            ),
-                    ),
-                  );
-                }
+          color: HexColor(surveyFieldController.surveyBgColor.value),
+           border: Border.all(color: Colors.blueAccent)),
+          child: SafeArea(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10.w),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Expanded(flex: 3, child: ScreenSwitchWidget()),
+                  Obx(
+                   () {
+                      return Expanded(
+                        flex: 16,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.blueAccent)),
+                          child: SwitchScreenWidget(
+                                  feedbackQuestion:
+                                  
+                                   surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value].fields   ,
+                                ),
+                        ),
+                      );
+                    }
+                  ),
+                 
+                   Expanded(flex: 2, child: ExitWidget())
+                ],
               ),
-             
-              const Expanded(child: ExitWidget())
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 }

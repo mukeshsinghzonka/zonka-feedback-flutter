@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 
 class CheckboxWidget extends StatefulWidget {
-  const CheckboxWidget({super.key});
+  final Field field;
+  const CheckboxWidget({super.key, required this.field});
 
   @override
   State<CheckboxWidget> createState() => _CheckboxWidgetState();

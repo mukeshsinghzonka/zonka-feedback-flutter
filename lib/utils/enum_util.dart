@@ -33,7 +33,7 @@ enum ApiCallStatus{
 enum SurveyScreenenum{
   buttonChoice,
   radioChoice,
-  // dropdownChoice,
+  dropdownChoice,
   checkboxChoice,
   pictureChoice,
   npsRating,
@@ -46,6 +46,9 @@ enum SurveyScreenenum{
   textWidget,
   dateWidget,
   imageWidget,
-  welcomeWidget
+  welcomeWidget,
+  thankYouWidget,
+  legalTerm,
+  cameraWidget
 
 }

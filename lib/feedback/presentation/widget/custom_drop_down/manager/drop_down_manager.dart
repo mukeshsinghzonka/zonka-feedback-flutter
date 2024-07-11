@@ -7,11 +7,10 @@ import 'package:zonka_feedback/feedback/presentation/widget/custom_drop_down/dro
 class DropDownManager<T> extends GetxController {
 
 
-  DropDownManager({required List<DropDownItem<T>> items}) {
-    _items = items ;
+  DropDownManager({required List<DropDownItem<T>> items}){
+    _items = items;
   }
 
-  
   late List<DropDownItem<T> > _items;
   List<DropDownItem<T>>  get items => _items;
   set items(List<DropDownItem<T>> value) {
@@ -22,6 +21,8 @@ class DropDownManager<T> extends GetxController {
   late OverlayEntry _overlayFloatingEntry;
 
   RxBool isDropDownOpen = false.obs;
+
+  
   void toggleDropDown() {
     isDropDownOpen.value = !isDropDownOpen.value;
   }
