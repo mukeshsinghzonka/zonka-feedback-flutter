@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 class PictureChoiceWidget extends StatefulWidget {
-  const PictureChoiceWidget({super.key});
+  final Field field;
+  const PictureChoiceWidget({super.key, required this.field});
 
   @override
   State<PictureChoiceWidget> createState() => _PictureChoiceWidgetState();
@@ -11,12 +12,12 @@ class PictureChoiceWidget extends StatefulWidget {
 
 class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
    
-int lenght = 3;
+  int lenght = 3;
   @override
   Widget build(BuildContext context) {
     return FormField(
       validator: (value) {
-        
+        return widget.field.fieldName;
       },
       builder: (context) {
         return Center(

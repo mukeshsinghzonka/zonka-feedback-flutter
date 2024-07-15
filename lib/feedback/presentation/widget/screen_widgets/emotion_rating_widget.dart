@@ -16,7 +16,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> {
   Widget build(BuildContext context) {
     return FormField(
       validator: (value) {
-        
+         return widget.field.fieldName ?? '';
       },
       builder: (context) {
         return Container(

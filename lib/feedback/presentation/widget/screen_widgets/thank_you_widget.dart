@@ -1,9 +1,11 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 class ThankYouWidget extends StatefulWidget {
-  const ThankYouWidget({super.key});
+  final Field field;
+  const ThankYouWidget({super.key, required this.field});
 
   @override
   State<ThankYouWidget> createState() => _ThankYouWidgetState();

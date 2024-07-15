@@ -28,11 +28,10 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
   Widget build(BuildContext context) {
     return  FormField(
       validator: (value) {
-        print("checkboxvalidationclled");
+       return widget.field.fieldName ?? '';
       },
       builder: (context) {
         return Scrollbar(
-          
           thickness: 2,
           child: GridView.builder(
             padding: EdgeInsets.zero,

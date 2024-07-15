@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 
 class CsatButtonRating extends StatefulWidget {
-  const CsatButtonRating({super.key});
+  final Field field;
+  const CsatButtonRating({super.key, required this.field});
 
   @override
   State<CsatButtonRating> createState() => _CsatButtonRatingState();

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 class NpsWidget extends StatefulWidget {
-  const NpsWidget({super.key});
+  final Field field;
+  const NpsWidget({super.key, required this.field});
 
   @override
   State<NpsWidget> createState() => _NpsWidgetState();
@@ -11,11 +13,12 @@ class NpsWidget extends StatefulWidget {
 class _NpsWidgetState extends State<NpsWidget> {
 
   int  selected = -1;
+
   @override
   Widget build(BuildContext context) {
     return FormField(
       validator: (value) {
-        
+        return widget.field.fieldName ??'';
       },
       builder: (context) {
         return SizedBox(

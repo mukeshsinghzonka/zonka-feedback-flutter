@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 
 class TextboxWidget extends StatefulWidget {
-  const TextboxWidget({super.key});
+  final Field field;
+   const TextboxWidget({super.key, required this.field});
 
   @override
   State<TextboxWidget> createState() => _TextboxWidgetState();
@@ -16,7 +18,7 @@ class _TextboxWidgetState extends State<TextboxWidget> {
   Widget build(BuildContext context) {
     return FormField(
       validator: (value) {
-        print("kknee");
+        return widget.field.fieldName;
       },
       builder: (context) {
         return Container(

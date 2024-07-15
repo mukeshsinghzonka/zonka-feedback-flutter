@@ -14,8 +14,6 @@ class SurveryFeedbackController extends BaseControllerWithParams<void, String> {
     update();
   }
 
-
-
   @override
   Future<void> call(String params) async {
     setStatus(ApiCallStatus.Loading);

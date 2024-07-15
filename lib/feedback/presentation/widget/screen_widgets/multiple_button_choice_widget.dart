@@ -25,7 +25,7 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
   @override
   Widget build(BuildContext context) {
     return FormField(
-      key: Key('sjes'),
+  
       validator: (value) {
      
         return widget.field.fieldName ?? '';   },

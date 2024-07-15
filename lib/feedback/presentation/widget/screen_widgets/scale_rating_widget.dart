@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 class ScaleRatingWidget extends StatefulWidget {
-  const ScaleRatingWidget({super.key});
+  final Field field;
+  const ScaleRatingWidget({super.key, required this.field});
 
   @override
   State<ScaleRatingWidget> createState() => _ScaleRatingWidgetState();
@@ -16,7 +18,7 @@ class _ScaleRatingWidgetState extends State<ScaleRatingWidget> {
   Widget build(BuildContext context) {
     return FormField(
       validator: (value) {
-        
+         return widget.field.fieldName;
       },
       builder: (context) {
         return SizedBox(

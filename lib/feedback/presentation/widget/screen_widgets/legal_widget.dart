@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 
 class LegalWidget extends StatefulWidget {
-  const LegalWidget({super.key});
+  final Field field;
+  const LegalWidget({super.key, required this.field});
 
   @override
   State<LegalWidget> createState() => _LegalWidgetState();
@@ -15,7 +17,7 @@ class _LegalWidgetState extends State<LegalWidget> {
   Widget build(BuildContext context) {
     return FormField(
       validator: (value) {
-        
+         return widget.field.fieldName ?? '';
       },
       builder: (context) {
         return Column(

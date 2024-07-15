@@ -20,7 +20,7 @@ class _DateWidgetState extends State<DateWidget> {
     return FormField(
    
       validator: (value) {
-        print("datetimevalidationclled");
+       return widget.field.fieldName ?? '';
       },
       builder: (formcontext) {
         return GestureDetector(

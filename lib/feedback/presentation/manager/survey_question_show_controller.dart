@@ -76,39 +76,36 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     case SurveyScreenenum.buttonChoice:
     return ButtonChoiceWidget(field: field,);
     case SurveyScreenenum.radioChoice:
-    return  RadioButtonWidget(field: field,);
+    return RadioButtonWidget(field: field,);
     case SurveyScreenenum.dropdownChoice:
-      return  DropDownWidget(field: field,);
+    return DropDownWidget(field: field,);
     case SurveyScreenenum.checkboxChoice:
-      return   CheckboxWidget(field: field,);
+    return CheckboxWidget(field: field,);
     case SurveyScreenenum.pictureChoice:
-      return  const PictureChoiceWidget();
+    return PictureChoiceWidget(field: field,);
     case SurveyScreenenum.npsRating:
-      return  const NpsWidget();
+    return NpsWidget(field: field,);
     case SurveyScreenenum.cesRating:
     case SurveyScreenenum.csatButtonRating:
-      return  const CsatButtonRating();
+    return CsatButtonRating(field: field,);
     case SurveyScreenenum.scaleRating:
-      return  const ScaleRatingWidget();
+    return ScaleRatingWidget(field: field,);
     case SurveyScreenenum.rankingRating:
-      return  const RankRatingWidget();
+    return RankRatingWidget(field: field,);
     case SurveyScreenenum.starRating:
     case SurveyScreenenum.emotionRating:
-      return EmotionRatingWidget(field: field,);
+    return EmotionRatingWidget(field: field,);
     case SurveyScreenenum.textWidget:
-      return  const TextboxWidget();
+    return TextboxWidget(field: field,);
     case SurveyScreenenum.dateWidget:
-      return   DateWidget(
-        field: field,
-      );
+    return DateWidget(field: field,);
     case SurveyScreenenum.welcomeWidget:
-      return  const WelcomeWidget();
+    return WelcomeWidget(field: field,);
     case SurveyScreenenum.thankYouWidget:
-      return  const ThankYouWidget();
+    return ThankYouWidget(field: field,);
     case SurveyScreenenum.legalTerm:
-      return const LegalWidget();
-    default:
-      return  Container();
+    return LegalWidget(field:field,);
+    default: return  Container();
   }
 }
 

@@ -13,7 +13,7 @@ class SurveyFieldController extends GetxController {
    RxString surveyBgColor = "#FFFFFF".obs;
    RxString surveyBgImage = "".obs;
    RxString surveyBgImageLogo = "".obs;
-  RxString s3GalleryImageUrl = "".obs;
+   RxString s3GalleryImageUrl = "".obs;
 
   void setFieldFromSurveyModel(){
     headingTextColor.value =_screenFeedbackController.surveyModel.value.fontColorLabel?? "#000000";

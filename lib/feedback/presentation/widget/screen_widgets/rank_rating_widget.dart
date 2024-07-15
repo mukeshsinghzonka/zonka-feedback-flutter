@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 class RankRatingWidget extends StatefulWidget {
-  const RankRatingWidget({super.key});
+  final Field field;
+  const RankRatingWidget({super.key, required this.field});
 
   @override
   State<RankRatingWidget> createState() => _RankRatingWidgetState();
@@ -13,7 +15,9 @@ class _RankRatingWidgetState extends State<RankRatingWidget> {
   @override
   Widget build(BuildContext context) {
     return FormField(
-      validator: (value)  {},
+      validator: (value)  {
+         return widget.field.fieldName;
+      },
       builder: (context) {
         return Container(
           width: 230.w,
