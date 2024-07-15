@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/button_choice_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/multiple_button_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/checkbox_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/csat_rating/csat_button_rating.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/date_widget.dart';
@@ -22,9 +22,9 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 
 class ScreenFeedBackQuesController extends GetxController{
 
+ 
 
-
-  Widget getScreenType(String type, Field field){
+  Widget getScreenType(String type, Field field){   
    return _switchWidget(screen: mapOfScreenByType(type), field: field);
   }
 
@@ -80,9 +80,7 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     case SurveyScreenenum.dropdownChoice:
       return  DropDownWidget(field: field,);
     case SurveyScreenenum.checkboxChoice:
-      return   CheckboxWidget(
-        field: field,
-      );
+      return   CheckboxWidget(field: field,);
     case SurveyScreenenum.pictureChoice:
       return  const PictureChoiceWidget();
     case SurveyScreenenum.npsRating:
@@ -96,9 +94,7 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
       return  const RankRatingWidget();
     case SurveyScreenenum.starRating:
     case SurveyScreenenum.emotionRating:
-      return EmotionRatingWidget(
-        field: field,
-      );
+      return EmotionRatingWidget(field: field,);
     case SurveyScreenenum.textWidget:
       return  const TextboxWidget();
     case SurveyScreenenum.dateWidget:

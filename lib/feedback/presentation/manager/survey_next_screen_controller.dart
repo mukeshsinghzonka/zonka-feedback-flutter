@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survery_feedback_controller.dart';
-import 'package:zonka_feedback/utils/enum_util.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 
 
 class SurveyScreenManager extends GetxController {
@@ -14,7 +12,6 @@ class SurveyScreenManager extends GetxController {
   RxInt get index => _index;
 
   void nextScreen() {
- 
     if (_index.value >= screenFeedbackController.surveyModel.value.surveyScreens.length- 1) {
       _index.value = 0;
     } else {
@@ -23,7 +20,6 @@ class SurveyScreenManager extends GetxController {
   }
 
   void previousScreen() {
-
     if (_index.value <= 0) {
        _index.value = 0;
     } else {
@@ -31,14 +27,4 @@ class SurveyScreenManager extends GetxController {
     }
   }
 
- late final Rx<SurveyScreenenum> _surveyScreenenum = Rx<SurveyScreenenum>(SurveyScreenenum.welcomeWidget);
-  Rx<SurveyScreenenum>  get surveyScreenenum => _surveyScreenenum;
-
-  void setSurveyScreenenum(SurveyScreenenum surveyScreenenum) {
-    _surveyScreenenum.value = surveyScreenenum;
-    update();
-  }
-
-
-  
 }

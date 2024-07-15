@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survey_field_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_dynamic_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 
@@ -23,6 +24,7 @@ class _ExitWidgetState extends State<ExitWidget> {
   
   final SurveyFieldController surveyFieldController =
       Get.find<SurveyFieldController>();
+      
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -39,6 +41,7 @@ class _ExitWidgetState extends State<ExitWidget> {
                   GestureDetector(
                     onTap: () {
                                        Navigator.of(context).pop();
+                               
                     },
                     child: Container(
                       width: 20.w,

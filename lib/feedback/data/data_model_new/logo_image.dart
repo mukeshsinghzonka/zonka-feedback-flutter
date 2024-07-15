@@ -9,7 +9,11 @@ class LogoGalleryImageId {
     required this.companyId,
   });
 
-  factory LogoGalleryImageId.fromJson(Map<String, dynamic> json) {
+  factory LogoGalleryImageId.fromJson(Map<String, dynamic> ?json) {
+    if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
+
     return LogoGalleryImageId(
       path: json["path"] ?? "",
       id: json["_id"] ?? '',

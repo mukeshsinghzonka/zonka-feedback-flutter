@@ -3,14 +3,19 @@ import 'package:zonka_feedback/feedback/domain/repositories/survey_feedback_repo
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/usecase/usecase.dart';
 
-class SurveyFeedbackUc extends UseCase<ApiResult<void> ,String> {
+class SurveyFeedbackUc extends UseCase<ApiResult<SurveyModel> ,String> {
 
   final SurveyFeedbackRepo surveyFeedbackRepo;
   SurveyFeedbackUc({required  this.surveyFeedbackRepo});
   
   @override
   Future<ApiResult<SurveyModel>> call(String params) async {
-    return await surveyFeedbackRepo.surveyFeedbackRepo( suveryId: params);
+print("SurveyFeedbackUc1");
+    final response = await surveyFeedbackRepo.surveyFeedbackRepo(suveryId: params);
+    print("SurveyFeedbackUc2");
+    return response;
+  
+    //  await surveyFeedbackRepo.surveyFeedbackRepo( suveryId: params);
   }
 
 }

@@ -21,7 +21,10 @@ class Logic {
     // final List<dynamic> locationBasedUrls;
     // final List<dynamic> languageBasedUrls;
 
-    factory Logic.fromJson(Map<String, dynamic> json){ 
+    factory Logic.fromJson(Map<String, dynamic> ?json){ 
+        if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
         return Logic(
             actionTaken: json["actionTaken"],
             skipToScreenOrQuestion: json["skipToScreenOrQuestion"],

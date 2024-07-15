@@ -118,7 +118,10 @@ class Field {
     final String? surveyId;
     final Map<String, FieldTranslation>? translations;
 
-    factory Field.fromJson(Map<String, dynamic> json){ 
+    factory Field.fromJson(Map<String, dynamic> ?json){ 
+        if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
       // print("Fieldlogic ${json["quesImages"]}");
         return Field(
             logic: json["logic"] == null ? null : Logic.fromJson(json["logic"]),

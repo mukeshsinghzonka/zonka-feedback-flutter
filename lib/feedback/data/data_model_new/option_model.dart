@@ -13,7 +13,10 @@ class Option {
     final Map<String, OptionTranslation> ?translations;
     final int? preMongifiedId;
 
-    factory Option.fromJson(Map<String, dynamic> json){ 
+    factory Option.fromJson(Map<String, dynamic>? json){   
+      if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
         return Option(
             optionNodeId: json["optionNodeId"],
             id: json["_id"],

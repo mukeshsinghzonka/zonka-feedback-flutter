@@ -31,7 +31,7 @@ class Choice {
             choiceWeight: json["choiceWeight"],
             markedCorrect: json["markedCorrect"],
             optionGalleryImageId: json["optionGalleryImageId"],
-            id: json["_id"],
+            id: json["_id"]??"",
             translations: Map.from(json["translations"]).map((k, v) => MapEntry<String, ChoiceTranslation>(k, ChoiceTranslation.fromJson(v))),
             preMongifiedId: json["pre_mongified_id"],
         );
@@ -49,7 +49,10 @@ class ChoiceTranslation {
     final String? name;
     final String? helpText;
 
-    factory ChoiceTranslation.fromJson(Map<String, dynamic> json){ 
+    factory ChoiceTranslation.fromJson(Map<String, dynamic>? json){ 
+        if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
         return ChoiceTranslation(
             name: json["name"],
             helpText: json["helpText"],

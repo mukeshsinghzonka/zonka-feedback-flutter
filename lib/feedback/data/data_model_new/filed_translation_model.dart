@@ -15,7 +15,10 @@ class FieldTranslation {
     final String? helpTextLastOption;
     final String? invalidFieldMessage;
 
-    factory FieldTranslation.fromJson(Map<String, dynamic> json){ 
+    factory FieldTranslation.fromJson(Map<String, dynamic> ?json){ 
+        if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
         return FieldTranslation(
             placeHolder: json["placeHolder"],
             fieldLabel: json["fieldLabel"],

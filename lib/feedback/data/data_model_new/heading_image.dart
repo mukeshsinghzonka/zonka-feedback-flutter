@@ -9,7 +9,10 @@ class HeadingImage {
         required this.companyId,
     });
 
-    factory HeadingImage.fromJson(Map<String, dynamic> json) {
+    factory HeadingImage.fromJson(Map<String, dynamic> ?json) {
+        if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
         return HeadingImage(  
   path: json["path"] ?? "",
       id: json["_id"] ?? '',

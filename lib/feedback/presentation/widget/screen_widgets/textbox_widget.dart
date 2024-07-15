@@ -14,30 +14,37 @@ class TextboxWidget extends StatefulWidget {
 class _TextboxWidgetState extends State<TextboxWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200.w,
-      height: 50.h,
-      alignment: Alignment.topCenter,
-      child: TextFormField(
-        decoration:  InputDecoration(
-          filled: true,
-          fillColor: const Color(ColorConstant.surveyInputColor),
-          contentPadding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
-          isDense: true,
-          focusedBorder:  OutlineInputBorder(
-            borderSide:const BorderSide(color: Colors.black, width: 1.0),
-              
-            borderRadius: BorderRadius.circular(10.0)
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.black, width: 1.0),
-              
-            borderRadius: BorderRadius.circular(10.0)
-          ),
-          hintText: 'Enter Here',
-          hintStyle: TextStyle(fontSize: 6.sp)
-        ),
-      )
+    return FormField(
+      validator: (value) {
+        print("kknee");
+      },
+      builder: (context) {
+        return Container(
+          width: 200.w,
+          height: 50.h,
+          alignment: Alignment.topCenter,
+          child: TextFormField(
+            decoration:  InputDecoration(
+              filled: true,
+              fillColor: const Color(ColorConstant.surveyInputColor),
+              contentPadding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
+              isDense: true,
+              focusedBorder:  OutlineInputBorder(
+                borderSide:const BorderSide(color: Colors.black, width: 1.0),
+                  
+                borderRadius: BorderRadius.circular(10.0)
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black, width: 1.0),
+                  
+                borderRadius: BorderRadius.circular(10.0)
+              ),
+              hintText: 'Enter Here',
+              hintStyle: TextStyle(fontSize: 6.sp)
+            ),
+          )
+        );
+      }
     );
   }
 }

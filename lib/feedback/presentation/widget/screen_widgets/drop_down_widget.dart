@@ -15,17 +15,24 @@ class DropDownWidget extends StatefulWidget {
 class _DropDownWidgetState extends State<DropDownWidget> {
   @override
   Widget build(BuildContext context) {
-    return CustomDropDownWidget<String>(
-      text: 'Call To Action',
-      items: <String>['A','B','C'].map((String value) {
-        return DropDownItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (String ?value) {
-        print(value);
+    return FormField(
+      validator: (value) {
+        return widget.field.fieldName;
       },
+      builder: (context) {
+        return CustomDropDownWidget<String>(
+          text: 'Call To Action',
+          items: <String>['A','B','C'].map((String value) {
+            return DropDownItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          onChanged: (String ?value) {
+            print(value);
+          },
+        );
+      }
     );
 
 

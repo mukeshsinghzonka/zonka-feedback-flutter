@@ -31,7 +31,11 @@ class ThankyouPage {
     final Map<String, LanguagePageTranslation>? translations;
     final String? id;
 
-    factory ThankyouPage.fromJson(Map<String, dynamic> json){ 
+    factory ThankyouPage.fromJson(Map<String, dynamic> ?json){ 
+      if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
+
         return ThankyouPage(
             applyPageBackgroundImage: json["applyPageBackgroundImage"],
             backgroundGalleryImageId: json["backgroundGalleryImageId"],

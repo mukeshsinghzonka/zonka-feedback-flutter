@@ -14,16 +14,23 @@ class EmotionRatingWidget extends StatefulWidget {
 class _EmotionRatingWidgetState extends State<EmotionRatingWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-
-      child: ListView(
-        children: [
-          Container(
-            height: 50,
-            width: 50,
-            child: SvgPicture.asset(ImageConstant.emojiStaisfied))
-        ],
-      ),
+    return FormField(
+      validator: (value) {
+        
+      },
+      builder: (context) {
+        return Container(
+        
+          child: ListView(
+            children: [
+              Container(
+                height: 50,
+                width: 50,
+                child: SvgPicture.asset(ImageConstant.emojiStaisfied))
+            ],
+          ),
+        );
+      }
     );
   }
 }

@@ -10,6 +10,6 @@ class LanguageWidget extends StatefulWidget {
 class _LanguageWidgetState extends State<LanguageWidget> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container();
   }
 }

@@ -9,11 +9,12 @@ class SurveyBgGalleryImageId {
     required this.companyId,
   });
 
-  factory SurveyBgGalleryImageId.fromJson(Map<String, dynamic> json) {
+
+  factory SurveyBgGalleryImageId.fromJson(Map<String, dynamic> ? json) {
     return SurveyBgGalleryImageId(
-      path: json["path"]??"",
-      id: json["_id"]??'',
-      companyId: json["companyId"]??"",
+      path: json?["path"]??"",
+      id: json?["_id"]??'',
+      companyId: json?["companyId"]??"",
     );
   }
 }

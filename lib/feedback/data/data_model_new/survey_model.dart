@@ -158,7 +158,7 @@ class SurveyModel {
     final bool? isUsedInTemplate;
     final String? webSurveyTitle;
     final String? webViewMode;
-    final LogoGalleryImageId logoGalleryImageId;
+    final LogoGalleryImageId? logoGalleryImageId;
     final bool? hideLogoInDevice;
     final String? theme;
     final String? viewMode;
@@ -211,7 +211,7 @@ class SurveyModel {
     final dynamic themeApplied;
     final String? surveyBgColor;
     final bool? applySurveyBackgroundImage;
-    final SurveyBgGalleryImageId surveyBgGalleryImageId;
+    final SurveyBgGalleryImageId ?surveyBgGalleryImageId;
     final String? fontFamily;
     final String? fontSize;
     final bool? applyCustomFontSize;
@@ -285,8 +285,12 @@ class SurveyModel {
     final String? modifiedBy;
     final String  s3GalleryImageUrl;
 
-    factory SurveyModel.fromJson(Map<String, dynamic> json){ 
-      print("s3image ${json["s3GalleryImageUrl"]}");
+    factory SurveyModel.fromJson(Map<String, dynamic>? json){ 
+      if (json == null) {
+        throw ArgumentError("JSON data cannot be null");
+    }
+
+      // print("s3image ${json["s3GalleryImageUrl"]}");
         return SurveyModel(
             newVersion: json["newVersion"],
             // locationTags: json["locationTags"] == null ? [] : List<dynamic>.from(json["locationTags"]!.map((x) => x)),
@@ -299,7 +303,7 @@ class SurveyModel {
             isUsedInTemplate: json["isUsedInTemplate"],
             webSurveyTitle: json["webSurveyTitle"],
             webViewMode: json["webViewMode"],
-            logoGalleryImageId: LogoGalleryImageId.fromJson(json["logoGalleryImageId"]) ,
+            logoGalleryImageId:json["logoGalleryImageId"]==null?null: LogoGalleryImageId.fromJson(json["logoGalleryImageId"]) ,
             hideLogoInDevice: json["hideLogoInDevice"],
             theme: json["theme"],
             viewMode: json["viewMode"],
@@ -352,7 +356,7 @@ class SurveyModel {
             themeApplied: json["themeApplied"],
             surveyBgColor: json["surveyBgColor"],
             applySurveyBackgroundImage: json["applySurveyBackgroundImage"],
-            surveyBgGalleryImageId:SurveyBgGalleryImageId.fromJson( json["surveyBgGalleryImageId"]),
+            surveyBgGalleryImageId:json["surveyBgGalleryImageId"]== null? json["surveyBgGalleryImageId"]:SurveyBgGalleryImageId.fromJson( json["surveyBgGalleryImageId"]),
             fontFamily: json["fontFamily"],
             fontSize: json["fontSize"],
             applyCustomFontSize: json["applyCustomFontSize"],

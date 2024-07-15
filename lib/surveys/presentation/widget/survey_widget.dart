@@ -5,24 +5,30 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/survey_screen_model.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survery_feedback_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/feedback_survey_screen.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 
-class SurveyWidget extends StatelessWidget {
+
+class SurveyWidget extends StatefulWidget {
   final SurveyResModel surveyResModel;
-  SurveyWidget({super.key, required this.surveyResModel});
-  final SurveryFeedbackController  _surveryFeedbackController = Get.put(SurveryFeedbackController());
+  const SurveyWidget({super.key, required this.surveyResModel});
+
+  @override
+  State<SurveyWidget> createState() => _SurveyWidgetState();
+}
+
+class _SurveyWidgetState extends State<SurveyWidget> {
+   final SurveryFeedbackController  surveryFeedbackController = Get.put(SurveryFeedbackController());
 
   @override
   Widget build(BuildContext context) {
-
-    return GestureDetector(
+   return GestureDetector(
       onTap: () async{
-        await _surveryFeedbackController.call(surveyResModel.surveyId);
-        SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>SurveyScreen())));
+        await surveryFeedbackController.call(widget.surveyResModel.surveyId);
+        SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const SurveyScreen())));
       },
       child: Container(
           margin: EdgeInsets.only(top: 10.h, left: 13.w, right: 13.w),
@@ -44,7 +50,7 @@ class SurveyWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      surveyResModel.surveyName,
+                  widget.surveyResModel.surveyName,
                       style: TextStyle(
                           fontSize: ConstantSize.small_2.sp,
                           fontWeight: FontWeight.w600),
@@ -55,7 +61,7 @@ class SurveyWidget extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 5.h),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(7.w)),
-                          color:surveyResModel.iskioskmode?const Color(ColorConstant.kisokColor): const Color(ColorConstant.surveyModeColor),
+                          color:widget. surveyResModel.iskioskmode?const Color(ColorConstant.kisokColor): const Color(ColorConstant.surveyModeColor),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +77,7 @@ class SurveyWidget extends StatelessWidget {
                             ),
                             SizedBox(width: 5.w),
                             Text(
-                           surveyResModel.iskioskmode? 'Kisok Mode':   'Survey Mode',
+                          widget.surveyResModel.iskioskmode? 'Kisok Mode':   'Survey Mode',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: ConstantSize.extra_small_3.sp),

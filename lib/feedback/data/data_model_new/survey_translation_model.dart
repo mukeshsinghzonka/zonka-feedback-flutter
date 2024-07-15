@@ -15,14 +15,14 @@ class SurveyTranslation {
     final String? skipNavText;
     final String? submitButtonText;
 
-    factory SurveyTranslation.fromJson(Map<String, dynamic> json){ 
+    factory SurveyTranslation.fromJson(Map<String, dynamic> ?json){ 
         return SurveyTranslation(
-            clearButText: json["clearButText"],
-            getStartedButText: json["getStartedButText"],
-            nextArrowText: json["nextArrowText"],
-            previousArrowText: json["previousArrowText"],
-            skipNavText: json["skipNavText"],
-            submitButtonText: json["submitButtonText"],
+            clearButText: json?["clearButText"],
+            getStartedButText: json?["getStartedButText"],
+            nextArrowText: json?["nextArrowText"],
+            previousArrowText: json?["previousArrowText"],
+            skipNavText: json?["skipNavText"],
+            submitButtonText: json?["submitButtonText"],
         );
     }
 

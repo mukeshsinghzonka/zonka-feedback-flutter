@@ -1,18 +1,8 @@
+enum SetBaseUrl { US, EU, EMAIL, LOGIN }
 
+enum ServerType { NIGHTLY, PROD }
 
-enum SetBaseUrl {
-  US,
-  EU,
-  EMAIL,
-  LOGIN
-}
-
-enum ServerType{
-  NIGHTLY,
-  PROD
-}
-
-enum ScreenActiveEnum{
+enum ScreenActiveEnum {
   SurveyScreen,
   SettingsScreen,
   FeedbackScreen,
@@ -21,16 +11,9 @@ enum ScreenActiveEnum{
   WebLogInScreen,
 }
 
+enum ApiCallStatus { Loading, Success, Error, Initial }
 
-enum ApiCallStatus{
-  Loading,
-  Success,
-  Error,
-  Initial
-}
-
-
-enum SurveyScreenenum{
+enum SurveyScreenenum {
   buttonChoice,
   radioChoice,
   dropdownChoice,
@@ -50,5 +33,8 @@ enum SurveyScreenenum{
   thankYouWidget,
   legalTerm,
   cameraWidget
-
 }
+
+enum SpecialSettingVal { exact, range }
+
+

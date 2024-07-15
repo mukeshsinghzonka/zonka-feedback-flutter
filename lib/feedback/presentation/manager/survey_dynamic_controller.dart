@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survery_feedback_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 
 class SurveyFieldController extends GetxController {
 
@@ -13,7 +13,7 @@ class SurveyFieldController extends GetxController {
    RxString surveyBgColor = "#FFFFFF".obs;
    RxString surveyBgImage = "".obs;
    RxString surveyBgImageLogo = "".obs;
-RxString s3GalleryImageUrl = "".obs;
+  RxString s3GalleryImageUrl = "".obs;
 
   void setFieldFromSurveyModel(){
     headingTextColor.value =_screenFeedbackController.surveyModel.value.fontColorLabel?? "#000000";
@@ -22,8 +22,8 @@ RxString s3GalleryImageUrl = "".obs;
     fontFamily.value =_screenFeedbackController.surveyModel.value.fontFamily?? "Roboto";
     defaultTranslation.value = _screenFeedbackController.surveyModel.value.defaultLanguageCode??"en_US";
     surveyBgColor.value  = _screenFeedbackController.surveyModel.value.surveyBgColor?? "#FFFFFF";
-    surveyBgImage.value ='${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}${_screenFeedbackController.surveyModel.value.surveyBgGalleryImageId.companyId}/${_screenFeedbackController.surveyModel.value.surveyBgGalleryImageId.path}';
-    surveyBgImageLogo.value ='${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}${_screenFeedbackController.surveyModel.value.logoGalleryImageId.companyId}/${_screenFeedbackController.surveyModel.value.logoGalleryImageId.path}';
+    surveyBgImage.value ='${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}${_screenFeedbackController.surveyModel.value.surveyBgGalleryImageId?.companyId}/${_screenFeedbackController.surveyModel.value.surveyBgGalleryImageId?.path}';
+    surveyBgImageLogo.value ='${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}${_screenFeedbackController.surveyModel.value.logoGalleryImageId?.companyId}/${_screenFeedbackController.surveyModel.value.logoGalleryImageId?.path}';
     s3GalleryImageUrl.value = _screenFeedbackController.surveyModel.value.s3GalleryImageUrl;
     update();
   }
