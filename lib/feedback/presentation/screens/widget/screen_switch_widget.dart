@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survey_dynamic_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -16,8 +16,8 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> {
   final SurveyScreenManager surveyScreenManager =
       Get.find<SurveyScreenManager>();
 
-  final SurveyFieldController surveyFieldController =
-      Get.find<SurveyFieldController>();
+  final SurveyDesignFieldController surveyFieldController =
+      Get.find<SurveyDesignFieldController>();
 
   @override
   Widget build(BuildContext context) {

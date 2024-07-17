@@ -21,7 +21,7 @@ class SurveyWidget extends StatefulWidget {
 }
 
 class _SurveyWidgetState extends State<SurveyWidget> {
-   final SurveryFeedbackController  surveryFeedbackController = Get.put(SurveryFeedbackController());
+   final SurveryApiFeedbackController  surveryFeedbackController = Get.put(SurveryApiFeedbackController());
 
   @override
   Widget build(BuildContext context) {

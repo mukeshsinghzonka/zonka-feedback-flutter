@@ -6,13 +6,13 @@ import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
-class SurveryFeedbackController extends BaseControllerWithParams<void, String> {
+class SurveryApiFeedbackController extends BaseControllerWithParams<void, String> {
  late Rx<SurveyModel> _surveyModel;
  Rx<SurveyModel> get surveyModel => _surveyModel;
  void setSurveyModel(SurveyModel value) async {
     _surveyModel = Rx<SurveyModel>(value);      
     update();
-  }
+  } 
 
   @override
   Future<void> call(String params) async {

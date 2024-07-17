@@ -11,9 +11,7 @@ class NpsWidget extends StatefulWidget {
 }
 
 class _NpsWidgetState extends State<NpsWidget> {
-
   int  selected = -1;
-
   @override
   Widget build(BuildContext context) {
     return FormField(

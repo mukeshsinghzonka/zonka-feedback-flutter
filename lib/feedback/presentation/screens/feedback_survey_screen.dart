@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survey_dynamic_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/screen_switch_widget.dart';
@@ -21,10 +21,10 @@ class SurveyScreen extends StatefulWidget {
 class _SurveyScreenState extends State<SurveyScreen> {
   final SurveyScreenManager surveyScreenManager =
       Get.put(SurveyScreenManager());
-  final SurveryFeedbackController surveryFeedbackController =
-      Get.find<SurveryFeedbackController>();
-  final SurveyFieldController surveyFieldController =
-      Get.put(SurveyFieldController());
+  final SurveryApiFeedbackController surveryFeedbackController =
+      Get.find<SurveryApiFeedbackController>();
+  final SurveyDesignFieldController surveyFieldController =
+      Get.put(SurveyDesignFieldController());
   @override
   void initState() {
     surveyFieldController.setFieldFromSurveyModel();

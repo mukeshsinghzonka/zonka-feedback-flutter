@@ -19,7 +19,7 @@ class _RankRatingWidgetState extends State<RankRatingWidget> {
          return widget.field.fieldName;
       },
       builder: (context) {
-        return Container(
+        return Container( 
           width: 230.w,
           alignment: Alignment.topCenter,
           decoration: BoxDecoration(

@@ -117,6 +117,8 @@ class Field {
     final int? preMongifiedId;
     final String? surveyId;
     final Map<String, FieldTranslation>? translations;
+ 
+
 
     factory Field.fromJson(Map<String, dynamic> ?json){ 
         if (json == null) {
@@ -124,6 +126,7 @@ class Field {
     }
       // print("Fieldlogic ${json["quesImages"]}");
         return Field(
+           
             logic: json["logic"] == null ? null : Logic.fromJson(json["logic"]),
             screenType: json["screenType"],
             required: json["required"],

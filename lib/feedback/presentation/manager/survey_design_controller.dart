@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 
-class SurveyFieldController extends GetxController {
+class SurveyDesignFieldController extends GetxController {
 
-  final SurveryFeedbackController _screenFeedbackController = Get.find<SurveryFeedbackController>();
+  final SurveryApiFeedbackController _screenFeedbackController = Get.find<SurveryApiFeedbackController>();
  
    RxString headingTextColor = '#000000'.obs;
    RxString optionTextColor = '#000000'.obs;
@@ -14,6 +14,7 @@ class SurveyFieldController extends GetxController {
    RxString surveyBgImage = "".obs;
    RxString surveyBgImageLogo = "".obs;
    RxString s3GalleryImageUrl = "".obs;
+   
 
   void setFieldFromSurveyModel(){
     headingTextColor.value =_screenFeedbackController.surveyModel.value.fontColorLabel?? "#000000";
