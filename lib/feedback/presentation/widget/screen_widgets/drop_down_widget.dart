@@ -23,9 +23,10 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         return CustomDropDownWidget<String>(
           text: 'Call To Action',
           items: <String>['A','B','C'].map((String value) {
+            print(value);
             return DropDownItem<String>(
               value: value,
-              child: Text(value),
+              child: Text(value,style: TextStyle(color: Colors.white),),
             );
           }).toList(),
           onChanged: (String ?value) {

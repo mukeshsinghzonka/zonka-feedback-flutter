@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
@@ -16,14 +17,22 @@ class CheckboxWidget extends StatefulWidget {
 }
 
 class _CheckboxWidgetState extends State<CheckboxWidget> {
-  static final Map<String, bool> _choiceMap = {};
+  static  Map<String, bool> _choiceMap = {};
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
+      final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;
   int ? range = -1;
   @override
   void initState() {
+ if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
+    _choiceMap = surveyCollectDataController.surveyIndexData[widget.field.id] as Map<String, bool>;
+ }
+  else{
+    _choiceMap={};
+  }
    if (_choiceMap.isEmpty) {
       for (int i = 0; i < widget.field.choices.length; i++) {
+  
         _choiceMap[widget.field.choices[i].id ?? ""] = false;
       }
     }
@@ -45,6 +54,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
       else if (widget.field.specialSettingVal == 'exact') {
        return validationLogicManager.exactFormValidator(trueCount);
       }
+      surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
       return null;
     }, builder: (context) {
       return Scrollbar(
@@ -74,9 +84,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
                 child: Container(
                   margin: EdgeInsets.all(5.w),
                   decoration: BoxDecoration(
-            
-                    color:  HexColor(surveyFieldController.optionTextColor.value)
-.withOpacity(_choiceMap[widget.field.choices[index].id] ?? false
+                    color:  HexColor(surveyFieldController.optionTextColor.value).withOpacity(_choiceMap[widget.field.choices[index].id] ?? false
                         ? 1
                         : 0.1),
                     border: Border.all(color: HexColor(surveyFieldController.optionTextColor.value)),

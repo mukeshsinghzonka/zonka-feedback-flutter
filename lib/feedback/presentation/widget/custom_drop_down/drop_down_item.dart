@@ -9,21 +9,20 @@ class DropDownItem<T> extends StatelessWidget {
  
   final Widget child;
   final T value;
-  DropDownItem({super.key, required this.child, required this.value});
-  final dropDownController = Get.put(DropDownManager<T>(
-    items: [],
-  ));
+  const DropDownItem({super.key, required this.child, required this.value});
+  // final dropDownController = Get.put(DropDownManager<T>(
+  //   items: [
+      
+  //   ],
+  // ));
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        dropDownController.dropDownItem(context);
+        // dropDownController.dropDownItem(context);
       },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10.w,vertical: 5.h)  ,
-        child:child,
-      ),
+      child: child
     );
   }
 }

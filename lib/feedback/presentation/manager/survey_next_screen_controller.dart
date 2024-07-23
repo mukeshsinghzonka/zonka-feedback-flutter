@@ -126,7 +126,7 @@ class SurveyScreenManager extends GetxController {
       
       }
     }
- ;
+ 
     return tokens;
   }
 
@@ -217,8 +217,9 @@ class SurveyScreenManager extends GetxController {
   }
 
   void previousScreen() {
+    print("prviourscreen ${surveyIndex.isNotEmpty}");
     if (surveyIndex.isNotEmpty) {
-      _index.value = surveyIndex.last;
+      _index.value = surveyIndex[surveyIndex.length - 2];
       showIsRequired!.clear();
       if (surveyIndex.last != 0) surveyIndex.removeLast();
     }

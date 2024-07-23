@@ -8,14 +8,15 @@ class DropDownManager<T> extends GetxController {
 
 
   DropDownManager({required List<DropDownItem<T>> items}){
-    _items = items;
+    setitems(items);
   }
 
-  late List<DropDownItem<T> > _items;
-  List<DropDownItem<T>>  get items => _items;
-  set items(List<DropDownItem<T>> value) {
-    _items = value;
+  late List<DropDownItem<T> > items = [];
+ 
+  void setitems(List<DropDownItem<T>> value) {
+    items = value;
     update();
+    print("Items updated: $items"); 
   }
   late double height, width, xPosition, yPosition;
   late OverlayEntry _overlayFloatingEntry;
@@ -46,7 +47,7 @@ class DropDownManager<T> extends GetxController {
           width: width,
           top: yPosition + height,
           height: 100.h,
-          child: const Dropdown(
+          child: Dropdown<T>(
             itemheight: 40.0,
           ));
     });
@@ -56,7 +57,7 @@ class DropDownManager<T> extends GetxController {
     if (isDropDownOpen.value) {
       _overlayFloatingEntry.remove();
     } else {
-      findDropdownData();
+       findDropdownData();
       _overlayFloatingEntry = _createFloatingDropdown();
       Overlay.of(context).insert(_overlayFloatingEntry);
     }

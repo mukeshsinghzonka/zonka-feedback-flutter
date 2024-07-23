@@ -29,6 +29,7 @@ class ScreenFeedBackQuesController extends GetxController{
   }
 
   SurveyScreenenum mapOfScreenByType(String type) {
+    print("screentype $type");
   switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.buttonChoice;

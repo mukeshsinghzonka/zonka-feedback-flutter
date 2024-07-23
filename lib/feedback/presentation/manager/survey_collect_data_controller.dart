@@ -12,8 +12,6 @@ class SurveyCollectDataController extends GetxController{
   }
 
 
-
-
   bool checkIfChoiceSelected(String  fieldId, String fieldName, String choiceId) {
     dynamic selectedData = surveyIndexData[fieldId];
     switch (fieldName) {
@@ -24,7 +22,15 @@ class SurveyCollectDataController extends GetxController{
           return choiceMap[choiceId] ?? false;
         }
         return true;
-      // case: 
+      case "radio":
+        return false;
+      case "checkbox":
+        Map<String, bool> choiceMap = Map<String, bool>.from(selectedData);
+        bool choiceMapVal = choiceMap.containsKey(choiceId);
+        if (choiceMapVal) {
+          return choiceMap[choiceId] ?? false;
+        }
+        return false;
       default:
         return false;
     }

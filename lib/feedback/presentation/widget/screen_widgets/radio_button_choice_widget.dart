@@ -3,7 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
+import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class RadioButtonWidget extends StatefulWidget {
   final Field field;
@@ -14,16 +17,33 @@ class RadioButtonWidget extends StatefulWidget {
 }
 
 class _RadioButtonWidgetState extends State<RadioButtonWidget> {
-  int _selectedValue = 0;
-    final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-  
+
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
+  late ValidationLogicManager validationLogicManager;
+    final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+
+  static String ? choiceId;
+  @override
+  void initState() {
+  if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
+     choiceId =  surveyCollectDataController.surveyIndexData[widget.field.id] as String;
+  }
+  else{
+    choiceId = null;
+  }
+    validationLogicManager = ValidationLogicManager(field: widget.field);
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
-    print(widget.field.choices.length);
     return FormField(
-      validator: (value) {
-        return widget.field.fieldName;
+      validator: (value) { 
+      if (widget.field.required == true && choiceId == null) {
+        return validationLogicManager.requiredFormValidator(choiceId == null);
+      }
+      surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "",  value: choiceId);
+      return null;
       },
       builder: (context) {
         return GridView.builder(
@@ -37,15 +57,14 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
           itemCount: widget.field.choices.length, // Total number of items
           itemBuilder: (context, index) {
             return CustomRadioButton(
-              value: index,
-              groupValue: _selectedValue,
+              value: widget.field.choices[index].id,
+              groupValue: choiceId,
               field: widget.field,
-            choiceName: widget.field.choices[index].translations[surveyFieldController
-                                  .defaultTranslation.value]?.name??"",
+              choiceName: widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??"",
               onChanged: (value) {
-                setState(() {
-                  _selectedValue = value!;
-                });
+                 choiceId = value;
+                setState(() {});
+              
               },
             );
           },
@@ -56,20 +75,20 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
 }
 
 class CustomRadioButton extends StatelessWidget {
-  final int value;
-  final int groupValue;
+  final String?  value;
+  final String ?groupValue;
   final Field field;
   final String choiceName;
-  final ValueChanged<int?> onChanged;
+  final ValueChanged<String?> onChanged;
 
-  const CustomRadioButton({super.key, 
+   CustomRadioButton({super.key, 
     required this.value,
     required this.groupValue,
     required this.onChanged,
     required this.field,
     required this.choiceName
   });
-
+ final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -77,20 +96,25 @@ class CustomRadioButton extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.all(8.h),
         decoration: BoxDecoration(
-            color: groupValue == value ? Colors.black : Colors.white,
+            color:  HexColor(surveyFieldController.optionTextColor.value)
+                    .withOpacity(groupValue==value 
+                        ? 1
+                        : 0.1),
             borderRadius: BorderRadius.all(Radius.circular(10.r)),
-            border: Border.all(color: Colors.black)),
+            border: Border.all(color:  HexColor(surveyFieldController.optionTextColor.value)
+                    ,)),
         child: Row(
           children: [
-            Radio<int>(
-              fillColor: WidgetStateProperty.all(groupValue == value ? Colors.white : Colors.black),
-              value: value,
+            Radio<String>(
+              fillColor: WidgetStateProperty.all(groupValue == value ? Colors.white :  HexColor(surveyFieldController.optionTextColor.value)),
+              value: value ?? "",
               groupValue: groupValue,
               onChanged: onChanged,
             ),
             Text(
           choiceName,
               style: TextStyle(
+                fontFamily: surveyFieldController.fontFamily.value,
                 color: groupValue == value ? Colors.white : Colors.black,
               ),
             ),
