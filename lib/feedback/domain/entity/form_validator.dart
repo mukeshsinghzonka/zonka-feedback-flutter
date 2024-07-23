@@ -7,7 +7,10 @@ class FormValidator{
 
   FormValidator({required this.value, required this.formId});
 
-  factory FormValidator.fromJson(Map<String, dynamic> json){
+  factory FormValidator.fromJson(Map<String, dynamic> ?  json){
+    if (json == null) {
+      throw ArgumentError("JSON data cannot be null");
+    }
     return FormValidator(
       value: ScreenValidationErrorType.values.firstWhere((e) => e.toString() == json['value']),
       formId: json['formId']

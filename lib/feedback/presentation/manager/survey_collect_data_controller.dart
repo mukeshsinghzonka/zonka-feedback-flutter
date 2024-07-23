@@ -11,19 +11,24 @@ class SurveyCollectDataController extends GetxController{
     update();
   }
 
-  bool checkDisplayLogic({required String quesId, required String type}){
-    dynamic data = surveyIndexData[quesId];
-    switch (type) {
-       case 'mcqquestion':
-       return false;
-        default:
+
+
+
+  bool checkIfChoiceSelected(String  fieldId, String fieldName, String choiceId) {
+    dynamic selectedData = surveyIndexData[fieldId];
+    switch (fieldName) {
+      case "msqquestion":
+        Map<String, bool> choiceMap = Map<String, bool>.from(selectedData);
+        bool choiceMapVal = choiceMap.containsKey(choiceId);
+        if (choiceMapVal) {
+          return choiceMap[choiceId] ?? false;
+        }
+        return true;
+      // case: 
+      default:
         return false;
     }
-  
   }
-
-
-
 
 
 

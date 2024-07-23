@@ -1,5 +1,6 @@
 
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/display_logic_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/filed_translation_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/heading_image.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/logic_model.dart';
@@ -36,7 +37,7 @@ class Field {
         required this.specialSettingVal5,
         required this.choicesHasImage,
         required this.isLastChoiceNa,
-        // required this.displayLogic,
+        required this.displayLogic,
         required this.displayLogicExpression,
         required this.iconSet,
         required this.iconType,
@@ -92,7 +93,7 @@ class Field {
     final String? specialSettingVal5;
     final bool? choicesHasImage;
     final bool? isLastChoiceNa;
-    // final List<dynamic> displayLogic;
+    final List<DisplayLogicModel> displayLogic;
     final String? displayLogicExpression;
     final int? iconSet;
     final String? iconType;
@@ -126,7 +127,7 @@ class Field {
     }
       // print("Fieldlogic ${json["quesImages"]}");
         return Field(
-           
+            displayLogic: json["displayLogic"] == null ? [] : List<DisplayLogicModel>.from(json["displayLogic"]!.map((x) => DisplayLogicModel.fromJson(x))),
             logic: json["logic"] == null ? null : Logic.fromJson(json["logic"]),
             screenType: json["screenType"],
             required: json["required"],
