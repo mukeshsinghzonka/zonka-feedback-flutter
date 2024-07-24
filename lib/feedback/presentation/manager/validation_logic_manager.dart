@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/domain/entity/form_validator.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 class ValidationLogicManager {
   final Field field;
-
+  final SurveyDesignFieldController _surveyDesignFieldController = Get.find<SurveyDesignFieldController>();
   ValidationLogicManager({required this.field});
 
   String? rangeValidator(int count) {
@@ -51,6 +54,30 @@ class ValidationLogicManager {
       return int.parse(field.specialSettingVal2![2]);
     } else if (field.specialSettingVal == 'exact') {
       return int.parse(field.specialSettingVal3 ?? "0");
+    }
+    return null;
+  }
+
+  String? inputTextValidation(String? value) {
+
+     String pattern = field.validateRegex!.trim();
+
+    if (value == null || value.isEmpty && field.required == true) {
+      FormValidator formValidator = FormValidator(
+          value: ScreenValidationErrorType.REQUIRED,
+          formId: field.id ?? "",
+          message: 'Please enter some text');
+      return jsonEncode(formValidator.toJson());
+    }
+    if (!RegExp(pattern).hasMatch(value)) {
+      FormValidator formValidator = FormValidator(
+          value: ScreenValidationErrorType.REQUIRED,
+          formId: field.id ?? "",  message: field
+                  .translations![
+                      _surveyDesignFieldController.defaultTranslation.value]!
+                  .invalidFieldMessage ??
+              "");
+      return jsonEncode(formValidator.toJson());
     }
     return null;
   }

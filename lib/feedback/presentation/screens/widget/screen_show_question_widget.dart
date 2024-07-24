@@ -77,13 +77,13 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                 ),
                                 Builder(
                                   builder: (context) {
-                                    if(surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""] == ScreenValidationErrorType.REQUIRED){
-                                     return const Text(
-                                      'This is a required field',
-                                      style: TextStyle(color: Colors.red),
+                                    if(surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""]?.value == ScreenValidationErrorType.REQUIRED){
+                                     return  Text(
+                                      surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""]!.message !=null?   surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""]!.message??"": 'This is a required field',
+                                      style:const TextStyle(color: Colors.red),
                                     );
                                     }
-                                    else if(surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""] == ScreenValidationErrorType.WRONGSELECTION){
+                                    else if(surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""]?.value == ScreenValidationErrorType.WRONGSELECTION){
                                     return const Text(
                                       'Please make the right number of selections.',
                                       style: TextStyle(color: Colors.red),

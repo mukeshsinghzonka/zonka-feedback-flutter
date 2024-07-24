@@ -40,6 +40,7 @@ enum SpecialSettingVal { exact, range }
 enum ScreenValidationErrorType{
   REQUIRED,
   WRONGSELECTION,
+  
 }
 
 

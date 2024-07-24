@@ -10,7 +10,6 @@ import 'package:zonka_feedback/feedback/data/data_model_new/survey_screen_model.
 import 'package:zonka_feedback/feedback/domain/entity/form_validator.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
-import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SurveyScreenManager extends GetxController {
   final SurveryApiFeedbackController screenFeedbackController =
@@ -25,8 +24,8 @@ class SurveyScreenManager extends GetxController {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
-  RxMap<String, ScreenValidationErrorType>? showIsRequired =
-      <String, ScreenValidationErrorType>{}.obs;
+  RxMap<String, FormValidator>? showIsRequired =
+      <String, FormValidator>{}.obs;
 
   Map<String, int> mapSurveyQuesIdIndex = {};
   Map<String, String> mapSurveyIdAndFieldName = {};
@@ -60,21 +59,20 @@ class SurveyScreenManager extends GetxController {
     
     for (int i = 0; i < displayLogic.length; i++) {
       DisplayLogicModel displayLogicModel = displayLogic[i];
-      bool value = surveyCollectDataController.checkIfChoiceSelected(displayLogicModel.fieldId,mapSurveyIdAndFieldName[displayLogicModel.fieldId] ?? "",displayLogicModel.choiceId);
+      bool value = surveyCollectDataController.checkIfDisplayConditionMatched(displayLogicModel,mapSurveyIdAndFieldName[displayLogicModel.fieldId] ?? "");
       switch (displayLogicModel.actionTaken) {
         case 'SL':
-          displayLogicMap[displayLogicModel.sequence] = value;
+          displayLogicMap[displayLogicModel.sequence!] = value;
           break;
         case 'NL':
-          displayLogicMap[displayLogicModel.sequence] = value;
+          displayLogicMap[displayLogicModel.sequence!] = value;
+          break;
+        case 'EQ':
+          displayLogicMap[displayLogicModel.sequence!] = value;
           break;
       }
     }
 
-    // bool value = false;
-    // for (int key in displayLogicMap.keys) {
-    //    value = value || displayLogicMap[key]!;
-    // }
     return displayLogicMap;
   }
 
@@ -169,12 +167,14 @@ class SurveyScreenManager extends GetxController {
 
       //Escape Question
       for (int j = choice.length - 1; j >= 0; j--) {
-        if (surveyCollectDataController.checkIfChoiceSelected(
-            fields[i].id ?? "",
+        if (surveyCollectDataController.checkIfDisplayConditionMatched(
+            DisplayLogicModel(fieldId: fields[i].id,
+            actionTaken: choice[j].logic?.actionTaken ?? "",
+            choiceId: choice[j].id ?? "",
+            ),
             fields[i].fieldName ?? "",
-            choice[j].id ?? "")) {
+       )) {
           Logic? logicChoice = choice[j].logic;
-
           if (logicChoice?.actionTaken == "EQ") {
            return logicChoice?.skipToScreenOrQuestion ;
           }
@@ -193,7 +193,7 @@ class SurveyScreenManager extends GetxController {
       String? errorText = validationResult.errorText;
       if (errorText != null && errorText.isNotEmpty) {
         FormValidator ? formValidator = FormValidator.fromJson(jsonDecode(errorText));
-        showIsRequired?[formValidator.formId] = formValidator.value;
+        showIsRequired?[formValidator.formId] = formValidator;
         showNextPage = false;
       }
     }
@@ -217,7 +217,6 @@ class SurveyScreenManager extends GetxController {
   }
 
   void previousScreen() {
-    print("prviourscreen ${surveyIndex.isNotEmpty}");
     if (surveyIndex.isNotEmpty) {
       _index.value = surveyIndex[surveyIndex.length - 2];
       showIsRequired!.clear();

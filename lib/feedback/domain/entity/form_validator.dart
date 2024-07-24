@@ -4,8 +4,8 @@ class FormValidator{
 
   final ScreenValidationErrorType value;
   final String formId;
-
-  FormValidator({required this.value, required this.formId});
+  final String ?message;
+  FormValidator({required this.value, required this.formId,  this.message});
 
   factory FormValidator.fromJson(Map<String, dynamic> ?  json){
     if (json == null) {
@@ -13,14 +13,16 @@ class FormValidator{
     }
     return FormValidator(
       value: ScreenValidationErrorType.values.firstWhere((e) => e.toString() == json['value']),
-      formId: json['formId']
+      formId: json['formId'],
+      message: json['message']
     );
   }
 
    Map<String, dynamic> toJson() {
     return {
       'value': value.toString(),
-      'formId': formId
+      'formId': formId,
+      'message': message
     };
   }
 

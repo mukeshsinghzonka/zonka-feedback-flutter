@@ -125,7 +125,7 @@ class Field {
         if (json == null) {
         throw ArgumentError("JSON data cannot be null");
     }
-      // print("Fieldlogic ${json["quesImages"]}");
+
         return Field(
             displayLogic: json["displayLogic"] == null ? [] : List<DisplayLogicModel>.from(json["displayLogic"]!.map((x) => DisplayLogicModel.fromJson(x))),
             logic: json["logic"] == null ? null : Logic.fromJson(json["logic"]),
