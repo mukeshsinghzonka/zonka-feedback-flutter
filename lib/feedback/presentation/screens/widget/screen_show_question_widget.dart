@@ -55,10 +55,15 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                     SizedBox(
                       height: 5.h,
                     ),
-
-
+ Text('${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle}',
+                          style: TextStyle(fontSize: 6.sp,color: HexColor(surveyFieldController.headingTextColor.value)),
+                        ),
+    SizedBox(
+                      height: 5.h,
+                    ),
                     Obx(
                      () {
+                       
                         return Visibility(
                           visible: surveyScreenManager.showIsRequired!.containsKey(widget.feedbackQuestion[index].id??"")==true,
                           child: Container(

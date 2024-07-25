@@ -29,4 +29,8 @@ class SurveyDesignFieldController extends GetxController {
     update();
   }
    
+
+  String createImageUrl(String companyId, String path){
+    return '${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}$companyId/$path';
+  }
 }

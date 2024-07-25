@@ -18,19 +18,20 @@ class Choice {
     final bool? isNaChoice;
     final int? choiceWeight;
     final bool? markedCorrect;
-    final dynamic optionGalleryImageId;
+    final OptionGalleryImageId? optionGalleryImageId;
     final String? id;
     final Map<String, ChoiceTranslation> translations;
     final int? preMongifiedId;
 
     factory Choice.fromJson(Map<String, dynamic> json){ 
+      print("optionGalleryImageId ${json["optionGalleryImageId"]}");
         return Choice(
             logic: json["logic"] == null ? null : Logic.fromJson(json["logic"]),
             choiceNodeId: json["choiceNodeId"],
             isNaChoice: json["isNaChoice"],
             choiceWeight: json["choiceWeight"],
             markedCorrect: json["markedCorrect"],
-            optionGalleryImageId: json["optionGalleryImageId"],
+            optionGalleryImageId:json["optionGalleryImageId"] !=null ?OptionGalleryImageId.fromJson(json['optionGalleryImageId']) :null,
             id: json["_id"]??"",
             translations: Map.from(json["translations"]).map((k, v) => MapEntry<String, ChoiceTranslation>(k, ChoiceTranslation.fromJson(v))),
             preMongifiedId: json["pre_mongified_id"],
@@ -58,5 +59,31 @@ class ChoiceTranslation {
             helpText: json["helpText"],
         );
     }
+
+}
+
+
+class OptionGalleryImageId{
+  final String path;
+  final String id;
+  final String companyId;
+
+  OptionGalleryImageId({required this.path, required this.id, required this.companyId});
+
+  factory OptionGalleryImageId.fromJson(Map<String, dynamic> json){
+    return OptionGalleryImageId(
+      path: json["path"],
+      id: json["_id"],
+      companyId: json["companyId"] 
+    );
+  }
+
+  Map<String, dynamic> toJson(){
+    return {
+      "path": path,
+      "id": id,
+      "companyId": companyId
+    };
+  }
 
 }

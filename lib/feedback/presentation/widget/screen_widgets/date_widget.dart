@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
-import 'package:zonka_feedback/utils/color_constant.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
+import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class DateWidget extends StatefulWidget {
   final Field field;
@@ -13,14 +17,33 @@ class DateWidget extends StatefulWidget {
 }
 
 class _DateWidgetState extends State<DateWidget> {
-  DateTime? selectedDate;
+ static DateTime? selectedDate;
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final SurveyDesignFieldController _surveyDesignFieldController = Get.find<SurveyDesignFieldController>();
+  late  ValidationLogicManager validationLogicManager;
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  
+  @override
+  void initState() {
+     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
+      selectedDate = surveyCollectDataController.surveyIndexData[widget.field.id] as DateTime;
+     }
+     else{
+      selectedDate = null;
+     }
+      validationLogicManager = ValidationLogicManager(field: widget.field);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FormField(
-   
       validator: (value) {
-       return widget.field.fieldName ?? '';
+        if(widget.field.required==true && selectedDate==null){
+          return validationLogicManager.requiredFormValidator(selectedDate==null);
+        }
+     if(selectedDate!=null)  surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: selectedDate);
+       return null;
       },
       builder: (formcontext) {
         return GestureDetector(
@@ -38,15 +61,15 @@ class _DateWidgetState extends State<DateWidget> {
               height: 40.h,
               padding: EdgeInsets.symmetric(horizontal: 5.w),
               decoration: BoxDecoration(
-                color: const Color(ColorConstant.surveyInputColor),
-                border: Border.all(color: Colors.black),
+                color: HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
+                border: Border.all(color: HexColor(_surveyDesignFieldController.optionTextColor.value)),
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Row(
                 children: [
                   selectedDate != null
-                      ? Text(formatter.format(selectedDate!))
-                      : const Text('YYYY-MM-DD'),
+                      ? Text(formatter.format(selectedDate!),style: TextStyle(color:HexColor(_surveyDesignFieldController.optionTextColor.value) ),)
+                      : Text(widget.field.translations![_surveyDesignFieldController.defaultTranslation.value]?. placeHolder??''),
                   const Spacer(),
                   Icon(
                     Icons.calendar_today,

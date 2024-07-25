@@ -17,13 +17,21 @@ class TextboxWidget extends StatefulWidget {
 class _TextboxWidgetState extends State<TextboxWidget> {
 
   String text = '';
-   static final  TextEditingController _controller = TextEditingController();
+  static final  TextEditingController _controller = TextEditingController();
   final SurveyDesignFieldController _surveyDesignFieldController = Get.find<SurveyDesignFieldController>();
   late ValidationLogicManager validationLogicManager;
- final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   @override
   void initState() {
-     validationLogicManager = ValidationLogicManager(field: widget.field);
+    
+    validationLogicManager = ValidationLogicManager(field: widget.field);
+
+     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
+      _controller.text = surveyCollectDataController.surveyIndexData[widget.field.id];
+     }
+     else{
+      _controller.text = "";
+     }
     super.initState();
   }
 
@@ -44,6 +52,13 @@ class _TextboxWidgetState extends State<TextboxWidget> {
       ),
       decoration:  InputDecoration(   
        errorStyle:const TextStyle(color: Colors.white),
+       hintText:  widget
+                              .field
+                          
+                              .translations![_surveyDesignFieldController
+                                  .defaultTranslation.value]
+                              ?. placeHolder??
+                          '',
        errorBorder:  OutlineInputBorder(
           borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
           borderRadius: BorderRadius.circular(10.0)

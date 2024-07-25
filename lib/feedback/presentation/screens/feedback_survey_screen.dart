@@ -58,6 +58,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Expanded(flex: 3, child: ScreenSwitchWidget()),
+                
                 Obx(() {
                   return Expanded(
                     flex: 16,

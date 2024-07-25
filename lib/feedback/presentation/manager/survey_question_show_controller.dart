@@ -25,22 +25,22 @@ class ScreenFeedBackQuesController extends GetxController{
  
 
   Widget getScreenType(String type, Field field){   
-   return _switchWidget(screen: mapOfScreenByType(type), field: field);
+   return _switchWidget(screen: mapOfScreenByType(type,field), field: field);
   }
 
-  SurveyScreenenum mapOfScreenByType(String type) {
+  SurveyScreenenum mapOfScreenByType(String type,Field field) {
     print("screentype $type");
   switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.buttonChoice;
+      case 'msqquestion':
+      return SurveyScreenenum.buttonChoice;
     case 'dropdown':
       return SurveyScreenenum.dropdownChoice;
     case 'radio':
-      return SurveyScreenenum.radioChoice;
+      return  field.choicesHasImage??false ? SurveyScreenenum.pictureChoice : SurveyScreenenum.radioChoice;
     case 'checkbox':
-      return SurveyScreenenum.checkboxChoice;
-    case 'pictureChoice':
-      return SurveyScreenenum.pictureChoice;
+      return  field.choicesHasImage??false ? SurveyScreenenum.pictureChoice : SurveyScreenenum.checkboxChoice;
     case 'npsRating':
       return SurveyScreenenum.npsRating;
     case 'csatButtonRating':

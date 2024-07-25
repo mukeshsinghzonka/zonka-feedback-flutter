@@ -1,6 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
+import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class PictureChoiceWidget extends StatefulWidget {
   final Field field;
@@ -11,13 +19,54 @@ class PictureChoiceWidget extends StatefulWidget {
 }
 
 class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
-   
-  int lenght = 3;
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
+  static  Map<String, bool> _choiceMap = {};
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  late ValidationLogicManager validationLogicManager;
+  int? range = -1;
+  @override
+  void initState() {
+    super.initState();
+
+     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
+      _choiceMap = surveyCollectDataController.surveyIndexData[widget.field.id] as Map<String, bool>;
+     }
+     else{
+      for (int i = 0; i < widget.field.choices.length; i++) {
+        _choiceMap[widget.field.choices[i].id ?? ""] = false;
+      }
+     }
+     validationLogicManager = ValidationLogicManager(field: widget.field);
+     if (widget.field.specialSettingVal == 'range') {
+      range =  int.parse(widget.field.specialSettingVal2![2]);
+    } else if (widget.field.specialSettingVal == 'exact') {
+        range =  int.parse(widget.field.specialSettingVal3 ?? "0");
+    }
+    
+  }
   @override
   Widget build(BuildContext context) {
     return FormField(
       validator: (value) {
-        return widget.field.fieldName;
+      int trueCount = _choiceMap.values.where((value) => value == true).length;
+      if (widget.field.required == true && trueCount == 0) {
+        return validationLogicManager.requiredFormValidator(trueCount == 0);
+      } else if (widget.field.specialSettingVal == 'range') {
+        String? value = validationLogicManager.rangeValidator(trueCount);
+        if (value == null) {
+          surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
+        }
+        return value;
+      } else if (widget.field.specialSettingVal == 'exact') {
+        
+        String? value = validationLogicManager.exactFormValidator(trueCount);
+        if (value == null) {
+          surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
+        }
+        return value;
+      }
+      surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
+      return null;
       },
       builder: (context) {
         return Center(
@@ -28,42 +77,76 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
                 padding: EdgeInsets.zero,
                 gridDelegate:const  SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount:  4,
-                    childAspectRatio: 1.5 ,     
+                    childAspectRatio: 1,     
                 ),
-                itemCount: 5, // <-- required
-                itemBuilder: (context, i) => Center(
-                  child: Container(
-                    height: 120.h,
-                    width: 35.w,
-                    margin: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                      border: Border.all(color: Colors.black),
-                      color: Colors.grey.shade300,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 40.h,
-                          width: 20.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5.r)),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5.r),
-                            child: Image.network('https://picsum.photos/250?image=$i',
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container();
-                            },
+                itemCount: widget.field.choices.length, // <-- required
+                itemBuilder: (context, i) => GestureDetector(
+                  onTap: () {
+                     int trueCount =
+                  _choiceMap.values.where((value) => value == true).length;
+              if (range != -1 &&
+                  trueCount == range &&
+                  !_choiceMap[widget.field.choices[i].id]!) {
+                Fluttertoast.showToast(
+                    msg: 'You can select only $range options',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+              } else {
+                _choiceMap.update(widget.field.choices[i].id ?? "", (value) => !value);
+                setState(() {});
+              }
+                  },
+                  child: Center(
+                    child: Container(
+                      height: 200.h,
+                      width: 150.w,
+                      margin: const EdgeInsets.all(5),
+                      padding: EdgeInsets.all(5.w),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                        border: Border.all(color: HexColor(surveyFieldController
+                                    .optionTextColor.value).withOpacity(1)),
+                        color: HexColor(surveyFieldController.optionTextColor.value)
+                    .withOpacity(_choiceMap[widget.field.choices[i].id] ?? false
+                        ? 1
+                        : 0.1),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 90.h,
+                            width: 100.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(5.r)),
                             ),
-                          )),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                        Text('Choice $i',style: TextStyle(fontSize: 4.sp),),
-                      ],
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(5.r),
+                          
+                              child: CachedNetworkImage(
+                progressIndicatorBuilder: (context, url, progress) => Center(
+                  child: CircularProgressIndicator(
+                    value: progress.progress,
+                  ),
+                ),
+                imageUrl:
+                    widget.field.choices[i].optionGalleryImageId!=null ? surveyFieldController.createImageUrl(widget.field.choices[i].optionGalleryImageId?.companyId??"" , widget.field.choices[i].optionGalleryImageId?.path??""):""
+              ),
+                            )),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                          Text('${widget.field.choices[i].translations[surveyFieldController.defaultTranslation.value]?.name}',style: TextStyle(fontSize: 4.sp, 
+                          
+                          color:_choiceMap[widget.field.choices[i].id] ?? false? Colors.white: HexColor(surveyFieldController.optionTextColor.value),
+                fontFamily: surveyFieldController.fontFamily.value
+                          ),),
+                        ],
+                      ),
                     ),
                   ),
                 ),

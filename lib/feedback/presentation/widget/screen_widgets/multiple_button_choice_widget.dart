@@ -22,18 +22,21 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;
-  static final Map<String, bool> _choiceMap = {};
+  static  Map<String, bool> _choiceMap = {};
   int? range = -1;
   @override
   void initState() {
     super.initState();
-    if (_choiceMap.isEmpty) {
+     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
+      _choiceMap = surveyCollectDataController.surveyIndexData[widget.field.id] as Map<String, bool>;
+     }
+     else{
+      _choiceMap={};
       for (int i = 0; i < widget.field.choices.length; i++) {
         _choiceMap[widget.field.choices[i].id ?? ""] = false;
       }
-    }
+     }
      validationLogicManager = ValidationLogicManager(field: widget.field);
-    //  range = validationLogicManager.getRangeValue();
      if (widget.field.specialSettingVal == 'range') {
       range =  int.parse(widget.field.specialSettingVal2![2]);
     } else if (widget.field.specialSettingVal == 'exact') {
@@ -45,6 +48,7 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
   Widget build(BuildContext context) {
     return FormField(validator: (value) {
       int trueCount = _choiceMap.values.where((value) => value == true).length;
+      print("nultiplebuttonchoice $trueCount ${widget.field.required}");
       if (widget.field.required == true && trueCount == 0) {
         return validationLogicManager.requiredFormValidator(trueCount == 0);
       } else if (widget.field.specialSettingVal == 'range') {
@@ -54,13 +58,13 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
         }
         return value;
       } else if (widget.field.specialSettingVal == 'exact') {
+        
         String? value = validationLogicManager.exactFormValidator(trueCount);
         if (value == null) {
           surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
         }
         return value;
       }
-    
       surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
       return null;
     }, builder: (context) {
@@ -89,8 +93,7 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
                     textColor: Colors.white,
                     fontSize: 16.0);
               } else {
-                _choiceMap.update(
-                    widget.field.choices[i].id ?? "", (value) => !value);
+                _choiceMap.update(widget.field.choices[i].id ?? "", (value) => !value);
                 setState(() {});
               }
             },
