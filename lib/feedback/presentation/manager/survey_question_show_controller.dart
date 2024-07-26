@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/drop_down_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/image_capture_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/multiple_button_choice_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/file_images_widget/image_capture_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/multiple_button_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/checkbox_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/csat_rating/csat_button_rating.dart';
-
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/emotion_rating_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/legal_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/nps_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/picture_choice_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/radio_button_choice_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rank_rating_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/scale_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/button_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/ces_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/emotion_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/legal_signature_widget/legal_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/heart_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/nps_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/picture_choice_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/radio_button_choice_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/rank_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/scale_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/date_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/textbox_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/textbox_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/thank_you_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welcome_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
@@ -31,10 +32,11 @@ class ScreenFeedBackQuesController extends GetxController{
   }
 
   SurveyScreenenum mapOfScreenByType(String type,Field field) {
-  switch (type) {
+    print(type);
+    switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.multipleButtonChoice;
-      case 'msqquestion':
+    case 'msqquestion':
       return SurveyScreenenum.buttonChoice;
     case 'dropdown':
       return SurveyScreenenum.dropdownChoice;
@@ -44,13 +46,13 @@ class ScreenFeedBackQuesController extends GetxController{
       return  field.choicesHasImage??false ? SurveyScreenenum.multiplePictureChoice : SurveyScreenenum.checkboxChoice;
     case 'npsRating':
       return SurveyScreenenum.npsRating;
-    case 'csatButtonRating':
+    case 'button_rating':
       return SurveyScreenenum.csatButtonRating;
     case 'scaleRating':
       return SurveyScreenenum.scaleRating;
     case 'RankingQuestion':
       return SurveyScreenenum.rankingRating;
-    case 'starRating':
+    case 'star_rating':
       return SurveyScreenenum.starRating;
     case 'emotion_rating':
       return SurveyScreenenum.emotionRating;
@@ -66,6 +68,14 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.cameraWidget;
     case 'thankYouWidget':
       return SurveyScreenenum.thankYouWidget;
+    case 'npsquestion':
+      return SurveyScreenenum.npsQuestion;
+    case 'cssquestion':
+      return SurveyScreenenum.cesquestion;
+    case 'picture_rating':
+      return SurveyScreenenum.pictureRating;
+    case 'heart_rating':
+      return SurveyScreenenum.heartRating;
     default:
       return SurveyScreenenum.buttonChoice;
   }
@@ -91,9 +101,8 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     return PictureChoiceWidget(field: field,isMultiple: true,);
     case SurveyScreenenum.npsRating:
     return NpsWidget(field: field,);
-    case SurveyScreenenum.cesRating:
     case SurveyScreenenum.csatButtonRating:
-    return CsatButtonRating(field: field,);
+    return ButtonRatingWidget(field: field,);
     case SurveyScreenenum.scaleRating:
     return ScaleRatingWidget(field: field,);
     case SurveyScreenenum.rankingRating:
@@ -113,9 +122,16 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     return LegalWidget(field:field,);
     case SurveyScreenenum.cameraWidget:
     return ImageCaptureWidget(field:field,);
+    case SurveyScreenenum.npsQuestion:
+    return NpsWidget(field: field,);
+    case SurveyScreenenum.cesquestion:
+    return CesWidget(field: field,);
+    case SurveyScreenenum.pictureRating:
+    return PictureChoiceWidget(field: field,isMultiple: false,);
+    case SurveyScreenenum.heartRating:
+    return HeartRatingWidget(field: field,);
     default: return  Container();
   }
 }
-
 
 }

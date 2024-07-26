@@ -50,12 +50,14 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                     Container(
                         decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
                         child: Text('${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.fieldLabel}',
+                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 6.sp,color: HexColor(surveyFieldController.headingTextColor.value)),
                         )),
                     SizedBox(
                       height: 5.h,
                     ),
    Text('${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle}',
+   textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 6.sp,color: HexColor(surveyFieldController.headingTextColor.value)),
                         ),
     SizedBox(

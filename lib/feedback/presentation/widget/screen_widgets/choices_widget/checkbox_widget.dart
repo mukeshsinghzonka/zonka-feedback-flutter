@@ -68,9 +68,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
               return GestureDetector(
                 onTap: () {
               int trueCount = _choiceMap.values.where((value) => value == true).length;
-              print(trueCount);
-              print(range);
-              print(_choiceMap[widget.field.choices[index].id]);
+  
               if (range != -1 && trueCount == range && !_choiceMap[widget.field.choices[index].id]!) {
                 Fluttertoast.showToast(
                     msg: 'You can select only $range options',

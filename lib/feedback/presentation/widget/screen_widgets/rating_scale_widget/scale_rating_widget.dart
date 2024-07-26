@@ -21,6 +21,7 @@ class _ScaleRatingWidgetState extends State<ScaleRatingWidget> {
          return widget.field.fieldName;
       },
       builder: (context) {
+     
         return SizedBox(
           height: 50.h,
           child: ListView.builder(

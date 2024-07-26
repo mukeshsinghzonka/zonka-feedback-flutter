@@ -22,6 +22,7 @@ enum SurveyScreenenum {
   pictureChoice,
   multiplePictureChoice,
   npsRating,
+  npsQuestion,
   cesRating,
   csatButtonRating,
   scaleRating,
@@ -34,7 +35,11 @@ enum SurveyScreenenum {
   welcomeWidget,
   thankYouWidget,
   legalTerm,
-  cameraWidget
+  cameraWidget,
+  cesquestion,
+  pictureRating,
+  heartRating,
+  
 }
 
 enum SpecialSettingVal { exact, range }
