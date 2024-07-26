@@ -10,7 +10,8 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class CheckboxWidget extends StatefulWidget {
   final Field field;
-  const CheckboxWidget({super.key, required this.field});
+  final bool isMultiple;
+  const CheckboxWidget({super.key, required this.field, required this.isMultiple});
 
   @override
   State<CheckboxWidget> createState() => _CheckboxWidgetState();
@@ -37,7 +38,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
       }
     }
     validationLogicManager = ValidationLogicManager(field: widget.field);
-    range = validationLogicManager.getRangeValue();
+    range = validationLogicManager.getRangeValue(widget.isMultiple);
     super.initState();
   }
 
@@ -67,6 +68,9 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
               return GestureDetector(
                 onTap: () {
               int trueCount = _choiceMap.values.where((value) => value == true).length;
+              print(trueCount);
+              print(range);
+              print(_choiceMap[widget.field.choices[index].id]);
               if (range != -1 && trueCount == range && !_choiceMap[widget.field.choices[index].id]!) {
                 Fluttertoast.showToast(
                     msg: 'You can select only $range options',

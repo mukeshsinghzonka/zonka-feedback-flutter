@@ -49,19 +49,21 @@ class ValidationLogicManager {
     return null;
   }
 
-  int? getRangeValue() {
+  int? getRangeValue(bool isMultiple) {
+
     if (field.specialSettingVal == 'range') {
       return int.parse(field.specialSettingVal2![2]);
     } else if (field.specialSettingVal == 'exact') {
       return int.parse(field.specialSettingVal3 ?? "0");
     }
+    else if(isMultiple==false){
+      return 1;
+    }
     return null;
   }
 
   String? inputTextValidation(String? value) {
-
     String pattern = field.validateRegex!.trim();
-    print(pattern);
     if (value == null || value.isEmpty && field.required == true) {
       FormValidator formValidator = FormValidator(
           value: ScreenValidationErrorType.REQUIRED,

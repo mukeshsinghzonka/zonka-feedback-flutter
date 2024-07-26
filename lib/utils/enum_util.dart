@@ -15,10 +15,12 @@ enum ApiCallStatus { Loading, Success, Error, Initial }
 
 enum SurveyScreenenum {
   buttonChoice,
+  multipleButtonChoice,
   radioChoice,
   dropdownChoice,
   checkboxChoice,
   pictureChoice,
+  multiplePictureChoice,
   npsRating,
   cesRating,
   csatButtonRating,
@@ -40,7 +42,7 @@ enum SpecialSettingVal { exact, range }
 enum ScreenValidationErrorType{
   REQUIRED,
   WRONGSELECTION,
-  
+
 }
 
 

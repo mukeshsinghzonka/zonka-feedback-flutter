@@ -55,7 +55,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                     SizedBox(
                       height: 5.h,
                     ),
- Text('${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle}',
+   Text('${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle}',
                           style: TextStyle(fontSize: 6.sp,color: HexColor(surveyFieldController.headingTextColor.value)),
                         ),
     SizedBox(
@@ -135,9 +135,30 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.blueAccent)),
                         alignment: Alignment.topCenter,
-                        child: screenFeedBackQuesController.getScreenType(
-                            widget.feedbackQuestion[index].fieldName ?? "",
-                            widget.feedbackQuestion[index]))
+                        child: AnimatedSwitcher(
+                          // switchInCurve: Curves.easeOutExpo,
+//                     transitionBuilder: (Widget child, Animation<double> animation) {
+//   return SlideTransition(
+//     position: Tween<Offset>(
+//       begin:  Offset(1, 0),
+//       end: Offset(0, 0),
+//     ).animate(animation),
+//     child: child,
+//   );
+// },
+  // transitionBuilder: (Widget child, Animation<double> animation) {
+  //           final offsetAnimation = Tween<Offset>(
+  //             begin: const Offset(-1, 0), // Starting position, left side
+  //             end: Offset.zero,           // Ending position, center
+  //           ).animate(animation);
+  //           return SlideTransition(position: offsetAnimation, child: child);
+  //         },
+
+                          duration: const Duration(milliseconds: 500),
+                          child: screenFeedBackQuesController.getScreenType(
+                              widget.feedbackQuestion[index].fieldName ?? "",
+                              widget.feedbackQuestion[index]),
+                        ))
                   ],
                 ),
               ),

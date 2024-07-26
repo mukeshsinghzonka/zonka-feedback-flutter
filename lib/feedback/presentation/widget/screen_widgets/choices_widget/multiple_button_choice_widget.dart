@@ -11,7 +11,8 @@ import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_ma
 
 class ButtonChoiceWidget extends StatefulWidget {
   final Field field;
-  const ButtonChoiceWidget({super.key, required this.field});
+  final bool isMultiple;
+  const ButtonChoiceWidget({super.key, required this.field ,  required this.isMultiple});
 
   @override
   State<ButtonChoiceWidget> createState() => _ButtonChoiceWidgetState();
@@ -24,6 +25,7 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
   late ValidationLogicManager validationLogicManager;
   static  Map<String, bool> _choiceMap = {};
   int? range = -1;
+
   @override
   void initState() {
     super.initState();
@@ -37,18 +39,13 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
       }
      }
      validationLogicManager = ValidationLogicManager(field: widget.field);
-     if (widget.field.specialSettingVal == 'range') {
-      range =  int.parse(widget.field.specialSettingVal2![2]);
-    } else if (widget.field.specialSettingVal == 'exact') {
-        range =  int.parse(widget.field.specialSettingVal3 ?? "0");
-    }
+     range = validationLogicManager.getRangeValue(widget.isMultiple);
   }
 
   @override
   Widget build(BuildContext context) {
     return FormField(validator: (value) {
       int trueCount = _choiceMap.values.where((value) => value == true).length;
-      print("nultiplebuttonchoice $trueCount ${widget.field.required}");
       if (widget.field.required == true && trueCount == 0) {
         return validationLogicManager.requiredFormValidator(trueCount == 0);
       } else if (widget.field.specialSettingVal == 'range') {
@@ -58,7 +55,6 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
         }
         return value;
       } else if (widget.field.specialSettingVal == 'exact') {
-        
         String? value = validationLogicManager.exactFormValidator(trueCount);
         if (value == null) {
           surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
@@ -79,11 +75,9 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
           itemCount: widget.field.choices.length, // <-- required
           itemBuilder: (context, i) => GestureDetector(
             onTap: () {
-              int trueCount =
-                  _choiceMap.values.where((value) => value == true).length;
-              if (range != -1 &&
-                  trueCount == range &&
-                  !_choiceMap[widget.field.choices[i].id]!) {
+             if(widget.isMultiple){
+              int trueCount = _choiceMap.values.where((value) => value == true).length;
+              if (range != -1 && trueCount == range && !_choiceMap[widget.field.choices[i].id]!) {
                 Fluttertoast.showToast(
                     msg: 'You can select only $range options',
                     toastLength: Toast.LENGTH_SHORT,
@@ -96,6 +90,15 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
                 _choiceMap.update(widget.field.choices[i].id ?? "", (value) => !value);
                 setState(() {});
               }
+             }
+             else{
+                for (int i = 0; i < widget.field.choices.length; i++) {
+                 _choiceMap[widget.field.choices[i].id ?? ""] = false;
+               } 
+               _choiceMap[widget.field.choices[i].id ?? ""] = true;
+                setState(() {});
+             }
+
             },
             child: Container(
               margin: const EdgeInsets.all(5),

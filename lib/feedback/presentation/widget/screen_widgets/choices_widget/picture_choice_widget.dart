@@ -12,7 +12,8 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class PictureChoiceWidget extends StatefulWidget {
   final Field field;
-  const PictureChoiceWidget({super.key, required this.field});
+  final bool isMultiple;
+  const PictureChoiceWidget({super.key, required this.field, required this.isMultiple});
 
   @override
   State<PictureChoiceWidget> createState() => _PictureChoiceWidgetState();
@@ -37,11 +38,7 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
       }
      }
      validationLogicManager = ValidationLogicManager(field: widget.field);
-     if (widget.field.specialSettingVal == 'range') {
-      range =  int.parse(widget.field.specialSettingVal2![2]);
-    } else if (widget.field.specialSettingVal == 'exact') {
-        range =  int.parse(widget.field.specialSettingVal3 ?? "0");
-    }
+    range = validationLogicManager.getRangeValue(widget.isMultiple);
     
   }
   @override
@@ -82,8 +79,8 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
                 itemCount: widget.field.choices.length, // <-- required
                 itemBuilder: (context, i) => GestureDetector(
                   onTap: () {
-                     int trueCount =
-                  _choiceMap.values.where((value) => value == true).length;
+if(widget.isMultiple){
+  int trueCount = _choiceMap.values.where((value) => value == true).length;
               if (range != -1 &&
                   trueCount == range &&
                   !_choiceMap[widget.field.choices[i].id]!) {
@@ -99,6 +96,16 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
                 _choiceMap.update(widget.field.choices[i].id ?? "", (value) => !value);
                 setState(() {});
               }
+}
+
+else{
+  _choiceMap.updateAll((key, value) => false);
+  _choiceMap.update(widget.field.choices[i].id ?? "", (value) => true);
+  setState(() {
+    
+  });
+}
+                   
                   },
                   child: Center(
                     child: Container(

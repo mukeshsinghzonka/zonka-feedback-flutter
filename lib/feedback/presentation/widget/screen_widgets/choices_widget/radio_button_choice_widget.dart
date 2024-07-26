@@ -10,6 +10,7 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class RadioButtonWidget extends StatefulWidget {
   final Field field;
+  
   const RadioButtonWidget({super.key, required this.field});
 
   @override
@@ -20,8 +21,7 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
 
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   late ValidationLogicManager validationLogicManager;
-    final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
-
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   static String ? choiceId;
   @override
   void initState() {

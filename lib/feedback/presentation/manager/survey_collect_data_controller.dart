@@ -24,6 +24,21 @@ class SurveyCollectDataController extends GetxController{
         }
         return true;
       case "radio":
+      if(selectedData is String){
+        String ? radioButtonChoiceId = selectedData;
+
+        if (radioButtonChoiceId == displayModel.choiceId) {
+          return true;
+        }
+      }
+      else if(selectedData is Map<String, dynamic>){
+        Map<String, bool> choiceMap = Map<String, bool>.from(selectedData);
+        bool choiceMapVal = choiceMap.containsKey(displayModel.choiceId);
+        if (choiceMapVal) {
+          return choiceMap[displayModel.choiceId] ?? false;
+        }
+      }
+        
         return false;
       case "checkbox":
         Map<String, bool> choiceMap = Map<String, bool>.from(selectedData);
@@ -45,6 +60,8 @@ class SurveyCollectDataController extends GetxController{
             return textValue.isEmpty;
         }
         return false;
+      case "number":
+
       default:
         return false;
     }
