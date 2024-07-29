@@ -39,7 +39,7 @@ enum SurveyScreenenum {
   cesquestion,
   pictureRating,
   heartRating,
-  
+  circleRating
 }
 
 enum SpecialSettingVal { exact, range }

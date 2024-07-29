@@ -8,6 +8,7 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choic
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/checkbox_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/button_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/ces_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/circle_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/emotion_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/legal_signature_widget/legal_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/heart_rating_widget.dart';
@@ -16,6 +17,7 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choic
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/radio_button_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/rank_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/scale_rating_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/star_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/date_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/textbox_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/thank_you_widget.dart';
@@ -76,6 +78,8 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.pictureRating;
     case 'heart_rating':
       return SurveyScreenenum.heartRating;
+    case 'circle_rating':
+      return SurveyScreenenum.circleRating;
     default:
       return SurveyScreenenum.buttonChoice;
   }
@@ -108,6 +112,7 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     case SurveyScreenenum.rankingRating:
     return RankRatingWidget(field: field,);
     case SurveyScreenenum.starRating:
+    return StarRatingWidget(field: field,);
     case SurveyScreenenum.emotionRating:
     return EmotionRatingWidget(field: field,);
     case SurveyScreenenum.textWidget:
@@ -130,7 +135,9 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     return PictureChoiceWidget(field: field,isMultiple: false,);
     case SurveyScreenenum.heartRating:
     return HeartRatingWidget(field: field,);
-    default: return  Container();
+    case SurveyScreenenum.circleRating:
+    return CircleRatingWidget(field: field,);
+    default: return Container();
   }
 }
 

@@ -18,5 +18,14 @@ class ImageConstant {
   static const String emojiVerySatisfied = "assests/images/emoji/ic_very_satisfied.svg";
   static const String emojiVeryDissatisfied = "assests/images/emoji/ic_very_unsatisfied.svg";
   static const String emojiUnsatisfied = "assests/images/emoji/ic_unsatisfied.svg";
+  static const String heartSvg= "assests/images/survey_emoji/Heart.svg";
+  static const String starSvg= "assests/images/survey_emoji/Star.svg";
+  static const String emoji_1 = "assests/images/survey_emoji/emoji/Angry.svg";
+  static const String emoji_2 = "assests/images/survey_emoji/emoji/Happy.svg";
+  static const String emoji_3 = "assests/images/survey_emoji/emoji/Neutral.svg";
+  static const String emoji_4 = "assests/images/survey_emoji/emoji/Sad.svg";
+  static const String emoji_5 = "assests/images/survey_emoji/emoji/very_happy.svg";
+
+
 }
 

@@ -133,41 +133,44 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                            height: 90.h,
-                            width: 100.w,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5.r),
-                              child: CachedNetworkImage(
-                                  progressIndicatorBuilder:
-                                      (context, url, progress) => Center(
-                                            child: CircularProgressIndicator(
-                                              value: progress.progress,
+                        Expanded(
+                          child: Container(
+                              height: 90.h,
+                              width: 100.w,
+                              decoration: BoxDecoration(
+                                 border: Border.all(color: Colors.blueAccent),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.r)),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5.r),
+                                child: CachedNetworkImage(
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) => Center(
+                                              child: CircularProgressIndicator(
+                                                value: progress.progress,
+                                              ),
                                             ),
-                                          ),
-                                  errorWidget: (context, url, error) => Icon(
-                                        Icons.image_not_supported,
-                                        color: Colors.grey.shade700,
-                                      ),
-                                  imageUrl: widget.field.choices[i]
-                                              .optionGalleryImageId !=
-                                          null
-                                      ? surveyFieldController.createImageUrl(
-                                          widget
-                                                  .field
-                                                  .choices[i]
-                                                  .optionGalleryImageId
-                                                  ?.companyId ??
-                                              "",
-                                          widget.field.choices[i]
-                                                  .optionGalleryImageId?.path ??
-                                              "")
-                                      : ""),
-                            )),
+                                    errorWidget: (context, url, error) => Icon(
+                                          Icons.image_not_supported,
+                                          color: Colors.grey.shade700,
+                                        ),
+                                    imageUrl: widget.field.choices[i]
+                                                .optionGalleryImageId !=
+                                            null
+                                        ? surveyFieldController.createImageUrl(
+                                            widget
+                                                    .field
+                                                    .choices[i]
+                                                    .optionGalleryImageId
+                                                    ?.companyId ??
+                                                "",
+                                            widget.field.choices[i]
+                                                    .optionGalleryImageId?.path ??
+                                                "")
+                                        : ""),
+                              )),
+                        ),
                         SizedBox(
                           height: 5.h,
                         ),
