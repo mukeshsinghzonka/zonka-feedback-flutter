@@ -15,6 +15,7 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/ratin
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/nps_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/picture_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/radio_button_choice_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/radio_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/rank_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/scale_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/star_rating_widget.dart';
@@ -80,6 +81,8 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.heartRating;
     case 'circle_rating':
       return SurveyScreenenum.circleRating;
+    case 'radio_rating':
+      return SurveyScreenenum.radioRatingLable;
     default:
       return SurveyScreenenum.buttonChoice;
   }
@@ -137,6 +140,8 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     return HeartRatingWidget(field: field,);
     case SurveyScreenenum.circleRating:
     return CircleRatingWidget(field: field,);
+    case SurveyScreenenum.radioRatingLable:
+    return RadioRatingLableWidget(field: field,);
     default: return Container();
   }
 }

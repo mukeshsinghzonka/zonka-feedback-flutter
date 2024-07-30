@@ -25,6 +25,12 @@ class ImageConstant {
   static const String emoji_3 = "assests/images/survey_emoji/emoji/Neutral.svg";
   static const String emoji_4 = "assests/images/survey_emoji/emoji/Sad.svg";
   static const String emoji_5 = "assests/images/survey_emoji/emoji/very_happy.svg";
+  static const String outlinedheart = "assests/images/survey_emoji/outlined/heart_outlined.svg";
+  static const String outlinedemoji_1 = "assests/images/survey_emoji/outlined_emoji/angry_outline.svg";
+  static const String outlinedemoji_2 = "assests/images/survey_emoji/outlined_emoji/happy_outline.svg";
+  static const String outlinedemoji_3 = "assests/images/survey_emoji/outlined_emoji/Inlove_outline.svg";
+  static const String outlinedemoji_4 = "assests/images/survey_emoji/outlined_emoji/neutral_outline.svg";
+  static const String outlinedemoji_5 = "assests/images/survey_emoji/outlined_emoji/sad_outline.svg";
 
 
 }

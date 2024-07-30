@@ -94,6 +94,9 @@ flutter:
     - assests/images/emoji/
     - assests/images/survey_emoji/
     - assests/images/survey_emoji/emoji/
+    - assests/images/survey_emoji/outlined_emoji/
+    - assests/images/survey_emoji/outlined/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

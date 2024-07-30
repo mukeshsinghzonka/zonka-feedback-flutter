@@ -81,17 +81,17 @@ class _HeartRatingWidgetState extends State<HeartRatingWidget> {
                               _choiceMap[widget.field.options[indexOption].id ??
                                       ""] =
                                   widget.field.choices[indexChoice].id ?? "";
+                         
                               setState(() {});
                             },
                             child: Container(
                               margin: EdgeInsets.all(1.w),
-                              child: SvgPicture.asset(
+                              child:  
+                              
+                               SvgPicture.asset(
                                 ImageConstant.heartSvg,
                                 color:
-                                    // _optionMap[widget.field
-                                    //                     .options[indexOption].id ??
-                                    //                 ""] !=
-                                    //             -1 &&
+                                                         
                                     _optionMap[widget.field.options[indexOption]
                                                     .id ??
                                                 ""]! <
@@ -110,7 +110,7 @@ class _HeartRatingWidgetState extends State<HeartRatingWidget> {
           });
     });
 
-    
+
   }
 
 
