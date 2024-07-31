@@ -13,8 +13,7 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
 class PictureChoiceWidget extends StatefulWidget {
   final Field field;
   final bool isMultiple;
-  const PictureChoiceWidget(
-      {super.key, required this.field, required this.isMultiple});
+  const PictureChoiceWidget({super.key, required this.field, required this.isMultiple});
 
   @override
   State<PictureChoiceWidget> createState() => _PictureChoiceWidgetState();
@@ -71,124 +70,121 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
       return null;
     }, builder: (context) {
       return Center(
-        child: SizedBox(
-          width: 220.w,
-          child: Scrollbar(
-            child: GridView.builder(
-              padding: EdgeInsets.zero,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 1,
-              ),
-              itemCount: widget.field.choices.length, // <-- required
-              itemBuilder: (context, i) => GestureDetector(
-                onTap: () {
-                  if (widget.isMultiple) {
-                    int trueCount = _choiceMap.values
-                        .where((value) => value == true)
-                        .length;
-                    if (range != -1 &&
-                        trueCount == range &&
-                        !_choiceMap[widget.field.choices[i].id]!) {
-                      Fluttertoast.showToast(
-                          msg: 'You can select only $range options',
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    } else {
-                      _choiceMap.update(
-                          widget.field.choices[i].id ?? "", (value) => !value);
-                      setState(() {});
-                    }
-                  } else {
-                    _choiceMap.updateAll((key, value) => false);
-                    _choiceMap.update(
-                        widget.field.choices[i].id ?? "", (value) => true);
-                    setState(() {});
-                  }
-                },
-                child: Center(
-                  child: Container(
-                    height: 200.h,
-                    width: 150.w,
-                    margin: const EdgeInsets.all(5),
-                    padding: EdgeInsets.all(5.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                      border: Border.all(
-                          color: HexColor(
-                                  surveyFieldController.optionTextColor.value)
-                              .withOpacity(1)),
-                      color:
-                          HexColor(surveyFieldController.optionTextColor.value)
-                              .withOpacity(
-                                  _choiceMap[widget.field.choices[i].id] ??
-                                          false
-                                      ? 1
-                                      : 0.1),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Container(
-                              height: 90.h,
-                              width: 100.w,
-                              decoration: BoxDecoration(
-                                 border: Border.all(color: Colors.blueAccent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.r)),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(5.r),
-                                child: CachedNetworkImage(
-                                    progressIndicatorBuilder:
-                                        (context, url, progress) => Center(
-                                              child: CircularProgressIndicator(
-                                                value: progress.progress,
-                                              ),
-                                            ),
-                                    errorWidget: (context, url, error) => Icon(
-                                          Icons.image_not_supported,
-                                          color: Colors.grey.shade700,
-                                        ),
-                                    imageUrl: widget.field.choices[i]
-                                                .optionGalleryImageId !=
-                                            null
-                                        ? surveyFieldController.createImageUrl(
-                                            widget
-                                                    .field
-                                                    .choices[i]
-                                                    .optionGalleryImageId
-                                                    ?.companyId ??
-                                                "",
-                                            widget.field.choices[i]
-                                                    .optionGalleryImageId?.path ??
-                                                "")
-                                        : ""),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Text(
-                          '${widget.field.choices[i].translations[surveyFieldController.defaultTranslation.value]?.name}',
-                          style: TextStyle(
-                              fontSize: 4.sp,
-                              color: _choiceMap[widget.field.choices[i].id] ??
+        child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            childAspectRatio: 1,
+          ),
+          itemCount: widget.field.choices.length, // <-- required
+          itemBuilder: (context, i) => GestureDetector(
+            onTap: () {
+              if (widget.isMultiple) {
+                int trueCount = _choiceMap.values
+                    .where((value) => value == true)
+                    .length;
+                if (range != -1 &&
+                    trueCount == range &&
+                    !_choiceMap[widget.field.choices[i].id]!) {
+                  Fluttertoast.showToast(
+                      msg: 'You can select only $range options',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                } else {
+                  _choiceMap.update(
+                      widget.field.choices[i].id ?? "", (value) => !value);
+                  setState(() {});
+                }
+              } else {
+                _choiceMap.updateAll((key, value) => false);
+                _choiceMap.update(
+                    widget.field.choices[i].id ?? "", (value) => true);
+                setState(() {});
+              }
+            },
+            child: Center(
+              child: Container(
+                height: 200.h,
+                width: 150.w,
+                margin: const EdgeInsets.all(5),
+                padding: EdgeInsets.all(5.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                  border: Border.all(
+                      color: HexColor(
+                              surveyFieldController.optionTextColor.value)
+                          .withOpacity(1)),
+                  color:
+                      HexColor(surveyFieldController.optionTextColor.value)
+                          .withOpacity(
+                              _choiceMap[widget.field.choices[i].id] ??
                                       false
-                                  ? Colors.white
-                                  : HexColor(surveyFieldController
-                                      .optionTextColor.value),
-                              fontFamily:
-                                  surveyFieldController.fontFamily.value),
-                        ),
-                      ],
+                                  ? 1
+                                  : 0.1),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                          height: 90.h,
+                          width: 100.w,
+                          decoration: BoxDecoration(
+                             border: Border.all(color: Colors.blueAccent),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.r)),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(5.r),
+                            child: CachedNetworkImage(
+                                progressIndicatorBuilder:
+                                    (context, url, progress) => Center(
+                                          child: CircularProgressIndicator(
+                                            value: progress.progress,
+                                          ),
+                                        ),
+                                errorWidget: (context, url, error) => Icon(
+                                      Icons.image_not_supported,
+                                      color: Colors.grey.shade700,
+                                    ),
+                                imageUrl: widget.field.choices[i]
+                                            .optionGalleryImageId !=
+                                        null
+                                    ? surveyFieldController.createImageUrl(
+                                        widget
+                                                .field
+                                                .choices[i]
+                                                .optionGalleryImageId
+                                                ?.companyId ??
+                                            "",
+                                        widget.field.choices[i]
+                                                .optionGalleryImageId?.path ??
+                                            "")
+                                    : ""),
+                          )),
                     ),
-                  ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    Text(
+                      '${widget.field.choices[i].translations[surveyFieldController.defaultTranslation.value]?.name}',
+                      style: TextStyle(
+                          fontSize: 4.sp,
+                          color: _choiceMap[widget.field.choices[i].id] ??
+                                  false
+                              ? Colors.white
+                              : HexColor(surveyFieldController
+                                  .optionTextColor.value),
+                          fontFamily:
+                              surveyFieldController.fontFamily.value),
+                    ),
+                  ],
                 ),
               ),
             ),

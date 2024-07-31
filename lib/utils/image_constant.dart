@@ -31,7 +31,7 @@ class ImageConstant {
   static const String outlinedemoji_3 = "assests/images/survey_emoji/outlined_emoji/Inlove_outline.svg";
   static const String outlinedemoji_4 = "assests/images/survey_emoji/outlined_emoji/neutral_outline.svg";
   static const String outlinedemoji_5 = "assests/images/survey_emoji/outlined_emoji/sad_outline.svg";
-
+  static const String outlinedHeart = "assests/images/survey_emoji/outlined/heart_outlined.svg";
 
 }
 

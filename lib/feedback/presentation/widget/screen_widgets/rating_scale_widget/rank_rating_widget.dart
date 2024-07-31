@@ -26,7 +26,9 @@ class _RankRatingWidgetState extends State<RankRatingWidget> {
             border: Border.all(color: Colors.black),
           ),
           child: ReorderableListView.builder(
-            shrinkWrap: true,
+                shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+       
             padding: const EdgeInsets.symmetric(horizontal: 40),
             itemBuilder: (context, index) {
               return Container(

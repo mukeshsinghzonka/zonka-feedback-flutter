@@ -38,6 +38,8 @@ class _NpsWidgetState extends State<NpsWidget> {
     }, builder: (context) {
       return GridView.builder(
         itemCount: widget.field.choices.length,
+            shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {

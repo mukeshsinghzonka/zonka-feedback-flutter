@@ -58,84 +58,83 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
       surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
       return null;
     }, builder: (context) {
-      return Scrollbar(
-        thickness: 2,
-        child: GridView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: widget.field.choices.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 4),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-              int trueCount = _choiceMap.values.where((value) => value == true).length;
-  
-              if (range != -1 && trueCount == range && !_choiceMap[widget.field.choices[index].id]!) {
-                Fluttertoast.showToast(
-                    msg: 'You can select only $range options',
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
-              } else {
-                _choiceMap.update(widget.field.choices[index].id ?? "", (value) => !value);
-                setState(() {});
-              }
-                },
-                child: Container(
-                  margin: EdgeInsets.all(5.w),
-                  decoration: BoxDecoration(
-                    color:  HexColor(surveyFieldController.optionTextColor.value).withOpacity(_choiceMap[widget.field.choices[index].id] ?? false
-                        ? 1
-                        : 0.1),
-                    border: Border.all(color: HexColor(surveyFieldController.optionTextColor.value)),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8.r),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Transform.scale(
-                        scale: 0.8,
-                        child: Checkbox(
-                          side: WidgetStateBorderSide.resolveWith(
-                            (states) => BorderSide(
-                                width: 1.0,
-                                color:_choiceMap[widget.field.choices[index].id]??false?Colors.white: HexColor(surveyFieldController.optionTextColor.value)
-                                    
-                                    
-                                    ),
-                          ),
-                          value:_choiceMap[widget.field.choices[index].id]??false,
-                          activeColor:HexColor(surveyFieldController.optionTextColor.value).withOpacity(_choiceMap[widget.field.choices[index].id] ?? false
-                        ? 1
-                        : 0.1),
-                          onChanged: (value) {},
-                        ),
-                      ),
-                      Text(
-                        widget
-                                .field
-                                .choices[index]
-                                .translations[surveyFieldController
-                                    .defaultTranslation.value]
-                                ?.name ??
-                            "",
-                        style: TextStyle(
-                            fontSize: 6.sp,
-                      fontFamily: surveyFieldController
-                         .fontFamily.value,
-                            color:_choiceMap[widget.field.choices[index].id]??false?Colors.white: HexColor(surveyFieldController.optionTextColor.value)
-                                    
-                                ),
-                      ),
-                    ],
+      return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          itemCount: widget.field.choices.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 4),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+            int trueCount = _choiceMap.values.where((value) => value == true).length;
+        
+            if (range != -1 && trueCount == range && !_choiceMap[widget.field.choices[index].id]!) {
+              Fluttertoast.showToast(
+                  msg: 'You can select only $range options',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            } else {
+              _choiceMap.update(widget.field.choices[index].id ?? "", (value) => !value);
+              setState(() {});
+            }
+              },
+              child: Container(
+                margin: EdgeInsets.all(5.w),
+                decoration: BoxDecoration(
+                  color:  HexColor(surveyFieldController.optionTextColor.value).withOpacity(_choiceMap[widget.field.choices[index].id] ?? false
+                      ? 1
+                      : 0.1),
+                  border: Border.all(color: HexColor(surveyFieldController.optionTextColor.value)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.r),
                   ),
                 ),
-              );
-            }),
-      );
+                child: Row(
+                  children: [
+                    Transform.scale(
+                      scale: 0.8,
+                      child: Checkbox(
+                        side: WidgetStateBorderSide.resolveWith(
+                          (states) => BorderSide(
+                              width: 1.0,
+                              color:_choiceMap[widget.field.choices[index].id]??false?Colors.white: HexColor(surveyFieldController.optionTextColor.value)
+                                  
+                                  
+                                  ),
+                        ),
+                        value:_choiceMap[widget.field.choices[index].id]??false,
+                        activeColor:HexColor(surveyFieldController.optionTextColor.value).withOpacity(_choiceMap[widget.field.choices[index].id] ?? false
+                      ? 1
+                      : 0.1),
+                        onChanged: (value) {},
+                      ),
+                    ),
+                    Text(
+                      widget
+                              .field
+                              .choices[index]
+                              .translations[surveyFieldController
+                                  .defaultTranslation.value]
+                              ?.name ??
+                          "",
+                      style: TextStyle(
+                          fontSize: 6.sp,
+                    fontFamily: surveyFieldController
+                       .fontFamily.value,
+                          color:_choiceMap[widget.field.choices[index].id]??false?Colors.white: HexColor(surveyFieldController.optionTextColor.value)
+                                  
+                              ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
     });
   }
 }

@@ -17,7 +17,7 @@ class StarRatingWidget extends StatefulWidget {
   State<StarRatingWidget> createState() => _StarRatingWidgetState();
 }
 
-class _StarRatingWidgetState extends State<StarRatingWidget> {
+class _StarRatingWidgetState extends State<StarRatingWidget> with SingleTickerProviderStateMixin{
 
    final SurveyDesignFieldController surveyFieldController =
       Get.find<SurveyDesignFieldController>();
@@ -26,8 +26,14 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
 
-    @override
+ late AnimationController _controller;
+  late Animation<double> _animation;
+
+
+  @override
   void initState() {
+
+
     for (int i = 0; i < widget.field.options.length; i++) {
       _optionMap[widget.field.options[i].id ?? ""] = -1;
     }
@@ -35,8 +41,29 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
     for (int i = 0; i < widget.field.options.length; i++) {
       _choiceMap[widget.field.options[i].id ?? ""] = "";
     }
+
+  _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          _controller.forward();
+        }
+      });
+
+
     super.initState();
   }
+  
+   void _onTap() {
+    _controller.forward();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +72,8 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
       return null;
     }, builder: (context) {
       return ListView.builder(
+            shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
           itemCount: widget.field.options.length,
           itemBuilder: (context, indexOption) {
             return Container(
@@ -64,7 +93,7 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
                     height: 5.h,
                   ),
                   Container(
-                    height: 50.h,
+                    height: 80.h,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.blueAccent)),
                     alignment: Alignment.center,
@@ -74,33 +103,49 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, indexChoice) {
-                          return GestureDetector(
-                            onTap: () {
-                              _optionMap[widget.field.options[indexOption].id ??
-                                  ""] = indexChoice;
-                              _choiceMap[widget.field.options[indexOption].id ??
-                                      ""] =
-                                  widget.field.choices[indexChoice].id ?? "";
-                              setState(() {});
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(1.w),
-                              child: SvgPicture.asset(
-                                ImageConstant.starSvg,
-                                color:
-                                    // _optionMap[widget.field
-                                    //                     .options[indexOption].id ??
-                                    //                 ""] !=
-                                    //             -1 &&
-                                    _optionMap[widget.field.options[indexOption]
-                                                    .id ??
-                                                ""]! <
-                                            indexChoice
-                                        ? HexColor('#FFD93B').withOpacity(0.3)
-                                        :  HexColor('#FFD93B'),
-                                height: 40.h,
+                          return Column(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _optionMap[widget.field.options[indexOption].id ??
+                                        ""] = indexChoice;
+                                    _choiceMap[widget.field.options[indexOption].id ??
+                                            ""] =
+                                        widget.field.choices[indexChoice].id ?? "";
+                                        _onTap();
+                                    setState(() {});
+                                  },
+                                  child: AnimatedBuilder(
+                                    animation: _animation,
+                                    builder: (context,child) {
+                                      return Opacity(
+                                        opacity: _animation.value,
+                                        child: SvgPicture.asset(
+                                            ImageConstant.starSvg,
+                                            color:
+                                                _optionMap[widget.field.options[indexOption]
+                                                                .id ??
+                                                            ""]! <
+                                                        indexChoice
+                                                    ? HexColor('#FFD93B').withOpacity(0.3)
+                                                    :  HexColor('#FFD93B'),
+                                            height: 40.h,
+                                          ),
+                                      );
+                                    }
+                                  ),
+                                  
+                                ),
                               ),
-                            ),
+                              Expanded(
+                                child: SizedBox(
+                              width: 30.w,
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                "yugguhkjhkj" ?? "yugguhkjhkj",)))
+                            ],
                           );
                         }),
                   )

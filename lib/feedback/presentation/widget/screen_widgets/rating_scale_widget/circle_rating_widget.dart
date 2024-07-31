@@ -43,6 +43,8 @@ class _CircleRatingWidgetState extends State<CircleRatingWidget> {
       },
       builder: (context) {
         return ListView.builder(
+            shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
             itemCount: widget.field.options.length,
             itemBuilder: (context, indexOption) {
               return Column(

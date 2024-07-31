@@ -35,6 +35,8 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> {
       return null;
     }, builder: (context) {
       return GridView.builder(
+          shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: widget.field.choices.length,
         itemBuilder: (context, index) {
           return GestureDetector(

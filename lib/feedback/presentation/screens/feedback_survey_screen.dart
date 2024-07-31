@@ -75,6 +75,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                     ),
                   );
                 }),
+             
               const Expanded(flex: 2, child: ExitWidget())
               ],
             ),

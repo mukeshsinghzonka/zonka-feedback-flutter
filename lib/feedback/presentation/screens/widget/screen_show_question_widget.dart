@@ -18,154 +18,182 @@ class SwitchScreenWidget extends StatefulWidget {
 }
 
 class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
-  final ScreenFeedBackQuesController screenFeedBackQuesController = Get.put(ScreenFeedBackQuesController());
-  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
-  final SurveyCollectDataController surveyCollectDataController = Get.put(SurveyCollectDataController());
-
-
+  final ScreenFeedBackQuesController screenFeedBackQuesController =
+      Get.put(ScreenFeedBackQuesController());
+  final SurveyDesignFieldController surveyFieldController =
+      Get.find<SurveyDesignFieldController>();
+  final SurveyScreenManager surveyScreenManager =
+      Get.find<SurveyScreenManager>();
+  final SurveyCollectDataController surveyCollectDataController =
+      Get.put(SurveyCollectDataController());
 
   @override
   void dispose() {
-   Get.delete<ScreenFeedBackQuesController>();
+    Get.delete<ScreenFeedBackQuesController>();
     super.dispose();
   }
-  
-
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key: surveyScreenManager.formKey,
-      child: ListView.builder(
-          itemCount: widget.feedbackQuestion.length,
-          itemBuilder: (context, index) {
-            return Visibility(
-              visible: surveyScreenManager.hideSurveyWidget.containsKey(widget.feedbackQuestion[index].fieldName??"") ? surveyScreenManager.hideSurveyWidget[widget.feedbackQuestion[index].fieldName??""]??true:true,
-              child: Container(
-                margin: EdgeInsets.only(top: 10.h),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                        child: Text('${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.fieldLabel}',
-                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 6.sp,color: HexColor(surveyFieldController.headingTextColor.value)),
-                        )),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-   Text('${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle}',
-   textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 6.sp,color: HexColor(surveyFieldController.headingTextColor.value)),
+      child: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                // Build the list of items
+                return SingleChildScrollView(
+                  child: Visibility(
+                    visible: surveyScreenManager.hideSurveyWidget.containsKey(
+                            widget.feedbackQuestion[index].fieldName ?? "")
+                        ? surveyScreenManager.hideSurveyWidget[
+                                widget.feedbackQuestion[index].fieldName ??
+                                    ""] ??
+                            true
+                        : true,
+                    child: Column(
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.blueAccent)),
+                            child: Text(
+                              '${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.fieldLabel}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 6.sp,
+                                  color: HexColor(surveyFieldController
+                                      .headingTextColor.value)),
+                            )),
+                        SizedBox(
+                          height: 5.h,
                         ),
-    SizedBox(
-                      height: 5.h,
-                    ),
-                    Obx(
-                     () {
-                       
-                        return Visibility(
-                          visible: surveyScreenManager.showIsRequired!.containsKey(widget.feedbackQuestion[index].id??"")==true,
-                          child: Container(
-                     padding: EdgeInsets.all(5.h),
-                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5.r)), border: Border.all(color: Colors.red)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.dnd_forwardslash,
-                                  color: Colors.red,
-                                ),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Builder(
-                                  builder: (context) {
-                                    if(surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""]?.value == ScreenValidationErrorType.REQUIRED){
-                                     return  Text(
-                                      surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""]!.message !=null?   surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""]!.message??"": 'This is a required field',
-                                      style:const TextStyle(color: Colors.red),
-                                    );
-                                    }
-                                    else if(surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id??""]?.value == ScreenValidationErrorType.WRONGSELECTION){
-                                    return const Text(
-                                      'Please make the right number of selections.',
-                                      style: TextStyle(color: Colors.red),
-                                    );
-                                    }
-                                   return Container();
-                                  }
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-                    ),
-                    Builder(
-                      builder: (context) {
-                      if (widget.feedbackQuestion[index].quesImages.isEmpty) {
-                        return Container();
-                      }
-                      return Container(
-                        height: 150.h,
-                        margin: EdgeInsets.all(3.w),
-                      decoration: BoxDecoration(
-                      borderRadius:BorderRadius.all(Radius.circular(10.r)),
-                      ),
-                      child:
-                          widget.feedbackQuestion[index].quesImages.isNotEmpty
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                child: Image.network(
-                                  fit: BoxFit.cover,
-                                    '${surveyFieldController.s3GalleryImageUrl.value}${widget.feedbackQuestion[index].quesImages.first.companyId}/${widget.feedbackQuestion[index].quesImages.first.path}',
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container();
-                                    },
+                        Text(
+                          '${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 6.sp,
+                              color: HexColor(surveyFieldController
+                                  .headingTextColor.value)),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Obx(() {
+                          return Visibility(
+                            visible: surveyScreenManager.showIsRequired!
+                                    .containsKey(
+                                        widget.feedbackQuestion[index].id ??
+                                            "") ==
+                                true,
+                            child: Container(
+                              padding: EdgeInsets.all(5.h),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.r)),
+                                  border: Border.all(color: Colors.red)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(
+                                    Icons.dnd_forwardslash,
+                                    color: Colors.red,
                                   ),
+                                  SizedBox(
+                                    width: 2.w,
+                                  ),
+                                  Builder(builder: (context) {
+                                    if (surveyScreenManager
+                                            .showIsRequired![widget
+                                                    .feedbackQuestion[index]
+                                                    .id ??
+                                                ""]
+                                            ?.value ==
+                                        ScreenValidationErrorType.REQUIRED) {
+                                      return Text(
+                                        surveyScreenManager
+                                                    .showIsRequired![widget
+                                                            .feedbackQuestion[
+                                                                index]
+                                                            .id ??
+                                                        ""]!
+                                                    .message !=
+                                                null
+                                            ? surveyScreenManager
+                                                    .showIsRequired![widget
+                                                            .feedbackQuestion[
+                                                                index]
+                                                            .id ??
+                                                        ""]!
+                                                    .message ??
+                                                ""
+                                            : 'This is a required field',
+                                        style:
+                                            const TextStyle(color: Colors.red),
+                                      );
+                                    } else if (surveyScreenManager
+                                            .showIsRequired![widget
+                                                    .feedbackQuestion[index]
+                                                    .id ??
+                                                ""]
+                                            ?.value ==
+                                        ScreenValidationErrorType
+                                            .WRONGSELECTION) {
+                                      return const Text(
+                                        'Please make the right number of selections.',
+                                        style: TextStyle(color: Colors.red),
+                                      );
+                                    }
+                                    return Container();
+                                  }),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                        Builder(builder: (context) {
+                          if (widget
+                              .feedbackQuestion[index].quesImages.isEmpty) {
+                            return Container();
+                          }
+                          return Container(
+                            height: 150.h,
+                            margin: EdgeInsets.all(3.w),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.r)),
+                            ),
+                            child: widget.feedbackQuestion[index].quesImages
+                                    .isNotEmpty
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    child: Image.network(
+                                      fit: BoxFit.cover,
+                                      '${surveyFieldController.s3GalleryImageUrl.value}${widget.feedbackQuestion[index].quesImages.first.companyId}/${widget.feedbackQuestion[index].quesImages.first.path}',
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Container();
+                                      },
+                                    ),
                                   )
                                 : Container(),
-                      );
-                    }),
-                    Container(
-                        height: 200.h,
-                        width: 300.w,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blueAccent)),
-                        alignment: Alignment.topCenter,
-                        child: AnimatedSwitcher(
-                          // switchInCurve: Curves.easeOutExpo,
-//                     transitionBuilder: (Widget child, Animation<double> animation) {
-//   return SlideTransition(
-//     position: Tween<Offset>(
-//       begin:  Offset(1, 0),
-//       end: Offset(0, 0),
-//     ).animate(animation),
-//     child: child,
-//   );
-// },
-  // transitionBuilder: (Widget child, Animation<double> animation) {
-  //           final offsetAnimation = Tween<Offset>(
-  //             begin: const Offset(-1, 0), // Starting position, left side
-  //             end: Offset.zero,           // Ending position, center
-  //           ).animate(animation);
-  //           return SlideTransition(position: offsetAnimation, child: child);
-  //         },
-
-                          duration: const Duration(milliseconds: 500),
-                          child: screenFeedBackQuesController.getScreenType(
-                              widget.feedbackQuestion[index].fieldName ?? "",
-                              widget.feedbackQuestion[index]),
-                        ))
-                  ],
-                ),
-              ),
-            );
-          }),
+                          );
+                        }),
+                        screenFeedBackQuesController.getScreenType(
+                            widget.feedbackQuestion[index].fieldName ?? "",
+                            widget.feedbackQuestion[index]),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              childCount:
+                  widget.feedbackQuestion.length, // Number of items in the list
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

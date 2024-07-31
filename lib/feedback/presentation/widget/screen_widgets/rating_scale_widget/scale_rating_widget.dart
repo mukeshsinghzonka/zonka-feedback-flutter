@@ -26,7 +26,9 @@ class _ScaleRatingWidgetState extends State<ScaleRatingWidget> {
           height: 50.h,
           child: ListView.builder(
             itemCount: 11,
-            shrinkWrap: true,
+                shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+  
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
             return GestureDetector(
