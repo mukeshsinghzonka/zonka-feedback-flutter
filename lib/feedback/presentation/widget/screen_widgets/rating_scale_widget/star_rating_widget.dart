@@ -9,31 +9,26 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_design_contr
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
+
 class StarRatingWidget extends StatefulWidget {
   final Field field;
-  const StarRatingWidget({super.key, required this.field});
+  const StarRatingWidget({super.key,required this.field});
 
   @override
   State<StarRatingWidget> createState() => _StarRatingWidgetState();
 }
 
-class _StarRatingWidgetState extends State<StarRatingWidget> with SingleTickerProviderStateMixin{
-
-   final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
-  String? choiceId;
+class _StarRatingWidgetState extends State<StarRatingWidget> {
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
 
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
 
- late AnimationController _controller;
-  late Animation<double> _animation;
-
+  int rowIndx = -1;
+  int colIndx = -1;
 
   @override
   void initState() {
-
-
     for (int i = 0; i < widget.field.options.length; i++) {
       _optionMap[widget.field.options[i].id ?? ""] = -1;
     }
@@ -41,119 +36,84 @@ class _StarRatingWidgetState extends State<StarRatingWidget> with SingleTickerPr
     for (int i = 0; i < widget.field.options.length; i++) {
       _choiceMap[widget.field.options[i].id ?? ""] = "";
     }
-
-  _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-
-     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _controller.reverse();
-        } else if (status == AnimationStatus.dismissed) {
-          _controller.forward();
-        }
-      });
-
-
+    colIndx = widget.field.choices.length;
+    rowIndx = widget.field.options.length;
     super.initState();
   }
-  
-   void _onTap() {
-    _controller.forward();
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    return FormField(
-      validator: (value) {
-      return null;
-    }, builder: (context) {
-      return ListView.builder(
-            shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-          itemCount: widget.field.options.length,
-          itemBuilder: (context, indexOption) {
-            return Container(
-              margin: EdgeInsets.all(5.w),
-              child: Column(
-                children: [
-                  Text(
-                    widget
-                            .field
-                            .options[indexOption]
-                            .translations![
-                                surveyFieldController.defaultTranslation.value]
-                            ?.name ??
-                        '',
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Container(
-                    height: 80.h,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
-                    alignment: Alignment.center,
-                    child: ListView.builder(
-                        itemCount: widget.field.choices.length,
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, indexChoice) {
-                          return Column(
-                            children: [
-                              Expanded(
-                                flex: 3,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    _optionMap[widget.field.options[indexOption].id ??
-                                        ""] = indexChoice;
-                                    _choiceMap[widget.field.options[indexOption].id ??
-                                            ""] =
-                                        widget.field.choices[indexChoice].id ?? "";
-                                        _onTap();
-                                    setState(() {});
-                                  },
-                                  child: AnimatedBuilder(
-                                    animation: _animation,
-                                    builder: (context,child) {
-                                      return Opacity(
-                                        opacity: _animation.value,
-                                        child: SvgPicture.asset(
-                                            ImageConstant.starSvg,
-                                            color:
-                                                _optionMap[widget.field.options[indexOption]
-                                                                .id ??
-                                                            ""]! <
-                                                        indexChoice
-                                                    ? HexColor('#FFD93B').withOpacity(0.3)
-                                                    :  HexColor('#FFD93B'),
-                                            height: 40.h,
-                                          ),
-                                      );
-                                    }
-                                  ),
-                                  
-                                ),
-                              ),
-                              Expanded(
-                                child: SizedBox(
-                              width: 30.w,
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                "yugguhkjhkj" ?? "yugguhkjhkj",)))
-                            ],
-                          );
-                        }),
-                  )
-                ],
+    return Container(
+       margin: EdgeInsets.all(5.w),
+       child:Column(
+        children: [
+         // Show Choice Text 
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 50.w,
               ),
-            );
-          });
-    });
-    
+            for(int j = 0 ; j < colIndx-1 ; j++)
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(2.w),
+                  child: Text("${widget.field.choices[j].translations[surveyFieldController.defaultTranslation.value]?.helpText}",
+                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                  fontSize: 8.h
+                ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+      // Show radio button 
+        for(int i = 0 ; i < rowIndx ; i++)
+          Row(
+            children: [
+              Container(
+                width: 50.w,
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(2.w),
+                child: Text("${widget.field.options[i].translations![surveyFieldController.defaultTranslation.value]?.name}",
+                style: TextStyle(
+                    fontSize: 10.h
+                ),
+                
+                ),
+              ),
+              for(int j = 0 ; j < colIndx - 1; j++)
+              Expanded(
+                child: GestureDetector(
+                            onTap: () {
+                              _optionMap[widget.field.options[i].id ??
+                                  ""] = j;
+                              _choiceMap[widget.field.options[i].id ??
+                                      ""] =
+                                  widget.field.choices[j].id ?? "";
+                         
+                              setState(() {});
+                            },
+                            child: Container(
+                              margin: EdgeInsets.all(3.w),
+                              child: SvgPicture.asset(
+                                ImageConstant.starSvg,
+                                color: _optionMap[widget.field.options[i].id ?? ""]! < j
+                                    ? HexColor('#FFD93B').withOpacity(0.3)
+                                    : HexColor('#FFD93B'),
+                                height: 30.h,
+                              ),
+                            ),
+                          )
+              ),
+            ],
+          ),
+          
+        ],
+      )
+    );
   }
 }
+

@@ -67,31 +67,29 @@ class _LegalWidgetState extends State<LegalWidget> {
                 ),
               ),
             ),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics:const NeverScrollableScrollPhysics(),
-              itemCount: widget.field.choices.length,
-              itemBuilder: (context, index) {
-              return  Row(
-                    children: [
-                      Radio<String>(
-                         focusColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
-                          activeColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
-                          value: widget.field.choices[index].id??"",
-                          groupValue: groupValue,
-                          onChanged: (String ? value) {
-                            groupValue = value;
-                            setState(() {});
-                          }),
-                       Text( widget.field.choices[index]. translations[_surveyDesignFieldController.defaultTranslation.value]?.name??"",style: TextStyle(
-                        color: HexColor(_surveyDesignFieldController.optionTextColor.value),
-                        fontFamily:_surveyDesignFieldController.fontFamily.value   
-                       ),) 
-                    ],
-                  );
-               }),
-          ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics:const NeverScrollableScrollPhysics(),
+            itemCount: widget.field.choices.length,
+            itemBuilder: (context, index) {
+            return  Row(
+                  children: [
+                    Radio<String>(
+                       focusColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
+                        activeColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
+                        value: widget.field.choices[index].id??"",
+                        groupValue: groupValue,
+                        onChanged: (String ? value) {
+                          groupValue = value;
+                          setState(() {});
+                        }),
+                     Text( widget.field.choices[index]. translations[_surveyDesignFieldController.defaultTranslation.value]?.name??"",style: TextStyle(
+                      color: HexColor(_surveyDesignFieldController.optionTextColor.value),
+                      fontFamily:_surveyDesignFieldController.fontFamily.value   
+                     ),) 
+                  ],
+                );
+             }),
 
           ],
         );

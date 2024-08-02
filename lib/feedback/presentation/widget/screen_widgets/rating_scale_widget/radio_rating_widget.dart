@@ -18,6 +18,10 @@ class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> {
 
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
+
+  int rowIndx = -1;
+  int colIndx = -1;
+
   @override
   void initState() {
     for (int i = 0; i < widget.field.options.length; i++) {
@@ -27,52 +31,72 @@ class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> {
     for (int i = 0; i < widget.field.options.length; i++) {
       _choiceMap[widget.field.options[i].id ?? ""] = "";
     }
+    colIndx = widget.field.choices.length;
+    rowIndx = widget.field.options.length;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-          shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, indexOption) {
-            return Row(
-              children: [
-                Container(
-                  width: 50.w,
-                   height: 40.h,
-                   alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueAccent)),
-                      child: Text(widget.field.options[indexOption].translations![surveyFieldController.defaultTranslation.value]?.name ??"",
-                     style: TextStyle(fontFamily: surveyFieldController.fontFamily.value,fontSize: 7.sp,),
-                  ),
-                  ),
-                Container(
-                  width: 200.w,
-                  height: 40.h,
-                  decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                  child: ListView.builder(
-                      itemCount: widget.field.choices.length-1,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                           padding:  EdgeInsets.symmetric(horizontal: 10.w),
-                          child: Radio(
-                            value: widget.field.choices[index].id,
-                            groupValue:_choiceMap[widget.field.options[indexOption].id ?? ""],
-                            onChanged: (value) {
-                              _choiceMap[widget.field.options[indexOption].id ?? ""] = value??'';
-                              setState(() {});
-                            },
-                          ),
-                        );
-                      }),
+    return Container(
+       margin: EdgeInsets.all(5.w),
+       child:Column(
+        children: [
+         // Show Choice Text 
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 50.w,
+              ),
+            for(int j = 0 ; j < colIndx-1 ; j++)
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(2.w),
+                  child: Text("${widget.field.choices[j].translations[surveyFieldController.defaultTranslation.value]?.name}",
+                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                  fontSize: 8.h
                 ),
-              ],
-            );
-          },
-          itemCount: widget.field.options.length);
-    
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+      // Show radio button 
+        for(int i = 0 ; i < rowIndx ; i++)
+          Row(
+            children: [
+              Container(
+                width: 50.w,
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(2.w),
+                child: Text("${widget.field.options[i].translations![surveyFieldController.defaultTranslation.value]?.name}",
+                style: TextStyle(
+                    fontSize: 8.h
+                ),
+                
+                ),
+              ),
+              for(int j = 0 ; j < colIndx -1; j++)
+              Expanded(
+           
+                child: Radio(
+                  value: widget.field.choices[j].id,
+                  groupValue: _choiceMap[widget.field.options[i].id],
+                  onChanged: (value) {
+                    setState(() {
+                      _choiceMap[widget.field.options[i].id??""] = value??"";
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          
+        ],
+      )
+    );
   }
 }

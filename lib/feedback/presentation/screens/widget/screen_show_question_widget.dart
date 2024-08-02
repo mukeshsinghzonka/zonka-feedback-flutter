@@ -18,14 +18,10 @@ class SwitchScreenWidget extends StatefulWidget {
 }
 
 class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
-  final ScreenFeedBackQuesController screenFeedBackQuesController =
-      Get.put(ScreenFeedBackQuesController());
-  final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
-  final SurveyScreenManager surveyScreenManager =
-      Get.find<SurveyScreenManager>();
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.put(SurveyCollectDataController());
+  final ScreenFeedBackQuesController screenFeedBackQuesController = Get.put(ScreenFeedBackQuesController());
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
+  final SurveyCollectDataController surveyCollectDataController = Get.put(SurveyCollectDataController());
 
   @override
   void dispose() {
@@ -53,6 +49,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                             true
                         : true,
                     child: Column(
+             
                       children: [
                         Container(
                             decoration: BoxDecoration(
@@ -81,11 +78,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                         ),
                         Obx(() {
                           return Visibility(
-                            visible: surveyScreenManager.showIsRequired!
-                                    .containsKey(
-                                        widget.feedbackQuestion[index].id ??
-                                            "") ==
-                                true,
+                            visible: surveyScreenManager.showIsRequired!.containsKey(widget.feedbackQuestion[index].id ??"") == true,
                             child: Container(
                               padding: EdgeInsets.all(5.h),
                               decoration: BoxDecoration(
@@ -152,20 +145,18 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                             ),
                           );
                         }),
-                        Builder(builder: (context) {
-                          if (widget
-                              .feedbackQuestion[index].quesImages.isEmpty) {
+                        Builder(
+                          builder: (context) {
+                          if (widget.feedbackQuestion[index].quesImages.isEmpty) {
                             return Container();
                           }
                           return Container(
                             height: 150.h,
                             margin: EdgeInsets.all(3.w),
                             decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.r)),
+                              borderRadius: BorderRadius.all(Radius.circular(10.r)),
                             ),
-                            child: widget.feedbackQuestion[index].quesImages
-                                    .isNotEmpty
+                            child: widget.feedbackQuestion[index].quesImages.isNotEmpty
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(10.r),
                                     child: Image.network(
@@ -180,16 +171,13 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                 : Container(),
                           );
                         }),
-                        screenFeedBackQuesController.getScreenType(
-                            widget.feedbackQuestion[index].fieldName ?? "",
-                            widget.feedbackQuestion[index]),
+                        screenFeedBackQuesController.getScreenType(widget.feedbackQuestion[index].fieldName ?? "", widget.feedbackQuestion[index]),
                       ],
                     ),
                   ),
                 );
               },
-              childCount:
-                  widget.feedbackQuestion.length, // Number of items in the list
+              childCount: widget.feedbackQuestion.length, // Number of items in the list
             ),
           ),
         ],

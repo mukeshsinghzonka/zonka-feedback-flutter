@@ -19,6 +19,8 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   static String ? choiceId;
   late ValidationLogicManager validationLogicManager;
+
+  
   @override
   void initState() {
     validationLogicManager = ValidationLogicManager(field: widget.field);
@@ -35,7 +37,7 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> {
       return null;
     }, builder: (context) {
       return GridView.builder(
-          shrinkWrap: true,
+        shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: widget.field.choices.length,
         itemBuilder: (context, index) {
@@ -44,27 +46,23 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> {
               choiceId = widget.field.choices[index].id??"";
               setState(() {});
             },
-            child: Center(
-              child: Container(
-                height: 60.h,
-                width: 50.w,
+            child: Container(
                  padding: EdgeInsets.all(10.h),
-                  margin: EdgeInsets.all(5.h),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black ),
-                      color: choiceId!=null && choiceId==widget.field.choices[index].id ? Colors.black: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(5.r)),
-                  child: Text(
-                    widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: choiceId!=null && choiceId==widget.field.choices[index].id?Colors.white:Colors.black,fontSize: 5.sp , fontFamily: surveyFieldController.fontFamily.value,),
-                  )),
-            ),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black ),
+                    color: choiceId!=null && choiceId==widget.field.choices[index].id ? Colors.black: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(5.r)),
+                child: Text(
+                  widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: choiceId!=null && choiceId==widget.field.choices[index].id?Colors.white:Colors.black,fontSize: 5.sp , fontFamily: surveyFieldController.fontFamily.value,),
+                )),
           );
         },
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: widget.field.choices.length,
+          crossAxisSpacing: 10.h,
         ),
       );
     });

@@ -47,6 +47,8 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
       },
       builder: (context) {
         return GridView.builder(
+          shrinkWrap:true,
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, // Number of columns
@@ -94,6 +96,7 @@ class CustomRadioButton extends StatelessWidget {
     return GestureDetector(
       onTap: () => onChanged(value),
       child: Container(
+       
         margin: EdgeInsets.all(8.h),
         decoration: BoxDecoration(
             color:  HexColor(surveyFieldController.optionTextColor.value)

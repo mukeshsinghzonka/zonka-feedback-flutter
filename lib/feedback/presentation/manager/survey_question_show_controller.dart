@@ -28,14 +28,12 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 
 class ScreenFeedBackQuesController extends GetxController{
 
- 
 
   Widget getScreenType(String type, Field field){   
    return _switchWidget(screen: mapOfScreenByType(type,field), field: field);
   }
 
   SurveyScreenenum mapOfScreenByType(String type,Field field) {
-    print(type);
     switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.multipleButtonChoice;

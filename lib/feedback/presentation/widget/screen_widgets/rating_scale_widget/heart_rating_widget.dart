@@ -8,6 +8,7 @@ import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
+
 class HeartRatingWidget extends StatefulWidget {
   final Field field;
   const HeartRatingWidget({super.key, required this.field});
@@ -17,12 +18,13 @@ class HeartRatingWidget extends StatefulWidget {
 }
 
 class _HeartRatingWidgetState extends State<HeartRatingWidget> {
-  final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
-  String? choiceId;
+final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
 
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
+
+  int rowIndx = -1;
+  int colIndx = -1;
 
   @override
   void initState() {
@@ -33,52 +35,64 @@ class _HeartRatingWidgetState extends State<HeartRatingWidget> {
     for (int i = 0; i < widget.field.options.length; i++) {
       _choiceMap[widget.field.options[i].id ?? ""] = "";
     }
+    colIndx = widget.field.choices.length;
+    rowIndx = widget.field.options.length;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FormField(validator: (value) {
-      return null;
-    }, builder: (context) {
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-          itemCount: widget.field.options.length,
-          itemBuilder: (context, indexOption) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return Container(
+       margin: EdgeInsets.all(5.w),
+       child:Column(
+        children: [
+         // Show Choice Text 
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 50.w,
+              ),
+            for(int j = 0 ; j < colIndx-1 ; j++)
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(2.w),
+                  child: Text("${widget.field.choices[j].translations[surveyFieldController.defaultTranslation.value]?.helpText}",
+                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                  fontSize: 8.h
+                ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+      // Show radio button 
+        for(int i = 0 ; i < rowIndx ; i++)
+          Container(
+            margin: EdgeInsets.all(5.w),
+            child: Row(
               children: [
-                Text(
-                  widget
-                          .field
-                          .options[indexOption]
-                          .translations![
-                              surveyFieldController.defaultTranslation.value]
-                          ?.name ??
-                      '',
-                ),
-                SizedBox(
-                  width: 10.h,
-                ),
                 Container(
-                  height: 60.h,
-                  // decoration: BoxDecoration(
-                  //     border: Border.all(color: Colors.blueAccent)),
+                  width: 50.w,
                   alignment: Alignment.center,
-                  child: ListView.builder(
-                      itemCount: widget.field.choices.length,
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, indexChoice) {
-                        return GestureDetector(
+                  padding: EdgeInsets.all(2.w),
+                  child: Text("${widget.field.options[i].translations![surveyFieldController.defaultTranslation.value]?.name}",
+                  style: TextStyle(
+                      fontSize: 10.h
+                  ),
+                  ),
+                ),
+                for(int j = 0 ; j < colIndx - 1; j++)
+                Expanded(
+                  child:  GestureDetector(
                           onTap: () {
-                            _optionMap[widget.field.options[indexOption].id ??
-                                ""] = indexChoice;
-                            _choiceMap[widget.field.options[indexOption].id ??
+                            _optionMap[widget.field.options[i].id ??
+                                ""] = j;
+                            _choiceMap[widget.field.options[i].id ??
                                     ""] =
-                                widget.field.choices[indexChoice].id ?? "";
+                                widget.field.choices[j].id ?? "";
                   
                             setState(() {});
                           },
@@ -89,35 +103,38 @@ class _HeartRatingWidgetState extends State<HeartRatingWidget> {
                                         ImageConstant.outlinedHeart,
                                         color: _optionMap[widget
                                                         .field
-                                                        .options[indexOption]
+                                                        .options[i]
                                                         .id ??
                                                     ""]! <
-                                                indexChoice
+                                                j
                                             ? Colors.black.withOpacity(0.3)
                                             : Colors.black,
                                         colorFilter:const ColorFilter.mode(
-                                            Colors.red, BlendMode.srcIn),
+                                            Colors.black, BlendMode.srcIn),
                                         height: 40.h,
                                       )
                                     : SvgPicture.asset(
                                         ImageConstant.heartSvg,
                                         color: _optionMap[widget
                                                         .field
-                                                        .options[indexOption]
+                                                        .options[i]
                                                         .id ??
                                                     ""]! <
-                                                indexChoice
+                                                j
                                             ? Colors.red.withOpacity(0.3)
                                             : Colors.red,
                                         height: 40.h,
                                       ),
                               ),
-                        );
-                      }),
-                )
+                        )
+                ),
               ],
-            );
-          });
-    });
+            ),
+          ),
+          
+        ],
+      )
+    );
   }
 }
+

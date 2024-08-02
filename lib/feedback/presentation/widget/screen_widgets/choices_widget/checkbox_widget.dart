@@ -103,8 +103,6 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
                           (states) => BorderSide(
                               width: 1.0,
                               color:_choiceMap[widget.field.choices[index].id]??false?Colors.white: HexColor(surveyFieldController.optionTextColor.value)
-                                  
-                                  
                                   ),
                         ),
                         value:_choiceMap[widget.field.choices[index].id]??false,
