@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class NpsWidget extends StatefulWidget {
@@ -14,7 +16,7 @@ class NpsWidget extends StatefulWidget {
   State<NpsWidget> createState() => _NpsWidgetState();
 }
 
-class _NpsWidgetState extends State<NpsWidget> {
+class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMixin{
   int selected = -1;
    final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
    List gradientColors = [
@@ -25,6 +27,17 @@ class _NpsWidgetState extends State<NpsWidget> {
   String ? choiceId;
   Color selectedColor = HexColor('#F9BE00');
 
+  late ValidationLogicManager validationLogicManager;
+  String optionId = "";
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+ 
+  @override
+  void initState() {
+       validationLogicManager = ValidationLogicManager(field: widget.field);
+     _animationController.initAnimationController(this);
+   
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,23 +53,36 @@ class _NpsWidgetState extends State<NpsWidget> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: () {
+                onTap: ()async  {
                   choiceId = widget.field.choices[index].id??"";
+
+                        for(int i = 0 ;i<2;i++){
+                              await _animationController.blinkingAnimation();         
+                              setState(() {});
+                  }
                   setState(() {});
                 },
-                child: Center(
-                  child: Container(
-                      margin: EdgeInsets.all(5.h),
-                      width: 50.w,
-                      height: 50.h,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: Colors.black),     
-                          color: widget.field.isButtonColored??false ?  choiceId !=null &&  choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4): choiceId == widget.field.choices[index].id ? selectedColor : index>=0 && index<=6? gradientColors[0]: index>=7 && index<=8? gradientColors[1]: gradientColors[2]:  choiceId!=null && choiceId == widget.field.choices[index].id? Colors.black : Colors.grey.shade300  ,
-                          borderRadius: BorderRadius.circular(5.r)),
-                      child: Text(widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
-                        style: TextStyle(color: widget.field.isButtonColored??false ? Colors.white : choiceId!=null && choiceId == widget.field.choices[index].id ? Colors.white: Colors.black),
-                      )),
+                child: AnimatedBuilder(
+                  animation: _animationController.animation,
+                  builder: (context,child) {
+                    return Opacity(
+                       opacity: choiceId==widget.field.choices[index].id  ? _animationController.animation.value : 1,
+                      child: Center(
+                        child: Container(
+                            margin: EdgeInsets.all(5.h),
+                            width: 50.w,
+                            height: 50.h,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: Colors.black),     
+                                color: widget.field.isButtonColored??false ?  choiceId !=null &&  choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4): choiceId == widget.field.choices[index].id ? selectedColor : index>=0 && index<=6? gradientColors[0]: index>=7 && index<=8? gradientColors[1]: gradientColors[2]:  choiceId!=null && choiceId == widget.field.choices[index].id? Colors.black : Colors.grey.shade300  ,
+                                borderRadius: BorderRadius.circular(5.r)),
+                            child: Text(widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
+                              style: TextStyle(color: widget.field.isButtonColored??false ? Colors.white : choiceId!=null && choiceId == widget.field.choices[index].id ? Colors.white: Colors.black),
+                            )),
+                      ),
+                    );
+                  }
                 ),
               );
             },

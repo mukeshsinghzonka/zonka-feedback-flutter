@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
@@ -18,9 +19,10 @@ class StarRatingWidget extends StatefulWidget {
   State<StarRatingWidget> createState() => _StarRatingWidgetState();
 }
 
-class _StarRatingWidgetState extends State<StarRatingWidget> {
+class _StarRatingWidgetState extends State<StarRatingWidget>with SingleTickerProviderStateMixin {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+  String optionId = "";
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
 
@@ -38,6 +40,8 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
     }
     colIndx = widget.field.choices.length;
     rowIndx = widget.field.options.length;
+    _animationController.initAnimationController(this);
+   
     super.initState();
   }
 
@@ -54,7 +58,7 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
               Container(
                 width: 50.w,
               ),
-            for(int j = 0 ; j < colIndx-1 ; j++)
+            for(int j = 0 ; j < colIndx ; j++)
               Expanded(
                 child: Container(
                   padding: EdgeInsets.all(2.w),
@@ -81,30 +85,41 @@ class _StarRatingWidgetState extends State<StarRatingWidget> {
                 style: TextStyle(
                     fontSize: 10.h
                 ),
-                
                 ),
               ),
-              for(int j = 0 ; j < colIndx - 1; j++)
+              for(int j = 0 ; j < colIndx; j++)
               Expanded(
                 child: GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               _optionMap[widget.field.options[i].id ??
                                   ""] = j;
                               _choiceMap[widget.field.options[i].id ??
                                       ""] =
                                   widget.field.choices[j].id ?? "";
-                         
+                                  optionId = widget.field.options[i].id ?? "";
+                                for(int i = 0 ;i<2;i++){
+                                await _animationController.blinkingAnimation();         
                               setState(() {});
+                  }
+                              
                             },
-                            child: Container(
-                              margin: EdgeInsets.all(3.w),
-                              child: SvgPicture.asset(
-                                ImageConstant.starSvg,
-                                color: _optionMap[widget.field.options[i].id ?? ""]! < j
-                                    ? HexColor('#FFD93B').withOpacity(0.3)
-                                    : HexColor('#FFD93B'),
-                                height: 30.h,
-                              ),
+                            child: AnimatedBuilder(
+                              animation: _animationController.animation,
+                              builder: (context,child) {
+                                return Opacity(
+                                  opacity:_optionMap[widget.field.options[i].id ?? ""]! >= j && optionId==widget.field.options[i].id  ?_animationController.animation.value:1  ,
+                                  child: Container(
+                                    margin: EdgeInsets.all(3.w),
+                                    child: SvgPicture.asset(
+                                      ImageConstant.starSvg,
+                                      color: _optionMap[widget.field.options[i].id ?? ""]! >= j || _optionMap[widget.field.options[i].id ?? ""]==-1
+                                          ? HexColor('#FFD93B') :HexColor('#FFD93B').withOpacity(0.3)
+                                          ,
+                                      height: 30.h,
+                                    ),
+                                  ),
+                                );
+                              }
                             ),
                           )
               ),

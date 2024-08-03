@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
@@ -17,9 +18,9 @@ class EmotionRatingWidget extends StatefulWidget {
   State<EmotionRatingWidget> createState() => _EmotionRatingWidgetState();
 }
 
-class _EmotionRatingWidgetState extends State<EmotionRatingWidget> {
+class _EmotionRatingWidgetState extends State<EmotionRatingWidget> with SingleTickerProviderStateMixin {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-
+final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
    Map<String, String> emojiConstant = {
     'angry': ImageConstant.emoji_1,
     'sad': ImageConstant.emoji_2,
@@ -27,7 +28,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> {
     'happy': ImageConstant.emoji_4,
     'overjoyed': ImageConstant.emoji_5,
   };
-
+  String optionId = "";
   List outlinedEmoji = [
     ImageConstant.outlinedemoji_1,
     ImageConstant.outlinedemoji_2,
@@ -53,6 +54,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> {
     }
     colIndx = widget.field.choices.length;
     rowIndx = widget.field.options.length;
+    _animationController.initAnimationController(this);
     super.initState();
   }
 
@@ -103,7 +105,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> {
                 for(int j = 0 ; j < colIndx - 1; j++)
                 Expanded(
                   child: GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
                                       _optionMap[
                                           widget.field.options[i].id ??
                                               ""] = j;
@@ -111,46 +113,65 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> {
                                                   .id ??
                                               ""] =
                                           widget.field.choices[j].id ?? "";
+                                            optionId = widget.field.options[i].id ?? "";
+                                            for(int i = 0 ;i<2;i++){
+                              await _animationController.blinkingAnimation();         
+                              setState(() {});
+                            }
                                       setState(() {});
                                     },
-                                    child: Padding(
-                                        padding:
-                                            EdgeInsets.symmetric(horizontal: 5.w),
-                                        child: widget.field.iconType == 'svg'
-                                            ? SvgPicture.asset(
-                                                outlinedEmoji[j],
-                                                height: 13.w,
-                                              )
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(120.r),
-                                                child: SvgPicture.asset(
-                                                  emojiConstant[widget
-                                                              .field
-                                                              .choices[j]
-                                                              .translations[
-                                                                  surveyFieldController
-                                                                      .defaultTranslation
-                                                                      .value]
-                                                              ?.name ??
-                                                          ""] ??
-                                                      "",
-                                                  height: 13.w,
-                                                  colorFilter: _choiceMap[widget
-                                                                  .field
-                                                                  .options[
-                                                                      i]
-                                                                  .id ??
-                                                              ""] ==
-                                                          widget.field
-                                                              .choices[j].id
-                                                      ? null
-                                                      : ColorFilter.mode(
-                                                          Colors.white
-                                                              .withOpacity(0.7),
-                                                          BlendMode.color),
-                                                ),
-                                              )),
+                                    child: AnimatedBuilder(
+                                        animation: _animationController.animation,
+                                      builder: (context,child) {
+                                        return Opacity(
+                                           opacity:optionId==widget.field.options[i].id &&  _optionMap[widget.field.options[i].id ??""]! == j? _animationController.animation.value: 1,
+                                          child: Padding(
+                                              padding:
+                                                  EdgeInsets.symmetric(horizontal: 5.w),
+                                              child: widget.field.iconType == 'svg'
+                                                  ? SvgPicture.asset(
+                                                      outlinedEmoji[j],
+                                                      height: 13.w,
+                                                      color: _choiceMap[widget.field
+                                                                      .options[i].id ??
+                                                                  ""] ==
+                                                              widget.field.choices[j].id
+                                                          ? Colors.red
+                                                          : Colors.black,
+                                                    )
+                                                  : ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(120.r),
+                                                      child: SvgPicture.asset(
+                                                        emojiConstant[widget
+                                                                    .field
+                                                                    .choices[j]
+                                                                    .translations[
+                                                                        surveyFieldController
+                                                                            .defaultTranslation
+                                                                            .value]
+                                                                    ?.name ??
+                                                                ""] ??
+                                                            "",
+                                                        height: 13.w,
+                                                        colorFilter: _choiceMap[widget
+                                                                        .field
+                                                                        .options[
+                                                                            i]
+                                                                        .id ??
+                                                                    ""] ==
+                                                                widget.field
+                                                                    .choices[j].id
+                                                            ? null
+                                                            : ColorFilter.mode(
+                                                                Colors.white
+                                                                    .withOpacity(0.7),
+                                                                BlendMode.color),
+                                                      ),
+                                                    )),
+                                        );
+                                      }
+                                    ),
                                   )
                 ),
               ],

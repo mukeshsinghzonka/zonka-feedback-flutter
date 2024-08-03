@@ -16,7 +16,7 @@ class _RankRatingWidgetState extends State<RankRatingWidget> {
   Widget build(BuildContext context) {
     return FormField(
       validator: (value)  {
-         return widget.field.fieldName;
+         return null;
       },
       builder: (context) {
         return Container( 

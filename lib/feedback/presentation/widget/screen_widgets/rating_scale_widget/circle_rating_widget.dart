@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -16,14 +17,14 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
     State<CircleRatingWidget> createState() => _CircleRatingWidgetState();
   }
   
-  class _CircleRatingWidgetState extends State<CircleRatingWidget> {
+  class _CircleRatingWidgetState extends State<CircleRatingWidget> with SingleTickerProviderStateMixin {
     List colorRating = ['#D13900', '#D36501', '#FEE202', '#CFFD04', '#ABFD03'];
 
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
-
+  String optionId = "";
   int rowIndx = -1;
   int colIndx = -1;
 
@@ -38,6 +39,8 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
     }
     colIndx = widget.field.choices.length;
     rowIndx = widget.field.options.length;
+    _animationController.initAnimationController(this);
+   
     super.initState();
   }
 
@@ -54,7 +57,7 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
               Container(
                 width: 50.w,
               ),
-            for(int j = 0 ; j < colIndx-1 ; j++)
+            for(int j = 0 ; j < colIndx ; j++)
               Expanded(
                 child: Container(
                   padding: EdgeInsets.all(2.w),
@@ -85,33 +88,47 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
                   ),
                   ),
                 ),
-                for(int j = 0 ; j < colIndx - 1; j++)
+                for(int j = 0 ; j < colIndx ; j++)
                 Expanded(
                   child:  GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
                                       _optionMap[widget.field.options[i].id ?? ""] = j;
                                       _choiceMap[widget.field.options[i].id ?? ""] = widget.field.choices[j].id ?? "";
+                                          optionId = widget.field.options[i].id ?? "";
+                                        for(int i = 0 ;i<2;i++){
+                              await _animationController.blinkingAnimation();         
+                              setState(() {});
+                            }
+                        
                                       setState(() {});
                                     },
-                                    child: Container(
-                                      width: 30.w,
-                                      height: 30.h,
-                                    margin: EdgeInsets.symmetric(horizontal: 5.w),
-            
-                                      decoration: widget.field.iconType == 'emoji'
-                                          ? BoxDecoration(
-                                              color: HexColor(colorRating[j]),
-                                              shape: BoxShape.circle,
-                                            )
-                                          :_choiceMap[widget.field.options[i].id ??""]== widget.field.choices[j].id?BoxDecoration(
-                                              color: HexColor(colorRating[j]),
-                                              shape: BoxShape.circle,
-                                            ): BoxDecoration(
-                                              border: Border.all(
-                                                  color: HexColor(colorRating[j]),
-                                                  width: 1.w),
-                                              shape: BoxShape.circle,
-                                            ) ,
+                                    child: AnimatedBuilder(
+                                      animation: _animationController.animation,
+                                      builder: (context,child) {
+                                        return Opacity(
+                                         opacity:optionId==widget.field.options[i].id &&  _optionMap[widget.field.options[i].id ??""] == j? _animationController.animation.value: 1,
+                                          child: Container(
+                                            width: 30.w,
+                                            height: 30.h,
+                                           margin: EdgeInsets.symmetric(horizontal: 5.w),
+                                                      
+                                            decoration: widget.field.iconType == 'svg'
+                                                ? BoxDecoration(
+                                                    color: _optionMap[widget.field.options[i].id ?? ""]==-1 ||   _optionMap[widget.field.options[i].id ?? ""]==j? HexColor(colorRating[j]): HexColor(colorRating[j]).withOpacity(0.2),
+                                                    shape: BoxShape.circle,
+                                                  )
+                                                :   _optionMap[widget.field.options[i].id ?? ""]==j?BoxDecoration(
+                                                    color: HexColor(colorRating[j]),
+                                                    shape: BoxShape.circle,
+                                                  ): BoxDecoration(
+                                                    border: Border.all(
+                                                        color: HexColor(colorRating[j]),
+                                                        width: 1.w),
+                                                    shape: BoxShape.circle,
+                                                  ) ,
+                                          ),
+                                        );
+                                      }
                                     ),
                                   )
                 ),

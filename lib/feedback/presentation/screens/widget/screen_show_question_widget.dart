@@ -82,8 +82,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                             child: Container(
                               padding: EdgeInsets.all(5.h),
                               decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.r)),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.r)),
                                   border: Border.all(color: Colors.red)),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -123,7 +122,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                                 ""
                                             : 'This is a required field',
                                         style:
-                                            const TextStyle(color: Colors.red),
+                                            const TextStyle(color: Colors.red , ),
                                       );
                                     } else if (surveyScreenManager
                                             .showIsRequired![widget
@@ -133,9 +132,9 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                             ?.value ==
                                         ScreenValidationErrorType
                                             .WRONGSELECTION) {
-                                      return const Text(
+                                      return   Text(
                                         'Please make the right number of selections.',
-                                        style: TextStyle(color: Colors.red),
+                                        style: TextStyle(color: Colors.red,fontSize: 5.h),
                                       );
                                     }
                                     return Container();

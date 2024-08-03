@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
@@ -17,15 +18,16 @@ class HeartRatingWidget extends StatefulWidget {
   State<HeartRatingWidget> createState() => _HeartRatingWidgetState();
 }
 
-class _HeartRatingWidgetState extends State<HeartRatingWidget> {
+class _HeartRatingWidgetState extends State<HeartRatingWidget>with SingleTickerProviderStateMixin {
 final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-
+final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
 
   int rowIndx = -1;
   int colIndx = -1;
-
+  
+  String optionId ="";
   @override
   void initState() {
     for (int i = 0; i < widget.field.options.length; i++) {
@@ -37,8 +39,11 @@ final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignF
     }
     colIndx = widget.field.choices.length;
     rowIndx = widget.field.options.length;
+    _animationController.initAnimationController(this);
+   
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,45 +92,51 @@ final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignF
                 for(int j = 0 ; j < colIndx - 1; j++)
                 Expanded(
                   child:  GestureDetector(
-                          onTap: () {
-                            _optionMap[widget.field.options[i].id ??
-                                ""] = j;
-                            _choiceMap[widget.field.options[i].id ??
-                                    ""] =
-                                widget.field.choices[j].id ?? "";
-                  
-                            setState(() {});
+                          onTap: ()async  {
+                            _optionMap[widget.field.options[i].id ??""] = j;
+                            _choiceMap[widget.field.options[i].id ?? ""] = widget.field.choices[j].id ?? "";
+                            optionId = widget.field.options[i].id ?? "";
+                            for(int i = 0 ;i<2;i++){
+                              await _animationController.blinkingAnimation();         
+                              setState(() {});
+                            }
+
                           },
-                          child: Container(
-                                margin: EdgeInsets.all(2.w),
-                                child: widget.field.iconType == 'svg'
-                                    ? SvgPicture.asset(
-                                        ImageConstant.outlinedHeart,
-                                        color: _optionMap[widget
-                                                        .field
-                                                        .options[i]
-                                                        .id ??
-                                                    ""]! <
-                                                j
-                                            ? Colors.black.withOpacity(0.3)
-                                            : Colors.black,
-                                        colorFilter:const ColorFilter.mode(
-                                            Colors.black, BlendMode.srcIn),
-                                        height: 40.h,
-                                      )
-                                    : SvgPicture.asset(
-                                        ImageConstant.heartSvg,
-                                        color: _optionMap[widget
-                                                        .field
-                                                        .options[i]
-                                                        .id ??
-                                                    ""]! <
-                                                j
-                                            ? Colors.red.withOpacity(0.3)
-                                            : Colors.red,
-                                        height: 40.h,
-                                      ),
-                              ),
+                          child: AnimatedBuilder(
+                            animation: _animationController.animation,
+                            builder: (context,child) {
+                              return Opacity(
+                                opacity: _optionMap[widget.field.options[i].id ??""]! >= j && optionId==widget.field.options[i].id? _animationController.animation.value: 1,
+                                child: Container(
+                                      margin: EdgeInsets.all(2.w),
+                                      child: widget.field.iconType == 'svg'
+                                          ? SvgPicture.asset(                              
+                                              ImageConstant.outlinedHeart,
+                                              colorFilter: ColorFilter.mode(
+                                                _optionMap[widget
+                                                              .field
+                                                              .options[i]
+                                                              .id ??
+                                                          ""]! <
+                                                      j?  Colors.black:Colors.red, BlendMode.srcIn),
+                                              height: 40.h,
+                                            )
+                                          : SvgPicture.asset(
+                                              ImageConstant.heartSvg,
+                                              color: _optionMap[widget
+                                                              .field
+                                                              .options[i]
+                                                              .id ??
+                                                          ""]! <
+                                                      j
+                                                  ? Colors.red.withOpacity(0.3)
+                                                  : Colors.red,
+                                              height: 40.h,
+                                            ),
+                                    ),
+                              );
+                            }
+                          ),
                         )
                 ),
               ],

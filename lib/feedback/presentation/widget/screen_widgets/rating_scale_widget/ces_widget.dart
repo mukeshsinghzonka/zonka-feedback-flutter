@@ -6,7 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class CesWidget extends StatefulWidget {
@@ -16,7 +18,7 @@ class CesWidget extends StatefulWidget {
   State<CesWidget> createState() => _CesWidgetState();
 }
 
-class _CesWidgetState extends State<CesWidget> {
+class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMixin{
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   List gradientColors = [
      HexColor('#E43836'),
@@ -30,6 +32,18 @@ class _CesWidgetState extends State<CesWidget> {
   Color selectedColor = HexColor('#F9BE00');
   String ? choiceId ;
 
+  late ValidationLogicManager validationLogicManager;
+  String optionId = "";
+
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+ 
+  @override
+  void initState() {
+    validationLogicManager = ValidationLogicManager(field: widget.field);
+     _animationController.initAnimationController(this);
+   
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
    return FormField(validator: (value) {
@@ -41,23 +55,35 @@ class _CesWidgetState extends State<CesWidget> {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () {
+            onTap: () async{
               choiceId = widget.field.choices[index].id??'';
+                  for(int i = 0 ;i<2;i++){
+                              await _animationController.blinkingAnimation();         
+                              setState(() {});
+                  }
               setState(() {});
             },
-            child: Center(
-              child: Container(
-                  height: 60.h,
-                  margin: EdgeInsets.all(5.h),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: choiceId!=null && choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4) : choiceId == widget.field.choices[index].id? gradientColors[index]: gradientColors[index],
-                      borderRadius: BorderRadius.circular(5.r)),
-                  child: Text(
-                    widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white,fontSize: 5.w),
-                  )),
+            child: AnimatedBuilder(
+              animation: _animationController.animation,
+              builder: (context,child) {
+                return Opacity(
+                       opacity: choiceId==widget.field.choices[index].id  ? _animationController.animation.value : 1,
+                  child: Center(
+                    child: Container(
+                        height: 60.h,
+                        margin: EdgeInsets.all(5.h),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: choiceId!=null && choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4) : choiceId == widget.field.choices[index].id? gradientColors[index]: gradientColors[index],
+                            borderRadius: BorderRadius.circular(5.r)),
+                        child: Text(
+                          widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white,fontSize: 5.w),
+                        )),
+                  ),
+                );
+              }
             ),
           );
         },

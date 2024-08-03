@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
@@ -19,13 +20,13 @@ class PictureChoiceWidget extends StatefulWidget {
   State<PictureChoiceWidget> createState() => _PictureChoiceWidgetState();
 }
 
-class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
-  final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
+class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTickerProviderStateMixin {
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   static Map<String, bool> _choiceMap = {};
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.find<SurveyCollectDataController>();
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   late ValidationLogicManager validationLogicManager;
+  String optionId = "";
   int? range = -1;
   @override
   void initState() {
@@ -40,8 +41,11 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
         _choiceMap[widget.field.choices[i].id ?? ""] = false;
       }
     }
+
     validationLogicManager = ValidationLogicManager(field: widget.field);
     range = validationLogicManager.getRangeValue(widget.isMultiple);
+     _animationController.initAnimationController(this);
+   
   }
 
   @override
@@ -82,16 +86,11 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
             ),
             itemCount: widget.field.choices.length, // <-- required
             itemBuilder: (context, i) => GestureDetector(
-              onTap: () {
+              onTap: () async {
                 if (widget.isMultiple) {
-                  int trueCount = _choiceMap.values
-                      .where((value) => value == true)
-                      .length;
-                  if (range != -1 &&
-                      trueCount == range &&
-                      !_choiceMap[widget.field.choices[i].id]!) {
-                    Fluttertoast.showToast(
-                        msg: 'You can select only $range options',
+                  int trueCount = _choiceMap.values.where((value) => value == true).length;
+                  if (range != -1 && trueCount == range && !_choiceMap[widget.field.choices[i].id]!) {
+                    Fluttertoast.showToast(msg: 'You can select only $range options',
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
@@ -99,96 +98,112 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget> {
                         textColor: Colors.white,
                         fontSize: 16.0);
                   } else {
-                    _choiceMap.update(
-                        widget.field.choices[i].id ?? "", (value) => !value);
+                    _choiceMap.update(widget.field.choices[i].id ?? "", (value) => !value);
+                      for(int i = 0 ;i<2;i++){
+                         await _animationController.blinkingAnimation();         
+                         setState(() {});
+                      }
                     setState(() {});
                   }
                 } else {
                   _choiceMap.updateAll((key, value) => false);
-                  _choiceMap.update(
-                      widget.field.choices[i].id ?? "", (value) => true);
+                  _choiceMap.update(widget.field.choices[i].id ?? "", (value) => true);
+                  for(int i = 0 ;i<2;i++){
+                      await _animationController.blinkingAnimation();         
+                      setState(() {});
+                  }
                   setState(() {});
                 }
               },
-              child: Center(
-                child: Container(
-                  height: 200.h,
-                  width: 150.w,
-                  margin: const EdgeInsets.all(5),
-                  padding: EdgeInsets.all(5.w),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                    border: Border.all(
-                        color: HexColor(
-                                surveyFieldController.optionTextColor.value)
-                            .withOpacity(1)),
-                    color:
-                        HexColor(surveyFieldController.optionTextColor.value)
-                            .withOpacity(
-                                _choiceMap[widget.field.choices[i].id] ??
-                                        false
-                                    ? 1
-                                    : 0.1),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Container(
-                            height: 90.h,
-                            width: 100.w,
-                            decoration: BoxDecoration(
-                               border: Border.all(color: Colors.blueAccent),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.r)),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5.r),
-                              child: CachedNetworkImage(
-                                  progressIndicatorBuilder:
-                                      (context, url, progress) => Center(
-                                            child: CircularProgressIndicator(
-                                              value: progress.progress,
+              child: AnimatedBuilder(
+                animation: _animationController.animation,
+                builder: (context,child) {
+                  return Opacity(
+                    opacity: _choiceMap[widget.field.choices[i].id] == true
+                        ? _animationController.animation.value
+                        : 1,
+                    child: Center(
+                      child: Container(
+                        height: 200.h,
+                        width: 150.w,
+                        margin: const EdgeInsets.all(5),
+                        padding: EdgeInsets.all(5.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                          border: Border.all(
+                              color: HexColor(
+                                      surveyFieldController.optionTextColor.value)
+                                  .withOpacity(1)),
+                          color:
+                              HexColor(surveyFieldController.optionTextColor.value)
+                                  .withOpacity(
+                                      _choiceMap[widget.field.choices[i].id] ??
+                                              false
+                                          ? 1
+                                          : 0.1),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                  height: 90.h,
+                                  width: 100.w,
+                                  decoration: BoxDecoration(
+                                 
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.r)),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                    child: CachedNetworkImage(
+                                        progressIndicatorBuilder:
+                                            (context, url, progress) => Center(
+                                                  child: CircularProgressIndicator(
+                                                    value: progress.progress,
+                                                  ),
+                                                ),
+                                        errorWidget: (context, url, error) => Icon(
+                                              Icons.image_not_supported,
+                                              color: Colors.grey.shade700,
                                             ),
-                                          ),
-                                  errorWidget: (context, url, error) => Icon(
-                                        Icons.image_not_supported,
-                                        color: Colors.grey.shade700,
-                                      ),
-                                  imageUrl: widget.field.choices[i]
-                                              .optionGalleryImageId !=
-                                          null
-                                      ? surveyFieldController.createImageUrl(
-                                          widget
-                                                  .field
-                                                  .choices[i]
-                                                  .optionGalleryImageId
-                                                  ?.companyId ??
-                                              "",
-                                          widget.field.choices[i]
-                                                  .optionGalleryImageId?.path ??
-                                              "")
-                                      : ""),
-                            )),
+                                        imageUrl: widget.field.choices[i]
+                                                    .optionGalleryImageId !=
+                                                null
+                                            ? surveyFieldController.createImageUrl(
+                                                widget
+                                                        .field
+                                                        .choices[i]
+                                                        .optionGalleryImageId
+                                                        ?.companyId ??
+                                                    "",
+                                                widget.field.choices[i]
+                                                        .optionGalleryImageId?.path ??
+                                                    "")
+                                            : ""),
+                                  )),
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Text(
+                              '${widget.field.choices[i].translations[surveyFieldController.defaultTranslation.value]?.name}',
+                              style: TextStyle(
+                                  fontSize: 4.sp,
+                                  color: _choiceMap[widget.field.choices[i].id] ??
+                                          false
+                                      ? Colors.white
+                                      : HexColor(surveyFieldController
+                                          .optionTextColor.value),
+                                  fontFamily:
+                                      surveyFieldController.fontFamily.value),
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        '${widget.field.choices[i].translations[surveyFieldController.defaultTranslation.value]?.name}',
-                        style: TextStyle(
-                            fontSize: 4.sp,
-                            color: _choiceMap[widget.field.choices[i].id] ??
-                                    false
-                                ? Colors.white
-                                : HexColor(surveyFieldController
-                                    .optionTextColor.value),
-                            fontFamily:
-                                surveyFieldController.fontFamily.value),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                }
               ),
             ),
           ),
