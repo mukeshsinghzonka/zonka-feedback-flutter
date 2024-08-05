@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 
 class RadioRatingLableWidget extends StatefulWidget {
   final Field field;
@@ -13,12 +13,12 @@ class RadioRatingLableWidget extends StatefulWidget {
   State<RadioRatingLableWidget> createState() => _RadioRatingLableWidgetState();
 }
 
-class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> {
+class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> with SingleTickerProviderStateMixin {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
 
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
-
+  late ValidationLogicManager validationLogicManager;
   int rowIndx = -1;
   int colIndx = -1;
 
@@ -33,6 +33,9 @@ class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> {
     }
     colIndx = widget.field.choices.length;
     rowIndx = widget.field.options.length;
+     validationLogicManager = ValidationLogicManager(field: widget.field);
+
+   
     super.initState();
   }
 
@@ -81,14 +84,14 @@ class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> {
               ),
               for(int j = 0 ; j < colIndx -1; j++)
               Expanded(
-           
                 child: Radio(
                   value: widget.field.choices[j].id,
                   groupValue: _choiceMap[widget.field.options[i].id],
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     setState(() {
                       _choiceMap[widget.field.options[i].id??""] = value??"";
                     });
+                                     
                   },
                 ),
               ),

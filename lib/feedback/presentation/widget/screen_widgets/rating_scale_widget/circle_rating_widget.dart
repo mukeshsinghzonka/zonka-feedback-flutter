@@ -78,14 +78,17 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
             margin: EdgeInsets.all(5.w),
             child: Row(
               children: [
-                Container(
-                  width: 50.w,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.all(2.w),
-                  child: Text("${widget.field.options[i].translations![surveyFieldController.defaultTranslation.value]?.name}",
-                  style: TextStyle(
-                      fontSize: 10.h
-                  ),
+                Visibility(
+                  visible: widget.field.options[i].translations![surveyFieldController.defaultTranslation.value]?.name!="",
+                  child: Container(
+                    width: 50.w,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(2.w),
+                    child: Text("${widget.field.options[i].translations![surveyFieldController.defaultTranslation.value]?.name}",
+                    style: TextStyle(
+                        fontSize: 10.h
+                    ),
+                    ),
                   ),
                 ),
                 for(int j = 0 ; j < colIndx ; j++)

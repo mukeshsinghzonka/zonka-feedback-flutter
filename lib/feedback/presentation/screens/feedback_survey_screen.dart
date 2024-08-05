@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -41,46 +43,39 @@ class _SurveyScreenState extends State<SurveyScreen> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Container(
-        alignment: Alignment.topCenter,
-        decoration: BoxDecoration(
+      return  SafeArea(
+            child: Container(
+
+            decoration: BoxDecoration(
             image: DecorationImage(
                 onError: (exception, stackTrace) {},
                 fit: BoxFit.cover,
                 image: NetworkImage(surveyFieldController.surveyBgImage.value)),
             color: HexColor(surveyFieldController.surveyBgColor.value),
             border: Border.all(color: Colors.blueAccent)),
-        child: SafeArea(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.w),
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Expanded(flex: 3, child: ScreenSwitchWidget()),
-                Obx(() {
-                  return Expanded(
-                    flex: 29,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blueAccent)),
-                      child: SwitchScreenWidget(
-                        feedbackQuestion: surveryFeedbackController
-                            .surveyModel
-                            .value
-                            .surveyScreens[surveyScreenManager.index.value]
-                            .fields,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Expanded(flex: 3, child: ScreenSwitchWidget()),
+                  Obx(() {
+                    return Expanded(
+                      flex: 29,
+                      child: Container(  
+                        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                        child: SwitchScreenWidget(
+                          feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value] .fields,
+                        ),
                       ),
-                    ),
-                  );
-                }),
-             
-              const Expanded(flex: 3, child: ExitWidget())
-              ],
+                    );
+                  }),
+               
+                const Expanded(flex: 3, child: ExitWidget())
+                ],
+              ),
             ),
-          ),
-        ),
-      );
+          
+        );
+      
     });
   }
 }

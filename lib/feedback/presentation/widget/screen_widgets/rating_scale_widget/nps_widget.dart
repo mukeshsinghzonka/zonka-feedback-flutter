@@ -44,53 +44,56 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
     return FormField(validator: (value) {
       return null;
     }, builder: (context) {
-      return Column(
-       
-        children: [
-          GridView.builder(
-            itemCount: widget.field.choices.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: ()async  {
-                  choiceId = widget.field.choices[index].id??"";
-
-                        for(int i = 0 ;i<2;i++){
-                              await _animationController.blinkingAnimation();         
-                              setState(() {});
-                  }
-                  setState(() {});
-                },
-                child: AnimatedBuilder(
-                  animation: _animationController.animation,
-                  builder: (context,child) {
-                    return Opacity(
-                       opacity: choiceId==widget.field.choices[index].id  ? _animationController.animation.value : 1,
-                      child: Center(
-                        child: Container(
-                            margin: EdgeInsets.all(5.h),
-                            width: 50.w,
-                            height: 50.h,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: Colors.black),     
-                                color: widget.field.isButtonColored??false ?  choiceId !=null &&  choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4): choiceId == widget.field.choices[index].id ? selectedColor : index>=0 && index<=6? gradientColors[0]: index>=7 && index<=8? gradientColors[1]: gradientColors[2]:  choiceId!=null && choiceId == widget.field.choices[index].id? Colors.black : Colors.grey.shade300  ,
-                                borderRadius: BorderRadius.circular(5.r)),
-                            child: Text(widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
-                              style: TextStyle(color: widget.field.isButtonColored??false ? Colors.white : choiceId!=null && choiceId == widget.field.choices[index].id ? Colors.white: Colors.black),
-                            )),
-                      ),
-                    );
-                  }
-                ),
-              );
-            },
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: widget.field.choices.length,
+      return Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        child: Column(
+         
+          children: [
+            GridView.builder(
+              itemCount: widget.field.choices.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: ()async  {
+                    choiceId = widget.field.choices[index].id??"";
+        
+                          for(int i = 0 ;i<2;i++){
+                                await _animationController.blinkingAnimation();         
+                                setState(() {});
+                    }
+                    setState(() {});
+                  },
+                  child: AnimatedBuilder(
+                    animation: _animationController.animation,
+                    builder: (context,child) {
+                      return Opacity(
+                         opacity: choiceId==widget.field.choices[index].id  ? _animationController.animation.value : 1,
+                        child: Center(
+                          child: Container(
+                              margin: EdgeInsets.all(5.h),
+                        
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: Colors.black),     
+                                  color: widget.field.isButtonColored??false ?  choiceId !=null &&  choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4): choiceId == widget.field.choices[index].id ? selectedColor : index>=0 && index<=6? gradientColors[0]: index>=7 && index<=8? gradientColors[1]: gradientColors[2]:  choiceId!=null && choiceId == widget.field.choices[index].id? Colors.black : Colors.grey.shade300  ,
+                                  borderRadius: BorderRadius.circular(5.r)),
+                              child: Text(widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
+                                style: TextStyle(color: widget.field.isButtonColored??false ? Colors.white : choiceId!=null && choiceId == widget.field.choices[index].id ? Colors.white: Colors.black),
+                              )),
+                        ),
+                      );
+                    }
+                  ),
+                );
+              },
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: widget.field.choices.length,
+                childAspectRatio: 1.5
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     });
   }

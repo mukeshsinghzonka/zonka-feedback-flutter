@@ -40,48 +40,52 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with SingleTick
       }
       return null;
     }, builder: (context) {
-      return GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: widget.field.choices.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () async {
-              choiceId = widget.field.choices[index].id??"";
-                 for(int i = 0 ;i<2;i++){
-                              await _animationController.blinkingAnimation();         
-                              setState(() {});
-                            }
-              setState(() {});
-            },
-            child: AnimatedBuilder(
-              animation: _animationController.animation,
-              builder: (context,child) {
-                return Opacity(
-                  opacity: choiceId==widget.field.choices[index].id  ? _animationController.animation.value : 1,
-                  child: Center(
-                    child: Container(
-                      height: 50.h,
-                         padding: EdgeInsets.all(10.h),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black ),
-                            color: choiceId!=null && choiceId==widget.field.choices[index].id ? Colors.black: Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(5.r)),
-                        child: Text(
-                          widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: choiceId!=null && choiceId==widget.field.choices[index].id?Colors.white:Colors.black,fontSize: 5.sp , fontFamily: surveyFieldController.fontFamily.value,),
-                        )),
-                  ),
-                );
-              }
-            ),
-          );
-        },
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: widget.field.choices.length,
-          crossAxisSpacing: 10.h,
+      return Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: widget.field.choices.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () async {
+                choiceId = widget.field.choices[index].id??"";
+                   for(int i = 0 ;i<2;i++){
+                                await _animationController.blinkingAnimation();         
+                                setState(() {});
+                              }
+                setState(() {});
+              },
+              child: AnimatedBuilder(
+                animation: _animationController.animation,
+                builder: (context,child) {
+                  return Opacity(
+                    opacity: choiceId == widget.field.choices[index].id  ? _animationController.animation.value : 1,
+                    child: Center(
+                      child: Container(
+                   
+                           padding: EdgeInsets.all(10.h),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black ),
+                              color: choiceId!=null && choiceId==widget.field.choices[index].id ? Colors.black: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(5.r)),
+                          child: Text(
+                            widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: choiceId!=null && choiceId==widget.field.choices[index].id?Colors.white:Colors.black,fontSize: 5.sp , fontFamily: surveyFieldController.fontFamily.value,),
+                          )),
+                    ),
+                  );
+                }
+              ),
+            );
+          },
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: widget.field.choices.length,
+            crossAxisSpacing: 10.h,
+            childAspectRatio: 3
+          ),
         ),
       );
     });
