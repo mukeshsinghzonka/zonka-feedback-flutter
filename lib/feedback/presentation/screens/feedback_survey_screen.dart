@@ -21,12 +21,10 @@ class SurveyScreen extends StatefulWidget {
 }
 
 class _SurveyScreenState extends State<SurveyScreen> {
-  final SurveyScreenManager surveyScreenManager =
-      Get.put(SurveyScreenManager());
-  final SurveryApiFeedbackController surveryFeedbackController =
-      Get.find<SurveryApiFeedbackController>();
-  final SurveyDesignFieldController surveyFieldController =
-      Get.put(SurveyDesignFieldController());
+  final SurveyScreenManager surveyScreenManager = Get.put(SurveyScreenManager());
+  final SurveryApiFeedbackController surveryFeedbackController = Get.find<SurveryApiFeedbackController>();
+  final SurveyDesignFieldController surveyFieldController = Get.put(SurveyDesignFieldController());
+  
   @override
   void initState() {
     surveyFieldController.setFieldFromSurveyModel();
@@ -45,7 +43,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
     return Obx(() {
       return  SafeArea(
             child: Container(
-
+          
             decoration: BoxDecoration(
             image: DecorationImage(
                 onError: (exception, stackTrace) {},
@@ -54,16 +52,20 @@ class _SurveyScreenState extends State<SurveyScreen> {
             color: HexColor(surveyFieldController.surveyBgColor.value),
             border: Border.all(color: Colors.blueAccent)),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+            
                 children: [
                   const Expanded(flex: 3, child: ScreenSwitchWidget()),
                   Obx(() {
                     return Expanded(
                       flex: 29,
-                      child: Container(  
-                        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                        child: SwitchScreenWidget(
-                          feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value] .fields,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: Container(      
+                          decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                          child: SwitchScreenWidget(
+                            feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value] .fields,
+                            index: surveyScreenManager.index.value,
+                          ),
                         ),
                       ),
                     );
@@ -71,7 +73,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                
                 const Expanded(flex: 3, child: ExitWidget())
                 ],
-              ),
+              )
             ),
           
         );

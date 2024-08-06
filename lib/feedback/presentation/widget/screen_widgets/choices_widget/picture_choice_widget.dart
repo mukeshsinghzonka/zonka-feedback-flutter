@@ -22,7 +22,7 @@ class PictureChoiceWidget extends StatefulWidget {
 
 class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTickerProviderStateMixin {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-  static Map<String, bool> _choiceMap = {};
+   Map<String, bool> _choiceMap = {};
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   late ValidationLogicManager validationLogicManager;
@@ -32,10 +32,8 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
   void initState() {
     super.initState();
 
-    if (surveyCollectDataController.surveyIndexData
-        .containsKey(widget.field.id)) {
-      _choiceMap = surveyCollectDataController.surveyIndexData[widget.field.id]
-          as Map<String, bool>;
+    if (surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)) {
+      _choiceMap = surveyCollectDataController.surveyIndexData[widget.field.id] as Map<String, bool>;
     } else {
       for (int i = 0; i < widget.field.choices.length; i++) {
         _choiceMap[widget.field.choices[i].id ?? ""] = false;
@@ -160,12 +158,7 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
                                       imageUrl: widget.field.choices[i]
                                                   .optionGalleryImageId !=
                                               null
-                                          ? surveyFieldController.createImageUrl(
-                                              widget
-                                                      .field
-                                                      .choices[i]
-                                                      .optionGalleryImageId
-                                                      ?.companyId ??
+                                          ? surveyFieldController.createImageUrl(widget.field.choices[i].optionGalleryImageId?.companyId ??
                                                   "",
                                               widget.field.choices[i]
                                                       .optionGalleryImageId?.path ??

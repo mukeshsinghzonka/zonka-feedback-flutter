@@ -18,11 +18,12 @@ class CheckboxWidget extends StatefulWidget {
 }
 
 class _CheckboxWidgetState extends State<CheckboxWidget> {
-  static  Map<String, bool> _choiceMap = {};
+  static Map<String, bool> _choiceMap = {};
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-      final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;
   int ? range = -1;
+  
   @override
   void initState() {
  if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
@@ -33,7 +34,6 @@ class _CheckboxWidgetState extends State<CheckboxWidget> {
   }
    if (_choiceMap.isEmpty) {
       for (int i = 0; i < widget.field.choices.length; i++) {
-  
         _choiceMap[widget.field.choices[i].id ?? ""] = false;
       }
     }

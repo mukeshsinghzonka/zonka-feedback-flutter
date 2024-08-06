@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
@@ -31,22 +32,27 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
   ];
   Color selectedColor = HexColor('#F9BE00');
   String ? choiceId ;
-
   late ValidationLogicManager validationLogicManager;
-  String optionId = "";
-
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
  
   @override
   void initState() {
+      if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id) && surveyCollectDataController.surveyIndexData[widget.field.id]!=null){
+        choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as String ;
+     }
     validationLogicManager = ValidationLogicManager(field: widget.field);
-     _animationController.initAnimationController(this);
-   
+    _animationController.initAnimationController(this);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-   return FormField(validator: (value) {
+   return FormField(
+    validator: (value) {
+      if(widget.field.required == true && choiceId == null){
+        return validationLogicManager.requiredFormValidator(choiceId == null);
+      }
+      surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: choiceId);
       return null;
     }, builder: (context) {
       return Container(
@@ -60,8 +66,8 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
               onTap: () async{
                 choiceId = widget.field.choices[index].id??'';
                     for(int i = 0 ;i<2;i++){
-                                await _animationController.blinkingAnimation();         
-                                setState(() {});
+                      await _animationController.blinkingAnimation();         
+                      setState(() {});
                     }
                 setState(() {});
               },
@@ -69,7 +75,7 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
                 animation: _animationController.animation,
                 builder: (context,child) {
                   return Opacity(
-                         opacity: choiceId==widget.field.choices[index].id  ? _animationController.animation.value : 1,
+                    opacity: choiceId==widget.field.choices[index].id  ? _animationController.animation.value : 1,
                     child: Center(
                       child: Container(
                      

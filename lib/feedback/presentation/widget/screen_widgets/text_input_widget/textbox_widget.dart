@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
@@ -37,47 +38,50 @@ class _TextboxWidgetState extends State<TextboxWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: (value) {
-        String ? valid = validationLogicManager.inputTextValidation(value);
-        if(valid == null){
-          surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _controller.text);
-        }
-        return valid;
-      },
-      maxLines: 1,
-      controller: _controller,
-      style: TextStyle(
-        color:  HexColor(_surveyDesignFieldController.optionTextColor.value),     
-      ),
-      decoration:  InputDecoration(   
-       errorStyle:const TextStyle(color: Colors.white),
-       hintText:  widget
-                              .field
-                          
-                              .translations![_surveyDesignFieldController
-                                  .defaultTranslation.value]
-                              ?. placeHolder??
-                          '',
-       errorBorder:  OutlineInputBorder(
-          borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-          borderRadius: BorderRadius.circular(10.0)
+    return SizedBox(
+      width: 250.w,
+      child: TextFormField(
+        validator: (value) {
+          String ? valid = validationLogicManager.inputTextValidation(value);
+          if(valid == null){
+            surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _controller.text);
+          }
+          return valid;
+        },
+        maxLines: 1,
+        controller: _controller,
+        style: TextStyle(
+          color:  HexColor(_surveyDesignFieldController.optionTextColor.value),     
         ),
-        focusedErrorBorder:OutlineInputBorder(
-          borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-          borderRadius: BorderRadius.circular(10.0)
-        ) ,
-        filled: true,
-        fillColor:  HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
-        contentPadding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
-        isDense: true,
-        focusedBorder:  OutlineInputBorder(
-          borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-          borderRadius: BorderRadius.circular(10.0)
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide:  BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-          borderRadius: BorderRadius.circular(10.0)
+        decoration:  InputDecoration(   
+         errorStyle:const TextStyle(color: Colors.white),
+         hintText:  widget
+                                .field
+                            
+                                .translations![_surveyDesignFieldController
+                                    .defaultTranslation.value]
+                                ?. placeHolder??
+                            '',
+         errorBorder:  OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+            borderRadius: BorderRadius.circular(10.0)
+          ),
+          focusedErrorBorder:OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+            borderRadius: BorderRadius.circular(10.0)
+          ) ,
+          filled: true,
+          fillColor:  HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
+          contentPadding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
+          isDense: true,
+          focusedBorder:  OutlineInputBorder(
+            borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+            borderRadius: BorderRadius.circular(10.0)
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:  BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+            borderRadius: BorderRadius.circular(10.0)
+          ),
         ),
       ),
     );

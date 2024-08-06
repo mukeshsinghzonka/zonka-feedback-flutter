@@ -7,7 +7,7 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/file_
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/multiple_button_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/checkbox_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/button_rating_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/ces_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/css_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/circle_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/emotion_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/legal_signature_widget/legal_widget.dart';
@@ -17,7 +17,6 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choic
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/choices_widget/radio_button_choice_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/radio_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/rank_rating_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/scale_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/star_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/date_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/textbox_widget.dart';
@@ -34,6 +33,7 @@ class ScreenFeedBackQuesController extends GetxController{
   }
 
   SurveyScreenenum mapOfScreenByType(String type,Field field) {
+    print(type);
     switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.multipleButtonChoice;
@@ -49,8 +49,6 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.npsRating;
     case 'button_rating':
       return SurveyScreenenum.csatButtonRating;
-    case 'scaleRating':
-      return SurveyScreenenum.scaleRating;
     case 'RankingQuestion':
       return SurveyScreenenum.rankingRating;
     case 'star_rating':
@@ -89,6 +87,7 @@ class ScreenFeedBackQuesController extends GetxController{
 
 
 Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) {
+  
   switch (screen) {
     case SurveyScreenenum.buttonChoice:
     return ButtonChoiceWidget(field: field,isMultiple: true,);
@@ -108,8 +107,6 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     return NpsWidget(field: field,);
     case SurveyScreenenum.csatButtonRating:
     return ButtonRatingWidget(field: field,);
-    case SurveyScreenenum.scaleRating:
-    return ScaleRatingWidget(field: field,);
     case SurveyScreenenum.rankingRating:
     return RankRatingWidget(field: field,);
     case SurveyScreenenum.starRating:
