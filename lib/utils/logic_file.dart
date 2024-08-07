@@ -44,5 +44,23 @@ class LogicFile {
   }
 
 
+String getContrastColor(String hexColor) {
+  final pattern = RegExp(r'^#([0-9a-fA-F]{6})$');
+  final isValidColor = pattern.hasMatch(hexColor);
+
+  if (isValidColor) {
+    final result = pattern.firstMatch(hexColor);
+    final r = int.parse(result!.group(1)!.substring(0, 2), radix: 16);
+    final g = int.parse(result.group(1)!.substring(2, 4), radix: 16);
+    final b = int.parse(result.group(1)!.substring(4, 6), radix: 16);
+    
+    final sumRGB = r + g + b;
+    return sumRGB > 370 ? '#000000' : '#ffffff';
+  } else {
+    return '#ffffff';
+  }
+}
+
+
 
 }

@@ -46,7 +46,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
               (BuildContext context, int index) {
                 // Build the list of items
                 return Visibility(
-                  visible: surveyScreenManager.hideSurveyWidget.containsKey(widget.feedbackQuestion[index].fieldName ?? "")? surveyScreenManager.hideSurveyWidget[widget.feedbackQuestion[index].fieldName ?? ""] ??true: true,
+                  visible: surveyScreenManager.visibeSurveyWidget.containsKey(widget.feedbackQuestion[index].id ?? "")? surveyScreenManager.visibeSurveyWidget[widget.feedbackQuestion[index].id ?? ""] ??true: true,
                   child: ConstrainedBox(
                     constraints:  BoxConstraints(minHeight: widget.feedbackQuestion.length > 1 ? double.minPositive: MediaQuery.of(context).size.height * 0.7 ,),
                     child: Container(

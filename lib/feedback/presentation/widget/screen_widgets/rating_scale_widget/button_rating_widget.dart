@@ -9,6 +9,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/utils/logic_file.dart';
 
 class ButtonRatingWidget extends StatefulWidget {
   final Field field;
@@ -43,6 +44,7 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with SingleTick
       if(widget.field.required == true && choiceId == null){
         return validationLogicManager.requiredFormValidator(choiceId == null);
       }
+      surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: choiceId);
       return null;
     }, builder: (context) {
       return Container(
@@ -55,10 +57,10 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with SingleTick
             return GestureDetector(
               onTap: () async {
                 choiceId = widget.field.choices[index].id??"";
-                   for(int i = 0 ;i<2;i++){
-                                await _animationController.blinkingAnimation();         
-                                setState(() {});
-                              }
+                for(int i = 0 ;i<2;i++){
+                  await _animationController.blinkingAnimation();         
+                  setState(() {});
+                }
                 setState(() {});
               },
               child: AnimatedBuilder(
@@ -77,8 +79,10 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with SingleTick
                           child: Text(
                             widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: choiceId!=null && choiceId==widget.field.choices[index].id?Colors.white:HexColor(surveyFieldController
-                                        .optionTextColor.value),fontSize: 5.sp , fontFamily: surveyFieldController.fontFamily.value,),
+                            style: TextStyle(
+                              color: choiceId!=null && choiceId==widget.field.choices[index].id ?  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)) : HexColor(surveyFieldController.optionTextColor.value),
+                              fontSize: 5.sp , 
+                              fontFamily: surveyFieldController.fontFamily.value,),
                           )),
                     ),
                   );

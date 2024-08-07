@@ -42,7 +42,7 @@ class _DateWidgetState extends State<DateWidget> {
         if(widget.field.required==true && selectedDate==null){
           return validationLogicManager.requiredFormValidator(selectedDate==null);
         }
-     if(selectedDate!=null)  surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: selectedDate);
+        surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: selectedDate);
        return null;
       },
       builder: (formcontext) {

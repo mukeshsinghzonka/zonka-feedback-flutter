@@ -11,6 +11,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/utils/logic_file.dart';
 
 class CesWidget extends StatefulWidget {
   final Field field;
@@ -78,16 +79,15 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
                     opacity: choiceId==widget.field.choices[index].id  ? _animationController.animation.value : 1,
                     child: Center(
                       child: Container(
-                     
                           margin: EdgeInsets.all(5.h),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: choiceId!=null && choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4) : choiceId == widget.field.choices[index].id? gradientColors[index]: gradientColors[index],
+                              color : widget.field.isButtonColored == false ?  HexColor(surveyFieldController.optionTextColor.value).withOpacity(choiceId==widget.field.choices[index].id ? 1:0.3): choiceId!=null && choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4) : choiceId == widget.field.choices[index].id? gradientColors[index]: gradientColors[index],
                               borderRadius: BorderRadius.circular(5.r)),
-                          child: Text(
+                            child: Text(
                             widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white,fontSize: 5.w),
+                            style: TextStyle(color:widget.field.isButtonColored == true ?    HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)) :choiceId==widget.field.choices[index].id ? Colors.white: HexColor(surveyFieldController.optionTextColor.value)  ,fontSize: 5.w),
                           )),
                     ),
                   );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
@@ -14,11 +15,12 @@ class LegalWidget extends StatefulWidget {
   State<LegalWidget> createState() => _LegalWidgetState();
 }
 
-class _LegalWidgetState extends State<LegalWidget> {
+class _LegalWidgetState extends State<LegalWidget> with SingleTickerProviderStateMixin{
   String ? groupValue;
   final SurveyDesignFieldController _surveyDesignFieldController = Get.find<SurveyDesignFieldController>();
   late  ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   @override
   void initState() {
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
@@ -28,6 +30,7 @@ class _LegalWidgetState extends State<LegalWidget> {
       groupValue = null;
     }
     validationLogicManager = ValidationLogicManager(field: widget.field);
+    _animationController.initAnimationController(this);
     super.initState();
   }
 
@@ -72,23 +75,35 @@ class _LegalWidgetState extends State<LegalWidget> {
             physics:const NeverScrollableScrollPhysics(),
             itemCount: widget.field.choices.length,
             itemBuilder: (context, index) {
-            return  Row(
-                  children: [
-                    Radio<String>(
-                       focusColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
-                        activeColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
-                        value: widget.field.choices[index].id??"",
-                        groupValue: groupValue,
-                        onChanged: (String ? value) {
-                          groupValue = value;
-                          setState(() {});
-                        }),
-                     Text( widget.field.choices[index]. translations[_surveyDesignFieldController.defaultTranslation.value]?.name??"",style: TextStyle(
-                      color: HexColor(_surveyDesignFieldController.optionTextColor.value),
-                      fontFamily:_surveyDesignFieldController.fontFamily.value   
-                     ),) 
-                  ],
+            return  AnimatedBuilder(
+              animation: _animationController.animation,
+              builder: (context,child) {
+                return Opacity(
+                  opacity: groupValue == widget.field.choices[index].id ?_animationController.animation.value: 1 ,
+                  child: Row(
+                        children: [
+                          Radio<String>(
+                             focusColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
+                              activeColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
+                              value: widget.field.choices[index].id??"",
+                              groupValue: groupValue,
+                              onChanged: (String ? value) async {
+                                groupValue = value;
+                                  for(int i = 0 ;i<2;i++){
+                                    await _animationController.blinkingAnimation();         
+                                    setState(() {});
+                                  }
+            
+                              }),
+                           Text( widget.field.choices[index]. translations[_surveyDesignFieldController.defaultTranslation.value]?.name??"",style: TextStyle(
+                            color: HexColor(_surveyDesignFieldController.optionTextColor.value),
+                            fontFamily:_surveyDesignFieldController.fontFamily.value   
+                           ),) 
+                        ],
+                      ),
                 );
+              }
+            );
              }),
 
           ],

@@ -140,7 +140,7 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
                                                         color: _optionMap[widget.field.options[i].id ?? ""]==-1 ||   _optionMap[widget.field.options[i].id ?? ""]==j? HexColor(colorRating[j]): HexColor(colorRating[j]).withOpacity(0.2),
                                                         shape: BoxShape.circle,
                                                       )
-                                                    :   _optionMap[widget.field.options[i].id ?? ""]==j?BoxDecoration(
+                                                    :   _optionMap[widget.field.options[i].id ?? ""] == j ? BoxDecoration(
                                                         color: HexColor(colorRating[j]),
                                                         shape: BoxShape.circle,
                                                       ): BoxDecoration(

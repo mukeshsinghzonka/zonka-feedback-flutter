@@ -39,7 +39,6 @@ String optionId= "";
       _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).optionMap;
     }
     else{
-  
     for (int i = 0; i < widget.field.options.length; i++) {
       _optionMap[widget.field.options[i].id ?? ""] = -1;
     }
@@ -64,6 +63,7 @@ String optionId= "";
       if(widget.field.required == true && _choiceMap.containsValue("")){
         return validationLogicManager.requiredFormValidator( _choiceMap.containsValue(""));
       }
+      print("HeartRatingWidget: ${_choiceMap}");
       surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: RatingDataCollector(choiceMap: _choiceMap, optionMap: _optionMap));
       return null;
       },
@@ -141,16 +141,7 @@ String optionId= "";
                                                 )
                                               : SvgPicture.asset(
                                                   ImageConstant.heartSvg,
-                                                  color: _optionMap[widget
-                                                                  .field
-                                                                  .options[i]
-                                                                  .id ??
-                                                              ""]! <
-                                                          j && _optionMap[widget
-                                                                  .field
-                                                                  .options[i]
-                                                                  .id ??
-                                                              ""] != -1
+                                                  color: _optionMap[widget.field.options[i].id ?? ""]! < j && _optionMap[widget.field.options[i] .id ??""] != -1
                                                       ? Colors.red.withOpacity(0.3)
                                                       : Colors.red,
                                                   height: 40.h,

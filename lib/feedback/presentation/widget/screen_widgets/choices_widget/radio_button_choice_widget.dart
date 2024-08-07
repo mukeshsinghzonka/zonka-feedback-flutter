@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/utils/logic_file.dart';
 
 class RadioButtonWidget extends StatefulWidget {
   final Field field;
@@ -17,12 +19,14 @@ class RadioButtonWidget extends StatefulWidget {
   State<RadioButtonWidget> createState() => _RadioButtonWidgetState();
 }
 
-class _RadioButtonWidgetState extends State<RadioButtonWidget> {
+class _RadioButtonWidgetState extends State<RadioButtonWidget>  with SingleTickerProviderStateMixin {
 
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   late ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   static String ? choiceId;
+  String choiceIdCheck = "";
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   @override
   void initState() {
   if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
@@ -31,8 +35,9 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
   else{
     choiceId = null;
   }
-    validationLogicManager = ValidationLogicManager(field: widget.field);
-    super.initState();
+  validationLogicManager = ValidationLogicManager(field: widget.field);
+  _animationController.initAnimationController(this);
+  super.initState();
   }
   
   @override
@@ -58,16 +63,29 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
           ),
           itemCount: widget.field.choices.length, // Total number of items
           itemBuilder: (context, index) {
-            return CustomRadioButton(
-              value: widget.field.choices[index].id,
-              groupValue: choiceId,
-              field: widget.field,
-              choiceName: widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??"",
-              onChanged: (value) {
-                 choiceId = value;
-                setState(() {});
-              
-              },
+            return AnimatedBuilder(
+              animation: _animationController.animation,
+              builder: (context,cild) {
+                return Opacity(
+                  opacity: choiceId == widget.field.choices[index].id ? _animationController.animation.value: 1 ,
+                  child: CustomRadioButton(
+                    value: widget.field.choices[index].id,
+                    groupValue: choiceId,
+                    field: widget.field,
+                    
+                    choiceName: widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??"",
+                    onChanged: (value) async {
+                       choiceId = value;
+                      for(int i = 0 ;i<2;i++){
+                          await _animationController.blinkingAnimation();         
+                          setState(() {});
+                      }
+                      setState(() {});
+                    
+                    },
+                  ),
+                );
+              }
             );
           },
         );
@@ -99,26 +117,24 @@ class CustomRadioButton extends StatelessWidget {
        
         margin: EdgeInsets.all(8.h),
         decoration: BoxDecoration(
-            color:  HexColor(surveyFieldController.optionTextColor.value)
-                    .withOpacity(groupValue==value 
-                        ? 1
-                        : 0.1),
+            color:  HexColor(surveyFieldController.optionTextColor.value).withOpacity(groupValue==value ? 1 : 0.1),
             borderRadius: BorderRadius.all(Radius.circular(10.r)),
             border: Border.all(color:  HexColor(surveyFieldController.optionTextColor.value)
                     ,)),
         child: Row(
           children: [
             Radio<String>(
-              fillColor: WidgetStateProperty.all(groupValue == value ? Colors.white :  HexColor(surveyFieldController.optionTextColor.value)),
+              fillColor: WidgetStateProperty.all(
+                groupValue == value ?HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)):  HexColor(surveyFieldController.optionTextColor.value)),
               value: value ?? "",
               groupValue: groupValue,
               onChanged: onChanged,
             ),
             Text(
-          choiceName,
+              choiceName,
               style: TextStyle(
                 fontFamily: surveyFieldController.fontFamily.value,
-                color: groupValue == value ? Colors.white : Colors.black,
+                color: groupValue == value ?HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)) : Colors.black,
               ),
             ),
           ],

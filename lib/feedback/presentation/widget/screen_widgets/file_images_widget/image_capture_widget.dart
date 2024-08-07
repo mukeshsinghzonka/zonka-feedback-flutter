@@ -28,7 +28,9 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
       builder: (context) {
         return GestureDetector(
           onTap: () async  {
-            XFile ?  file =  await imagePickerService.takeImage();  
+            // XFile ?  file =  await imagePickerService.takeImage();  
+
+
           },
           child: Container(
             height: 250.h,
@@ -36,8 +38,7 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
             decoration: BoxDecoration(
                 border: Border.all(
                     color: HexColor(surveyFieldController.optionTextColor.value)),
-                color: HexColor(surveyFieldController.optionTextColor.value)
-                    .withOpacity(0.1),
+                color: HexColor(surveyFieldController.optionTextColor.value).withOpacity(0.1),
                 borderRadius: BorderRadius.all(Radius.circular(5.r))),
             child: const Icon(Icons.camera_alt),
           ),

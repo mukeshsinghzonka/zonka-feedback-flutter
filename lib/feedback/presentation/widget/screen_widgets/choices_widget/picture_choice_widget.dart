@@ -118,9 +118,7 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
               animation: _animationController.animation,
               builder: (context,child) {
                 return Opacity(
-                  opacity: _choiceMap[widget.field.choices[i].id] == true
-                      ? _animationController.animation.value
-                      : 1,
+                  opacity: _choiceMap[widget.field.choices[i].id] == true? _animationController.animation.value: 1,
                   child: Center(
                     child: Container(
                       height: 200.h,
@@ -173,13 +171,8 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
                             '${widget.field.choices[i].translations[surveyFieldController.defaultTranslation.value]?.name}',
                             style: TextStyle(
                                 fontSize: 4.sp,
-                                color: _choiceMap[widget.field.choices[i].id] ??
-                                        false
-                                    ? Colors.white
-                                    : HexColor(surveyFieldController
-                                        .optionTextColor.value),
-                                fontFamily:
-                                    surveyFieldController.fontFamily.value),
+                                color: _choiceMap[widget.field.choices[i].id] ??false ? Colors.white : HexColor(surveyFieldController.optionTextColor.value),
+                                fontFamily: surveyFieldController.fontFamily.value),
                           ),
                         ],
                       ),

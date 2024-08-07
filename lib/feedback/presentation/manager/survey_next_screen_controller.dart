@@ -26,7 +26,7 @@ class SurveyScreenManager extends GetxController {
 
   Map<String, int> mapSurveyQuesIdIndex = {};
   Map<String, String> mapSurveyIdAndFieldName = {};
-  Map<String, bool> hideSurveyWidget = {};
+  Map<String, bool> visibeSurveyWidget = {};
   List<int> surveyIndex = [0];
 
   List<SurveyScreenModel> surveyScreens = [];
@@ -56,22 +56,7 @@ class SurveyScreenManager extends GetxController {
       DisplayLogicModel displayLogicModel = displayLogic[i];
       bool value = surveyCollectDataController.checkIfDisplayConditionMatched(displayLogicModel,mapSurveyIdAndFieldName[displayLogicModel.fieldId] ?? "");
       switch (displayLogicModel.actionTaken) {
-        case 'SL':
-          displayLogicMap[displayLogicModel.sequence!] = value;
-          break;
-        case 'NL':
-          displayLogicMap[displayLogicModel.sequence!] = value;
-          break;
-        case 'EQ':
-          displayLogicMap[displayLogicModel.sequence!] = value;
-          break;
-        case 'FL':
-          displayLogicMap[displayLogicModel.sequence!] = value;
-          break;
-        case 'NF':
-          displayLogicMap[displayLogicModel.sequence!] = value;
-          break;
-        case "NEQ":
+        case 'SL' ||'NL' || 'EQ' || 'FL' || 'NF' || 'NEQ':
           displayLogicMap[displayLogicModel.sequence!] = value;
           break;
       }
@@ -108,15 +93,13 @@ class SurveyScreenManager extends GetxController {
     return expression.isNotEmpty ? bool.parse(expression.single) : true;
   }
 
-  List<String> _getListOfTrueFalse(
-      String displayLogicExpression, Map<int, bool> checkHideMap) {
+  List<String> _getListOfTrueFalse(String displayLogicExpression, Map<int, bool> checkHideMap) {
     List<String> tokens = displayLogicExpression.split(' ');
     for (int i = 0; i < tokens.length; i++) {
       if (tokens[i] == "and" || tokens[i] == 'or' || tokens[i] == "") {
         continue;
       }
       bool ansCheck = checkHideMap.containsKey(int.parse(tokens[i]));
-
       if (ansCheck) {
         tokens[i] = checkHideMap[int.parse(tokens[i])]!.toString();
       } else {
@@ -132,25 +115,21 @@ class SurveyScreenManager extends GetxController {
   }
 
   bool _checkDisplayLogic(bool screenSkipped, String? quesId) {
-    for (int j = screenSkipped
-            ? mapSurveyQuesIdIndex[quesId] ?? index.value + 1
-            : index.value + 1;
-        j < surveyScreens.length;
-        j++) {
+    for (int j = screenSkipped ? mapSurveyQuesIdIndex[quesId] ?? index.value + 1 : index.value + 1; j < surveyScreens.length; j++) {
       bool checkBreak = false;
       int fieldLength = surveyScreens[j].fields.length;
       for (int i = 0; i < fieldLength; i++) {
         //check display logic
         Field field = surveyScreens[j].fields[i];
+      
         Map<int, bool> checkHideMap = _displayLogicExpression(field);
-        List<String> listTrueandFalse = field.displayLogicExpression!.isNotEmpty
-            ? _getListOfTrueFalse(
-                field.displayLogicExpression ?? "", checkHideMap)
-            : [];
-        bool checkHide = listTrueandFalse.isNotEmpty
-            ? evaluateExpression(listTrueandFalse)
-            : false;
-        hideSurveyWidget[field.id ?? ""] = checkHide;
+        List<String> listTrueandFalse = field.displayLogicExpression!.isNotEmpty? _getListOfTrueFalse(field.displayLogicExpression ?? "", checkHideMap) : [];
+        bool checkHide = listTrueandFalse.isNotEmpty? evaluateExpression(listTrueandFalse): false; 
+        // hidesurvey map to keep track of the fields that are hidden
+        // checkHide check if widget have to be hidden or not
+        // if checkhide is false then it means widget is visible and thus we make visbleSurveyWidget[field.id] = true
+        // and if checkHide is true then we make visbleSurveyWidget[field.id] = false becuase we have to make widget invisble
+        visibeSurveyWidget[field.id ?? ""] = checkHide == false ? true :false;
         if (checkHide == false) {
           checkBreak = true;
         }
@@ -171,6 +150,9 @@ class SurveyScreenManager extends GetxController {
     List<Field> fields = surveyScreens[_index.value].fields;
 
     for (int i = fieldLength - 1; i >= 0; i--) {
+
+
+      // check if question is skipped for textbox and date only
       if (fields[i].fieldName == 'text_box' || fields[i].fieldName == 'date') {
         Logic? logicChoice = fields[i].logic;
         switch (logicChoice!.skipHideRedirectTo) {
@@ -187,12 +169,7 @@ class SurveyScreenManager extends GetxController {
       List<Choice> choice = fields[i].choices;
       //Escape Question
       for (int j = choice.length - 1; j >= 0; j--) {
-        if (surveyCollectDataController.checkIfDisplayConditionMatched(
-          DisplayLogicModel(
-            fieldId: fields[i].id,
-            actionTaken: choice[j].logic?.actionTaken ?? "",
-            choiceId: choice[j].id ?? "",
-          ),
+        if (surveyCollectDataController.checkIfDisplayConditionMatched(DisplayLogicModel(fieldId: fields[i].id, actionTaken: choice[j].logic?.actionTaken ?? "",choiceId: choice[j].id ?? "",),
           fields[i].fieldName ?? "",
         )) {
           Logic? logicChoice = choice[j].logic;
@@ -212,8 +189,7 @@ class SurveyScreenManager extends GetxController {
     for (var validationResult in validationResults) {
       String? errorText = validationResult.errorText;
       if (errorText != null && errorText.isNotEmpty) {
-        FormValidator? formValidator =
-            FormValidator.fromJson(jsonDecode(errorText));
+        FormValidator? formValidator = FormValidator.fromJson(jsonDecode(errorText));
         showIsRequired?[formValidator.formId] = formValidator;
         showNextPage = false;
       }

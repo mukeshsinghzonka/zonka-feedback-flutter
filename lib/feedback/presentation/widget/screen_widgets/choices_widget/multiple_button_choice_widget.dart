@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
+import 'package:zonka_feedback/utils/logic_file.dart';
 
 class ButtonChoiceWidget extends StatefulWidget {
   final Field field;
@@ -18,14 +20,15 @@ class ButtonChoiceWidget extends StatefulWidget {
   State<ButtonChoiceWidget> createState() => _ButtonChoiceWidgetState();
 }
 
-class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
+class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> with SingleTickerProviderStateMixin {
   final SurveryApiFeedbackController surveryFeedbackController = Get.find<SurveryApiFeedbackController>();
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;
-  static  Map<String, bool> _choiceMap = {};
+  Map<String, bool> _choiceMap = {};
+  String choiceId = "";
   int? range = -1;
-
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   @override
   void initState() {
     super.initState();
@@ -40,11 +43,13 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
      }
      validationLogicManager = ValidationLogicManager(field: widget.field);
      range = validationLogicManager.getRangeValue(widget.isMultiple);
+    _animationController.initAnimationController(this);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FormField(validator: (value) {
+    return FormField(
+      validator: (value) {
       int trueCount = _choiceMap.values.where((value) => value == true).length;
       if (widget.field.required == true && trueCount == 0) {
         return validationLogicManager.requiredFormValidator(trueCount == 0);
@@ -75,7 +80,7 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
             crossAxisSpacing: 15),
         itemCount: widget.field.choices.length, // <-- required
         itemBuilder: (context, i) => GestureDetector(
-          onTap: () {
+          onTap: ()async  {
            if(widget.isMultiple){
             int trueCount = _choiceMap.values.where((value) => value == true).length;
             if (range != -1 && trueCount == range && !_choiceMap[widget.field.choices[i].id]!) {
@@ -91,6 +96,7 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
               _choiceMap.update(widget.field.choices[i].id ?? "", (value) => !value);
               setState(() {});
             }
+                
            }
            else{
               for (int i = 0; i < widget.field.choices.length; i++) {
@@ -99,35 +105,50 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> {
              _choiceMap[widget.field.choices[i].id ?? ""] = true;
               setState(() {});
            }
-      
+           
+           choiceId = widget.field.choices[i].id ?? "";
+           for(int i = 0 ;i<2;i++){
+                await _animationController.blinkingAnimation();         
+                 setState(() {});
+          }
           },
-          child: Container(
-            margin: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10.r)),
-              border: Border.all(color: Colors.black, width: 0.5),
-              color: HexColor(surveyFieldController.optionTextColor.value)
-                  .withOpacity(_choiceMap[widget.field.choices[i].id] ?? false
-                      ? 1
-                      : 0.1),
-            ),
-            child: Center(
-                child: Text(
-                    widget
-                            .field
-                            .choices[i]
-                            .translations[surveyFieldController
-                                .defaultTranslation.value]
-                            ?.name ??
-                        '',
-                    style: TextStyle(
-                        fontFamily: surveryFeedbackController
-                            .surveyModel.value.fontFamily,
-                        color: _choiceMap[widget.field.choices[i].id ?? ""] ??
-                                false
-                            ? Colors.white
-                            : HexColor(surveyFieldController
-                                .optionTextColor.value)))),
+          child: AnimatedBuilder(
+            animation: _animationController.animation,
+            builder: (context,child) {
+              return Opacity(
+                opacity: _choiceMap[widget.field.choices[i].id ?? ""]??false   
+                    ? choiceId == widget.field.choices[i].id ? _animationController.animation.value
+                    : 1 : 1,
+                child: Container(
+                  margin: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                    border: Border.all(color: Colors.black, width: 0.5),
+                    color: HexColor(surveyFieldController.optionTextColor.value)
+                        .withOpacity(_choiceMap[widget.field.choices[i].id] ?? false
+                            ? 1
+                            : 0.1),
+                  ),
+                  child: Center(
+                      child: Text(
+                          widget
+                                  .field
+                                  .choices[i]
+                                  .translations[surveyFieldController
+                                      .defaultTranslation.value]
+                                  ?.name ??
+                              '',
+                          style: TextStyle(
+                              fontFamily: surveryFeedbackController
+                                  .surveyModel.value.fontFamily,
+                         
+                              color:_choiceMap[widget.field.choices[i].id] == false ?  HexColor(surveyFieldController.optionTextColor.value) :HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value))
+                         
+                                      
+                                      ))),
+                ),
+              );
+            }
           ),
         ),
       );
