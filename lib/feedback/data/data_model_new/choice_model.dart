@@ -24,7 +24,6 @@ class Choice {
     final int? preMongifiedId;
 
     factory Choice.fromJson(Map<String, dynamic> json){ 
-      print("optionGalleryImageId ${json["optionGalleryImageId"]}");
         return Choice(
             logic: json["logic"] == null ? null : Logic.fromJson(json["logic"]),
             choiceNodeId: json["choiceNodeId"],

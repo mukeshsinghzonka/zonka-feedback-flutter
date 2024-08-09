@@ -57,7 +57,7 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
       return null;
     }, builder: (context) {
       return Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        // decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
         child: GridView.builder(
           itemCount: widget.field.choices.length,
               shrinkWrap: true,

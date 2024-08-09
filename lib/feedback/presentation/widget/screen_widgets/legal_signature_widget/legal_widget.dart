@@ -46,6 +46,7 @@ class _LegalWidgetState extends State<LegalWidget> with SingleTickerProviderStat
       },
       builder: (context) {
         return Column(
+    
           children: [
             TextFormField(
               controller: TextEditingController(

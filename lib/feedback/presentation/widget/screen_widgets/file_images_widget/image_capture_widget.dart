@@ -1,10 +1,14 @@
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
+import 'package:zonka_feedback/feedback/domain/usecase/survey_image_upload_uc.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_image_upload_manager.dart';
 import 'package:zonka_feedback/services/image_picker_service.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -18,7 +22,10 @@ class ImageCaptureWidget extends StatefulWidget {
 
 class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-   final  ImagePickerService imagePickerService = ImagePickerService();
+  final ImagePickerService imagePickerService = ImagePickerService();
+  final SurveyImageUploadManager surveyImageUploadManager = Get.put(SurveyImageUploadManager());
+  final SurveryApiFeedbackController surveryApiFeedbackController = Get.find<SurveryApiFeedbackController>();
+
   @override
   Widget build(BuildContext context) {
     return FormField(
@@ -28,9 +35,17 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
       builder: (context) {
         return GestureDetector(
           onTap: () async  {
-            // XFile ?  file =  await imagePickerService.takeImage();  
-
-
+            XFile ?  file =  await imagePickerService.takeImage();  
+            Uint8List binaryImage = await file!.readAsBytes();
+            // dev.log(binaryImage);
+            await surveyImageUploadManager.call(
+              SurveyImageUploadUcParams(
+               fileName: file.name,
+                filePath: file.path,
+                referenceCode: surveryApiFeedbackController.surveyModel.value.id ?? ""
+              )
+            );
+      
           },
           child: Container(
             height: 250.h,

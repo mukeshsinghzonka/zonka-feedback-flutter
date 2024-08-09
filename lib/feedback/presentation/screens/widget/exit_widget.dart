@@ -23,7 +23,7 @@ class _ExitWidgetState extends State<ExitWidget> {
       children: [
         Container(
             alignment: Alignment.center,
-            decoration:BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+            // decoration:BoxDecoration(border: Border.all(color: Colors.blueAccent)),
             child: Text(
               'Powered By Zonka FeedBack',
               style: TextStyle(fontFamily: 'Source Sans Pro', fontSize: 6.sp),
@@ -34,12 +34,14 @@ class _ExitWidgetState extends State<ExitWidget> {
            Get.delete<SurveyScreenManager>();
           },
           child: Container(
-            width: 20.w,
-            height: 25.h,
+            width: 30.w,
+            height: 30.h,
+            margin: EdgeInsets.only(right: 5.w),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5.r)),
                 color: HexColor(surveyFieldController.buttonColor.value),
-                border: Border.all(color: Colors.blueAccent)),
+                // border: Border.all(color: Colors.blueAccent)
+                ),
             alignment: Alignment.center,
             child: const Text(
               'Exit',

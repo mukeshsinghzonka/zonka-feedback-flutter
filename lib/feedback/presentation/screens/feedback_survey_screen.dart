@@ -41,42 +41,40 @@ class _SurveyScreenState extends State<SurveyScreen> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return  SafeArea(
-            child: Container(
-          
-            decoration: BoxDecoration(
-            image: DecorationImage(
-                onError: (exception, stackTrace) {},
-                fit: BoxFit.cover,
-                image: NetworkImage(surveyFieldController.surveyBgImage.value)),
-            color: HexColor(surveyFieldController.surveyBgColor.value),
-            border: Border.all(color: Colors.blueAccent)),
-              child: Column(
-            
-                children: [
-                  const Expanded(flex: 3, child: ScreenSwitchWidget()),
-                  Obx(() {
-                    return Expanded(
-                      flex: 29,
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: Container(      
-                          decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                          child: SwitchScreenWidget(
-                            feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value] .fields,
-                            index: surveyScreenManager.index.value,
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-               
-                const Expanded(flex: 3, child: ExitWidget())
-                ],
-              )
-            ),
-          
-        );
+      return  Container(
+                
+      decoration: BoxDecoration(
+      image: DecorationImage(
+          onError: (exception, stackTrace) {},
+          fit: BoxFit.cover,
+          image: NetworkImage(surveyFieldController.surveyBgImage.value)),
+      color: HexColor(surveyFieldController.surveyBgColor.value),
+      // border: Border.all(color: Colors.blueAccent)
+      ),
+        child: Column(
+      
+          children: [
+           const Expanded(flex: 6, child: ScreenSwitchWidget()),
+            Obx(() {
+              return Expanded(
+                flex: 29,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  child: Container(      
+                    decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                    child: SwitchScreenWidget(
+                      feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value] .fields,
+                      index: surveyScreenManager.index.value,
+                    ),
+                  ),
+                ),
+              );
+            }),
+         
+          const Expanded(flex: 3, child: ExitWidget())
+          ],
+        )
+      );
       
     });
   }

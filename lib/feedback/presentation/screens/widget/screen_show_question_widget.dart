@@ -53,10 +53,11 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                       key: ValueKey<String>(widget.feedbackQuestion[index].id ?? ""), 
                       margin: EdgeInsets.all(5.w),     
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)
+                      ),
                       child: Column(
                         children: [
-                         Text(widget.feedbackQuestion[index].fieldName?? ""),   
+                        //  Text(widget.feedbackQuestion[index].fieldName?? ""),   
                           
                           Container(
                               margin: EdgeInsets.symmetric(vertical: 5.h),
@@ -73,12 +74,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                         .headingTextColor.value)),
                               )),
                           Visibility(
-                            visible: widget
-                                    .feedbackQuestion[index]
-                                    .translations?[surveyFieldController
-                                        .defaultTranslation.value]
-                                    ?.subTitle !=
-                                "",
+                            visible: widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle !=  "",
                             child: Container(
                               margin: EdgeInsets.symmetric(vertical: 5.h),
                               child: Text(
@@ -115,35 +111,14 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                     Builder(builder: (context) {
                                       if (surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id ??""]?.value == ScreenValidationErrorType.REQUIRED) {
                                         return Text(
-                                          surveyScreenManager
-                                                      .showIsRequired![widget
-                                                              .feedbackQuestion[
-                                                                  index]
-                                                              .id ??
-                                                          ""]!
-                                                      .message !=
-                                                  null
-                                              ? surveyScreenManager
-                                                      .showIsRequired![widget
-                                                              .feedbackQuestion[
-                                                                  index]
-                                                              .id ??
-                                                          ""]!
-                                                      .message ??
-                                                  ""
+                                          surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id ??""]!.message !=null
+                                              ? surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id ?? ""]!.message ??""
                                               : 'This is a required field',
                                           style: const TextStyle(
                                             color: Colors.red,
                                           ),
                                         );
-                                      } else if (surveyScreenManager
-                                              .showIsRequired![widget
-                                                      .feedbackQuestion[index]
-                                                      .id ??
-                                                  ""]
-                                              ?.value ==
-                                          ScreenValidationErrorType
-                                              .WRONGSELECTION) {
+                                      } else if (surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id ??""] ?.value ==  ScreenValidationErrorType.WRONGSELECTION) {
                                         return Text(
                                           'Please make the right number of selections.',
                                           style: TextStyle(

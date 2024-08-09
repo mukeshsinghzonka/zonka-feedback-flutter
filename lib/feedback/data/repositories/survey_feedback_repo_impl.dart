@@ -12,6 +12,5 @@ class SurveyFeedbackRepoImpl extends SurveyFeedbackRepo{
   Future<ApiResult<SurveyModel>> surveyFeedbackRepo({required String? suveryId}) async {
     return await surveyFeedBackDataSource.getSurveyFeedBackDs(suveryId: suveryId);
   }
-  
-  
+
 }

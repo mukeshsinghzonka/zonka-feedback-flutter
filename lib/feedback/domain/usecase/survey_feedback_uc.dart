@@ -10,11 +10,8 @@ class SurveyFeedbackUc extends UseCase<ApiResult<SurveyModel> ,String> {
   
   @override
   Future<ApiResult<SurveyModel>> call(String params) async {
-print("SurveyFeedbackUc1");
     final response = await surveyFeedbackRepo.surveyFeedbackRepo(suveryId: params);
-    print("SurveyFeedbackUc2");
     return response;
-  
     //  await surveyFeedbackRepo.surveyFeedbackRepo( suveryId: params);
   }
 

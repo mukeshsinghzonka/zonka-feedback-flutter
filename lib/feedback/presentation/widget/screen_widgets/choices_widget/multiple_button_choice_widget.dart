@@ -131,17 +131,9 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> with SingleTick
                   ),
                   child: Center(
                       child: Text(
-                          widget
-                                  .field
-                                  .choices[i]
-                                  .translations[surveyFieldController
-                                      .defaultTranslation.value]
-                                  ?.name ??
-                              '',
+                          widget.field.choices[i].translations[surveyFieldController.defaultTranslation.value]?.name ?? '',
                           style: TextStyle(
-                              fontFamily: surveryFeedbackController
-                                  .surveyModel.value.fontFamily,
-                         
+                              fontFamily: surveryFeedbackController.surveyModel.value.fontFamily,    
                               color:_choiceMap[widget.field.choices[i].id] == false ?  HexColor(surveyFieldController.optionTextColor.value) :HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value))
                          
                                       

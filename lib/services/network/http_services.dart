@@ -107,7 +107,7 @@ class HttpUtil {
       HiveKey.loginUser,
     );
     if (accessToken is LoginResponse && accessToken.token.isNotEmpty) {
-      headers['X-ACCESS-TOKEN'] = '${accessToken.token}';
+      headers['X-ACCESS-TOKEN'] = accessToken.token;
     }
     if (accessToken is LoginResponse && accessToken.deviceId.isNotEmpty) {
       headers['X-DEVICE-ID'] = accessToken.deviceId;
@@ -124,7 +124,6 @@ class HttpUtil {
   }) async {
     Options requestOptions = options ?? Options();
     requestOptions.headers = requestOptions.headers ?? {};
-
     Map<String, dynamic>? authorization = await getAuthorizationHeader();
 
     if (authorization != null) {
@@ -152,7 +151,6 @@ class HttpUtil {
       requestOptions.headers!.addAll(authorization);
     }
     var response = await dio.get(
-     
       path,
       queryParameters: queryParameters,
       options: requestOptions,
@@ -160,4 +158,30 @@ class HttpUtil {
     print("response $response");
     return response.data;
   }
+
+
+  Future<dynamic> postUpload(
+    String path, {
+    Object? data,
+    Options? options,
+  }) async {
+    Options requestOptions = options ?? Options();
+    requestOptions.headers = requestOptions.headers ?? {};
+    print(requestOptions.headers);
+    Map<String, dynamic>? authorization = await getAuthorizationHeader();
+    dio.options.headers= {};
+    dio.options.contentType=null;
+    if (authorization != null) {
+      requestOptions.headers!.addAll(authorization);
+    }
+    var response = await dio.post(
+      path,
+      options: requestOptions, // Use requestOptions here instead of options
+      data: data,
+    );
+    print("postrequest $response");
+    return response.data;
+  }
+
+
 }

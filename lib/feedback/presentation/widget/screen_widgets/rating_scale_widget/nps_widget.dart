@@ -52,7 +52,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
       return null;
     }, builder: (context) {
       return Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        // decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
         child: Column(
           children: [
             Visibility(

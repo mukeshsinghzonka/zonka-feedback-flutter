@@ -142,6 +142,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget>  with SingleTickerProvi
                             style: TextStyle(
                                 fontSize: 6.sp,
                                 fontFamily: surveyFieldController.fontFamily.value,
+                                
                                  color:_choiceMap[widget.field.choices[index].id]??false? HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)): HexColor(surveyFieldController.optionTextColor.value)
                             ),
                           ),

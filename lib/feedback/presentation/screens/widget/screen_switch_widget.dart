@@ -21,53 +21,58 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () {
-              surveyScreenManager.previousScreen();
-            },
-            child: Container(
-                padding: EdgeInsets.all(2.w),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: HexColor(surveyFieldController.buttonColor.value),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.arrow_back_ios_new_sharp,
-                  color: Colors.white,
-                  size: 10.h,
-                )),
-          ),
-          Image.network(
-            surveyFieldController.surveyBgImageLogo.value,
-            errorBuilder: (context, error, stackTrace) {
-              return Container();
-            },
-          ),
-          GestureDetector(
-            onTap: () {
-              if (surveyScreenManager.nextScreenstop.value == false) {
-                surveyScreenManager.nextScreen();
-              }
-            },
-            child: Container(
-                padding: EdgeInsets.all(2.w),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: HexColor(surveyFieldController.buttonColor.value),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white,
-                  size: 10.h,
-                )),
-          )
-        ],
-      );
+    return Container(
+     
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () {
+                surveyScreenManager.previousScreen();
+              },
+              child: Container(
+                  padding: EdgeInsets.all(2.w),
+                  alignment: Alignment.center,
+                   margin: EdgeInsets.only(top:40.h,left: 5.w),
+                  decoration: BoxDecoration(
+                    color: HexColor(surveyFieldController.buttonColor.value),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.arrow_back_ios_new_sharp,
+                    color: Colors.white,
+                    size: 10.h,
+                  )),
+            ),
+            Image.network(
+              surveyFieldController.surveyBgImageLogo.value,
+              errorBuilder: (context, error, stackTrace) {
+                return Container();
+              },
+            ),
+            GestureDetector(
+              onTap: () {
+                if (surveyScreenManager.nextScreenstop.value == false) {
+                  surveyScreenManager.nextScreen();
+                }
+              },
+              child: Container(
+                  padding: EdgeInsets.all(2.w),
+                     margin: EdgeInsets.only(top:40.h,right: 5.w),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: HexColor(surveyFieldController.buttonColor.value),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 10.h,
+                  )),
+            )
+          ],
+        ),
+    );
     
   }
 }

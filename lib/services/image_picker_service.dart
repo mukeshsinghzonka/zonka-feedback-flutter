@@ -14,5 +14,6 @@ class ImagePickerService{
     return pickedFile;
   }
 
+  
 
 }
