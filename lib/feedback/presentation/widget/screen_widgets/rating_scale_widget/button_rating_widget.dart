@@ -30,7 +30,7 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with SingleTick
   @override
   void initState() {
       if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id) && surveyCollectDataController.surveyIndexData[widget.field.id]!=null){
-        choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as String ;
+        choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as String? ;
      }
     validationLogicManager = ValidationLogicManager(field: widget.field);
     _animationController.initAnimationController(this);

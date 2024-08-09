@@ -35,8 +35,8 @@ String optionId= "";
   void initState() {
 
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).choiceMap;
-      _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).optionMap;
+      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?)?.choiceMap??{};
+      _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?)?.optionMap??{};
     }
     else{
     for (int i = 0; i < widget.field.options.length; i++) {
@@ -63,7 +63,6 @@ String optionId= "";
       if(widget.field.required == true && _choiceMap.containsValue("")){
         return validationLogicManager.requiredFormValidator( _choiceMap.containsValue(""));
       }
-      print("HeartRatingWidget: ${_choiceMap}");
       surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: RatingDataCollector(choiceMap: _choiceMap, optionMap: _optionMap));
       return null;
       },

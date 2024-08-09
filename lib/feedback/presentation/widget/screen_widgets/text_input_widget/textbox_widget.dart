@@ -28,7 +28,7 @@ class _TextboxWidgetState extends State<TextboxWidget> {
     validationLogicManager = ValidationLogicManager(field: widget.field);
 
      if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-      _controller.text = surveyCollectDataController.surveyIndexData[widget.field.id];
+      _controller.text = surveyCollectDataController.surveyIndexData[widget.field.id] as String? ?? "";
      }
      else{
       _controller.text = "";
@@ -41,6 +41,7 @@ class _TextboxWidgetState extends State<TextboxWidget> {
     return SizedBox(
       width: 250.w,
       child: TextFormField(
+        
         validator: (value) {
           String ? valid = validationLogicManager.inputTextValidation(value);
           if(valid == null){
@@ -48,12 +49,15 @@ class _TextboxWidgetState extends State<TextboxWidget> {
           }
           return valid;
         },
+        
         maxLines: 1,
         controller: _controller,
         style: TextStyle(
+          
           color:  HexColor(_surveyDesignFieldController.optionTextColor.value),     
         ),
         decoration:  InputDecoration(   
+
          errorStyle:const TextStyle(color: Colors.white),
          hintText:  widget
                                 .field

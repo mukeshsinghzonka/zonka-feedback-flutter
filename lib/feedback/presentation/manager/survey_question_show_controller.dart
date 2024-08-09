@@ -79,6 +79,18 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.circleRating;
     case 'radio_rating':
       return SurveyScreenenum.radioRatingLable;
+    case 'ServerName':
+      return SurveyScreenenum.serverName;
+    case 'FullName':
+      return SurveyScreenenum.fullName;
+    case 'Email':
+      return SurveyScreenenum.textWidget;
+    case 'MembershipNo':
+      return SurveyScreenenum.textWidget;
+    case 'gender':
+      return SurveyScreenenum.radioChoice;
+    // case 'Mobile':
+    //   return SurveyScreenenum.textWidget;
     default:
       return SurveyScreenenum.buttonChoice;
   }
@@ -137,6 +149,10 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     return CircleRatingWidget(field: field,);
     case SurveyScreenenum.radioRatingLable:
     return RadioRatingLableWidget(field: field,);
+    case SurveyScreenenum.serverName:
+    return DropDownWidget(field: field,);
+    case SurveyScreenenum.fullName:
+    return TextboxWidget(field: field,);
     default: return Container();
   }
 }

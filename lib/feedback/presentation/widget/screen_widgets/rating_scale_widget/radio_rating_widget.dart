@@ -28,8 +28,8 @@ final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyC
   void initState() {
 
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).choiceMap;
-      _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).optionMap;
+      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?)?.choiceMap??{};
+      _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?)?.optionMap??{};
     }
     else{
     for (int i = 0; i < widget.field.options.length; i++) {

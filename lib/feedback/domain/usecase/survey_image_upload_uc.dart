@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_image_upload_feedback_repo.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/usecase/usecase.dart';

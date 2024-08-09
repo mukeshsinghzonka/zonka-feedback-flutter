@@ -40,7 +40,7 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
   @override
   void initState() {
       if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id) && surveyCollectDataController.surveyIndexData[widget.field.id]!=null){
-        choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as String ;
+        choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as String? ;
      }
     validationLogicManager = ValidationLogicManager(field: widget.field);
     _animationController.initAnimationController(this);
@@ -56,9 +56,7 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
       surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: choiceId);
       return null;
     }, builder: (context) {
-      return Container(
-        // decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-        child: GridView.builder(
+      return  GridView.builder(
           itemCount: widget.field.choices.length,
               shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -99,8 +97,7 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
             crossAxisCount: widget.field.choices.length,
             childAspectRatio: 2
           ),
-        ),
-      );
+        );
     });
   }
 }

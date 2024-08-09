@@ -30,7 +30,7 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget>  with SingleTicke
   @override
   void initState() {
   if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-     choiceId =  surveyCollectDataController.surveyIndexData[widget.field.id] as String;
+     choiceId =  surveyCollectDataController.surveyIndexData[widget.field.id] as String? ??"";
   }
   else{
     choiceId = null;

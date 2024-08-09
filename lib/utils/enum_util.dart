@@ -40,7 +40,17 @@ enum SurveyScreenenum {
   pictureRating,
   heartRating,
   circleRating,
-  radioRatingLable
+  radioRatingLable,
+  serverName,
+  sectionBreak,
+
+  fullName,
+  email,
+  externalId,
+  mobileNumber,
+  gender,
+
+
 }
 
 enum SpecialSettingVal { exact, range }

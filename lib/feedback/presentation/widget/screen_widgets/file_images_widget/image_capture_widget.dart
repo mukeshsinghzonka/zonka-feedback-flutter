@@ -1,5 +1,4 @@
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -36,11 +35,11 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
         return GestureDetector(
           onTap: () async  {
             XFile ?  file =  await imagePickerService.takeImage();  
-            Uint8List binaryImage = await file!.readAsBytes();
+            // Uint8List binaryImage = await file!.readAsBytes();
             // dev.log(binaryImage);
             await surveyImageUploadManager.call(
               SurveyImageUploadUcParams(
-               fileName: file.name,
+               fileName: file!.name,
                 filePath: file.path,
                 referenceCode: surveryApiFeedbackController.surveyModel.value.id ?? ""
               )

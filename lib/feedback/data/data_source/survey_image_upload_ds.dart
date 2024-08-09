@@ -1,7 +1,4 @@
 
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:get/get_connect/http/src/multipart/form_data.dart';
 import 'package:get/get_connect/http/src/multipart/multipart_file.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';

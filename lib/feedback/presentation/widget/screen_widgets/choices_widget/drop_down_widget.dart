@@ -27,6 +27,11 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   @override
   void initState() {
+
+    if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
+
+      choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as Choice?;
+    }
     validationLogicManager = ValidationLogicManager(field: widget.field);
     _animationController.initAnimationController(this);
     super.initState();
@@ -47,6 +52,7 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
             ),
                
             child: DropdownButtonFormField(
+              value: choiceId,
                 hint: const Text('Select'),
                 isExpanded: true,
                 isDense: true,

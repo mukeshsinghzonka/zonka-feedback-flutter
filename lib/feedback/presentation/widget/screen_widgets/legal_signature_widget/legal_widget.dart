@@ -24,7 +24,7 @@ class _LegalWidgetState extends State<LegalWidget> with SingleTickerProviderStat
   @override
   void initState() {
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-      groupValue = surveyCollectDataController.surveyIndexData[widget.field.id];
+      groupValue = surveyCollectDataController.surveyIndexData[widget.field.id] as String?;
     }
     else{
       groupValue = null;

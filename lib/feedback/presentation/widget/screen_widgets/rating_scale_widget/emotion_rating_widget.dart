@@ -24,7 +24,9 @@ class EmotionRatingWidget extends StatefulWidget {
 class _EmotionRatingWidgetState extends State<EmotionRatingWidget> with SingleTickerProviderStateMixin {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
-   Map<String, String> emojiConstant = {
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  late ValidationLogicManager validationLogicManager; 
+  Map<String, String> emojiConstant = {
     'angry': ImageConstant.angry_1,
     'sad': ImageConstant.sad_4,
     'neutral': ImageConstant.neutral_3,
@@ -47,18 +49,17 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> with SingleTi
    'overjoyed': ImageConstant.inLoveFilled,
    'happy': ImageConstant.veryHappyFilledSolid,
   };
-late ValidationLogicManager validationLogicManager;
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
 
   int rowIndx = -1;
   int colIndx = -1;
-final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+
   @override
   void initState() {
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).choiceMap;
-      _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).optionMap;
+      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?)?.choiceMap??{};
+      _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?)?.optionMap??{};
     }
     else{
     for (int i = 0; i < widget.field.options.length; i++) {

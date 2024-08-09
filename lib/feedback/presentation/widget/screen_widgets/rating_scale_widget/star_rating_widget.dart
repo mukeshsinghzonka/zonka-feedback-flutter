@@ -25,11 +25,11 @@ class StarRatingWidget extends StatefulWidget {
 class _StarRatingWidgetState extends State<StarRatingWidget>with SingleTickerProviderStateMixin {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+  late ValidationLogicManager validationLogicManager;
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   String optionId = "";
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
-late ValidationLogicManager validationLogicManager;
-final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   int rowIndx = -1;
   int colIndx = -1;
 
@@ -37,8 +37,8 @@ final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyC
   void initState() {
     
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).choiceMap;
-      _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector).optionMap;
+      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?)?.choiceMap??{};
+      _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?)?.optionMap??{};
     }
     else{
     for (int i = 0; i < widget.field.options.length; i++) {

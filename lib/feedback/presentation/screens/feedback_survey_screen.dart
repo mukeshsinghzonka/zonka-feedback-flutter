@@ -1,11 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
