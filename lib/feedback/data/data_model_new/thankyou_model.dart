@@ -1,4 +1,6 @@
+import 'package:zonka_feedback/feedback/data/data_model_new/background_gallery_image.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/language_page_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/page_logo_gallery_image.dart';
 
 class ThankyouPage {
     ThankyouPage({
@@ -18,11 +20,11 @@ class ThankyouPage {
     });
 
     final bool? applyPageBackgroundImage;
-    final dynamic backgroundGalleryImageId;
+    final BackgroundGalleryImageId? backgroundGalleryImageId;
     final String? pageBgColor;
     final bool? useCustomHeadingColor;
     final String? fontColorBottomText;
-    final dynamic pageLogoGalleryImageId;
+    final PageLogoGalleryImageId? pageLogoGalleryImageId;
     final String? fontColorUpperText;
     final String? fontSizeUpperText;
     final String? fontSizeBottomText;
@@ -38,11 +40,11 @@ class ThankyouPage {
 
         return ThankyouPage(
             applyPageBackgroundImage: json["applyPageBackgroundImage"],
-            backgroundGalleryImageId: json["backgroundGalleryImageId"],
+            backgroundGalleryImageId:json["backgroundGalleryImageId"]!=null?  BackgroundGalleryImageId.fromJson(json["backgroundGalleryImageId"]) : null,
             pageBgColor: json["pageBgColor"],
             useCustomHeadingColor: json["useCustomHeadingColor"],
             fontColorBottomText: json["fontColorBottomText"],
-            pageLogoGalleryImageId: json["pageLogoGalleryImageId"],
+            pageLogoGalleryImageId:json["pageLogoGalleryImageId"] != null? PageLogoGalleryImageId.fromJson(json["pageLogoGalleryImageId"]):null,
             fontColorUpperText: json["fontColorUpperText"],
             fontSizeUpperText: json["fontSizeUpperText"],
             fontSizeBottomText: json["fontSizeBottomText"],

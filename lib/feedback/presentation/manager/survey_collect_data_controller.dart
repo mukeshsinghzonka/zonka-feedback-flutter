@@ -63,11 +63,11 @@ class SurveyCollectDataController extends GetxController{
             return dateValue == null;
         }
         return false;
-      case "nps_question" || "cssquestion" || "button_rating" || "legalTerm" :
+      case "npsquestion" || "cssquestion" || "button_rating" || "legalTerm" :
         String? choiceId = selectedData as String?;
         return choiceId == displayModel.choiceId;
       case "heart_rating" || "circle_rating" || "star_rating" || 'emotion_rating':
-        Map<String, String> choiceMap  = (selectedData as  RatingDataCollector).choiceMap;
+        Map<String, String> choiceMap  = (selectedData as  RatingDataCollector?)?.choiceMap??{};
         return choiceMap.containsValue(displayModel.choiceId);
       case "dropdown":
         Choice ? dropDownValue = selectedData as Choice?;

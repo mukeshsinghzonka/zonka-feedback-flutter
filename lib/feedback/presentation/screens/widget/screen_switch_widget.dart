@@ -13,17 +13,12 @@ class ScreenSwitchWidget extends StatefulWidget {
 }
 
 class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> {
-  final SurveyScreenManager surveyScreenManager =
-      Get.find<SurveyScreenManager>();
-
-  final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-     
-      child: Row(
+    return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
@@ -31,17 +26,19 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> {
                 surveyScreenManager.previousScreen();
               },
               child: Container(
+                 width: 35.h,
                   padding: EdgeInsets.all(2.w),
                   alignment: Alignment.center,
-                   margin: EdgeInsets.only(top:40.h,left: 5.w),
+                  margin: EdgeInsets.only(top:40.h,left: 5.w),
                   decoration: BoxDecoration(
                     color: HexColor(surveyFieldController.buttonColor.value),
                     shape: BoxShape.circle,
+
                   ),
                   child: Icon(
                     Icons.arrow_back_ios_new_sharp,
                     color: Colors.white,
-                    size: 10.h,
+                    size: 15.h,
                   )),
             ),
             Image.network(
@@ -56,9 +53,10 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> {
                   surveyScreenManager.nextScreen();
                 }
               },
-              child: Container(
+              child: Container(      
+                  width: 35.h,
                   padding: EdgeInsets.all(2.w),
-                     margin: EdgeInsets.only(top:40.h,right: 5.w),
+                  margin: EdgeInsets.only(top:40.h,right: 5.w),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: HexColor(surveyFieldController.buttonColor.value),
@@ -67,12 +65,11 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> {
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.white,
-                    size: 10.h,
+                    size: 15.h,
                   )),
             )
           ],
-        ),
-    );
+        );
     
   }
 }

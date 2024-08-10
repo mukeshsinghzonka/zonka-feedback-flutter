@@ -1,3 +1,6 @@
+import 'package:zonka_feedback/feedback/data/data_model_new/background_gallery_image.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/page_logo_gallery_image.dart';
+
 class IntroPage {
   IntroPage({
     required this.applyPageBackgroundImage,
@@ -21,10 +24,10 @@ class IntroPage {
   });
 
   final bool? applyPageBackgroundImage;
-  final dynamic backgroundGalleryImageId;
+  final BackgroundGalleryImageId ?  backgroundGalleryImageId;
   final String? pageBgColor;
   final bool? useCustomHeadingColor;
-  final dynamic pageLogoGalleryImageId;
+  final PageLogoGalleryImageId? pageLogoGalleryImageId;
   final String? fontSizeGetStartButton;
   final String? fontColorGetStartButton;
   final String? fontFamilyGetStartButton;
@@ -46,10 +49,10 @@ class IntroPage {
 
     return IntroPage(
       applyPageBackgroundImage: json["applyPageBackgroundImage"],
-      backgroundGalleryImageId: json["backgroundGalleryImageId"],
+      backgroundGalleryImageId:json["backgroundGalleryImageId"]!=null? BackgroundGalleryImageId.fromJson(json["backgroundGalleryImageId"]):null ,
       pageBgColor: json["pageBgColor"],
       useCustomHeadingColor: json["useCustomHeadingColor"],
-      pageLogoGalleryImageId: json["pageLogoGalleryImageId"],
+      pageLogoGalleryImageId:json["pageLogoGalleryImageId"]!=null? PageLogoGalleryImageId.fromJson(json["pageLogoGalleryImageId"]) :null,
       fontSizeGetStartButton: json["fontSizeGetStartButton"],
       fontColorGetStartButton: json["fontColorGetStartButton"],
       fontFamilyGetStartButton: json["fontFamilyGetStartButton"],
@@ -90,3 +93,6 @@ class IntroPageTranslation {
     );
   }
 }
+
+
+

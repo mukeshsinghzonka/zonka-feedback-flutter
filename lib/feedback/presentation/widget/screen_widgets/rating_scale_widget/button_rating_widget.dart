@@ -48,11 +48,12 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with SingleTick
       return null;
     }, builder: (context) {
       return Container(
-        // decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
         child: GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: widget.field.choices.length,
+          padding: EdgeInsets.zero,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () async {

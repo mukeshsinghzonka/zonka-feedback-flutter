@@ -52,7 +52,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
       return null;
     }, builder: (context) {
       return Container(
-        // decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
         child: Column(
           children: [
             Visibility(
@@ -60,6 +60,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
               child: Text(widget.field.translations![surveyFieldController.defaultTranslation.value]?.helpTextFirstOption??'',style: TextStyle(fontSize: 7.sp, fontFamily: surveyFieldController.fontFamily.value),)),
              GridView.builder(
               itemCount: widget.field.choices.length,
+              padding: const EdgeInsets.all(0),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {

@@ -12,7 +12,6 @@ import 'package:zonka_feedback/utils/logic_file.dart';
 
 class RadioButtonWidget extends StatefulWidget {
   final Field field;
-  
   const RadioButtonWidget({super.key, required this.field});
 
   @override
@@ -39,7 +38,8 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget>  with SingleTicke
   _animationController.initAnimationController(this);
   super.initState();
   }
-  
+  int crossAxisCount = 3;
+
   @override
   Widget build(BuildContext context) {
     return FormField(
@@ -51,43 +51,47 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget>  with SingleTicke
       return null;
       },
       builder: (context) {
-        return GridView.builder(
-          shrinkWrap:true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, // Number of columns
-            childAspectRatio: 4, // Aspect ratio of each grid item
-            mainAxisSpacing: 10.0, // Space between the items vertically
-            crossAxisSpacing: 10.0, // Space between the items horizontally
+        return SizedBox(
+          width: 300.w,
+          child: GridView.builder(
+            shrinkWrap:true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount:widget.field.choices.length >=3 ? crossAxisCount:widget.field.choices.length, // Number of columns
+              childAspectRatio:widget.field.choices.length >=3 ? 4: 6, // Aspect ratio of each grid item
+              mainAxisSpacing: 10.0, // Space between the items vertically
+              crossAxisSpacing: 10.0, // Space between the items horizontally
+            ),
+            itemCount: widget.field.choices.length , // Total number of items
+            itemBuilder: (context, index) {
+             if(index > widget.field.choices.length - 1 ){
+                return Container();
+          
+             }
+              return AnimatedBuilder(
+                animation: _animationController.animation,
+                builder: (context,cild) {
+                  return Opacity(
+                    opacity: choiceId == widget.field.choices[index].id ? _animationController.animation.value: 1 ,
+                    child: CustomRadioButton(
+                      value: widget.field.choices[index].id,
+                      groupValue: choiceId,
+                      field: widget.field,
+                      choiceName: widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??"",
+                      onChanged: (value) async {
+                         choiceId = value;
+                        for(int i = 0 ;i<2;i++){
+                            await _animationController.blinkingAnimation();         
+                            setState(() {});
+                        }
+                      },
+                    ),
+                  );
+                }
+              );
+            },
           ),
-          itemCount: widget.field.choices.length, // Total number of items
-          itemBuilder: (context, index) {
-            return AnimatedBuilder(
-              animation: _animationController.animation,
-              builder: (context,cild) {
-                return Opacity(
-                  opacity: choiceId == widget.field.choices[index].id ? _animationController.animation.value: 1 ,
-                  child: CustomRadioButton(
-                    value: widget.field.choices[index].id,
-                    groupValue: choiceId,
-                    field: widget.field,
-                    
-                    choiceName: widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??"",
-                    onChanged: (value) async {
-                       choiceId = value;
-                      for(int i = 0 ;i<2;i++){
-                          await _animationController.blinkingAnimation();         
-                          setState(() {});
-                      }
-                      setState(() {});
-                    
-                    },
-                  ),
-                );
-              }
-            );
-          },
         );
       }
     );

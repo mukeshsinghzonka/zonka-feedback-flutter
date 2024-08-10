@@ -21,7 +21,7 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/ratin
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/date_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/textbox_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/thank_you_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welcome_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welcome_screen.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 
@@ -129,10 +129,6 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     return TextboxWidget(field: field,);
     case SurveyScreenenum.dateWidget:
     return DateWidget(field: field,);
-    case SurveyScreenenum.welcomeWidget:
-    return WelcomeWidget(field: field,);
-    case SurveyScreenenum.thankYouWidget:
-    return ThankYouWidget(field: field,);
     case SurveyScreenenum.legalTerm:
     return LegalWidget(field:field,);
     case SurveyScreenenum.cameraWidget:

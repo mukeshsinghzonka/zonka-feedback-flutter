@@ -169,9 +169,7 @@ class SurveyScreenManager extends GetxController {
       List<Choice> choice = fields[i].choices;
       //Escape Question
       for (int j = choice.length - 1; j >= 0; j--) {
-        if (surveyCollectDataController.checkIfDisplayConditionMatched(DisplayLogicModel(fieldId: fields[i].id, actionTaken: choice[j].logic?.actionTaken ?? "",choiceId: choice[j].id ?? "",),
-          fields[i].fieldName ?? "",
-        )) {
+        if (surveyCollectDataController.checkIfDisplayConditionMatched(DisplayLogicModel(fieldId: fields[i].id, actionTaken: choice[j].logic?.actionTaken ?? "",choiceId: choice[j].id ?? "",),fields[i].fieldName ?? "",)) {
           Logic? logicChoice = choice[j].logic;
           if (logicChoice?.actionTaken == "EQ") {
             return logicChoice?.skipToScreenOrQuestion;
@@ -206,8 +204,8 @@ class SurveyScreenManager extends GetxController {
 
     if (_checkValidationOnNext()) {
       String? questionEscaped = _skipAndRedirect();
-      bool valueIsSet = _checkDisplayLogic(
-          questionEscaped == null ? false : true, questionEscaped);
+      print("questionEscaped $questionEscaped");
+      bool valueIsSet = _checkDisplayLogic(questionEscaped == null ? false : true, questionEscaped);
       if (!valueIsSet) {
         // show exit screen of the survey
       }

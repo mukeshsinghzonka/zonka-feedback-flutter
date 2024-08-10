@@ -68,7 +68,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget>  with SingleTickerProvi
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemCount: widget.field.choices.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 4),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 5),
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () async {

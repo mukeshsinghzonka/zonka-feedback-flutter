@@ -5,10 +5,9 @@ import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/screens/widget/screen_switch_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/screens/widget/screen_show_question_widget.dart';
-import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/thank_you_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welcome_screen.dart';
+
 
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({super.key});
@@ -37,40 +36,44 @@ class _SurveyScreenState extends State<SurveyScreen> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return  Container(
-                
-      decoration: BoxDecoration(
-      image: DecorationImage(
-          onError: (exception, stackTrace) {},
-          fit: BoxFit.cover,
-          image: NetworkImage(surveyFieldController.surveyBgImage.value)),
-      color: HexColor(surveyFieldController.surveyBgColor.value),
-      // border: Border.all(color: Colors.blueAccent)
-      ),
-        child: Column(
-      
-          children: [
-           const Expanded(flex: 6, child: ScreenSwitchWidget()),
-            Obx(() {
-              return Expanded(
-                flex: 29,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  child: Container(      
-                    decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                    child: SwitchScreenWidget(
-                      feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value] .fields,
-                      index: surveyScreenManager.index.value,
-                    ),
-                  ),
-                ),
-              );
-            }),
+      return
+      ThankYouWidget(field:surveryFeedbackController.surveyModel.value.thankyouPage );
+      //   Container(       
+      // decoration: BoxDecoration(
+      // image: DecorationImage(
+      //     onError: (exception, stackTrace) {},
+      //     fit: BoxFit.cover,
+      //     image: NetworkImage(surveyFieldController.surveyBgImage.value)),
+      //     color: HexColor(surveyFieldController.surveyBgColor.value),
+      // ),
+      //   child: Column(
+      //     children: [
+      //     //   ResponsiveLayout(
+      //     //     mobile: Expanded(flex: 1, child: ScreenSwitchWidget()),
+      //     //     tablet: Expanded(flex: 7, child: ScreenSwitchWidget()),
+      //     //     ),
+      //     const Expanded(flex: 7, child: ScreenSwitchWidget()),
+      //       Obx(() {
+      //         return Expanded(
+      //           flex: 29,
+      //           child: AnimatedSwitcher(
+      //             duration: const Duration(milliseconds: 500),
+      //             child: Container(      
+      //               decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+      //               child: SwitchScreenWidget(
+      //                 feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value] .fields,
+      //                 index: surveyScreenManager.index.value,
+      //               ),
+
+      //             ),
+      //           ),
+      //         );
+      //       }),
          
-          const Expanded(flex: 3, child: ExitWidget())
-          ],
-        )
-      );
+      //     const Expanded(flex: 3, child: ExitWidget())
+      //     ],
+      //   )
+      // );
       
     });
   }

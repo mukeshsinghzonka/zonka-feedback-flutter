@@ -14,7 +14,11 @@ class SurveyDesignFieldController extends GetxController {
    RxString surveyBgImage = "".obs;
    RxString surveyBgImageLogo = "".obs;
    RxString s3GalleryImageUrl = "".obs;
-   
+   RxString introLogoImageUrl = "".obs;
+   RxString introBgImageUrl = "".obs;
+   RxString introLogoImageUrlLogo = "".obs; 
+   RxString thankyouPageUrlLogo = "".obs;
+   RxString thankyouPageUrlBg = "".obs;
 
   void setFieldFromSurveyModel(){
     headingTextColor.value =_screenFeedbackController.surveyModel.value.fontColorLabel?? "#000000";
@@ -26,6 +30,10 @@ class SurveyDesignFieldController extends GetxController {
     surveyBgImage.value ='${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}${_screenFeedbackController.surveyModel.value.surveyBgGalleryImageId?.companyId}/${_screenFeedbackController.surveyModel.value.surveyBgGalleryImageId?.path}';
     surveyBgImageLogo.value ='${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}${_screenFeedbackController.surveyModel.value.logoGalleryImageId?.companyId}/${_screenFeedbackController.surveyModel.value.logoGalleryImageId?.path}';
     s3GalleryImageUrl.value = _screenFeedbackController.surveyModel.value.s3GalleryImageUrl;
+    introBgImageUrl.value = createImageUrl(_screenFeedbackController.surveyModel.value.introPage?.backgroundGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.introPage?.backgroundGalleryImageId?.path?? "");
+    introLogoImageUrlLogo.value = createImageUrl(_screenFeedbackController.surveyModel.value.introPage?.pageLogoGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.introPage?.pageLogoGalleryImageId?.path?? "");
+    thankyouPageUrlBg.value = createImageUrl(_screenFeedbackController.surveyModel.value.thankyouPage?.backgroundGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.thankyouPage?.backgroundGalleryImageId?.path?? "");  
+    thankyouPageUrlLogo.value = createImageUrl(_screenFeedbackController.surveyModel.value.thankyouPage?.pageLogoGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.thankyouPage?.pageLogoGalleryImageId?.path?? "");
     update();
   }
    

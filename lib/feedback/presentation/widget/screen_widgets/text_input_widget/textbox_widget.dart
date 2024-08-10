@@ -53,12 +53,16 @@ class _TextboxWidgetState extends State<TextboxWidget> {
         maxLines: 1,
         controller: _controller,
         style: TextStyle(
-          
+          fontFamily:_surveyDesignFieldController.fontFamily.value,
           color:  HexColor(_surveyDesignFieldController.optionTextColor.value),     
         ),
         decoration:  InputDecoration(   
 
-         errorStyle:const TextStyle(color: Colors.white),
+         errorStyle:const TextStyle(color: Colors.transparent),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+     
+        ),
          hintText:  widget
                                 .field
                             
@@ -79,6 +83,7 @@ class _TextboxWidgetState extends State<TextboxWidget> {
           contentPadding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
           isDense: true,
           focusedBorder:  OutlineInputBorder(
+            
             borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
             borderRadius: BorderRadius.circular(10.0)
           ),

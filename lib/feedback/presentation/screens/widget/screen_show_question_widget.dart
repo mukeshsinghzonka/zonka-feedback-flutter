@@ -56,9 +56,8 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                       decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)
                       ),
                       child: Column(
+                        
                         children: [
-                        //  Text(widget.feedbackQuestion[index].fieldName?? ""),   
-                          
                           Container(
                               margin: EdgeInsets.symmetric(vertical: 5.h),
                               decoration: BoxDecoration(

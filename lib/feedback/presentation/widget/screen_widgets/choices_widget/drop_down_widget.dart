@@ -29,7 +29,6 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
   void initState() {
 
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-
       choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as Choice?;
     }
     validationLogicManager = ValidationLogicManager(field: widget.field);
