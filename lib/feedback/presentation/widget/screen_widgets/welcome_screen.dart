@@ -30,6 +30,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
         color: HexColor(widget.introPage?.pageBgColor ?? ""),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             height: 100.h,

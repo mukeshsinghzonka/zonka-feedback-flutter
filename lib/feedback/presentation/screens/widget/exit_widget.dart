@@ -30,26 +30,24 @@ class _ExitWidgetState extends State<ExitWidget> {
                 style: TextStyle( fontFamily: surveyFieldController.fontFamily.value, fontSize: 6.sp),
               ),
             )),
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-            Navigator.of(context).pop();
-             Get.delete<SurveyScreenManager>();
-            },
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              child:  Container(
-                width: 50.w,
-                height: 30.h,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(5.r)),
-                color: HexColor(surveyFieldController.buttonColor.value),),
-                child:  Text(
-                  'Exit',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
-                ),
+        GestureDetector(
+          onTap: () {
+          Navigator.of(context).pop();
+           Get.delete<SurveyScreenManager>();
+          },
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            child:  Container(
+              width: 50.w,
+              height: 30.h,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5.r)),
+              color: HexColor(surveyFieldController.buttonColor.value),),
+              child:  Text(
+                'Exit',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
               ),
             ),
           ),
