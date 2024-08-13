@@ -10,6 +10,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/youtube_video_player_controller.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
 
@@ -31,6 +32,8 @@ int colIndx = -1;
 Map<String, String> _choiceMap = {};
 Map<String, int> _optionMap = {};
 String optionId= "";
+final VideoPlayerControllerManager videoPlayerController = Get.find<VideoPlayerControllerManager>();
+
   @override
   void initState() {
 
@@ -52,6 +55,9 @@ String optionId= "";
     rowIndx = widget.field.options.length;
     _animationController.initAnimationController(this);
     validationLogicManager = ValidationLogicManager(field: widget.field);
+     videoPlayerController.initalizeVideoSurveyData(
+       fields:  widget.field
+      );
     super.initState();
   }
 

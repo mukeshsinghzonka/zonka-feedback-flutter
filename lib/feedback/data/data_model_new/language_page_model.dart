@@ -38,7 +38,7 @@ class LanguagePage {
     final String? fontColorBottomText;
     final String? fontFamilyBottomText;
     final bool? showFlagWithLanguage;
-    final Map<String, LanguagePageTranslation> ?translations;
+    final Map<String, LanguagePageTranslation> ? translations;
     final String? id;
 
     factory LanguagePage.fromJson(Map<String, dynamic>? json){ 

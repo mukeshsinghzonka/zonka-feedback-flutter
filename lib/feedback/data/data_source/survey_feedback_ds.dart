@@ -8,11 +8,9 @@ class SurveyFeedBackDataSource {
   Future<ApiResult<SurveyModel>> getSurveyFeedBackDs({required String? suveryId}) async {
     try {
       final responseSurvey = await _httpUtil.get('/api/v1/surveys/download/$suveryId');
-      // final responseLanguage = await _httpUtil.get('/api/v1/surveys/languages');
-      SurveyModel surveyFeedBackModel= SurveyModel.fromJson(responseSurvey['data']['survey']);
-     
-      
-print('surveyfiled ${surveyFeedBackModel.allowGestureToExit}');
+      SurveyModel surveyFeedBackModel = SurveyModel.fromJson(responseSurvey['data']['survey']);
+       
+      print('surveyfiled ${surveyFeedBackModel.allowGestureToExit}');
 
       return ApiResult.success(data:surveyFeedBackModel);
     } catch (e) {

@@ -10,8 +10,10 @@ import 'package:zonka_feedback/feedback/data/data_model_new/survey_screen_model.
 import 'package:zonka_feedback/feedback/domain/entity/form_validator.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SurveyScreenManager extends GetxController {
+
   final SurveryApiFeedbackController screenFeedbackController = Get.find<SurveryApiFeedbackController>();
   final SurveyCollectDataController surveyCollectDataController = Get.put(SurveyCollectDataController());
   final RxBool _nextScreenstop = false.obs;
@@ -26,10 +28,21 @@ class SurveyScreenManager extends GetxController {
 
   Map<String, int> mapSurveyQuesIdIndex = {};
   Map<String, String> mapSurveyIdAndFieldName = {};
+  
+  // mapping which field is visible and which is not
   Map<String, bool> visibeSurveyWidget = {};
-  List<int> surveyIndex = [0];
 
+
+  List<int> surveyIndex = [0];
   List<SurveyScreenModel> surveyScreens = [];
+
+  final Rx<ScreenTypeEnumUtil> _screenTypeEnumUtil = ScreenTypeEnumUtil.languageScreen.obs;
+  Rx<ScreenTypeEnumUtil>  get screenTypeEnumUtil => _screenTypeEnumUtil;
+  void setScreenTypeEnum(ScreenTypeEnumUtil value) async {
+    _screenTypeEnumUtil.value = value;    
+    update();
+  } 
+
 
   @override
   void onInit() {
@@ -198,16 +211,17 @@ class SurveyScreenManager extends GetxController {
   void nextScreen() {
     if (_index.value == surveyScreens.length ) {
       //show exit screen
+      setScreenTypeEnum(ScreenTypeEnumUtil.thankYouScreen);
       print("exitscreen");
       return;
     }
 
     if (_checkValidationOnNext()) {
       String? questionEscaped = _skipAndRedirect();
-      print("questionEscaped $questionEscaped");
       bool valueIsSet = _checkDisplayLogic(questionEscaped == null ? false : true, questionEscaped);
       if (!valueIsSet) {
         // show exit screen of the survey
+        setScreenTypeEnum(ScreenTypeEnumUtil.thankYouScreen);
       }
     }
     //check display logic only then increase index to next screen
@@ -221,6 +235,7 @@ class SurveyScreenManager extends GetxController {
     }
     else{
       //show intro screen
+      setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
     }
   }
 }

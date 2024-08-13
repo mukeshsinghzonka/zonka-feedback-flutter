@@ -81,7 +81,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
                   networkExceptions =const NetworkExceptions.internalServerError();
                   break;
                 case 503:
-                  networkExceptions =const NetworkExceptions.serviceUnavailable();
+                  networkExceptions = const NetworkExceptions.serviceUnavailable();
                   break;
                 default:
                   var responseCode = error.response?.statusCode;

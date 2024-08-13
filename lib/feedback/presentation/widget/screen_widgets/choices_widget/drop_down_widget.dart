@@ -33,6 +33,7 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
     }
     validationLogicManager = ValidationLogicManager(field: widget.field);
     _animationController.initAnimationController(this);
+    print(widget.field.choices);
     super.initState();
   }
   @override
@@ -83,10 +84,8 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
                         for(int i = 0 ;i<2;i++){
                 await _animationController.blinkingAnimation();         
                  setState(() {});
-          }
-                  setState(() {
-                    
-                  });
+                 }
+              
                 }),
           ),
         );

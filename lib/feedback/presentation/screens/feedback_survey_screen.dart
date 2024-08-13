@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/thank_you_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/language_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/survey_show_question_screen.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/thank_you_screen.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welcome_screen.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 
 
 class SurveyScreen extends StatefulWidget {
@@ -35,46 +38,22 @@ class _SurveyScreenState extends State<SurveyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return
-      ThankYouWidget(field:surveryFeedbackController.surveyModel.value.thankyouPage );
-      //   Container(       
-      // decoration: BoxDecoration(
-      // image: DecorationImage(
-      //     onError: (exception, stackTrace) {},
-      //     fit: BoxFit.cover,
-      //     image: NetworkImage(surveyFieldController.surveyBgImage.value)),
-      //     color: HexColor(surveyFieldController.surveyBgColor.value),
-      // ),
-      //   child: Column(
-      //     children: [
-      //     //   ResponsiveLayout(
-      //     //     mobile: Expanded(flex: 1, child: ScreenSwitchWidget()),
-      //     //     tablet: Expanded(flex: 7, child: ScreenSwitchWidget()),
-      //     //     ),
-      //     const Expanded(flex: 7, child: ScreenSwitchWidget()),
-      //       Obx(() {
-      //         return Expanded(
-      //           flex: 29,
-      //           child: AnimatedSwitcher(
-      //             duration: const Duration(milliseconds: 500),
-      //             child: Container(      
-      //               decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-      //               child: SwitchScreenWidget(
-      //                 feedbackQuestion: surveryFeedbackController.surveyModel.value.surveyScreens[surveyScreenManager.index.value] .fields,
-      //                 index: surveyScreenManager.index.value,
-      //               ),
-
-      //             ),
-      //           ),
-      //         );
-      //       }),
-         
-      //     const Expanded(flex: 3, child: ExitWidget())
-      //     ],
-      //   )
-      // );
+  
+      return Obx(
+        () {
+          if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen){
+            return WelcomeWidget(introPage:surveryFeedbackController.surveyModel.value.introPage );
+          }
+          else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen){
+            return LanguageWidget(languagePage:surveryFeedbackController.surveyModel.value.languagePage);
+          }
+          else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.thankYouScreen){
+           return ThankYouWidget(field: surveryFeedbackController.surveyModel.value.thankyouPage);
+          }
+          return const SurveyShowQuestionScreenWidget();
+        }
+      );
       
-    });
+   
   }
 }

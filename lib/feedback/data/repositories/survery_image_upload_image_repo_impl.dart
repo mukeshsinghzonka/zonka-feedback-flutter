@@ -7,6 +7,6 @@ class SurveryImageUploadImageRepoImpl extends ImageUploadFeedRepo{
   SurveryImageUploadImageRepoImpl({required this.surveyImageUploadDs});
   @override
   Future<ApiResult<String>> imageUploadFeedRepo({required String ? filePath, required String ? fileName,  required String referenceCode}) async {
-    return surveyImageUploadDs.uploadImageUploadDs(fileName: fileName, filePath: filePath, referenceCode: referenceCode);
+    return await surveyImageUploadDs.uploadImageUploadDs(fileName: fileName, filePath: filePath, referenceCode: referenceCode);
   }
 }

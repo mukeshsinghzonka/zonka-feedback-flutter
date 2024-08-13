@@ -6,6 +6,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data
 import 'package:zonka_feedback/feedback/presentation/manager/survey_question_show_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/youtube_video_player_controller.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -27,12 +28,22 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
       Get.find<SurveyScreenManager>();
   final SurveyCollectDataController surveyCollectDataController =
       Get.put(SurveyCollectDataController());
+  final VideoPlayerControllerManager videoPlayerController =
+      Get.put(VideoPlayerControllerManager());
+
   final double headerHeight = 100;
-   bool showFirstWidget = true;
+  bool showFirstWidget = true;
+
   @override
   void dispose() {
     Get.delete<ScreenFeedBackQuesController>();
+    // videoPlayerController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -45,18 +56,28 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 // Build the list of items
+
                 return Visibility(
-                  visible: surveyScreenManager.visibeSurveyWidget.containsKey(widget.feedbackQuestion[index].id ?? "")? surveyScreenManager.visibeSurveyWidget[widget.feedbackQuestion[index].id ?? ""] ??true: true,
+                  visible: surveyScreenManager.visibeSurveyWidget
+                          .containsKey(widget.feedbackQuestion[index].id ?? "")
+                      ? surveyScreenManager.visibeSurveyWidget[
+                              widget.feedbackQuestion[index].id ?? ""] ??
+                          true
+                      : true,
                   child: ConstrainedBox(
-                    constraints:  BoxConstraints(minHeight: widget.feedbackQuestion.length > 1 ? double.minPositive: MediaQuery.of(context).size.height * 0.7 ,),
+                    constraints: BoxConstraints(
+                      minHeight: widget.feedbackQuestion.length > 1
+                          ? double.minPositive
+                          : MediaQuery.of(context).size.height * 0.7,
+                    ),
                     child: Container(
-                      key: ValueKey<String>(widget.feedbackQuestion[index].id ?? ""), 
-                      margin: EdgeInsets.all(5.w),     
+                      key: ValueKey<String>(
+                          widget.feedbackQuestion[index].id ?? ""),
+                      margin: EdgeInsets.all(5.w),
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)
-                      ),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blueAccent)),
                       child: Column(
-                        
                         children: [
                           Container(
                               margin: EdgeInsets.symmetric(vertical: 5.h),
@@ -73,7 +94,12 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                         .headingTextColor.value)),
                               )),
                           Visibility(
-                            visible: widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle !=  "",
+                            visible: widget
+                                    .feedbackQuestion[index]
+                                    .translations?[surveyFieldController
+                                        .defaultTranslation.value]
+                                    ?.subTitle !=
+                                "",
                             child: Container(
                               margin: EdgeInsets.symmetric(vertical: 5.h),
                               child: Text(
@@ -88,7 +114,11 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                           ),
                           Obx(() {
                             return Visibility(
-                              visible: surveyScreenManager.showIsRequired!.containsKey(widget.feedbackQuestion[index].id ?? "") == true,
+                              visible: surveyScreenManager.showIsRequired!
+                                      .containsKey(
+                                          widget.feedbackQuestion[index].id ??
+                                              "") ==
+                                  true,
                               child: Container(
                                 padding: EdgeInsets.all(5.h),
                                 decoration: BoxDecoration(
@@ -108,16 +138,43 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                       width: 2.w,
                                     ),
                                     Builder(builder: (context) {
-                                      if (surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id ??""]?.value == ScreenValidationErrorType.REQUIRED) {
+                                      if (surveyScreenManager
+                                              .showIsRequired![widget
+                                                      .feedbackQuestion[index]
+                                                      .id ??
+                                                  ""]
+                                              ?.value ==
+                                          ScreenValidationErrorType.REQUIRED) {
                                         return Text(
-                                          surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id ??""]!.message !=null
-                                              ? surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id ?? ""]!.message ??""
+                                          surveyScreenManager
+                                                      .showIsRequired![widget
+                                                              .feedbackQuestion[
+                                                                  index]
+                                                              .id ??
+                                                          ""]!
+                                                      .message !=
+                                                  null
+                                              ? surveyScreenManager
+                                                      .showIsRequired![widget
+                                                              .feedbackQuestion[
+                                                                  index]
+                                                              .id ??
+                                                          ""]!
+                                                      .message ??
+                                                  ""
                                               : 'This is a required field',
                                           style: const TextStyle(
                                             color: Colors.red,
                                           ),
                                         );
-                                      } else if (surveyScreenManager.showIsRequired![widget.feedbackQuestion[index].id ??""] ?.value ==  ScreenValidationErrorType.WRONGSELECTION) {
+                                      } else if (surveyScreenManager
+                                              .showIsRequired![widget
+                                                      .feedbackQuestion[index]
+                                                      .id ??
+                                                  ""]
+                                              ?.value ==
+                                          ScreenValidationErrorType
+                                              .WRONGSELECTION) {
                                         return Text(
                                           'Please make the right number of selections.',
                                           style: TextStyle(
@@ -132,18 +189,20 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                               ),
                             );
                           }),
-                          Builder(
-                            builder: (context) {
-                            if (widget.feedbackQuestion[index].quesImages.isEmpty) {
+                          Builder(builder: (context) {
+                            if (widget
+                                .feedbackQuestion[index].quesImages.isEmpty) {
                               return Container();
                             }
                             return Container(
                               height: 150.h,
                               margin: EdgeInsets.all(3.w),
                               decoration: BoxDecoration(
-                                borderRadius:BorderRadius.all(Radius.circular(10.r)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.r)),
                               ),
-                              child: widget.feedbackQuestion[index].quesImages.isNotEmpty
+                              child: widget.feedbackQuestion[index].quesImages
+                                      .isNotEmpty
                                   ? ClipRRect(
                                       borderRadius: BorderRadius.circular(10.r),
                                       child: Image.network(
@@ -158,14 +217,42 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                   : Container(),
                             );
                           }),
-                          screenFeedBackQuesController.getScreenType(widget.feedbackQuestion[index].fieldName ?? "",widget.feedbackQuestion[index]),
+                          // Obx(()                           //   if (videoPlayerController.surveyVideoFieldData
+                          //           .containsKey(
+                          //               widget.feedbackQuestion[index].id ??
+                          //                   "") ==
+                          //       false) {
+                          //     return Container();
+                          //   }
+                          //   return GestureDetector(
+                          //     onTap: () {
+                          //       videoPlayerController.surveyVideoFieldData[
+                          //               widget.feedbackQuestion[index].id ?? ""]
+                          //           ?.play();
+                          //     },
+                          //     child: YoutubePlayer(
+                          //       aspectRatio: 2,
+                          //       controller: videoPlayerController
+                          //               .surveyVideoFieldData[
+                          //           widget.feedbackQuestion[index].id ?? ""]!,
+                                                           
+                          //       onReady: () {
+                          //         print('Player is ready.');
+                          //       },
+                          //     ),
+                          //   );
+                          // }),
+                          screenFeedBackQuesController.getScreenType(
+                              widget.feedbackQuestion[index].fieldName ?? "",
+                              widget.feedbackQuestion[index]),
                         ],
                       ),
                     ),
                   ),
                 );
               },
-              childCount: widget.feedbackQuestion.length, // Number of items in the list
+              childCount:
+                  widget.feedbackQuestion.length, // Number of items in the list
             ),
           ),
         ],

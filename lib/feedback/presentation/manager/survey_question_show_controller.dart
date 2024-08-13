@@ -20,8 +20,6 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/ratin
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/star_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/date_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/textbox_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/thank_you_widget.dart';
-import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welcome_screen.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 
@@ -33,7 +31,6 @@ class ScreenFeedBackQuesController extends GetxController{
   }
 
   SurveyScreenenum mapOfScreenByType(String type,Field field) {
-    print(type);
     switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.multipleButtonChoice;

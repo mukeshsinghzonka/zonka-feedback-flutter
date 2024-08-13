@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/domain/entity/form_validator.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';

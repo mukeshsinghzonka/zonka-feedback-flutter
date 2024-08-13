@@ -18,35 +18,39 @@ class _ExitWidgetState extends State<ExitWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.centerRight,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-            alignment: Alignment.center,
-            // decoration:BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            child: Text(
-              'Powered By Zonka FeedBack',
-              style: TextStyle(fontFamily: 'Source Sans Pro', fontSize: 6.sp),
+          Expanded(
+            flex: 7,
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                'Powered By Zonka FeedBack',
+                style: TextStyle( fontFamily: surveyFieldController.fontFamily.value, fontSize: 6.sp),
+              ),
             )),
-        GestureDetector(
-          onTap: () {
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
             Navigator.of(context).pop();
-           Get.delete<SurveyScreenManager>();
-          },
-          child: Container(
-            width: 30.w,
-            height: 30.h,
-            margin: EdgeInsets.only(right: 5.w),
-            decoration: BoxDecoration(
+             Get.delete<SurveyScreenManager>();
+            },
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              child:  Container(
+                width: 50.w,
+                height: 30.h,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5.r)),
-                color: HexColor(surveyFieldController.buttonColor.value),
-                // border: Border.all(color: Colors.blueAccent)
+                color: HexColor(surveyFieldController.buttonColor.value),),
+                child:  Text(
+                  'Exit',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
                 ),
-            alignment: Alignment.center,
-            child: const Text(
-              'Exit',
-              style:
-                  TextStyle(color: Colors.white, fontFamily: 'Source Sans Pro'),
+              ),
             ),
           ),
         ),

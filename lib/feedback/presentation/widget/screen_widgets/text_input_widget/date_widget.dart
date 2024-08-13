@@ -7,6 +7,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/blinking_animation_
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/youtube_video_player_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class DateWidget extends StatefulWidget {
@@ -23,7 +24,9 @@ class _DateWidgetState extends State<DateWidget> with SingleTickerProviderStateM
   final SurveyDesignFieldController _surveyDesignFieldController = Get.find<SurveyDesignFieldController>();
   late  ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
-    final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+  final VideoPlayerControllerManager videoPlayerController = Get.find<VideoPlayerControllerManager>();
+
   @override
   void initState() {
      if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
@@ -33,6 +36,9 @@ class _DateWidgetState extends State<DateWidget> with SingleTickerProviderStateM
       selectedDate = null;
      }
       validationLogicManager = ValidationLogicManager(field: widget.field);
+      videoPlayerController.initalizeVideoSurveyData(
+       fields:  widget.field
+      );
           _animationController.initAnimationController(this);
     super.initState();
   }

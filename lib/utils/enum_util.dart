@@ -43,14 +43,11 @@ enum SurveyScreenenum {
   radioRatingLable,
   serverName,
   sectionBreak,
-
   fullName,
   email,
   externalId,
   mobileNumber,
   gender,
-
-
 }
 
 enum SpecialSettingVal { exact, range }
@@ -58,7 +55,13 @@ enum SpecialSettingVal { exact, range }
 enum ScreenValidationErrorType{
   REQUIRED,
   WRONGSELECTION,
+}
 
+enum ScreenTypeEnumUtil {
+  languageScreen,
+  welcomScreen,
+  thankYouScreen,
+  surveryScreen
 }
 
 
