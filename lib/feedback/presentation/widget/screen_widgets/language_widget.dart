@@ -75,7 +75,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                             return GestureDetector(
                               onTap: () {
                                 surveyFieldController.defaultTranslation.value = languageManagerController.filterlanguageModel[index].languageCode;
-                                 surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
+                                surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
                               },
                               child: Center(
                                 child: Container(

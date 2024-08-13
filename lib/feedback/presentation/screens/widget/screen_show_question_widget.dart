@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_question_show_controller.dart';
@@ -217,31 +218,35 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                   : Container(),
                             );
                           }),
-                          // Obx(()                           //   if (videoPlayerController.surveyVideoFieldData
-                          //           .containsKey(
-                          //               widget.feedbackQuestion[index].id ??
-                          //                   "") ==
-                          //       false) {
-                          //     return Container();
-                          //   }
-                          //   return GestureDetector(
-                          //     onTap: () {
-                          //       videoPlayerController.surveyVideoFieldData[
-                          //               widget.feedbackQuestion[index].id ?? ""]
-                          //           ?.play();
-                          //     },
-                          //     child: YoutubePlayer(
-                          //       aspectRatio: 2,
-                          //       controller: videoPlayerController
-                          //               .surveyVideoFieldData[
-                          //           widget.feedbackQuestion[index].id ?? ""]!,
-                                                           
-                          //       onReady: () {
-                          //         print('Player is ready.');
-                          //       },
-                          //     ),
-                          //   );
-                          // }),
+
+
+                                          
+                              Builder(
+                                builder: (context) {
+                                  if(videoPlayerController.surveyVideoFieldData.containsKey(  widget.feedbackQuestion[index].id ) == false){
+                                   return Container();
+                                  }
+                                  return SizedBox(
+                                    height:150.h,
+                                    width:180.w,
+                                    child: YoutubePlayer(
+                                                                  
+                                        controller: videoPlayerController.surveyVideoFieldData[
+                                              widget.feedbackQuestion[index].id ?? ""]!,
+                                        showVideoProgressIndicator: false,
+                                        progressIndicatorColor: Colors.amber,
+                                        progressColors: const ProgressBarColors(
+                                          playedColor: Colors.amber,
+                                          handleColor: Colors.amberAccent,
+                                        ),
+                                        onReady: () {
+                                          // _controller.addListener(listener);
+                                        },
+                                    ),
+                                  );
+                                }
+                              ),
+                          
                           screenFeedBackQuesController.getScreenType(
                               widget.feedbackQuestion[index].fieldName ?? "",
                               widget.feedbackQuestion[index]),

@@ -38,7 +38,7 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> {
                   child: Icon(
                     Icons.arrow_back_ios_new_sharp,
                     color: Colors.white,
-                    size: 15.h,
+                    size: 10.h,
                   )),
             ),
             Image.network(
@@ -65,7 +65,7 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> {
                   child: Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.white,
-                    size: 15.h,
+                    size: 10.h,
                   )),
             )
           ],
