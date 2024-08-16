@@ -1,5 +1,8 @@
 
 
+import 'package:zonka_feedback/feedback/data/data_model_new/background_gallery_image.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/page_logo_gallery_image.dart';
+
 class LanguagePage {
     LanguagePage({
         required this.applyPageBackgroundImage,
@@ -23,10 +26,10 @@ class LanguagePage {
     });
 
     final bool? applyPageBackgroundImage;
-    final dynamic backgroundGalleryImageId;
+    final BackgroundGalleryImageId? backgroundGalleryImageId;
     final String? pageBgColor;
     final bool? useCustomHeadingColor;
-    final dynamic pageLogoGalleryImageId;
+    final PageLogoGalleryImageId? pageLogoGalleryImageId;
     final String? fontSizeLanguageButton;
     final String? fontColorLanguageButton;
     final String? fontFamilyLanguageButton;
@@ -48,10 +51,10 @@ class LanguagePage {
 
         return LanguagePage(
             applyPageBackgroundImage: json["applyPageBackgroundImage"],
-            backgroundGalleryImageId: json["backgroundGalleryImageId"],
+            backgroundGalleryImageId: json["backgroundGalleryImageId"]!=null? BackgroundGalleryImageId.fromJson(json["backgroundGalleryImageId"]):json["backgroundGalleryImageId"],
             pageBgColor: json["pageBgColor"],
             useCustomHeadingColor: json["useCustomHeadingColor"],
-            pageLogoGalleryImageId: json["pageLogoGalleryImageId"],
+            pageLogoGalleryImageId:json["pageLogoGalleryImageId"]!=null? PageLogoGalleryImageId.fromJson(json["pageLogoGalleryImageId"]) : json["pageLogoGalleryImageId"],
             fontSizeLanguageButton: json["fontSizeLanguageButton"],
             fontColorLanguageButton: json["fontColorLanguageButton"],
             fontFamilyLanguageButton: json["fontFamilyLanguageButton"],

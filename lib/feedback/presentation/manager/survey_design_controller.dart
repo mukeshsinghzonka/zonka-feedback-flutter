@@ -19,6 +19,8 @@ class SurveyDesignFieldController extends GetxController {
    RxString introLogoImageUrlLogo = "".obs; 
    RxString thankyouPageUrlLogo = "".obs;
    RxString thankyouPageUrlBg = "".obs;
+   RxString langugagePageLogo = "".obs;
+   RxString languageBackgroundPage = "".obs;
 
   void setFieldFromSurveyModel(){
     headingTextColor.value =_screenFeedbackController.surveyModel.value.fontColorLabel?? "#000000";
@@ -34,6 +36,8 @@ class SurveyDesignFieldController extends GetxController {
     introLogoImageUrlLogo.value = createImageUrl(_screenFeedbackController.surveyModel.value.introPage?.pageLogoGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.introPage?.pageLogoGalleryImageId?.path?? "");
     thankyouPageUrlBg.value = createImageUrl(_screenFeedbackController.surveyModel.value.thankyouPage?.backgroundGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.thankyouPage?.backgroundGalleryImageId?.path?? "");  
     thankyouPageUrlLogo.value = createImageUrl(_screenFeedbackController.surveyModel.value.thankyouPage?.pageLogoGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.thankyouPage?.pageLogoGalleryImageId?.path?? "");
+    langugagePageLogo.value = createImageUrl(_screenFeedbackController.surveyModel.value.languagePage?.pageLogoGalleryImageId?.compnayId??"", _screenFeedbackController.surveyModel.value.languagePage?.pageLogoGalleryImageId?.path??"");
+    languageBackgroundPage.value = createImageUrl(_screenFeedbackController.surveyModel.value.languagePage?.backgroundGalleryImageId?.compnayId??"", _screenFeedbackController.surveyModel.value.languagePage?.backgroundGalleryImageId?.path??"");
     update();
   }
    

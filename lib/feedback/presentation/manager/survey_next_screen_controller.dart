@@ -36,7 +36,7 @@ class SurveyScreenManager extends GetxController {
   List<int> surveyIndex = [0];
   List<SurveyScreenModel> surveyScreens = [];
 
-  final Rx<ScreenTypeEnumUtil> _screenTypeEnumUtil = ScreenTypeEnumUtil.languageScreen.obs;
+  final Rx<ScreenTypeEnumUtil> _screenTypeEnumUtil = ScreenTypeEnumUtil.surveryScreen.obs;
   Rx<ScreenTypeEnumUtil>  get screenTypeEnumUtil => _screenTypeEnumUtil;
   void setScreenTypeEnum(ScreenTypeEnumUtil value) async {
     _screenTypeEnumUtil.value = value;    

@@ -19,11 +19,12 @@ class LanguageWidget extends StatefulWidget {
 }
 
 class _LanguageWidgetState extends State<LanguageWidget> {
-  LanguageManagerController languageManagerController =
+  final LanguageManagerController languageManagerController =
       Get.put(LanguageManagerController());
   final SurveyDesignFieldController surveyFieldController =
       Get.find<SurveyDesignFieldController>();
-final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
+  final SurveyScreenManager surveyScreenManager =
+      Get.find<SurveyScreenManager>();
   @override
   void initState() {
     languageManagerCall();
@@ -32,10 +33,11 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
 
   Future<void> languageManagerCall() async {
     await languageManagerController.call();
-    languageManagerController.filterLanguageSelected(widget.languagePage!.translations);
+    languageManagerController
+        .filterLanguageSelected(widget.languagePage!.translations);
   }
 
- @override
+  @override
   void dispose() {
     languageManagerController.filterlanguageModel.clear();
     super.dispose();
@@ -44,89 +46,107 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            onError: (exception, stackTrace) {},
-            fit: BoxFit.cover,
-            image: NetworkImage(surveyFieldController.surveyBgImage.value)),
-        color: HexColor(surveyFieldController.surveyBgColor.value),
-      ),
-      child:  Column(
-          children: [
-            SingleChildScrollView(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blueAccent),
+          image: DecorationImage(
+              onError: (exception, stackTrace) {},
+              fit: BoxFit.cover,
+              image: NetworkImage(
+                  surveyFieldController.languageBackgroundPage.value)),
+          color: HexColor(widget.languagePage?.pageBgColor ?? ""),
+        ),
+        child: CustomScrollView(
+          shrinkWrap: true,
+          slivers: [
+            SliverToBoxAdapter(
+              child: Image.network(
+                surveyFieldController.surveyBgImageLogo.value,
+                width: 50.w,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container();
+                },
+              ),
+            ),
+            SliverToBoxAdapter(
               child: Container(
-                     margin: EdgeInsets.all(100.h),
-                           alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(widget.languagePage!.translations![surveyFieldController.defaultTranslation.value]?.upperText ??"",
-                      style: TextStyle(fontSize: 20.h),
-                    ),
-                    SizedBox(height: 20.h,),
-                    Obx(() {
-                      return GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: languageManagerController.filterlanguageModel.length,
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 5,
-                          ),
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                surveyFieldController.defaultTranslation.value = languageManagerController.filterlanguageModel[index].languageCode;
-                                surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
-                              },
-                              child: Center(
-                                child: Container(
-                                  height: 40.h,
-                                  width: 70.w,
-                                  padding: EdgeInsets.all(1.w),
-                                  decoration: BoxDecoration(
-                                     color: Colors.black,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(5.r)
-                                      ),   
-                                     ),
-                                  child: Row(
-                                               
-                                    children: [
-                                      Image.asset(languageManagerController.filterlanguageModel[index].imageUrlAsset,
-                                      errorBuilder: (context, error, stackTrace) {
-                                      return Container();
-                                      },
-                                      ),        
-                                      Expanded(
-                                      
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          child: Text("${languageManagerController.filterlanguageModel[index].languageName }",
-                                          style: const TextStyle(color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    widget
+                            .languagePage!
+                            .translations![
+                                surveyFieldController.defaultTranslation.value]
+                            ?.upperText ??
+                        "",
+                    style: TextStyle(fontSize: 24)),
+              ),
+            ),
+        
+            SliverGrid(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      surveyFieldController.defaultTranslation.value =
+                          languageManagerController
+                              .filterlanguageModel[index].languageCode;
+                      surveyScreenManager
+                          .setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
+                    },
+                    child: Center(
+                      child: Container(
+                        height: 40.h,
+                        width: 70.w,
+                        padding: EdgeInsets.all(1.w),
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                             border: Border.all(color: Colors.blueAccent),
+                          borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                        ),
+                        child: Row(
+                          children: [
+                            Builder(builder: (context) {
+                              if (widget.languagePage?.showFlagWithLanguage ==
+                                  false) {
+                                return Container();
+                              }
+                              return Image.asset(
+                                languageManagerController
+                                    .filterlanguageModel[index].imageUrlAsset,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container();
+                                },
+                              );
+                            }),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "${languageManagerController.filterlanguageModel[index].languageName}",
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                               ),
-                            );
-                          });
-                    }),
-                
-                   
-                  ],
-                ),
-                
-              ),
-
-            ),
-             Expanded(
-              child: Container(
-               margin: EdgeInsets.all(5.h),
-              child:const ExitWidget()))
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                childCount: languageManagerController.filterlanguageModel.length),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 4,
+                )),
+        
+            const SliverFillRemaining(
+              hasScrollBody: false,
+              child:
+                  Align(alignment: Alignment.bottomCenter, child: ExitWidget()),
+            )
+        
+          
           ],
-        )
-      
-    );
+        ));
   }
 }

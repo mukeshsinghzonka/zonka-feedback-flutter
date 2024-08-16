@@ -22,7 +22,7 @@ class _ExitWidgetState extends State<ExitWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
           Expanded(
-            flex: 7,
+            flex: 8,
             child: Container(
               alignment: Alignment.bottomCenter,
               child: Text(

@@ -30,55 +30,58 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
         color: HexColor(widget.introPage?.pageBgColor ?? ""),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 100.h,
-            child: Image.network(
-              surveyFieldController.introLogoImageUrlLogo.value,
-              errorBuilder: (context, error, stackTrace) {
-                return Container();
-              },
-            ),
-          ),
-     
-          Text(
-              widget.introPage!.translations![surveyFieldController.defaultTranslation.value]?.upperText ?? "",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: HexColor(widget.introPage?.fontColorUpperText ?? ""))),
-          SizedBox(
-            height: 30.h,
-          ),
-          GestureDetector(
-            onTap: () {
-              surveyScreenManager.screenTypeEnumUtil.value = ScreenTypeEnumUtil.surveryScreen;
-            },
-            child: Center(
-              child: Container(
-                height: 40.h,
-                width: 80.w,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: HexColor(widget.introPage!.bgColorGetStartButton ?? ""),
+           Image.network(
+             surveyFieldController.introLogoImageUrlLogo.value,
+             width: 50.w,
+             errorBuilder: (context, error, stackTrace) {
+               return Container();
+             },
+           ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                    widget.introPage!.translations![surveyFieldController.defaultTranslation.value]?.upperText ?? "",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: HexColor(widget.introPage?.fontColorUpperText ?? ""))),
+                SizedBox(
+                  height: 30.h,
                 ),
-                child: Text(
-                    widget.introPage!.translations![ surveyFieldController.defaultTranslation.value]?.getStarted ??"",
+                GestureDetector(
+                  onTap: () {
+                    surveyScreenManager.screenTypeEnumUtil.value = ScreenTypeEnumUtil.surveryScreen;
+                  },
+                  child: Center(
+                    child: Container(
+                      height: 40.h,
+                      width: 80.w,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(10.r),
+                        color: HexColor(widget.introPage!.bgColorGetStartButton ?? ""),
+                      ),
+                      child: Text(
+                          widget.introPage!.translations![ surveyFieldController.defaultTranslation.value]?.getStarted ??"",
+                          style: TextStyle(
+                              color: HexColor(
+                                  widget.introPage?.fontColorGetStartButton ?? ""))),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                Text(
+                    widget.introPage!.translations![surveyFieldController.defaultTranslation.value]?.bottomText ?? "",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: HexColor(
-                            widget.introPage?.fontColorGetStartButton ?? ""))),
-              ),
+                        color:HexColor(widget.introPage?.fontColorBottomText ?? ""))),
+              ],
             ),
           ),
-          SizedBox(
-            height: 30.h,
-          ),
-          Text(
-              widget.introPage!.translations![surveyFieldController.defaultTranslation.value]?.bottomText ?? "",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color:HexColor(widget.introPage?.fontColorBottomText ?? ""))),
         ],
       ),
     );

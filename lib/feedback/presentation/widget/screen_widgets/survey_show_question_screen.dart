@@ -40,16 +40,13 @@ class _SurveyShowQuestionScreenWidgetState extends State<SurveyShowQuestionScree
             Obx(() {
               return Expanded(
                 flex: 29,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  child: Container(      
-                    decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                    child: SwitchScreenWidget(
-                      feedbackQuestion: surveryFeedbackApiController.surveyModel.value.surveyScreens[surveyScreenManager.index.value].fields,
-                      index: surveyScreenManager.index.value,
-                    ),
-
+                child: Container(      
+                  decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                  child: SwitchScreenWidget(
+                    feedbackQuestion: surveryFeedbackApiController.surveyModel.value.surveyScreens[surveyScreenManager.index.value].fields,
+                    index: surveyScreenManager.index.value,
                   ),
+                
                 ),
               );
             }),

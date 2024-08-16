@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:zonka_feedback/login/data/data_model/login_response/login_response.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
@@ -165,9 +167,9 @@ class HttpUtil {
     Object? data,
     Options? options,
   }) async {
+    
     Options requestOptions = options ?? Options();
     requestOptions.headers = requestOptions.headers ?? {};
-    print(requestOptions.headers);
     Map<String, dynamic>? authorization = await getAuthorizationHeader();
     dio.options.headers= {};
     dio.options.contentType=null;
@@ -179,7 +181,6 @@ class HttpUtil {
       options: requestOptions, // Use requestOptions here instead of options
       data: data,
     );
-    print("postrequest $response");
     return response.data;
   }
 

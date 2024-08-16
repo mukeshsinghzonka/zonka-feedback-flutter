@@ -8,6 +8,7 @@ import 'package:zonka_feedback/feedback/domain/usecase/survey_image_upload_uc.da
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_image_upload_manager.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/services/image_picker_service.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -24,19 +25,27 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
   final ImagePickerService imagePickerService = ImagePickerService();
   final SurveyImageUploadManager surveyImageUploadManager = Get.put(SurveyImageUploadManager());
   final SurveryApiFeedbackController surveryApiFeedbackController = Get.find<SurveryApiFeedbackController>();
+  late  String ? imageUrlLink;
+  late ValidationLogicManager validationLogicManager;
+   @override
+  void initState() {
+    validationLogicManager = ValidationLogicManager(field: widget.field);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FormField(
       validator: (value) {
-          return null;
+        if(widget.field.required == true && imageUrlLink==null){
+          validationLogicManager.requiredFormValidator(imageUrlLink==null);
+        }
+        return null;
       },
       builder: (context) {
         return GestureDetector(
           onTap: () async  {
             XFile ?  file =  await imagePickerService.takeImage();  
-            // Uint8List binaryImage = await file!.readAsBytes();
-            // dev.log(binaryImage);
             await surveyImageUploadManager.call(
               SurveyImageUploadUcParams(
                fileName: file!.name,
@@ -44,9 +53,15 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
                 referenceCode: surveryApiFeedbackController.surveyModel.value.id ?? ""
               )
             );
-      
+          imageUrlLink = surveyImageUploadManager.imageUrl.value;
           },
-          child: Container(
+          child:imageUrlLink!= null? 
+          Image.network(surveyImageUploadManager.imageUrl.value,
+          height: 250.h,
+          width: 100.w,
+          ):
+          
+          Container(
             height: 250.h,
             width: 250.h,
             decoration: BoxDecoration(
