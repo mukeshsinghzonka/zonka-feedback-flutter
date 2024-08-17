@@ -152,6 +152,7 @@ class SurveyScreenManager extends GetxController {
         _index.value = j;
         surveyIndex.add(_index.value);
         showIsRequired!.clear();
+        setScreenTypeEnum(ScreenTypeEnumUtil.nextScreen);
         return true;
       }
     }
@@ -211,8 +212,7 @@ class SurveyScreenManager extends GetxController {
   void nextScreen() {
     if (_index.value == surveyScreens.length ) {
       //show exit screen
-      setScreenTypeEnum(ScreenTypeEnumUtil.thankYouScreen);
-      print("exitscreen");
+      setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
       return;
     }
 
@@ -221,7 +221,7 @@ class SurveyScreenManager extends GetxController {
       bool valueIsSet = _checkDisplayLogic(questionEscaped == null ? false : true, questionEscaped);
       if (!valueIsSet) {
         // show exit screen of the survey
-        setScreenTypeEnum(ScreenTypeEnumUtil.thankYouScreen);
+        setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
       }
     }
     //check display logic only then increase index to next screen
@@ -231,7 +231,10 @@ class SurveyScreenManager extends GetxController {
     if (surveyIndex.isNotEmpty && surveyIndex.length > 1) {
       _index.value = surveyIndex[surveyIndex.length - 2];
       showIsRequired!.clear();
-      if (surveyIndex.last != 0) surveyIndex.removeLast();
+      if (surveyIndex.last != 0){
+        surveyIndex.removeLast();
+           setScreenTypeEnum(ScreenTypeEnumUtil.previousScreen);
+      } 
     }
     else{
       //show intro screen

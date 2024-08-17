@@ -5,6 +5,7 @@ class DialogUtils {
   static final DialogUtils _instance = DialogUtils.internal();
   DialogUtils.internal();
   factory DialogUtils() => _instance;
+  
   static void showCustomLoadingDialog(BuildContext context) {
     
     showDialog(

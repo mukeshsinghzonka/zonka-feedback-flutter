@@ -56,20 +56,17 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
       } else if (widget.field.specialSettingVal == 'range') {
         String? value = validationLogicManager.rangeValidator(trueCount);
         if (value == null) {
-          surveyCollectDataController.updateSurveyData(
-              quesId: widget.field.id ?? "", value: _choiceMap);
+          surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
         }
         return value;
       } else if (widget.field.specialSettingVal == 'exact') {
         String? value = validationLogicManager.exactFormValidator(trueCount);
         if (value == null) {
-          surveyCollectDataController.updateSurveyData(
-              quesId: widget.field.id ?? "", value: _choiceMap);
+          surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
         }
         return value;
       }
-      surveyCollectDataController.updateSurveyData(
-          quesId: widget.field.id ?? "", value: _choiceMap);
+      surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _choiceMap);
       return null;
     }, builder: (context) {
       return Container(

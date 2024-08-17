@@ -53,9 +53,9 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
                 referenceCode: surveryApiFeedbackController.surveyModel.value.id ?? ""
               )
             );
-          imageUrlLink = surveyImageUploadManager.imageUrl.value;
+           imageUrlLink = surveyImageUploadManager.imageUrl.value;
           },
-          child:imageUrlLink!= null? 
+          child:  imageUrlLink != null? 
           Image.network(surveyImageUploadManager.imageUrl.value,
           height: 250.h,
           width: 100.w,

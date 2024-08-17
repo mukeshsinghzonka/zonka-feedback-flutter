@@ -12,13 +12,13 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/welco
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 
-class SurveyScreen extends StatefulWidget {
-  const SurveyScreen({super.key});
+class SurveyScreenFeedbackPage extends StatefulWidget {
+  const SurveyScreenFeedbackPage({super.key});
   @override
-  State<SurveyScreen> createState() => _SurveyScreenState();
+  State<SurveyScreenFeedbackPage> createState() => _SurveyScreenState();
 }
 
-class _SurveyScreenState extends State<SurveyScreen> {
+class _SurveyScreenState extends State<SurveyScreenFeedbackPage> {
   final SurveyScreenManager surveyScreenManager = Get.put(SurveyScreenManager());
   final SurveryApiFeedbackController surveryFeedbackController = Get.find<SurveryApiFeedbackController>();
   final SurveyDesignFieldController surveyFieldController = Get.put(SurveyDesignFieldController());
@@ -47,7 +47,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen){
             return LanguageWidget(languagePage:surveryFeedbackController.surveyModel.value.languagePage);
           }
-          else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.thankYouScreen){
+          else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen){
            return ThankYouWidget(field: surveryFeedbackController.surveyModel.value.thankyouPage);
           }
           return const SurveyShowQuestionScreenWidget();

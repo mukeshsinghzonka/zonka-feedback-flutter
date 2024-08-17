@@ -60,8 +60,10 @@ enum ScreenValidationErrorType{
 enum ScreenTypeEnumUtil {
   languageScreen,
   welcomScreen,
-  thankYouScreen,
-  surveryScreen
+  exitScreen,
+  surveryScreen,
+  nextScreen,
+  previousScreen
 }
 
 

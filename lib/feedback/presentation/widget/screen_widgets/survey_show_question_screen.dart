@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/animation/translate_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
@@ -17,11 +18,16 @@ class SurveyShowQuestionScreenWidget extends StatefulWidget {
   State<SurveyShowQuestionScreenWidget> createState() => _SurveyShowQuestionScreenWidgetState();
 }
 
-class _SurveyShowQuestionScreenWidgetState extends State<SurveyShowQuestionScreenWidget> {
-  final SurveyDesignFieldController surveyFieldController =Get.find<SurveyDesignFieldController>();
+class _SurveyShowQuestionScreenWidgetState extends State<SurveyShowQuestionScreenWidget>  {
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   final SurveryApiFeedbackController surveryFeedbackApiController = Get.find<SurveryApiFeedbackController>();
-
+  final TranslateAnimationController translateAnimationController = Get.find<TranslateAnimationController>();
+  
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +41,6 @@ class _SurveyShowQuestionScreenWidgetState extends State<SurveyShowQuestionScree
       ),
         child: Column(
           children: [
-  
             const Expanded(flex: 7, child: ScreenSwitchWidget()),
             Obx(() {
               return Expanded(
@@ -45,8 +50,7 @@ class _SurveyShowQuestionScreenWidgetState extends State<SurveyShowQuestionScree
                   child: SwitchScreenWidget(
                     feedbackQuestion: surveryFeedbackApiController.surveyModel.value.surveyScreens[surveyScreenManager.index.value].fields,
                     index: surveyScreenManager.index.value,
-                  ),
-                
+                  ),   
                 ),
               );
             }),

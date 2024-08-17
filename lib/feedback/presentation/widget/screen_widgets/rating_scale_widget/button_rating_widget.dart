@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/animation/translate_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
@@ -23,7 +22,6 @@ class ButtonRatingWidget extends StatefulWidget {
 class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with TickerProviderStateMixin {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
-  final TranslateAnimationController _translateAnimationController = TranslateAnimationController();
   static String ? choiceId;
   late ValidationLogicManager validationLogicManager;
   String optionId = "";
@@ -35,7 +33,7 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with TickerProv
         choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as String? ;
      }
     validationLogicManager = ValidationLogicManager(field: widget.field);
-    _translateAnimationController.initAnimationController(this);
+
     _animationController.initAnimationController(this);
     super.initState();
   }
@@ -52,64 +50,56 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with TickerProv
       surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: choiceId);
       return null;
     }, builder: (context) {
-      return AnimatedBuilder(
-        animation: _translateAnimationController.animation,
-        builder: (context,child) {
-          return Transform.translate(
-            offset: _translateAnimationController.animation.value,
-            child: Container(
-              decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: widget.field.choices.length,
-                padding: EdgeInsets.zero,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () async {
-                      choiceId = widget.field.choices[index].id??"";
-                      for(int i = 0 ;i<2;i++){
-                        await _animationController.blinkingAnimation();         
-                        setState(() {});
-                      }
-                      setState(() {});
-                    },
-                    child: AnimatedBuilder(
-                      animation: _animationController.animation,
-                      builder: (context,child) {
-                        return Opacity(
-                          opacity: choiceId == widget.field.choices[index].id  ? _animationController.animation.value : 1,
-                          child: Center(
-                            child: Container(
-                                padding: EdgeInsets.all(10.h),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: HexColor(surveyFieldController.optionTextColor.value).withOpacity(1)), 
-                                    color:HexColor(surveyFieldController.optionTextColor.value).withOpacity(choiceId!=null && choiceId == widget.field.choices[index].id ? 1 : 0.1),
-                                    borderRadius: BorderRadius.circular(5.r)),
-                                child: Text(
-                                  widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: choiceId!=null && choiceId==widget.field.choices[index].id ?  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)) : HexColor(surveyFieldController.optionTextColor.value),
-                                    fontSize: 5.sp , 
-                                    fontFamily: surveyFieldController.fontFamily.value,),
-                                )),
-                          ),
-                        );
-                      }
+      return Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: widget.field.choices.length,
+          padding: EdgeInsets.zero,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () async {
+                choiceId = widget.field.choices[index].id??"";
+                for(int i = 0 ;i<2;i++){
+                  await _animationController.blinkingAnimation();         
+                  setState(() {});
+                }
+                setState(() {});
+              },
+              child: AnimatedBuilder(
+                animation: _animationController.animation,
+                builder: (context,child) {
+                  return Opacity(
+                    opacity: choiceId == widget.field.choices[index].id  ? _animationController.animation.value : 1,
+                    child: Center(
+                      child: Container(
+                          padding: EdgeInsets.all(10.h),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: HexColor(surveyFieldController.optionTextColor.value).withOpacity(1)), 
+                              color:HexColor(surveyFieldController.optionTextColor.value).withOpacity(choiceId!=null && choiceId == widget.field.choices[index].id ? 1 : 0.1),
+                              borderRadius: BorderRadius.circular(5.r)),
+                          child: Text(
+                            widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: choiceId!=null && choiceId==widget.field.choices[index].id ?  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)) : HexColor(surveyFieldController.optionTextColor.value),
+                              fontSize: 5.sp , 
+                              fontFamily: surveyFieldController.fontFamily.value,),
+                          )),
                     ),
                   );
-                },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: widget.field.choices.length,
-                  crossAxisSpacing: 10.h,
-                  childAspectRatio: 3
-                ),
+                }
               ),
-            ),
-          );
-        }
+            );
+          },
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: widget.field.choices.length,
+            crossAxisSpacing: 10.h,
+            childAspectRatio: 3
+          ),
+        ),
       );
     });
   }
