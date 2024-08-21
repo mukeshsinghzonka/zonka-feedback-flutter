@@ -25,6 +25,27 @@ class _LanguageWidgetState extends State<LanguageWidget> {
       Get.find<SurveyDesignFieldController>();
   final SurveyScreenManager surveyScreenManager =
       Get.find<SurveyScreenManager>();
+  ScrollController _scrollController = new ScrollController();
+  void scrollLeft() {
+    _scrollController.animateTo(
+      _scrollController.offset -
+          MediaQuery.of(context).size.width /
+              1.2, // Adjust the offset as needed
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void scrollRight() {
+    _scrollController.animateTo(
+      _scrollController.offset +
+          MediaQuery.of(context).size.width /
+              1.2, // Adjust the offset as needed
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   void initState() {
     languageManagerCall();
@@ -33,8 +54,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
 
   Future<void> languageManagerCall() async {
     await languageManagerController.call();
-    languageManagerController
-        .filterLanguageSelected(widget.languagePage!.translations);
+    languageManagerController.filterLanguageSelected(widget.languagePage!.translations);
   }
 
   @override
@@ -45,10 +65,10 @@ class _LanguageWidgetState extends State<LanguageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.blueAccent),
           image: DecorationImage(
               onError: (exception, stackTrace) {},
               fit: BoxFit.cover,
@@ -56,96 +76,172 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                   surveyFieldController.languageBackgroundPage.value)),
           color: HexColor(widget.languagePage?.pageBgColor ?? ""),
         ),
-        child: CustomScrollView(
-          shrinkWrap: true,
-          slivers: [
-            SliverToBoxAdapter(
-              child: Image.network(
-                surveyFieldController.surveyBgImageLogo.value,
-                width: 50.w,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container();
-                },
-              ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.network(
+              surveyFieldController.surveyBgImageLogo.value,
+              width: 100.w,
+              height: 50.h,
+              errorBuilder: (context, error, stackTrace) {
+                return Container();
+              },
             ),
-            SliverToBoxAdapter(
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    widget
-                            .languagePage!
-                            .translations![
-                                surveyFieldController.defaultTranslation.value]
-                            ?.upperText ??
-                        "",
-                    style: TextStyle(fontSize: 24)),
-              ),
-            ),
-        
-            SliverGrid(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      surveyFieldController.defaultTranslation.value =
-                          languageManagerController
-                              .filterlanguageModel[index].languageCode;
-                      surveyScreenManager
-                          .setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
-                    },
-                    child: Center(
-                      child: Container(
-                        height: 40.h,
-                        width: 70.w,
-                        padding: EdgeInsets.all(1.w),
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                             border: Border.all(color: Colors.blueAccent),
-                          borderRadius: BorderRadius.all(Radius.circular(5.r)),
-                        ),
-                        child: Row(
-                          children: [
-                            Builder(builder: (context) {
-                              if (widget.languagePage?.showFlagWithLanguage ==
-                                  false) {
-                                return Container();
-                              }
-                              return Image.asset(
-                                languageManagerController
-                                    .filterlanguageModel[index].imageUrlAsset,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container();
+            Expanded(
+              flex: 15,
+              child: Obx(() {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                          widget
+                                  .languagePage!
+                                  .translations![surveyFieldController
+                                      .defaultTranslation.value]
+                                  ?.upperText ??
+                              "",
+                          style: TextStyle(fontSize: 8.sp)),
+                    ),
+                    Container(
+                      height: size.height / 2.7,
+                      alignment: Alignment.center,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                scrollLeft();
+                              },
+                              child: const Icon(Icons.arrow_back_ios)),
+                          Expanded(
+                            child: Padding(
+                            
+                              padding:  EdgeInsets.symmetric(horizontal:21.w),
+                              child: ListView.builder(
+                                controller: _scrollController,
+                                
+                                scrollDirection: Axis.horizontal,
+                                itemCount: (languageManagerController
+                                            .filterlanguageModel.length /
+                                        9)
+                                    .ceil(),
+                                itemBuilder: (context, index) {
+                                  // Calculate start and end index for the current grid
+                                  int startIndex = index * 9;
+                                  int endIndex = startIndex + 9;
+                                  if (endIndex > languageManagerController.filterlanguageModel.length) {
+                                    endIndex = languageManagerController.filterlanguageModel.length;
+                                  }
+                              
+                                  return Container(
+                                    width: 295.w,
+                                    margin: EdgeInsets.symmetric(horizontal: 2.w),
+                                    child: GridView.builder(
+                                      gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount( 
+                                          crossAxisCount:
+                                            3, // 3 columns in each row
+                                        childAspectRatio:
+                                            6, // Adjust as needed
+                                        mainAxisSpacing: 10.0,
+                                        crossAxisSpacing: 5.0,
+                                      ),
+                                      itemCount: endIndex - startIndex,
+                                      physics: const NeverScrollableScrollPhysics(), // Prevent inner grid from scrolling
+                                      shrinkWrap: true, // Ensures GridView takes only the space it needs
+                                      itemBuilder: (context, gridIndex) {
+                                        int itemIndex = startIndex + gridIndex;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            surveyFieldController
+                                                    .defaultTranslation
+                                                    .value =
+                                                languageManagerController
+                                                    .filterlanguageModel[
+                                                        itemIndex]
+                                                    .languageCode;
+                                            surveyScreenManager
+                                                .setScreenTypeEnum(
+                                                    ScreenTypeEnumUtil
+                                                        .welcomScreen);
+                                          },
+                                          child: Center(
+                                            child: Container(
+                                            width: 100.w,
+                                              padding: EdgeInsets.all(3.w),
+                                              decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                border: Border.all(color: Colors.blueAccent),
+                                                borderRadius: BorderRadius.all(
+                                                        Radius.circular(
+                                                            10.r)),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Builder(
+                                                    builder: (context) {
+                                                      if (widget
+                                                              .languagePage
+                                                              ?.showFlagWithLanguage ==
+                                                          false) {
+                                                        return Container();
+                                                      }
+                                                      return Image.asset(
+                                                        languageManagerController
+                                                            .filterlanguageModel[
+                                                                itemIndex]
+                                                            .imageUrlAsset,
+                                                        errorBuilder:
+                                                            (context, error,
+                                                                stackTrace) {
+                                                          return Container();
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Text(
+                                                        languageManagerController
+                                                            .filterlanguageModel[
+                                                                itemIndex]
+                                                            .languageName,
+                                                        style:
+                                                            const TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
                                 },
-                              );
-                            }),
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  "${languageManagerController.filterlanguageModel[index].languageName}",
-                                  style: const TextStyle(color: Colors.white),
-                                ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                scrollRight();
+                              },
+                              child:const Icon(Icons.arrow_forward_ios_sharp)),
+                        ],
                       ),
                     ),
-                  );
-                },
-                childCount: languageManagerController.filterlanguageModel.length),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 4,
-                )),
-        
-            const SliverFillRemaining(
-              hasScrollBody: false,
-              child:
-                  Align(alignment: Alignment.bottomCenter, child: ExitWidget()),
-            )
-        
-          
+                  ],
+                );
+              }),
+            ),
+            const Expanded(flex: 1, child: ExitWidget()),
           ],
         ));
   }

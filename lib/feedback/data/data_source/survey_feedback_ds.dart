@@ -9,8 +9,6 @@ class SurveyFeedBackDataSource {
     try {
       final responseSurvey = await _httpUtil.get('/api/v1/surveys/download/$suveryId');
       SurveyModel surveyFeedBackModel = SurveyModel.fromJson(responseSurvey['data']['survey']);
-       
-      print('surveyfiled ${surveyFeedBackModel.allowGestureToExit}');
 
       return ApiResult.success(data:surveyFeedBackModel);
     } catch (e) {

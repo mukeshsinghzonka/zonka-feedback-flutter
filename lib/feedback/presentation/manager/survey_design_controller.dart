@@ -22,27 +22,91 @@ class SurveyDesignFieldController extends GetxController {
    RxString langugagePageLogo = "".obs;
    RxString languageBackgroundPage = "".obs;
 
+    RxBool showIntroPage = false.obs;
+    RxBool showThankyouPage = false.obs;
+    RxBool showInactiveAlert = false.obs;
+    RxInt thankyouScreenTimeout = 0.obs;
+    RxInt appInactiveTimeOut = 0.obs;
+    RxBool showExitButtonOnIntro = false.obs;
+    RxBool showExitButtonONThnkyou = false.obs;
+    RxBool allowGetsureToExit = false.obs;
+    RxString exitPin = "".obs;
+    RxString  exitPassword = "".obs;
+    
+    RxString redirectUrlFromWebSurvey = "".obs;
+    RxInt redirectWebSurveyIn = 0.obs;
+
+    RxBool hideLogoInDevice = false.obs;
+    RxBool isEmailTrackingEnabled = false.obs;
+    RxBool isSmsTrackingEnabled = false.obs;
+    RxBool showSkipButtonInsteadOfNext = false.obs;
+    RxBool hideDoneButtonInClickThrough = false.obs;
+    
+    RxString switchLanguageScreenDisplay = "".obs;
+    RxString switchLanguageButtonDisplay = "".obs;
+    RxString languagePickView = "".obs;
+
+    RxString hidePrevNextButton = "".obs;
+
+    RxBool checkEmailForRepeatGuest = false.obs;
+    RxBool checkUniqueIdForRepeatGuest = false.obs;
+    RxBool allowNewResponseAlert = false.obs;
+    RxBool allowLowRatingResponseAlert = false.obs;
+    RxBool allowThanksToGuestEmailAlert = false.obs;
+    RxBool allowThanksGuestSmsAlert = false.obs;
+
+
+
+
   void setFieldFromSurveyModel(){
-    headingTextColor.value =_screenFeedbackController.surveyModel.value.fontColorLabel?? "#000000";
-    optionTextColor.value =_screenFeedbackController.surveyModel.value.fontColorValue?? "#000000";
-    buttonColor.value = _screenFeedbackController.surveyModel.value.buttonColor?? "#000000";
-    fontFamily.value =_screenFeedbackController.surveyModel.value.fontFamily?? "Roboto";
-    defaultTranslation.value = _screenFeedbackController.surveyModel.value.defaultLanguageCode??"en_US";
-    surveyBgColor.value  = _screenFeedbackController.surveyModel.value.surveyBgColor?? "#FFFFFF";
-    surveyBgImage.value ='${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}${_screenFeedbackController.surveyModel.value.surveyBgGalleryImageId?.companyId}/${_screenFeedbackController.surveyModel.value.surveyBgGalleryImageId?.path}';
-    surveyBgImageLogo.value ='${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}${_screenFeedbackController.surveyModel.value.logoGalleryImageId?.companyId}/${_screenFeedbackController.surveyModel.value.logoGalleryImageId?.path}';
-    s3GalleryImageUrl.value = _screenFeedbackController.surveyModel.value.s3GalleryImageUrl;
-    introBgImageUrl.value = createImageUrl(_screenFeedbackController.surveyModel.value.introPage?.backgroundGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.introPage?.backgroundGalleryImageId?.path?? "");
-    introLogoImageUrlLogo.value = createImageUrl(_screenFeedbackController.surveyModel.value.introPage?.pageLogoGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.introPage?.pageLogoGalleryImageId?.path?? "");
-    thankyouPageUrlBg.value = createImageUrl(_screenFeedbackController.surveyModel.value.thankyouPage?.backgroundGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.thankyouPage?.backgroundGalleryImageId?.path?? "");  
-    thankyouPageUrlLogo.value = createImageUrl(_screenFeedbackController.surveyModel.value.thankyouPage?.pageLogoGalleryImageId?.compnayId?? "", _screenFeedbackController.surveyModel.value.thankyouPage?.pageLogoGalleryImageId?.path?? "");
-    langugagePageLogo.value = createImageUrl(_screenFeedbackController.surveyModel.value.languagePage?.pageLogoGalleryImageId?.compnayId??"", _screenFeedbackController.surveyModel.value.languagePage?.pageLogoGalleryImageId?.path??"");
-    languageBackgroundPage.value = createImageUrl(_screenFeedbackController.surveyModel.value.languagePage?.backgroundGalleryImageId?.compnayId??"", _screenFeedbackController.surveyModel.value.languagePage?.backgroundGalleryImageId?.path??"");
+    final valueData  = _screenFeedbackController.surveyModel.value;
+    headingTextColor.value =valueData.fontColorLabel?? "#000000";
+    optionTextColor.value =valueData.fontColorValue?? "#000000";
+    buttonColor.value = valueData.buttonColor?? "#000000";
+    fontFamily.value =valueData.fontFamily?? "Roboto";
+    defaultTranslation.value = valueData.defaultLanguageCode??"en_US";
+    surveyBgColor.value  = valueData.surveyBgColor?? "#FFFFFF";
+    surveyBgImage.value ='${valueData.s3GalleryImageUrl}${valueData.surveyBgGalleryImageId?.companyId}/${valueData.surveyBgGalleryImageId?.path}';
+    surveyBgImageLogo.value ='${valueData.s3GalleryImageUrl}${valueData.logoGalleryImageId?.companyId}/${valueData.logoGalleryImageId?.path}';
+    s3GalleryImageUrl.value = valueData.s3GalleryImageUrl;
+   
+    introBgImageUrl.value = createImageUrl(valueData.introPage?.backgroundGalleryImageId?.compnayId?? "", valueData.introPage?.backgroundGalleryImageId?.path?? "");
+    introLogoImageUrlLogo.value = createImageUrl(valueData.introPage?.pageLogoGalleryImageId?.compnayId?? "", valueData.introPage?.pageLogoGalleryImageId?.path?? "");
+    thankyouPageUrlBg.value = createImageUrl(valueData.thankyouPage?.backgroundGalleryImageId?.compnayId?? "", valueData.thankyouPage?.backgroundGalleryImageId?.path?? "");  
+    thankyouPageUrlLogo.value = createImageUrl(valueData.thankyouPage?.pageLogoGalleryImageId?.compnayId?? "", valueData.thankyouPage?.pageLogoGalleryImageId?.path?? "");
+    langugagePageLogo.value = createImageUrl(valueData.languagePage?.pageLogoGalleryImageId?.compnayId??"", valueData.languagePage?.pageLogoGalleryImageId?.path??"");
+    languageBackgroundPage.value = createImageUrl(valueData.languagePage?.backgroundGalleryImageId?.compnayId??"", valueData.languagePage?.backgroundGalleryImageId?.path??"");
+   
+    showIntroPage.value  = valueData.showThankyouPage??false;
+    thankyouScreenTimeout.value = valueData.thankyouScreenTimeOut??0;
+    showInactiveAlert.value = valueData.showInactiveAlert??false;
+    appInactiveTimeOut.value = valueData.appInactiveTimeout??0;
+    showExitButtonOnIntro.value=valueData.showExitButtonOnIntro??false;
+    showExitButtonONThnkyou.value = valueData.showExitButtonOnThankyou??false;
+    allowGetsureToExit.value=valueData.allowGestureToExit??false;
+    exitPassword.value = valueData.exitPassword??"";
+    exitPin.value = valueData.exitPin??"";
+    isEmailTrackingEnabled.value = valueData.isEmailTrackingEnabled??false;
+    isSmsTrackingEnabled.value = valueData.isSmsTrackingEnabled??false;
+    redirectUrlFromWebSurvey.value = valueData.redirectUrlFromWebSurvey??"";
+    redirectWebSurveyIn.value = valueData.redirectWebSurveyIn??0;
+    showSkipButtonInsteadOfNext.value = valueData.showSkipButtonInsteadOfNext??false;
+    hideDoneButtonInClickThrough.value = valueData.hideDoneButtonInClickThrough??false;
+    switchLanguageScreenDisplay.value = valueData.switchLanguageButtonDisplay??"";
+    switchLanguageButtonDisplay.value = valueData.switchLanguageScreenDisplay??"";
+    languagePickView.value = valueData.languagePickView??"";
+    hidePrevNextButton.value = valueData.hidePrevNextButton??"";
+    checkEmailForRepeatGuest.value = valueData.checkEmailForRepeatGuest??false;
+    checkUniqueIdForRepeatGuest.value = valueData.checkUniqueIdForRepeatGuest??false;
+    allowNewResponseAlert.value = valueData.allowNewResponseAlert??false;
+    allowLowRatingResponseAlert.value = valueData.allowLowRatingResponseAlert??false;
+    allowThanksToGuestEmailAlert.value = valueData.allowThanksToGuestEmailAlert??false;
+    allowThanksGuestSmsAlert.value = valueData.allowThanksGuestSmsAlert??false;
     update();
   }
    
 
   String createImageUrl(String companyId, String path){
-    return '${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}$companyId/$path';
+    return '${ _screenFeedbackController.surveyModel.value.s3GalleryImageUrl}$companyId/$path';
   }
 }

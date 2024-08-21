@@ -18,7 +18,7 @@ class SurveyScreenFeedbackPage extends StatefulWidget {
   State<SurveyScreenFeedbackPage> createState() => _SurveyScreenState();
 }
 
-class _SurveyScreenState extends State<SurveyScreenFeedbackPage> {
+class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
   final SurveyScreenManager surveyScreenManager = Get.put(SurveyScreenManager());
   final SurveryApiFeedbackController surveryFeedbackController = Get.find<SurveryApiFeedbackController>();
   final SurveyDesignFieldController surveyFieldController = Get.put(SurveyDesignFieldController());
@@ -35,6 +35,8 @@ class _SurveyScreenState extends State<SurveyScreenFeedbackPage> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.dispose();
   }
+ 
+
 
   @override
   Widget build(BuildContext context) {

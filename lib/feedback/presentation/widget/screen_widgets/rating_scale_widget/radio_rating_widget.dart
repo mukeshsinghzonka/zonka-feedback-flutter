@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
@@ -24,6 +25,8 @@ class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> with Si
   int rowIndx = -1;
   int colIndx = -1;
 final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+   String ? choiceId;
   @override
   void initState() {
 
@@ -43,7 +46,7 @@ final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyC
     colIndx = widget.field.choices.length;
     rowIndx = widget.field.options.length;
     validationLogicManager = ValidationLogicManager(field: widget.field);
-
+   _animationController.initAnimationController(this);
    
     super.initState();
   }
@@ -78,8 +81,8 @@ final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyC
                       child: Text("${widget.field.choices[j].translations[surveyFieldController.defaultTranslation.value]?.name}",
                       textAlign: TextAlign.center,
                         style: TextStyle(
-                      fontSize: 8.h
-                    ),
+                        fontSize: 10.h
+                      ),
                       ),
                     ),
                   ),
@@ -96,21 +99,33 @@ final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyC
                     padding: EdgeInsets.all(2.w),
                     child: Text("${widget.field.options[i].translations![surveyFieldController.defaultTranslation.value]?.name}",
                     style: TextStyle(
-                        fontSize: 8.h
+                        fontSize: 10.h
                     ),
                     ),
                   ),
                   for(int j = 0 ; j < colIndx -1; j++)
                   Expanded(
-                    child: Radio(
-                      value: widget.field.choices[j].id,
-                      groupValue: _choiceMap[widget.field.options[i].id],
-                      onChanged: (value) async {
-                        setState(() {
-                          _choiceMap[widget.field.options[i].id??""] = value??"";
-                        });
-                                         
-                      },
+                    child: AnimatedBuilder(
+                       animation: _animationController.animation,
+                      builder: (context,child) {
+                        return Opacity(
+                         opacity: choiceId == widget.field.choices[j].id  ? _animationController.animation.value : 1,
+                          child: Radio(
+                            value: widget.field.choices[j].id,
+                            groupValue: _choiceMap[widget.field.options[i].id],
+                            onChanged: (value) async {
+                              setState(() {
+                                _choiceMap[widget.field.options[i].id??""] = value??"";
+                                choiceId = value;
+                              });    
+                                for(int i = 0 ;i<2;i++){
+                        await _animationController.blinkingAnimation();         
+                        setState(() {});
+                    }               
+                            },
+                          ),
+                        );
+                      }
                     ),
                   ),
                 ],

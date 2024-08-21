@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -10,12 +11,17 @@ import 'package:zonka_feedback/feedback/data/data_model_new/survey_screen_model.
 import 'package:zonka_feedback/feedback/domain/entity/form_validator.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SurveyScreenManager extends GetxController {
+  final SurveryApiFeedbackController screenFeedbackController =
+      Get.find<SurveryApiFeedbackController>();
+  final SurveyCollectDataController surveyCollectDataController =
+      Get.put(SurveyCollectDataController());
+  final SurveyDesignFieldController surveyFieldController =
+      Get.put(SurveyDesignFieldController());
 
-  final SurveryApiFeedbackController screenFeedbackController = Get.find<SurveryApiFeedbackController>();
-  final SurveyCollectDataController surveyCollectDataController = Get.put(SurveyCollectDataController());
   final RxBool _nextScreenstop = false.obs;
   RxBool get nextScreenstop => _nextScreenstop;
 
@@ -28,21 +34,42 @@ class SurveyScreenManager extends GetxController {
 
   Map<String, int> mapSurveyQuesIdIndex = {};
   Map<String, String> mapSurveyIdAndFieldName = {};
-  
+
   // mapping which field is visible and which is not
   Map<String, bool> visibeSurveyWidget = {};
-
 
   List<int> surveyIndex = [0];
   List<SurveyScreenModel> surveyScreens = [];
 
-  final Rx<ScreenTypeEnumUtil> _screenTypeEnumUtil = ScreenTypeEnumUtil.surveryScreen.obs;
-  Rx<ScreenTypeEnumUtil>  get screenTypeEnumUtil => _screenTypeEnumUtil;
+  final Rx<ScreenTypeEnumUtil> _screenTypeEnumUtil =
+      ScreenTypeEnumUtil.languageScreen.obs;
+  Rx<ScreenTypeEnumUtil> get screenTypeEnumUtil => _screenTypeEnumUtil;
   void setScreenTypeEnum(ScreenTypeEnumUtil value) async {
-    _screenTypeEnumUtil.value = value;    
+    _screenTypeEnumUtil.value = value;
     update();
-  } 
+  }
 
+  void updateScreenTypeUtilFunction() {
+    if(surveyFieldController.languagePickView.value == "both" || surveyFieldController.languagePickView.value == "screen"){
+       setScreenTypeEnum(ScreenTypeEnumUtil.languageScreen);
+    }
+ 
+  }
+
+  StreamController<bool>? myStreamController = StreamController<bool>.broadcast();
+  Timer? timer;
+  Future<void> showDialogAfterDelay() async {
+    // Simulate a delay of 60 seconds
+    if (timer != null) {
+      timer!.cancel();
+    }
+    timer = Timer(
+        Duration(seconds: surveyFieldController.appInactiveTimeOut.value), () {
+      myStreamController!.sink.add(true);
+    });
+
+    return;
+  }
 
   @override
   void onInit() {
@@ -67,9 +94,11 @@ class SurveyScreenManager extends GetxController {
 
     for (int i = 0; i < displayLogic.length; i++) {
       DisplayLogicModel displayLogicModel = displayLogic[i];
-      bool value = surveyCollectDataController.checkIfDisplayConditionMatched(displayLogicModel,mapSurveyIdAndFieldName[displayLogicModel.fieldId] ?? "");
+      bool value = surveyCollectDataController.checkIfDisplayConditionMatched(
+          displayLogicModel,
+          mapSurveyIdAndFieldName[displayLogicModel.fieldId] ?? "");
       switch (displayLogicModel.actionTaken) {
-        case 'SL' ||'NL' || 'EQ' || 'FL' || 'NF' || 'NEQ':
+        case 'SL' || 'NL' || 'EQ' || 'FL' || 'NF' || 'NEQ':
           displayLogicMap[displayLogicModel.sequence!] = value;
           break;
       }
@@ -106,7 +135,8 @@ class SurveyScreenManager extends GetxController {
     return expression.isNotEmpty ? bool.parse(expression.single) : true;
   }
 
-  List<String> _getListOfTrueFalse(String displayLogicExpression, Map<int, bool> checkHideMap) {
+  List<String> _getListOfTrueFalse(
+      String displayLogicExpression, Map<int, bool> checkHideMap) {
     List<String> tokens = displayLogicExpression.split(' ');
     for (int i = 0; i < tokens.length; i++) {
       if (tokens[i] == "and" || tokens[i] == 'or' || tokens[i] == "") {
@@ -128,21 +158,30 @@ class SurveyScreenManager extends GetxController {
   }
 
   bool _checkDisplayLogic(bool screenSkipped, String? quesId) {
-    for (int j = screenSkipped ? mapSurveyQuesIdIndex[quesId] ?? index.value + 1 : index.value + 1; j < surveyScreens.length; j++) {
+    for (int j = screenSkipped
+            ? mapSurveyQuesIdIndex[quesId] ?? index.value + 1
+            : index.value + 1;
+        j < surveyScreens.length;
+        j++) {
       bool checkBreak = false;
       int fieldLength = surveyScreens[j].fields.length;
       for (int i = 0; i < fieldLength; i++) {
         //check display logic
         Field field = surveyScreens[j].fields[i];
-      
+
         Map<int, bool> checkHideMap = _displayLogicExpression(field);
-        List<String> listTrueandFalse = field.displayLogicExpression!.isNotEmpty? _getListOfTrueFalse(field.displayLogicExpression ?? "", checkHideMap) : [];
-        bool checkHide = listTrueandFalse.isNotEmpty? evaluateExpression(listTrueandFalse): false; 
+        List<String> listTrueandFalse = field.displayLogicExpression!.isNotEmpty
+            ? _getListOfTrueFalse(
+                field.displayLogicExpression ?? "", checkHideMap)
+            : [];
+        bool checkHide = listTrueandFalse.isNotEmpty
+            ? evaluateExpression(listTrueandFalse)
+            : false;
         // hidesurvey map to keep track of the fields that are hidden
         // checkHide check if widget have to be hidden or not
         // if checkhide is false then it means widget is visible and thus we make visbleSurveyWidget[field.id] = true
         // and if checkHide is true then we make visbleSurveyWidget[field.id] = false becuase we have to make widget invisble
-        visibeSurveyWidget[field.id ?? ""] = checkHide == false ? true :false;
+        visibeSurveyWidget[field.id ?? ""] = checkHide == false ? true : false;
         if (checkHide == false) {
           checkBreak = true;
         }
@@ -152,6 +191,7 @@ class SurveyScreenManager extends GetxController {
         _index.value = j;
         surveyIndex.add(_index.value);
         showIsRequired!.clear();
+        showDialogAfterDelay();
         setScreenTypeEnum(ScreenTypeEnumUtil.nextScreen);
         return true;
       }
@@ -164,8 +204,6 @@ class SurveyScreenManager extends GetxController {
     List<Field> fields = surveyScreens[_index.value].fields;
 
     for (int i = fieldLength - 1; i >= 0; i--) {
-
-
       // check if question is skipped for textbox and date only
       if (fields[i].fieldName == 'text_box' || fields[i].fieldName == 'date') {
         Logic? logicChoice = fields[i].logic;
@@ -183,7 +221,14 @@ class SurveyScreenManager extends GetxController {
       List<Choice> choice = fields[i].choices;
       //Escape Question
       for (int j = choice.length - 1; j >= 0; j--) {
-        if (surveyCollectDataController.checkIfDisplayConditionMatched(DisplayLogicModel(fieldId: fields[i].id, actionTaken: choice[j].logic?.actionTaken ?? "",choiceId: choice[j].id ?? "",),fields[i].fieldName ?? "",)) {
+        if (surveyCollectDataController.checkIfDisplayConditionMatched(
+          DisplayLogicModel(
+            fieldId: fields[i].id,
+            actionTaken: choice[j].logic?.actionTaken ?? "",
+            choiceId: choice[j].id ?? "",
+          ),
+          fields[i].fieldName ?? "",
+        )) {
           Logic? logicChoice = choice[j].logic;
           if (logicChoice?.actionTaken == "EQ") {
             return logicChoice?.skipToScreenOrQuestion;
@@ -201,7 +246,8 @@ class SurveyScreenManager extends GetxController {
     for (var validationResult in validationResults) {
       String? errorText = validationResult.errorText;
       if (errorText != null && errorText.isNotEmpty) {
-        FormValidator? formValidator = FormValidator.fromJson(jsonDecode(errorText));
+        FormValidator? formValidator =
+            FormValidator.fromJson(jsonDecode(errorText));
         showIsRequired?[formValidator.formId] = formValidator;
         showNextPage = false;
       }
@@ -210,7 +256,7 @@ class SurveyScreenManager extends GetxController {
   }
 
   void nextScreen() {
-    if (_index.value == surveyScreens.length ) {
+    if (_index.value == surveyScreens.length) {
       //show exit screen
       setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
       return;
@@ -218,7 +264,8 @@ class SurveyScreenManager extends GetxController {
 
     if (_checkValidationOnNext()) {
       String? questionEscaped = _skipAndRedirect();
-      bool valueIsSet = _checkDisplayLogic(questionEscaped == null ? false : true, questionEscaped);
+      bool valueIsSet = _checkDisplayLogic(
+          questionEscaped == null ? false : true, questionEscaped);
       if (!valueIsSet) {
         // show exit screen of the survey
         setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
@@ -231,12 +278,12 @@ class SurveyScreenManager extends GetxController {
     if (surveyIndex.isNotEmpty && surveyIndex.length > 1) {
       _index.value = surveyIndex[surveyIndex.length - 2];
       showIsRequired!.clear();
-      if (surveyIndex.last != 0){
+      showDialogAfterDelay();
+      if (surveyIndex.last != 0) {
         surveyIndex.removeLast();
-           setScreenTypeEnum(ScreenTypeEnumUtil.previousScreen);
-      } 
-    }
-    else{
+        setScreenTypeEnum(ScreenTypeEnumUtil.previousScreen);
+      }
+    } else {
       //show intro screen
       setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
     }

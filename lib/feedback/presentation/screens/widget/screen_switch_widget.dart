@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/animation/translate_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
@@ -16,7 +15,6 @@ class ScreenSwitchWidget extends StatefulWidget {
 class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTickerProviderStateMixin {
   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
-  final TranslateAnimationController translateAnimation =Get.find<TranslateAnimationController>();
   @override
   Widget build(BuildContext context) {
     return Row(

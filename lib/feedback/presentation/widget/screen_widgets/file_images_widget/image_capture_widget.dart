@@ -25,7 +25,9 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
   final ImagePickerService imagePickerService = ImagePickerService();
   final SurveyImageUploadManager surveyImageUploadManager = Get.put(SurveyImageUploadManager());
   final SurveryApiFeedbackController surveryApiFeedbackController = Get.find<SurveryApiFeedbackController>();
-  late  String ? imageUrlLink;
+  String ? imageUrlLink = null;
+
+  bool imageloading  = false;
   late ValidationLogicManager validationLogicManager;
    @override
   void initState() {
@@ -45,6 +47,10 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
       builder: (context) {
         return GestureDetector(
           onTap: () async  {
+          
+              setState(() {
+            imageloading = true;   
+           });
             XFile ?  file =  await imagePickerService.takeImage();  
             await surveyImageUploadManager.call(
               SurveyImageUploadUcParams(
@@ -53,23 +59,100 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
                 referenceCode: surveryApiFeedbackController.surveyModel.value.id ?? ""
               )
             );
-           imageUrlLink = surveyImageUploadManager.imageUrl.value;
+       
+           setState(() {
+            imageloading = false;   
+            imageUrlLink = surveyImageUploadManager.imageUrl.value;
+           });
           },
-          child:  imageUrlLink != null? 
-          Image.network(surveyImageUploadManager.imageUrl.value,
-          height: 250.h,
-          width: 100.w,
-          ):
+          child:  
           
-          Container(
+          Builder(
+            builder: (context) {
+    
+              if( imageUrlLink !=null){
+                
+          return GestureDetector(
+            onTap: ()async  {
+              
+        await showDialog(
+          context: context,
+          builder: (context) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Dialog(
+              backgroundColor: Colors.transparent,
+                child:  Container(
+                 
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Image.network(surveyImageUploadManager.imageUrl.value,           
+                                        ),
+                      ),
+                         Expanded(child:GestureDetector(
+                          onTap: () {
+                            imageUrlLink = null;
+                            Navigator.of(context).pop();
+                            setState(() {
+                            });
+                          },
+                          child: Icon(Icons.delete,color: Colors.grey,size:30.sp,)))
+                    ],
+                  ),
+                ),
+              ),
+            );
+          });
+    
+              
+              
+            },
+            child: Image.network(surveyImageUploadManager.imageUrl.value,
             height: 250.h,
-            width: 250.h,
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: HexColor(surveyFieldController.optionTextColor.value)),
-                color: HexColor(surveyFieldController.optionTextColor.value).withOpacity(0.1),
-                borderRadius: BorderRadius.all(Radius.circular(5.r))),
-            child: const Icon(Icons.camera_alt),
+            width: 200.w,
+          loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return SizedBox(
+                     height: 250.h,
+                     width: 200.w,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
+            ),
+          );
+
+              }
+              return Container(
+                height: MediaQuery.of(context).size.height /2,
+                width: MediaQuery.of(context).size.width /3 ,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: HexColor(surveyFieldController.optionTextColor.value)),
+                    color: HexColor(surveyFieldController.optionTextColor.value).withOpacity(0.1),
+                    borderRadius: BorderRadius.all(Radius.circular(5.r))),
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+imageloading? CircularProgressIndicator():Container(),
+
+                     Icon(Icons.camera_alt),
+                  ],
+                ),
+              );
+            }
           ),
         );
       }

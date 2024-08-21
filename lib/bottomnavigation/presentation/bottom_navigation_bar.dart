@@ -22,7 +22,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 height: 45.h,
-                padding: EdgeInsets.all(4.w),
+                padding: EdgeInsets.all(2.w),
                 margin: EdgeInsets.only(top: 7.h , bottom: 10.h, right: 3.w,left: 10.w),
                 decoration: const BoxDecoration(
                     color: Color(ColorConstant.themeColor),
@@ -37,29 +37,27 @@ class BottomNavigationBarWidget extends StatelessWidget {
                       width: 10.w,
                     ),
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: SizedBox(
-                          height: 45.h,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Update Survey',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: ConstantSize.small_2.sp),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  'Last Update on 30 Mar 2020',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: ConstantSize.extra_small_3.sp),
-                                ),
-                              )
-                            ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              'Update Survey',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: ConstantSize.small_2.sp),
+                            ),
                           ),
-                        ),
+                          Expanded(
+                            child: Text(
+                              'Last Update on 30 Mar 2020',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: ConstantSize.extra_small_3.sp),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ],

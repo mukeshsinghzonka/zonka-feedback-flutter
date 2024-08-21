@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/animation/translate_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/feedback_survey_screen.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
@@ -21,8 +20,7 @@ class SurveyWidget extends StatefulWidget {
 
 class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMixin{
    final SurveryApiFeedbackController  surveryFeedbackController = Get.put(SurveryApiFeedbackController());
-   final TranslateAnimationController translateAnimationController = Get.put(TranslateAnimationController());
-  
+
    @override
   void initState() {
    
@@ -39,8 +37,6 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
         splashColor: const Color(ColorConstant.appBarBottomColor),
          onTap: () async {
         await surveryFeedbackController.call(widget.surveyResModel.surveyId);
-        await translateAnimationController.initAnimationController(this);
-
         SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>const SurveyScreenFeedbackPage())));
       },
          child: Container(
