@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/intro_page_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -39,6 +40,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
              },
            ),
           Expanded(
+            flex: 14,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -82,6 +84,10 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
               ],
             ),
           ),
+
+          Expanded(
+            flex: 1,
+            child: ExitWidget())
         ],
       ),
     );

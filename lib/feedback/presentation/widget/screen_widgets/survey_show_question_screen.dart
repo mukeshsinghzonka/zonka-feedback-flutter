@@ -28,7 +28,7 @@ class _SurveyShowQuestionScreenWidgetState
       Get.find<SurveyScreenManager>();
   final SurveryApiFeedbackController surveryFeedbackApiController =
       Get.find<SurveryApiFeedbackController>();
-late Timer timer;
+ Timer? timer;
   @override
   void initState() {
     surveyScreenManager.showDialogAfterDelay();
@@ -36,12 +36,17 @@ late Timer timer;
   }
 
   Future<void> asyncDurationValue() async {
+
+    if(timer!=null){
+        timer!.cancel();
+    }
      timer  = Timer(const Duration(seconds: 30), () {
-    surveyScreenManager.updateScreenTypeUtilFunction();
+       surveyScreenManager.updateScreenTypeUtilFunction();
      });
     
-   
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +71,7 @@ late Timer timer;
                       builder: (context, snapshot) {
                         final value = snapshot.data;
             
-                        if (snapshot.connectionState ==
-                                ConnectionState.active &&
-                            value != null &&
-                            value == true && surveyFieldController.showInactiveAlert.value) {
+                        if (snapshot.connectionState == ConnectionState.active && value != null && value == true && surveyFieldController.showInactiveAlert.value) {
                           // Once the future is complete, show the dialog
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             showDialog(
@@ -79,9 +81,7 @@ late Timer timer;
                                     future: asyncDurationValue(),
                                     builder: (context, builder) {
                                       return AlertDialog(
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
+                                        shape: const RoundedRectangleBorder( borderRadius: BorderRadius.all( Radius.circular(10.0))),
                                         actionsOverflowAlignment:
                                             OverflowBarAlignment.center,
                                         actionsAlignment:
@@ -96,7 +96,9 @@ late Timer timer;
                                             child: const Text("NO"),
                                             onPressed: () {
                                               surveyScreenManager.updateScreenTypeUtilFunction();
+                                           if(timer!= null)   timer!.cancel();
                                               Navigator.of(context).pop();
+
                                             },
                                           ),
                                           SizedBox(
@@ -105,7 +107,7 @@ late Timer timer;
                                           TextButton(
                                             child: const Text("YES"),
                                             onPressed: () {
-                                              timer.cancel();
+                                           if(timer!= null)  timer!.cancel();
                                               Navigator.of(context).pop();
                                             },
                                           ),

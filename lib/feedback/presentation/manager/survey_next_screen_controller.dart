@@ -15,12 +15,9 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_design_contr
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SurveyScreenManager extends GetxController {
-  final SurveryApiFeedbackController screenFeedbackController =
-      Get.find<SurveryApiFeedbackController>();
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.put(SurveyCollectDataController());
-  final SurveyDesignFieldController surveyFieldController =
-      Get.put(SurveyDesignFieldController());
+  final SurveryApiFeedbackController screenFeedbackController = Get.find<SurveryApiFeedbackController>();
+  final SurveyCollectDataController surveyCollectDataController = Get.put(SurveyCollectDataController());
+  final SurveyDesignFieldController surveyFieldController = Get.put(SurveyDesignFieldController());
 
   final RxBool _nextScreenstop = false.obs;
   RxBool get nextScreenstop => _nextScreenstop;
@@ -53,6 +50,9 @@ class SurveyScreenManager extends GetxController {
     if(surveyFieldController.languagePickView.value == "both" || surveyFieldController.languagePickView.value == "screen"){
        setScreenTypeEnum(ScreenTypeEnumUtil.languageScreen);
     }
+   else {
+      setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
+   }
  
   }
 
@@ -65,7 +65,7 @@ class SurveyScreenManager extends GetxController {
     }
     timer = Timer(
         Duration(seconds: surveyFieldController.appInactiveTimeOut.value), () {
-      myStreamController!.sink.add(true);
+        if(myStreamController!.isClosed == false) myStreamController!.sink.add(true);
     });
 
     return;

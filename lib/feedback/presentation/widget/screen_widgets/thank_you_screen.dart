@@ -35,7 +35,7 @@ void dispose() {
 }
  Future<void> asyncDurationValue() async {
     await Future.delayed( Duration(seconds: surveyFieldController.thankyouScreenTimeout.value));
-    surveyScreenManager.updateScreenTypeUtilFunction();
+    // surveyScreenManager.updateScreenTypeUtilFunction();
   }
 
 
@@ -67,22 +67,38 @@ void dispose() {
               SizedBox(
                 height: 100.h,
               ),
-              Text(
-                  widget.field!.translations![surveyFieldController.defaultTranslation.value] ?.upperText ?? "",
-                  style: TextStyle(
-                      fontFamily: widget.field?.fontFamilyUpperText ?? "",
-                      color: HexColor(widget.field?.fontColorUpperText ?? ""))),
-              SizedBox(
-                height: 30.h,
+
+              Expanded(
+                flex: 5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                 Text(
+                    widget.field!.translations![surveyFieldController.defaultTranslation.value] ?.upperText ?? "",
+                    style: TextStyle(
+                        fontFamily: widget.field?.fontFamilyUpperText ?? "",
+                        color: HexColor(widget.field?.fontColorUpperText ?? ""))),
+                SizedBox(
+                  height: 30.h,
+                ),
+                Text(
+                    widget.field!.translations![surveyFieldController.defaultTranslation.value] ?.bottomText ?? "",
+                    style: TextStyle(
+                        fontFamily: widget.field?.fontFamilyBottomText ?? "",
+                        color: HexColor(widget.field?.fontColorBottomText ?? ""))),
+
+                     SizedBox(
+                  height: 100.h,
+                ),     
+                  ],
+                ),
               ),
-              Text(
-                  widget.field!.translations![surveyFieldController.defaultTranslation.value] ?.bottomText ?? "",
-                  style: TextStyle(
-                      fontFamily: widget.field?.fontFamilyBottomText ?? "",
-                      color: HexColor(widget.field?.fontColorBottomText ?? ""))),
-         
+             
               Expanded(
                 child: Container(
+                   decoration: BoxDecoration(
+    border: Border.all(color: Colors.blueAccent)
+  ),
                   margin: EdgeInsets.all(5.w),
                   alignment: Alignment.bottomCenter,
                   child:const ExitWidget()))

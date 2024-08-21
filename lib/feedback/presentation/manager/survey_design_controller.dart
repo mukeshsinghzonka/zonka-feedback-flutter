@@ -41,21 +41,12 @@ class SurveyDesignFieldController extends GetxController {
     RxBool isSmsTrackingEnabled = false.obs;
     RxBool showSkipButtonInsteadOfNext = false.obs;
     RxBool hideDoneButtonInClickThrough = false.obs;
-    
     RxString switchLanguageScreenDisplay = "".obs;
     RxString switchLanguageButtonDisplay = "".obs;
     RxString languagePickView = "".obs;
-
     RxString hidePrevNextButton = "".obs;
 
-    RxBool checkEmailForRepeatGuest = false.obs;
-    RxBool checkUniqueIdForRepeatGuest = false.obs;
-    RxBool allowNewResponseAlert = false.obs;
-    RxBool allowLowRatingResponseAlert = false.obs;
-    RxBool allowThanksToGuestEmailAlert = false.obs;
-    RxBool allowThanksGuestSmsAlert = false.obs;
-
-
+   
 
 
   void setFieldFromSurveyModel(){
@@ -96,12 +87,7 @@ class SurveyDesignFieldController extends GetxController {
     switchLanguageButtonDisplay.value = valueData.switchLanguageScreenDisplay??"";
     languagePickView.value = valueData.languagePickView??"";
     hidePrevNextButton.value = valueData.hidePrevNextButton??"";
-    checkEmailForRepeatGuest.value = valueData.checkEmailForRepeatGuest??false;
-    checkUniqueIdForRepeatGuest.value = valueData.checkUniqueIdForRepeatGuest??false;
-    allowNewResponseAlert.value = valueData.allowNewResponseAlert??false;
-    allowLowRatingResponseAlert.value = valueData.allowLowRatingResponseAlert??false;
-    allowThanksToGuestEmailAlert.value = valueData.allowThanksToGuestEmailAlert??false;
-    allowThanksGuestSmsAlert.value = valueData.allowThanksGuestSmsAlert??false;
+   
     update();
   }
    

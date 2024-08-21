@@ -26,6 +26,7 @@ class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
   @override
   void initState() {
     surveyFieldController.setFieldFromSurveyModel();
+    surveyScreenManager.updateScreenTypeUtilFunction();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     super.initState();
   }
@@ -43,16 +44,19 @@ class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
   
       return Obx(
         () {
-          if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen){
+          if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen && surveyFieldController.showIntroPage.value){
             return WelcomeWidget(introPage:surveryFeedbackController.surveyModel.value.introPage );
           }
-          else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen){
+          else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen ){
             return LanguageWidget(languagePage:surveryFeedbackController.surveyModel.value.languagePage);
           }
           else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen){
            return ThankYouWidget(field: surveryFeedbackController.surveyModel.value.thankyouPage);
           }
-          return const SurveyShowQuestionScreenWidget();
+          else {
+            return const SurveyShowQuestionScreenWidget();
+          }
+          
         }
       );
       

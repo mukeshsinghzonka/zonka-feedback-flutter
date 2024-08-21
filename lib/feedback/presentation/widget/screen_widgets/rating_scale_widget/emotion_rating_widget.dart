@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
@@ -150,7 +148,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> with SingleTi
                                             animation: _animationController.animation,
                                           builder: (context,child) {
                                             return Opacity(
-                                               opacity:optionId==widget.field.options[i].id &&  _optionMap[widget.field.options[i].id ??""]! == j? _animationController.animation.value: 1,
+                                               opacity: optionId == widget.field.options[i].id &&  _optionMap[widget.field.options[i].id ??""]! == j? _animationController.animation.value: 1,
                                               child: Padding(
                                                   padding:EdgeInsets.symmetric(horizontal: 5.w),
                                                   child:  widget.field.iconType == 'svg'
@@ -183,9 +181,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> with SingleTi
                                                       :
                                                       
                                                            SvgPicture.asset(
-                                                            emojiConstant[widget
-                                                                        .field
-                                                                        .choices[j]
+                                                            emojiConstant[widget.field.choices[j]
                                                                         .translations[
                                                                             surveyFieldController
                                                                                 .defaultTranslation
@@ -194,10 +190,8 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget> with SingleTi
                                                                     ""] ??
                                                                 "",
                                                             height: 13.w,
-                                                            colorFilter: _choiceMap[widget
-                                                                            .field
-                                                                            .options[
-                                                                                i]
+                                                            colorFilter:_choiceMap[widget.field.options[i]
+                                                                            .id]=="" || _choiceMap[widget.field.options[i]
                                                                             .id ??
                                                                         ""] ==
                                                                     widget.field

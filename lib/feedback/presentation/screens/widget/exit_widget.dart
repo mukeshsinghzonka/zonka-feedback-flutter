@@ -21,21 +21,29 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-
-           Visibility(
-            visible: surveyScreenManager.screenTypeEnumUtil != ScreenTypeEnumUtil.languageScreen ,
-             child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: HexColor(surveyFieldController.buttonColor.value),),
-                    child:  Text(
-                      surveyFieldController.defaultTranslation.value.split('_')[1],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
-                    ),
-                  ),
+           Obx(
+              () {
+               return Visibility(
+                visible:(surveyFieldController.languagePickView.value == "both" ||surveyFieldController.languagePickView.value == "button" )?   (ScreenTypeEnumUtil.languageScreen != surveyScreenManager.screenTypeEnumUtil.value) && surveyFieldController.switchLanguageScreenDisplay.value == "both"? true:  surveyFieldController.switchLanguageScreenDisplay.value=="intro" && surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen?  true:false:false,
+                  child: GestureDetector(
+                  onTap: () {
+                    surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.languageScreen);
+                  },
+                   child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5.w),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: HexColor(surveyFieldController.buttonColor.value),),
+                          child:  Text(
+                            surveyFieldController.defaultTranslation.value.split('_')[1],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
+                          ),
+                        ),
+                 ),
+               );
+             }
            ),
           Expanded(
             flex: 8,
@@ -48,26 +56,41 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
             )),
         Builder(
           builder: (context) {
-
-            return GestureDetector(
-              onTap: () {
-              Navigator.of(context).pop();
-               Get.delete<SurveyScreenManager>();
-               surveyScreenManager.myStreamController!.close();
-              },
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                child:  Container(
-                  
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5.r)),
-                  color: HexColor(surveyFieldController.buttonColor.value),),
-                  child:  Text(
-                    'Exit',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
+            return Visibility(
+              visible:  (ScreenTypeEnumUtil.welcomScreen == surveyScreenManager.screenTypeEnumUtil.value && surveyFieldController.showExitButtonOnIntro.value)
+              || (surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen && surveyFieldController.showExitButtonONThnkyou.value) ||
+              surveyScreenManager.screenTypeEnumUtil.value ==ScreenTypeEnumUtil.surveryScreen
+            ,
+              child: GestureDetector(
+                onTap: () {
+                  if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen){
+                      surveyScreenManager.updateScreenTypeUtilFunction();
+                  }
+                  else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen){
+                    Navigator.of(context).pop();
+                    Get.delete<SurveyScreenManager>();
+                    surveyScreenManager.myStreamController!.close();
+                  }
+                  else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen ){
+                    surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
+                  }
+                 else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.surveryScreen ){
+                  surveyScreenManager.updateScreenTypeUtilFunction();
+                  }
+                },
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  child:  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                    color: HexColor(surveyFieldController.buttonColor.value),),
+                    child:  Text(
+                      'Exit',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
+                    ),
                   ),
                 ),
               ),
