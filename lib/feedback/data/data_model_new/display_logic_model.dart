@@ -19,7 +19,6 @@ class DisplayLogicModel {
     if (json == null) {
       throw ArgumentError("JSON data cannot be null");
     }
-    print(json);
     return DisplayLogicModel(
       fieldId: json["fieldId"] ?? "",
       actionTaken: json["actionTaken"] ?? '',

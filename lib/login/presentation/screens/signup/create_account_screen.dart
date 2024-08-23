@@ -119,6 +119,7 @@ class _CreateScreenState extends State<CreateScreen> {
                     ApiCallHandling(
                             controller: signUpController,
                             status: ApiCallStatus.Initial,
+                            sendParams: false,
                             success: () {
                               switchScreenController.changeScreen(Screen.login);
                               signUpController.clearTextFields();

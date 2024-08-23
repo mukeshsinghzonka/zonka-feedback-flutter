@@ -33,7 +33,6 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
     }
     validationLogicManager = ValidationLogicManager(field: widget.field);
     _animationController.initAnimationController(this);
-    print(widget.field.choices);
     super.initState();
   }
   @override
@@ -52,7 +51,6 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
             ),
                
             child: DropdownButtonFormField(
-              value: choiceId,
                 hint: const Text('Select'),
                 isExpanded: true,
                 isDense: true,
@@ -61,7 +59,7 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
                     return validationLogicManager.requiredFormValidator(choiceId == null);
                    }
                   surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: choiceId);
-                  return null;
+                    return null;
                 },
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -72,6 +70,7 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
                 alignment: AlignmentDirectional.centerStart,
                 elevation: 2,
                 items: widget.field.choices.map<DropdownMenuItem<Choice>>((Choice value) {
+            
                   return DropdownMenuItem<Choice>(
                     value: value,
                     child: Text(value.translations[surveyFieldController.defaultTranslation.value]?.name??"",style: TextStyle(

@@ -99,6 +99,7 @@ class _SignInScreenState extends State<SignInScreen> {
               onTap: () async { 
                ApiCallHandling(
                   controller: loginController,
+                   sendParams: false,
                   status: ApiCallStatus.Initial,
                   success: (){
                     loginController.clearTextFields();

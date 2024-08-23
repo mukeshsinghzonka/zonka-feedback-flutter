@@ -8,14 +8,18 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 class ApiCallHandling {
    final dynamic controller;
    final ApiCallStatus status;
- 
    final Function success;
-   ApiCallHandling({required this.controller, required this.status, required this.success});    
+   final bool sendParams;
+   ApiCallHandling({required this.controller, required this.status, required this.success,required this.sendParams});    
    
-  void handleApiCall() async {
+  void handleApiCall({dynamic value}) async {
    if(controller.apiStatus.value == ApiCallStatus.Initial){
      DialogUtils.showCustomLoadingDialog(NavigationService.navigatorKey.currentContext!);
+     if(sendParams){
+      await controller.call(value);
+     }else{
      await controller.call();
+      }
    }
 
    if(controller.apiStatus.value == ApiCallStatus.Success){
@@ -30,4 +34,8 @@ class ApiCallHandling {
       DialogUtils.showCustomErrorDialog(NavigationService.navigatorKey.currentContext!, title:  NetworkExceptions.getErrorMessage(controller.networkExceptions??const NetworkExceptions.defaultError("Default Error")));
     } 
   }
+
+
+
+
 }

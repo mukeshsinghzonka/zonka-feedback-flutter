@@ -8,7 +8,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_ma
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class TextboxWidget extends StatefulWidget {
-  final Field field;
+   final  Field field;
    const TextboxWidget({super.key, required this.field});
 
   @override
@@ -26,7 +26,6 @@ class _TextboxWidgetState extends State<TextboxWidget> {
   void initState() {
     
     validationLogicManager = ValidationLogicManager(field: widget.field);
-
      if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
       _controller.text = surveyCollectDataController.surveyIndexData[widget.field.id] as String? ?? "";
      }
@@ -38,58 +37,62 @@ class _TextboxWidgetState extends State<TextboxWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 250.w,
-      child: TextFormField(
-        
-        validator: (value) {
-          String ? valid = validationLogicManager.inputTextValidation(value);
-          if(valid == null){
-            surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _controller.text);
-          }
-          return valid;
-        },
-        
-        maxLines: 1,
-        controller: _controller,
-        style: TextStyle(
-          fontFamily:_surveyDesignFieldController.fontFamily.value,
-          color:  HexColor(_surveyDesignFieldController.optionTextColor.value),     
-        ),
-        decoration:  InputDecoration(   
-
-         errorStyle:const TextStyle(color: Colors.transparent),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-     
-        ),
-         hintText:  widget
-                                .field
-                            
-                                .translations![_surveyDesignFieldController
-                                    .defaultTranslation.value]
-                                ?. placeHolder??
-                            '',
-         errorBorder:  OutlineInputBorder(
-            borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-            borderRadius: BorderRadius.circular(10.0)
+    return Padding(
+      padding: EdgeInsets.only(
+         bottom: MediaQuery.of(context).viewInsets.bottom)/1.5,
+      child: SizedBox(
+        width: 250.w,
+        child: TextFormField(
+          
+          validator: (value) {
+            String ? valid = validationLogicManager.inputTextValidation(value);
+            if(valid == null){
+              surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _controller.text);
+            }
+            return valid;
+          },
+          
+          maxLines: 1,
+          controller: _controller,
+          style: TextStyle(
+            fontFamily:_surveyDesignFieldController.fontFamily.value,
+            color:  HexColor(_surveyDesignFieldController.optionTextColor.value),     
           ),
-          focusedErrorBorder:OutlineInputBorder(
+          decoration:  InputDecoration(   
+      
+           errorStyle:const TextStyle(color: Colors.transparent),
+          border: OutlineInputBorder(
             borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-            borderRadius: BorderRadius.circular(10.0)
-          ) ,
-          filled: true,
-          fillColor:  HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
-          contentPadding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
-          isDense: true,
-          focusedBorder:  OutlineInputBorder(
-            
-            borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-            borderRadius: BorderRadius.circular(10.0)
+       
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide:  BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
-            borderRadius: BorderRadius.circular(10.0)
+           hintText:  widget
+                                  .field
+                              
+                                  .translations![_surveyDesignFieldController
+                                      .defaultTranslation.value]
+                                  ?. placeHolder??
+                              '',
+           errorBorder:  OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+              borderRadius: BorderRadius.circular(10.0)
+            ),
+            focusedErrorBorder:OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+              borderRadius: BorderRadius.circular(10.0)
+            ) ,
+            filled: true,
+            fillColor:  HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
+            contentPadding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 10.0),
+            isDense: true,
+            focusedBorder:  OutlineInputBorder(
+              
+              borderSide: BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+              borderRadius: BorderRadius.circular(10.0)
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide:  BorderSide(color: HexColor(_surveyDesignFieldController.optionTextColor.value), width: 1.0),
+              borderRadius: BorderRadius.circular(10.0)
+            ),
           ),
         ),
       ),

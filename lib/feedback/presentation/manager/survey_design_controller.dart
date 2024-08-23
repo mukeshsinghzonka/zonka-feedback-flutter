@@ -60,14 +60,12 @@ class SurveyDesignFieldController extends GetxController {
     surveyBgImage.value ='${valueData.s3GalleryImageUrl}${valueData.surveyBgGalleryImageId?.companyId}/${valueData.surveyBgGalleryImageId?.path}';
     surveyBgImageLogo.value ='${valueData.s3GalleryImageUrl}${valueData.logoGalleryImageId?.companyId}/${valueData.logoGalleryImageId?.path}';
     s3GalleryImageUrl.value = valueData.s3GalleryImageUrl;
-   
     introBgImageUrl.value = createImageUrl(valueData.introPage?.backgroundGalleryImageId?.compnayId?? "", valueData.introPage?.backgroundGalleryImageId?.path?? "");
     introLogoImageUrlLogo.value = createImageUrl(valueData.introPage?.pageLogoGalleryImageId?.compnayId?? "", valueData.introPage?.pageLogoGalleryImageId?.path?? "");
     thankyouPageUrlBg.value = createImageUrl(valueData.thankyouPage?.backgroundGalleryImageId?.compnayId?? "", valueData.thankyouPage?.backgroundGalleryImageId?.path?? "");  
     thankyouPageUrlLogo.value = createImageUrl(valueData.thankyouPage?.pageLogoGalleryImageId?.compnayId?? "", valueData.thankyouPage?.pageLogoGalleryImageId?.path?? "");
     langugagePageLogo.value = createImageUrl(valueData.languagePage?.pageLogoGalleryImageId?.compnayId??"", valueData.languagePage?.pageLogoGalleryImageId?.path??"");
     languageBackgroundPage.value = createImageUrl(valueData.languagePage?.backgroundGalleryImageId?.compnayId??"", valueData.languagePage?.backgroundGalleryImageId?.path??"");
-   
     showIntroPage.value  = valueData.showThankyouPage??false;
     thankyouScreenTimeout.value = valueData.thankyouScreenTimeOut??0;
     showInactiveAlert.value = valueData.showInactiveAlert??false;

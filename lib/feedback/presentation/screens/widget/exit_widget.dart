@@ -23,27 +23,39 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
       children: [
            Obx(
               () {
-               return Visibility(
-                visible:(surveyFieldController.languagePickView.value == "both" ||surveyFieldController.languagePickView.value == "button" )?   (ScreenTypeEnumUtil.languageScreen != surveyScreenManager.screenTypeEnumUtil.value) && surveyFieldController.switchLanguageScreenDisplay.value == "both"? true:  surveyFieldController.switchLanguageScreenDisplay.value=="intro" && surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen?  true:false:false,
-                  child: GestureDetector(
-                  onTap: () {
-                    surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.languageScreen);
-                  },
-                   child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: HexColor(surveyFieldController.buttonColor.value),),
-                          child:  Text(
-                            surveyFieldController.defaultTranslation.value.split('_')[1],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
-                          ),
-                        ),
-                 ),
-               );
-             }
+          
+            
+                 if(ScreenTypeEnumUtil.languageScreen == surveyScreenManager.screenTypeEnumUtil.value || ScreenTypeEnumUtil.exitScreen == surveyScreenManager.screenTypeEnumUtil.value){
+                     return Container();
+                 }
+                                
+                   return Visibility(
+                     visible: (surveyFieldController.languagePickView.value == "both" ||
+                 surveyFieldController.languagePickView.value == "button" ) ? surveyFieldController.switchLanguageScreenDisplay.value=="both"?true:
+                 (surveyFieldController.switchLanguageScreenDisplay.value=="intro" && 
+                 surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen)?
+                 true:false:false,
+                     child: GestureDetector(
+                     onTap: () {
+                       surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.languageScreen);
+                     },
+                      child: Container(
+                             padding: EdgeInsets.symmetric(horizontal: 5.w),
+                             alignment: Alignment.center,
+                             decoration: BoxDecoration(
+                             shape: BoxShape.circle,
+                             color: HexColor(surveyFieldController.buttonColor.value),),
+                             child:  Text(
+                               surveyFieldController.defaultTranslation.value.split('_')[1],
+                               textAlign: TextAlign.center,
+                               style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
+                             ),
+                           ),
+                                      ),
+                   );
+                 }
+              
+            
            ),
           Expanded(
             flex: 8,
@@ -54,8 +66,8 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                 style: TextStyle( fontFamily: surveyFieldController.fontFamily.value, fontSize: 6.sp),
               ),
             )),
-        Builder(
-          builder: (context) {
+        Obx(
+           () {
             return Visibility(
               visible:  (ScreenTypeEnumUtil.welcomScreen == surveyScreenManager.screenTypeEnumUtil.value && surveyFieldController.showExitButtonOnIntro.value)
               || (surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen && surveyFieldController.showExitButtonONThnkyou.value) ||
@@ -74,8 +86,8 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                   else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen ){
                     surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
                   }
-                 else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.surveryScreen ){
-                  surveyScreenManager.updateScreenTypeUtilFunction();
+                 else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.surveryScreen){
+                        surveyScreenManager.updateScreenTypeUtilFunction();
                   }
                 },
                 child: Container(

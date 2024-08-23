@@ -31,7 +31,6 @@ class ScreenFeedBackQuesController extends GetxController{
   }
 
   SurveyScreenenum mapOfScreenByType(String type,Field field) {
-    print(type);
     switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.multipleButtonChoice;
@@ -53,7 +52,7 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.starRating;
     case 'emotion_rating':
       return SurveyScreenenum.emotionRating;
-    case 'text_box':
+    case 'text_box' || 'Email' || 'MembershipNo' || 'FullName':
       return SurveyScreenenum.textWidget;
     case 'date':
       return SurveyScreenenum.dateWidget;
@@ -79,12 +78,6 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.radioRatingLable;
     case 'ServerName':
       return SurveyScreenenum.serverName;
-    case 'FullName':
-      return SurveyScreenenum.fullName;
-    case 'Email':
-      return SurveyScreenenum.textWidget;
-    case 'MembershipNo':
-      return SurveyScreenenum.textWidget;
     case 'gender':
       return SurveyScreenenum.radioChoice;
     // case 'Mobile':
@@ -100,53 +93,52 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
   
   switch (screen) {
     case SurveyScreenenum.buttonChoice:
-    return ButtonChoiceWidget(field: field,isMultiple: true,);
+    return ButtonChoiceWidget(key: ValueKey<String>(field.id??''), field: field,isMultiple: true,);
     case SurveyScreenenum.multipleButtonChoice:
-    return ButtonChoiceWidget(field: field,isMultiple: false,);
+    return ButtonChoiceWidget(key: ValueKey<String>(field.id??''),field: field,isMultiple: false,);
     case SurveyScreenenum.radioChoice:
-    return RadioButtonWidget(field: field);
+    return RadioButtonWidget(key: ValueKey<String>(field.id??''),field: field);
     case SurveyScreenenum.dropdownChoice:
-    return DropDownWidget(field: field,);
+    return DropDownWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.checkboxChoice:
-    return CheckboxWidget(field: field , isMultiple: true,);
+    return CheckboxWidget(key: ValueKey<String>(field.id??''),field: field , isMultiple: true,);
     case SurveyScreenenum.pictureChoice:
-    return PictureChoiceWidget(field: field,isMultiple: false,);
+    return PictureChoiceWidget(key: ValueKey<String>(field.id??''),field: field,isMultiple: false,);
     case SurveyScreenenum.multiplePictureChoice:
-    return PictureChoiceWidget(field: field,isMultiple: true,);
+    return PictureChoiceWidget(key: ValueKey<String>(field.id??''),field: field,isMultiple: true,);
     case SurveyScreenenum.npsRating:
-    return NpsWidget(field: field,);
+    return NpsWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.csatButtonRating:
-    return ButtonRatingWidget(field: field,);
+    return ButtonRatingWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.rankingRating:
-    return RankRatingWidget(field: field,);
+    return RankRatingWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.starRating:
-    return StarRatingWidget(field: field,);
+    return StarRatingWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.emotionRating:
-    return EmotionRatingWidget(field: field,);
+    return EmotionRatingWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.textWidget:
-    return TextboxWidget(field: field,);
+    return TextboxWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.dateWidget:
-    return DateWidget(field: field,);
+    return DateWidget(key: ValueKey<String>(field.id??''), field: field,);
     case SurveyScreenenum.legalTerm:
-    return LegalWidget(field:field,);
+    return LegalWidget(key: ValueKey<String>(field.id??''),field:field,);
     case SurveyScreenenum.cameraWidget:
-    return ImageCaptureWidget(field:field,);
+    return ImageCaptureWidget(key: ValueKey<String>(field.id??''), field:field,);
     case SurveyScreenenum.npsQuestion:
-    return NpsWidget(field: field,);
+    return NpsWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.cesquestion:
-    return CesWidget(field: field,);
+    return CesWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.pictureRating:
-    return PictureChoiceWidget(field: field,isMultiple: false,);
+    return PictureChoiceWidget(key: ValueKey<String>(field.id??''),field: field,isMultiple: false,);
     case SurveyScreenenum.heartRating:
-    return HeartRatingWidget(field: field,);
+    return HeartRatingWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.circleRating:
-    return CircleRatingWidget(field: field,);
+    return CircleRatingWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.radioRatingLable:
-    return RadioRatingLableWidget(field: field,);
+    return RadioRatingLableWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.serverName:
-    return DropDownWidget(field: field,);
-    case SurveyScreenenum.fullName:
-    return TextboxWidget(field: field,);
+    return DropDownWidget(key: ValueKey<String>(field.id??''),field: field,);
+
     default: return Container();
   }
 }

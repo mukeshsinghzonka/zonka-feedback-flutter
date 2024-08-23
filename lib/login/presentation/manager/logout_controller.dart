@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:zonka_feedback/location/presentation/manager/search_location_controller.dart';
+// import 'package:zonka_feedback/location/presentation/manager/search_location_controller.dart';
 import 'package:zonka_feedback/services/controller/base_controller.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
@@ -7,7 +7,7 @@ import 'package:zonka_feedback/utils/hive_key.dart';
 
 class LogoutController extends BaseControllerWithOutParams<void> {
 
-  final SearchLocationController _searchLocationController = SearchLocationController();
+  // final SearchLocationController _searchLocationController = SearchLocationController();
 
   @override
   Future<void> call() async {

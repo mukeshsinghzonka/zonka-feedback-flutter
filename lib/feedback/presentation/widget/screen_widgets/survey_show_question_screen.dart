@@ -67,7 +67,7 @@ class _SurveyShowQuestionScreenWidgetState
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.blueAccent)),
                   child: StreamBuilder<bool>(
-                      stream: surveyScreenManager.myStreamController?.stream,
+                      stream:  surveyScreenManager.myStreamController?.stream,
                       builder: (context, snapshot) {
                         final value = snapshot.data;
             

@@ -7,7 +7,6 @@ class DialogUtils {
   factory DialogUtils() => _instance;
   
   static void showCustomLoadingDialog(BuildContext context) {
-    
     showDialog(
         context: context,
         builder: (_) {

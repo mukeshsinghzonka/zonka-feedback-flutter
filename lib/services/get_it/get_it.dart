@@ -2,15 +2,19 @@ import 'package:get_it/get_it.dart';
 import 'package:zonka_feedback/feedback/data/data_source/selected_languaga_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/survey_feedback_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/survey_image_upload_ds.dart';
+import 'package:zonka_feedback/feedback/data/data_source/survey_submit_ds.dart';
 import 'package:zonka_feedback/feedback/data/repositories/selected_language_repo_impl.dart';
 import 'package:zonka_feedback/feedback/data/repositories/survery_image_upload_image_repo_impl.dart';
 import 'package:zonka_feedback/feedback/data/repositories/survey_feedback_repo_impl.dart';
+import 'package:zonka_feedback/feedback/data/repositories/survey_submit_repo_impl.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/selected_language_repo.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_feedback_repo.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_image_upload_feedback_repo.dart';
+import 'package:zonka_feedback/feedback/domain/repositories/survey_submit_repo.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/selected_language_uc.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_feedback_uc.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_image_upload_uc.dart';
+import 'package:zonka_feedback/feedback/domain/usecase/survey_submit_uc.dart';
 import 'package:zonka_feedback/location/data/data_source/location_ds.dart';
 import 'package:zonka_feedback/dashboard/data/data_source/workspace_ds.dart';
 import 'package:zonka_feedback/location/data/repositories_impl/location_repo_impl.dart';
@@ -50,7 +54,7 @@ void setup() {
     getIt.registerLazySingleton(() => SurveyFeedbackUc(surveyFeedbackRepo:getIt()));
     getIt.registerLazySingleton(() => SurveyImageUploadUc(imageUploadFeedRepo:getIt()));
     getIt.registerLazySingleton(() => SelectedLanguageUc(selectedLanguageRepo:getIt()));
-
+    getIt.registerLazySingleton(() => SurveySubmitUc(surveySubmitRepo:getIt()));
     // getIt.registerLazySingleton(() => SurveyLanguagesUc(surveyFeedbackRepo:getIt())); 
 
 
@@ -62,6 +66,7 @@ void setup() {
     getIt.registerLazySingleton<SurveyFeedbackRepo>(() => SurveyFeedbackRepoImpl(surveyFeedBackDataSource: getIt()));
     getIt.registerLazySingleton<ImageUploadFeedRepo>(() => SurveryImageUploadImageRepoImpl(surveyImageUploadDs: getIt()));
     getIt.registerLazySingleton<SelectedLanguageRepo>(() => SelectedLanguageRepoImpl(selectedLanguagaDs: getIt()));
+    getIt.registerLazySingleton<SurveySubmitRepo>(() => SurveySubmitRepoImpl(submitSurveyDs: getIt()));
  
 
 
@@ -74,6 +79,7 @@ void setup() {
     getIt.registerLazySingleton(() => SurveyFeedBackDataSource());
     getIt.registerLazySingleton(() => SurveyImageUploadDs());
     getIt.registerLazySingleton(() => SelectedLanguagaDs());
+    getIt.registerLazySingleton(() => SurveySubmitDs());
   
 
     //Services
