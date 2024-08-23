@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/logic_model.dart';
 
+
 class Choice extends Equatable {
   const Choice({
     required this.logic,
@@ -58,7 +59,7 @@ class Choice extends Equatable {
 }
 
 class ChoiceTranslation extends Equatable {
-  ChoiceTranslation({
+  const ChoiceTranslation({
     required this.name,
     required this.helpText,
   });

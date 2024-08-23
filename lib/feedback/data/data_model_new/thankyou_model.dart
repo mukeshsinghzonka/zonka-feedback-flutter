@@ -1,37 +1,55 @@
+import 'package:hive/hive.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/background_gallery_image.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/language_page_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/page_logo_gallery_image.dart';
 
-class ThankyouPage {
+part 'thankyou_model.g.dart';
+
+
+@HiveType(typeId: 300)
+class ThankyouPage extends HiveObject{
     ThankyouPage({
         required this.applyPageBackgroundImage,
-        required this.backgroundGalleryImageId,
-        required this.pageBgColor,
-        required this.useCustomHeadingColor,
-        required this.fontColorBottomText,
-        required this.pageLogoGalleryImageId,
-        required this.fontColorUpperText,
-        required this.fontSizeUpperText,
-        required this.fontSizeBottomText,
-        required this.fontFamilyUpperText,
-        required this.fontFamilyBottomText,
-        required this.translations,
-        required this.id,
+          required this.backgroundGalleryImageId,
+          required this.pageBgColor,
+          required this.useCustomHeadingColor,
+          required this.fontColorBottomText,
+          required this.pageLogoGalleryImageId,
+          required this.fontColorUpperText,
+          required this.fontSizeUpperText,
+          required this.fontSizeBottomText,
+          required this.fontFamilyUpperText,
+          required this.fontFamilyBottomText,
+          required this.translations,
+          required this.id,
     });
-
-    final bool? applyPageBackgroundImage;
-    final BackgroundGalleryImageId? backgroundGalleryImageId;
-    final String? pageBgColor;
-    final bool? useCustomHeadingColor;
-    final String? fontColorBottomText;
-    final PageLogoGalleryImageId? pageLogoGalleryImageId;
-    final String? fontColorUpperText;
-    final String? fontSizeUpperText;
-    final String? fontSizeBottomText;
-    final String? fontFamilyUpperText;
-    final String? fontFamilyBottomText;
-    final Map<String, LanguagePageTranslation>? translations;
-    final String? id;
+  
+  @HiveField(0)
+  final bool? applyPageBackgroundImage;
+  @HiveField(1)
+  final BackgroundGalleryImageId? backgroundGalleryImageId;
+  @HiveField(2)
+  final String? pageBgColor;
+  @HiveField(3)
+  final bool? useCustomHeadingColor;
+  @HiveField(4)
+  final String? fontColorBottomText;
+  @HiveField(5)
+  final PageLogoGalleryImageId? pageLogoGalleryImageId;
+  @HiveField(6)
+  final String? fontColorUpperText;
+  @HiveField(7)
+  final String? fontSizeUpperText;
+  @HiveField(8)
+  final String? fontSizeBottomText;
+  @HiveField(9)
+  final String? fontFamilyUpperText;
+  @HiveField(10)
+  final String? fontFamilyBottomText;
+  @HiveField(11)
+  final Map<String, LanguagePageTranslation>? translations;
+  @HiveField(12)
+  final String? id;
 
     factory ThankyouPage.fromJson(Map<String, dynamic> ?json){ 
       if (json == null) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
@@ -26,7 +27,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
      HexColor('#F9BE00'),
      HexColor('#76CE1E'),
   ];
-  String ? choiceId;
+  Choice ? choiceId;
   Color selectedColor = HexColor('#F9BE00');
   late ValidationLogicManager validationLogicManager;
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
@@ -34,7 +35,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
   @override
   void initState() {
      if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id) && surveyCollectDataController.surveyIndexData[widget.field.id]!=null){
-        choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as String?;
+        choiceId = surveyCollectDataController.surveyIndexData[widget.field.id] as Choice?;
      }
       validationLogicManager = ValidationLogicManager(field: widget.field);
      _animationController.initAnimationController(this);
@@ -66,7 +67,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: ()async  {
-                    choiceId = widget.field.choices[index].id??"";
+                    choiceId = widget.field.choices[index];
                     for(int i = 0 ;i<2;i++){
                         await _animationController.blinkingAnimation();         
                         setState(() {});
@@ -77,16 +78,16 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
                     animation: _animationController.animation,
                     builder: (context,child) {
                       return Opacity(
-                        opacity: choiceId == widget.field.choices[index].id  ? _animationController.animation.value : 1,
+                        opacity: choiceId == widget.field.choices[index] ? _animationController.animation.value : 1,
                         child: Center(
                           child: Container(
                               margin: EdgeInsets.all(5.h),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: HexColor(surveyFieldController.optionTextColor.value).withOpacity(1)),     
-                                color: widget.field.isButtonColored??false ?  choiceId !=null &&  choiceId != widget.field.choices[index].id? selectedColor.withOpacity(0.4): choiceId == widget.field.choices[index].id ? selectedColor : index>=0 && index<=6? gradientColors[0]: index>=7 && index<=8? gradientColors[1]: gradientColors[2]:HexColor(surveyFieldController.optionTextColor.value).withOpacity(choiceId!=null && choiceId == widget.field.choices[index].id ? 1 : 0.1) ,borderRadius: BorderRadius.circular(5.r)),
+                                color: widget.field.isButtonColored??false ?  choiceId !=null &&  choiceId != widget.field.choices[index]? selectedColor.withOpacity(0.4): choiceId == widget.field.choices[index]? selectedColor : index>=0 && index<=6? gradientColors[0]: index>=7 && index<=8? gradientColors[1]: gradientColors[2]:HexColor(surveyFieldController.optionTextColor.value).withOpacity(choiceId!=null && choiceId == widget.field.choices[index] ? 1 : 0.1) ,borderRadius: BorderRadius.circular(5.r)),
                                 child: Text(widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
-                                style: TextStyle(color: widget.field.isButtonColored??false ? Colors.white : choiceId!=null && choiceId == widget.field.choices[index].id ? Colors.white: HexColor(surveyFieldController.optionTextColor.value)),
+                                style: TextStyle(color: widget.field.isButtonColored??false ? Colors.white : choiceId!=null && choiceId == widget.field.choices[index] ? Colors.white: HexColor(surveyFieldController.optionTextColor.value)),
                               )),
                         ),
                       );

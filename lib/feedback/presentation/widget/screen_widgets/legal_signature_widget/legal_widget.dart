@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
@@ -16,7 +17,7 @@ class LegalWidget extends StatefulWidget {
 }
 
 class _LegalWidgetState extends State<LegalWidget> with SingleTickerProviderStateMixin{
-  String ? groupValue;
+  Choice ? groupValue;
   final SurveyDesignFieldController _surveyDesignFieldController = Get.find<SurveyDesignFieldController>();
   late  ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
@@ -24,7 +25,7 @@ class _LegalWidgetState extends State<LegalWidget> with SingleTickerProviderStat
   @override
   void initState() {
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
-      groupValue = surveyCollectDataController.surveyIndexData[widget.field.id] as String?;
+      groupValue = surveyCollectDataController.surveyIndexData[widget.field.id] as Choice?;
     }
     else{
       groupValue = null;
@@ -83,12 +84,12 @@ class _LegalWidgetState extends State<LegalWidget> with SingleTickerProviderStat
                   opacity: groupValue == widget.field.choices[index].id ?_animationController.animation.value: 1 ,
                   child: Row(
                         children: [
-                          Radio<String>(
+                          Radio<Choice>(
                              focusColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
                               activeColor: HexColor(_surveyDesignFieldController.optionTextColor.value),
-                              value: widget.field.choices[index].id??"",
+                              value: widget.field.choices[index],
                               groupValue: groupValue,
-                              onChanged: (String ? value) async {
+                              onChanged: (Choice ? value) async {
                                 groupValue = value;
                                   for(int i = 0 ;i<2;i++){
                                     await _animationController.blinkingAnimation();         

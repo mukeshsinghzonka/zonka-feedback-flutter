@@ -16,14 +16,13 @@ class SurveyCollectDataController extends GetxController {
     update();
   }
 
-  List<SurveyResponse>? createDataForApiHit(String fieldId, String fieldName) {
+  dynamic createDataForApiHit(String fieldId, String fieldName) {
     dynamic selectedData = surveyIndexData[fieldId];
 
     switch (fieldName) {
       case "msqquestion" || "checkbox" || "picture_rating" || "mcqquestion":
         Map<String, bool> choiceMap = Map<String, bool>.from(selectedData);
         List<SurveyResponse> valueList = [];
-
         choiceMap.forEach((choiceId, isSelected) {
           if (isSelected) {
             valueList.add(
@@ -34,33 +33,56 @@ class SurveyCollectDataController extends GetxController {
             );
           }
         });
-
         return valueList;
       case "radio":
         if (selectedData is String?) {
           String? radioButtonChoiceId = selectedData;
+          return SurveyResponse(
+            fieldId: fieldId,
+            choiceId: radioButtonChoiceId,
+          );
         } else if (selectedData is Map<String, dynamic>?) {
-          Map<String, bool>? choiceMap =
-              Map<String, bool>.from(selectedData ?? {});
+          Map<String, bool>? choiceMap = Map<String, bool>.from(selectedData ?? {});
+          List<SurveyResponse> valueList = [];
+          choiceMap.forEach((choiceId, isSelected) {
+            if (isSelected) {
+              valueList.add(
+                SurveyResponse(
+                  fieldId: fieldId,
+                  choiceId: choiceId,
+                ),
+              );
+            }
+          });
         }
-
       case "text_box":
         String? textValue = selectedData as String?;
+        return SurveyResponse(fieldId: fieldId, fieldValue: textValue);
+
       case "date":
         DateTime? dateValue = selectedData as DateTime?;
+        return SurveyResponse(fieldId: fieldId, fieldValue: dateValue!.toIso8601String());
 
       case "npsquestion" || "cssquestion" || "button_rating" || "legalTerm":
-        String? choiceId = selectedData as String?;
+        Choice? choiceId = selectedData as Choice?;
+        return SurveyResponse(fieldId: fieldId, choiceId: choiceId!.id);
 
-      case "heart_rating" ||
-            "circle_rating" ||
-            "star_rating" ||
-            'emotion_rating':
-        Map<String, String> choiceMap =
-            (selectedData as RatingDataCollector?)?.choiceMap ?? {};
+      case "heart_rating" || "circle_rating" || "star_rating" || "emotion_rating":
+        Map<String, String> choiceMap = (selectedData as RatingDataCollector?)?.choiceMap ?? {};
+        List<SurveyResponse> valueList = [];
+        choiceMap.forEach((optionId, choiceId) {
+          valueList.add(
+            SurveyResponse(fieldId: fieldId, choiceId: choiceId, optionId: optionId),
+          );
+        });
+        return valueList;
 
       case "dropdown":
         Choice? dropDownValue = selectedData as Choice?;
+        return SurveyResponse(
+          fieldId: fieldId,
+          choiceId: dropDownValue!.id,
+        );
 
       default:
     }
@@ -117,8 +139,8 @@ class SurveyCollectDataController extends GetxController {
         }
         return false;
       case "npsquestion" || "cssquestion" || "button_rating" || "legalTerm":
-        String? choiceId = selectedData as String?;
-        return choiceId == displayModel.choiceId;
+        Choice? choiceId = selectedData as Choice?;
+        return choiceId!.id == displayModel.choiceId;
       case "heart_rating" ||
             "circle_rating" ||
             "star_rating" ||
