@@ -10,6 +10,7 @@ class SurveySubmitUc extends UseCase<ApiResult<void> , SurveySubmitModel>{
 
   @override
   Future<ApiResult<void>> call(SurveySubmitModel params)async  {
+    
      final response = await surveySubmitRepo.surveySubmitRepo(suverySubmitModel: params);
      return response;
 

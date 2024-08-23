@@ -4,17 +4,21 @@ import 'package:zonka_feedback/feedback/data/data_model_new/display_logic_model.
 import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_reponse_model.dart';
 import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 
 class SurveyCollectDataController extends GetxController {
   final SurveryApiFeedbackController screenFeedbackController =
       Get.find<SurveryApiFeedbackController>();
-
+  // final SurveyScreenManager screenSurveyManager =
+  //     Get.find<SurveyScreenManager>();
   RxMap<String, dynamic> surveyIndexData = <String, dynamic>{}.obs;
 
   void updateSurveyData({required String quesId, required dynamic value}) {
     surveyIndexData[quesId] = value;
     update();
   }
+
+ 
 
   dynamic createDataForApiHit(String fieldId, String fieldName) {
     dynamic selectedData = surveyIndexData[fieldId];
@@ -61,18 +65,24 @@ class SurveyCollectDataController extends GetxController {
 
       case "date":
         DateTime? dateValue = selectedData as DateTime?;
-        return SurveyResponse(fieldId: fieldId, fieldValue: dateValue!.toIso8601String());
+        return SurveyResponse(
+            fieldId: fieldId, fieldValue: dateValue!.toIso8601String());
 
       case "npsquestion" || "cssquestion" || "button_rating" || "legalTerm":
         Choice? choiceId = selectedData as Choice?;
         return SurveyResponse(fieldId: fieldId, choiceId: choiceId!.id);
 
-      case "heart_rating" || "circle_rating" || "star_rating" || "emotion_rating":
-        Map<String, String> choiceMap = (selectedData as RatingDataCollector?)?.choiceMap ?? {};
+      case "heart_rating" ||
+            "circle_rating" ||
+            "star_rating" ||
+            "emotion_rating":
+        Map<String, String> choiceMap =
+            (selectedData as RatingDataCollector?)?.choiceMap ?? {};
         List<SurveyResponse> valueList = [];
         choiceMap.forEach((optionId, choiceId) {
           valueList.add(
-            SurveyResponse(fieldId: fieldId, choiceId: choiceId, optionId: optionId),
+            SurveyResponse(
+                fieldId: fieldId, choiceId: choiceId, optionId: optionId),
           );
         });
         return valueList;
@@ -144,7 +154,7 @@ class SurveyCollectDataController extends GetxController {
       case "heart_rating" ||
             "circle_rating" ||
             "star_rating" ||
-            'emotion_rating':
+            "emotion_rating":
         Map<String, String> choiceMap =
             (selectedData as RatingDataCollector?)?.choiceMap ?? {};
         return choiceMap.containsValue(displayModel.choiceId);

@@ -10,6 +10,7 @@ class SurveySubmitDs {
 
   Future<ApiResult<void>> getSurveySubmitDs({required SurveySubmitModel suverySubmitModel}) async {
     try {
+      print("reponseSurvey");
       final responseSurvey = await _httpUtil.post('/api/v1/responses/add',data: jsonEncode({'response': suverySubmitModel.toJsonSurveySubmit()}));
       print("reponseSurvey $responseSurvey");
       return ApiResult.success(data: "");

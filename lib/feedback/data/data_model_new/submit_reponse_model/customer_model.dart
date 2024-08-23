@@ -7,6 +7,6 @@ class Customer {
   });
 
   Map<String, dynamic> toJsonCustomer() {
-    return {'nps': nps, 'ces': ces};
+    return {'nps': nps??"", 'ces': ces??""};
   }
 }

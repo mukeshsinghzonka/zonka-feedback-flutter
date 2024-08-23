@@ -3,7 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_reponse_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_submit_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/thankyou_model.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/submit_survey_manager.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
@@ -22,7 +27,12 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
       Get.find<SurveyDesignFieldController>();
   final SurveyScreenManager surveyScreenManager =
       Get.find<SurveyScreenManager>();
-
+  final SubmitSurveyManagerController submitsurvey =
+      Get.put(SubmitSurveyManagerController());
+  final SurveryApiFeedbackController surveyApicontroller =
+      Get.find<SurveryApiFeedbackController>();
+  final SurveyCollectDataController surveyCollectDataController =
+      Get.find<SurveyCollectDataController>();
   @override
   void initState() {
     super.initState();
@@ -33,7 +43,25 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
     super.dispose();
   }
 
+  List<SurveyResponse>? createSurveyResponseData() {
+    List<SurveyResponse> listSurveyResponse = [];
+
+    surveyCollectDataController.surveyIndexData.forEach((key, value) {
+      dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
+      if (surveyDetail is List<SurveyResponse>) {
+        listSurveyResponse.addAll(surveyDetail);
+      } else if (surveyDetail is SurveyResponse) {
+        listSurveyResponse.add(surveyDetail);
+      }
+    });
+
+    return listSurveyResponse.isNotEmpty ? listSurveyResponse : null;
+  }
+
   Future<void> asyncDurationValue() async {
+    await submitsurvey.call(SurveySubmitModel(responseType: 'Online',
+        surveyId: surveyApicontroller.surveyModel.value.id,
+        surveyResponse: createSurveyResponseData()));
     await Future.delayed(
         Duration(seconds: surveyFieldController.thankyouScreenTimeout.value));
     // surveyScreenManager.updateScreenTypeUtilFunction();
