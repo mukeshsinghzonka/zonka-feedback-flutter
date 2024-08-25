@@ -10,6 +10,7 @@ import 'package:zonka_feedback/dashboard/presentation/widget/schedule_demo_widge
 import 'package:zonka_feedback/dashboard/presentation/widget/warning_widget.dart';
 import 'package:zonka_feedback/drawer/drawer_screen.dart';
 import 'package:zonka_feedback/surveys/presentation/survey_screen.dart';
+import 'package:zonka_feedback/template/presentation/template.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 
@@ -136,18 +137,29 @@ class _DashBoardState extends State<DashBoard> {
             ),
           ),
           actions: [
-            Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(right: 10.w),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 1.w)),
-                child: Icon(
-                  Icons.add,
-                  size: 12.w,
-                  color: Colors.white,
-                  weight: 40.w,
-                )),
+            GestureDetector(
+              onTap: () {
+                
+                // Navigator.of(context).push();
+                Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const AddTemplateScreen()));
+              },
+              child: Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(right: 10.w),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 1.w)),
+                  child: Icon(
+                    Icons.add,
+                    size: 12.w,
+                    color: Colors.white,
+                    weight: 40.w,
+                  )),
+            ),
           ],
           centerTitle: true,
           backgroundColor: const Color(ColorConstant.themeColor)),

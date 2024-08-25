@@ -4,13 +4,9 @@ import 'package:zonka_feedback/feedback/data/data_model_new/display_logic_model.
 import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_reponse_model.dart';
 import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 
 class SurveyCollectDataController extends GetxController {
-  final SurveryApiFeedbackController screenFeedbackController =
-      Get.find<SurveryApiFeedbackController>();
-  // final SurveyScreenManager screenSurveyManager =
-  //     Get.find<SurveyScreenManager>();
+  final SurveryApiFeedbackController screenFeedbackController = Get.find<SurveryApiFeedbackController>();
   RxMap<String, dynamic> surveyIndexData = <String, dynamic>{}.obs;
 
   void updateSurveyData({required String quesId, required dynamic value}) {

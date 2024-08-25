@@ -36,6 +36,14 @@ import 'package:zonka_feedback/surveys/data/data_source/survey_ds.dart';
 import 'package:zonka_feedback/surveys/data/repositories_impl/survey_repo_impl.dart';
 import 'package:zonka_feedback/surveys/domain/repositories/survey_repo.dart';
 import 'package:zonka_feedback/surveys/domain/usecase/survey_uc.dart';
+import 'package:zonka_feedback/template/data/data_source/apply_template_ds.dart';
+import 'package:zonka_feedback/template/data/data_source/get_template_ds.dart';
+import 'package:zonka_feedback/template/data/repo_impl/apply_template_repo_impl.dart';
+import 'package:zonka_feedback/template/data/repo_impl/get_template_repo_impl.dart';
+import 'package:zonka_feedback/template/domain/repositories/apply_template_repo.dart';
+import 'package:zonka_feedback/template/domain/repositories/get_template_repo.dart';
+import 'package:zonka_feedback/template/domain/usecase/apply_template_uc.dart';
+import 'package:zonka_feedback/template/domain/usecase/get_template_uc.dart';
 
 final getIt = GetIt.instance;
 
@@ -55,6 +63,8 @@ void setup() {
     getIt.registerLazySingleton(() => SurveyImageUploadUc(imageUploadFeedRepo:getIt()));
     getIt.registerLazySingleton(() => SelectedLanguageUc(selectedLanguageRepo:getIt()));
     getIt.registerLazySingleton(() => SurveySubmitUc(surveySubmitRepo:getIt()));
+    getIt.registerLazySingleton(() => GetTemplateUc(getAllTemplateRepo:getIt()));
+    getIt.registerLazySingleton(() => ApplyTemplateUc(applyTemplateRepo:getIt()));
     // getIt.registerLazySingleton(() => SurveyLanguagesUc(surveyFeedbackRepo:getIt())); 
 
 
@@ -67,7 +77,8 @@ void setup() {
     getIt.registerLazySingleton<ImageUploadFeedRepo>(() => SurveryImageUploadImageRepoImpl(surveyImageUploadDs: getIt()));
     getIt.registerLazySingleton<SelectedLanguageRepo>(() => SelectedLanguageRepoImpl(selectedLanguagaDs: getIt()));
     getIt.registerLazySingleton<SurveySubmitRepo>(() => SurveySubmitRepoImpl(submitSurveyDs: getIt()));
- 
+    getIt.registerLazySingleton<GetAllTemplateRepo>(() => GetAllTemplateRepoImpl(getAllTemplateDs: getIt()));
+    getIt.registerLazySingleton<ApplyTemplateRepo>(()=>ApplyTemplateRepoImpl(applyTemplateDs: getIt()));
 
 
 
@@ -80,6 +91,8 @@ void setup() {
     getIt.registerLazySingleton(() => SurveyImageUploadDs());
     getIt.registerLazySingleton(() => SelectedLanguagaDs());
     getIt.registerLazySingleton(() => SurveySubmitDs());
+    getIt.registerLazySingleton(() => GetAllTemplateDs());
+    getIt.registerLazySingleton(() => ApplyTemplateDs());
   
 
     //Services
