@@ -9,10 +9,12 @@ import 'package:zonka_feedback/dashboard/presentation/widget/bottom_app_widget.d
 import 'package:zonka_feedback/dashboard/presentation/widget/schedule_demo_widget.dart';
 import 'package:zonka_feedback/dashboard/presentation/widget/warning_widget.dart';
 import 'package:zonka_feedback/drawer/drawer_screen.dart';
+import 'package:zonka_feedback/services/api_call_handling.dart';
 import 'package:zonka_feedback/surveys/presentation/survey_screen.dart';
 import 'package:zonka_feedback/template/presentation/template.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 
 import 'package:zonka_feedback/utils/image_constant.dart';
 
@@ -30,7 +32,15 @@ class _DashBoardState extends State<DashBoard> {
   late double height, width, xPosition, yPosition;
   @override
   void initState() {
-    dashboardController.initDashBoardApi();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+    ApiCallHandling(
+        controller: dashboardController,
+        status: ApiCallStatus.Initial,
+        sendParams: false,
+        success: () {
+          dashboardController.call();
+        }).handleApiCall();
+    });
     super.initState();
   }
 
@@ -139,13 +149,10 @@ class _DashBoardState extends State<DashBoard> {
           actions: [
             GestureDetector(
               onTap: () {
-                
-                // Navigator.of(context).push();
                 Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const AddTemplateScreen()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddTemplateScreen()));
               },
               child: Container(
                   alignment: Alignment.center,

@@ -24,20 +24,14 @@ class SurveyManagerController extends GetxController {
       setFilteredSurveyList(_surveyController.surveyList);
       return;
     }
-    setFilteredSurveyList(_surveyController.surveyList
-        .where((element) =>
-            element.surveyName.toLowerCase().contains(searchText.toLowerCase()))
-        .toList());
+    setFilteredSurveyList(_surveyController.surveyList.where((element) =>element.surveyName.toLowerCase().contains(searchText.toLowerCase())) .toList());
   }
 
   Future<void> getSurveyListWorkspace() async {
     var locationData = await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.location);
     if (locationData != null) {
       List<SurveyResModel> tempList = [];
-      List<SurveyResModel> surveyWorkspaceFiltered = _surveyController.surveyList.where((element) =>
-              element.workSpaceId ==
-              _workspaceController.selectedWorkspace?.workSpaceId)
-          .toList();
+      List<SurveyResModel> surveyWorkspaceFiltered = _surveyController.surveyList.where((element) =>element.workSpaceId ==  _workspaceController.selectedWorkspace?.workSpaceId).toList();
       for (var element in surveyWorkspaceFiltered) {
         if (element.surveyLocationList.isEmpty) {
           tempList.add(element);
@@ -52,10 +46,7 @@ class SurveyManagerController extends GetxController {
       }
       setFilteredSurveyList(tempList);
     } else {
-      setFilteredSurveyList(_surveyController.surveyList.where((element) =>
-              element.workSpaceId ==
-              _workspaceController.selectedWorkspace?.workSpaceId)
-          .toList());
+      setFilteredSurveyList(_surveyController.surveyList.where((element) => element.workSpaceId == _workspaceController.selectedWorkspace?.workSpaceId).toList());
     }
   }
 }
