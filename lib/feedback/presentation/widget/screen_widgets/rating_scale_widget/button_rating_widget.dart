@@ -73,7 +73,7 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with TickerProv
                     opacity: choiceId == widget.field.choices[index]  ? _animationController.animation.value : 1,
                     child: Center(
                       child: Container(
-                          padding: EdgeInsets.all(10.h),
+                          padding: EdgeInsets.all(5.h),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: HexColor(surveyFieldController.optionTextColor.value).withOpacity(1)), 

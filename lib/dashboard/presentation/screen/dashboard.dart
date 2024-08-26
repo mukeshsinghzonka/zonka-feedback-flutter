@@ -47,8 +47,7 @@ class _DashBoardState extends State<DashBoard> {
   final GlobalKey _actionKey = GlobalKey();
 
   void findDropdownData() {
-    RenderBox renderBox =
-        _actionKey.currentContext!.findRenderObject() as RenderBox;
+    RenderBox renderBox = _actionKey.currentContext!.findRenderObject() as RenderBox;
     height = renderBox.size.height;
     width = renderBox.size.width;
     Offset offset = renderBox.localToGlobal(Offset.zero);
@@ -162,7 +161,7 @@ class _DashBoardState extends State<DashBoard> {
                       border: Border.all(color: Colors.white, width: 1.w)),
                   child: Icon(
                     Icons.add,
-                    size: 12.w,
+                    size: 22.sp,
                     color: Colors.white,
                     weight: 40.w,
                   )),

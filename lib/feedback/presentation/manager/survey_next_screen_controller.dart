@@ -256,6 +256,7 @@ class SurveyScreenManager extends GetxController {
   }
 
   void nextScreen() {
+    print(_index.value);
     if (_index.value == surveyScreens.length) {
       //show exit screen
       setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);

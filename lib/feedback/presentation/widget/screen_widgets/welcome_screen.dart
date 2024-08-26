@@ -21,6 +21,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   @override
   Widget build(BuildContext context) {
+   Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -85,9 +86,11 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
             ),
           ),
 
-          Expanded(
-            flex: 1,
-            child: ExitWidget())
+          Container(
+      height:size.height*0.1 ,
+
+padding: EdgeInsets.symmetric(horizontal: 5.w), 
+           child: ExitWidget())
         ],
       ),
     );

@@ -69,6 +69,7 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Size size =MediaQuery.of(context).size;
     return FutureBuilder(
         future: asyncDurationValue(),
         builder: (context, builder) {
@@ -84,20 +85,22 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
             ),
             child: Column(
               children: [
-                SizedBox(
-                  height: 100.h,
-                  child: Image.network(
-                    surveyFieldController.thankyouPageUrlLogo.value,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container();
-                    },
+                Expanded(
+                  child: SizedBox(
+                    height: 100.h,
+                    child: Image.network(
+                      surveyFieldController.thankyouPageUrlLogo.value,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container();
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 100.h,
                 ),
                 Expanded(
-                  flex: 5,
+                  flex: 4,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -130,19 +133,17 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
                                   widget.field?.fontFamilyBottomText ?? "",
                               color: HexColor(
                                   widget.field?.fontColorBottomText ?? ""))),
-                      SizedBox(
-                        height: 100.h,
-                      ),
+                  
                     ],
                   ),
                 ),
-                Expanded(
-                    child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blueAccent)),
-                        margin: EdgeInsets.all(5.w),
-                        alignment: Alignment.bottomCenter,
-                        child: const ExitWidget()))
+                Container(
+                  height:size.height*0.1 ,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueAccent)),
+                    margin: EdgeInsets.all(5.w),
+                    alignment: Alignment.bottomCenter,
+                    child: const ExitWidget())
               ],
             ),
           );

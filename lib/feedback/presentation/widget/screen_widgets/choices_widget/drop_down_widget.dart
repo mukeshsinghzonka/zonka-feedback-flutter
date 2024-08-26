@@ -37,6 +37,7 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
   }
   @override
   Widget build(BuildContext context) {
+    Size size  = MediaQuery.of(context).size;
     return AnimatedBuilder(
       animation: _animationController.animation,
       builder: (context,child) {
@@ -44,6 +45,8 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
           opacity: _animationController.animation.value,
           child: Container(
             width: 200.w,
+       
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color:HexColor(surveyFieldController.optionTextColor.value).withOpacity(0.1),
               border: Border.all( color: HexColor(surveyFieldController.optionTextColor.value),),
