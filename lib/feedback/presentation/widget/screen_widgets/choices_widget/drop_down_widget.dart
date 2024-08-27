@@ -37,7 +37,7 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
   }
   @override
   Widget build(BuildContext context) {
-    Size size  = MediaQuery.of(context).size;
+    
     return AnimatedBuilder(
       animation: _animationController.animation,
       builder: (context,child) {

@@ -62,14 +62,13 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
     await submitsurvey.call(SurveySubmitModel(responseType: 'Online',
         surveyId: surveyApicontroller.surveyModel.value.id,
         surveyResponse: createSurveyResponseData()));
-    await Future.delayed(
-        Duration(seconds: surveyFieldController.thankyouScreenTimeout.value));
+    await Future.delayed(Duration(seconds: surveyFieldController.thankyouScreenTimeout.value));
     // surveyScreenManager.updateScreenTypeUtilFunction();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size =MediaQuery.of(context).size;
+
     return FutureBuilder(
         future: asyncDurationValue(),
         builder: (context, builder) {

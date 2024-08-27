@@ -66,4 +66,8 @@ enum ScreenTypeEnumUtil {
   previousScreen
 }
 
-
+enum SuveryScreenBottom{
+  templateBottomBar,
+  exitBottomBar
+}
+// enum 

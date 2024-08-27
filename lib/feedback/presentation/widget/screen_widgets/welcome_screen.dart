@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/intro_page_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/template_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
@@ -24,7 +23,6 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
       Get.find<SurveyScreenManager>();
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(

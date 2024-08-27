@@ -38,7 +38,7 @@ class _TemplateBottomFeedbackState extends State<TemplateBottomFeedback> {
                     size: 5.sp,
                     color: const Color(ColorConstant.themeColor),
                   ),
-                  Text(
+                  const Text(
                     'Back to Templates',
                     style: TextStyle(color: Color(ColorConstant.themeColor)),
                   ),
