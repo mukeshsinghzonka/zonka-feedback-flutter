@@ -22,7 +22,7 @@ class BlinkingAnimmationController{
 
  Future<void> blinkingAnimation() async {
      await _controller.forward().then((value) => _controller.reverse());
-  }
+ }
 
   
 }

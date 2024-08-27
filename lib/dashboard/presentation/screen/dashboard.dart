@@ -161,7 +161,7 @@ class _DashBoardState extends State<DashBoard> {
                       border: Border.all(color: Colors.white, width: 1.w)),
                   child: Icon(
                     Icons.add,
-                    size: 22.sp,
+                    size: 17.sp,
                     color: Colors.white,
                     weight: 40.w,
                   )),

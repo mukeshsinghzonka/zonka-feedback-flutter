@@ -23,7 +23,7 @@ class SurveyId {
         name: json["name"]??'',
         type: json["type"]??'',
         description: json["description"]??'',
-        preMongifiedId: json["pre_mongified_id"]??'',
+        preMongifiedId: json["pre_mongified_id"]??0,
         viewMode: json["viewMode"]??'',
         mode: json["mode"]??"",
     );

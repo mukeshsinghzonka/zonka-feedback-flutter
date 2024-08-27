@@ -137,13 +137,7 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
                     ],
                   ),
                 ),
-                Container(
-                  height:size.height*0.1 ,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
-                    margin: EdgeInsets.all(5.w),
-                    alignment: Alignment.bottomCenter,
-                    child: const ExitWidget())
+                const ExitWidget()
               ],
             ),
           );

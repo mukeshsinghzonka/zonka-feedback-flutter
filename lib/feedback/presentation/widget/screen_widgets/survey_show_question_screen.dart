@@ -183,7 +183,7 @@ class _SurveyShowQuestionScreenWidgetState
                         });
                       }),
                 )),
-            const Expanded(flex: 3, child: ExitWidget())
+            const ExitWidget()
           ],
         ));
   }

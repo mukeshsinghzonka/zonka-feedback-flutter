@@ -22,7 +22,7 @@ class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Browse Template'),
+              Text('Browse Templates',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
               GestureDetector(
                 onTap: () async {
               

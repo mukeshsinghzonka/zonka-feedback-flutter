@@ -25,13 +25,13 @@ class _LanguageWidgetState extends State<LanguageWidget> {
       Get.find<SurveyDesignFieldController>();
   final SurveyScreenManager surveyScreenManager =
       Get.find<SurveyScreenManager>();
-  ScrollController _scrollController = new ScrollController();
+ final  ScrollController _scrollController = new ScrollController();
   void scrollLeft() {
     _scrollController.animateTo(
       _scrollController.offset -
           MediaQuery.of(context).size.width /
               1.2, // Adjust the offset as needed
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }
@@ -41,7 +41,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
       _scrollController.offset +
           MediaQuery.of(context).size.width /
               1.2, // Adjust the offset as needed
-      duration: Duration(milliseconds: 300),
+      duration:const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }
@@ -241,7 +241,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                 );
               }),
             ),
-            const Expanded(flex: 1, child: ExitWidget()),
+            const ExitWidget(),
           ],
         ));
   }
