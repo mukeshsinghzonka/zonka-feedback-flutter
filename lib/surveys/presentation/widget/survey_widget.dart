@@ -43,13 +43,13 @@ class _SurveyWidgetState extends State<SurveyWidget>
                 status: ApiCallStatus.Initial,
                 sendParams: true,
                 success: () {
-                  SystemChrome.setPreferredOrientations(
-                          [DeviceOrientation.landscapeLeft])
-                      .then((value) => Navigator.push(
+                  Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const SurveyScreenFeedbackPage())));
+                                  const  SurveyScreenFeedbackPage(
+                                    screenBottom: SuveryScreenBottom.templateBottomBar,
+                                   )));
                 }).handleApiCall(value: widget.surveyResModel.surveyId);
           },
           child: Container(

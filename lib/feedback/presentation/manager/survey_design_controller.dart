@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SurveyDesignFieldController extends GetxController {
 
@@ -45,7 +46,7 @@ class SurveyDesignFieldController extends GetxController {
     RxString switchLanguageButtonDisplay = "".obs;
     RxString languagePickView = "".obs;
     RxString hidePrevNextButton = "".obs;
-
+    Rx<SuveryScreenBottom> screenBotton = SuveryScreenBottom.templateBottomBar.obs;
    
 
 

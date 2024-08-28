@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 
@@ -28,8 +27,7 @@ class _TemplateBottomFeedbackState extends State<TemplateBottomFeedback> {
               padding: EdgeInsets.symmetric(vertical: 5.h),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  border:
-                      Border.all(color: const Color(ColorConstant.themeColor))),
+                  border:Border.all(color: const Color(ColorConstant.themeColor))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

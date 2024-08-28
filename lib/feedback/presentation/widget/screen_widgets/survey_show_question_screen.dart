@@ -9,6 +9,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_
 import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/screen_show_question_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/screen_switch_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/screens/widget/template_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -183,7 +184,14 @@ class _SurveyShowQuestionScreenWidgetState
                         });
                       }),
                 )),
-            const ExitWidget()
+            Obx(
+               () {
+                if(surveyFieldController.screenBotton.value == SuveryScreenBottom.templateBottomBar){
+                  return const TemplateBottomFeedback();
+                }
+                return const ExitWidget();
+              }
+            )
           ],
         ));
   }

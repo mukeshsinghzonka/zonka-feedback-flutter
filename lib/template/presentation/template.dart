@@ -1,8 +1,6 @@
 import 'dart:ui';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
@@ -10,6 +8,7 @@ import 'package:zonka_feedback/feedback/presentation/screens/feedback_survey_scr
 import 'package:zonka_feedback/services/api_call_handling.dart';
 import 'package:zonka_feedback/template/data/data_model/template_industries_map.dart';
 import 'package:zonka_feedback/template/data/data_model/template_model.dart';
+import 'package:zonka_feedback/template/presentation/manager/apply_template_manager.dart';
 import 'package:zonka_feedback/template/presentation/manager/get_template_manager.dart';
 import 'package:zonka_feedback/template/presentation/widget/pinned_header.dart';
 import 'package:zonka_feedback/template/presentation/widget/template_dialog.dart';
@@ -29,8 +28,8 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> {
   final getTemplateManager = Get.put(GetTemplateManager());
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();
- final SurveryApiFeedbackController surveryFeedbackController =
-      Get.put(SurveryApiFeedbackController());
+  final ApplyTemplateManagerController applyTemplateManagerController = Get.put(ApplyTemplateManagerController());
+  final SurveryApiFeedbackController surveryFeedbackController = Get.put(SurveryApiFeedbackController());
   @override
   void initState() {
     getTemplateManager.call();
@@ -156,16 +155,20 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> {
                 sendParams: true,
                 success: () {
              
-                  SystemChrome.setPreferredOrientations(
-                          [DeviceOrientation.landscapeLeft])
-                      .then((value) => Navigator.push(
+              Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const SurveyScreenFeedbackPage())));
+                                  const SurveyScreenFeedbackPage(
+                                    screenBottom: SuveryScreenBottom.templateBottomBar,
+                                   )));
                 }).handleApiCall(value:templateModel.surveyId?.id??"" );
         }
-       
+       else{
+        applyTemplateManagerController.call(
+          ParamsValue(surveyId: templateModel.surveyId?.id??"", templateId: templateModel.id??"" )
+         );
+       }
       });
                 
                                        

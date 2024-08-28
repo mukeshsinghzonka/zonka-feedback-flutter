@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,7 +12,8 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 
 
 class SurveyScreenFeedbackPage extends StatefulWidget {
-  const SurveyScreenFeedbackPage({super.key});
+  final SuveryScreenBottom screenBottom;
+  const SurveyScreenFeedbackPage({super.key, required this.screenBottom});
   @override
   State<SurveyScreenFeedbackPage> createState() => _SurveyScreenState();
 }
@@ -25,9 +25,10 @@ class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
   
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     surveyFieldController.setFieldFromSurveyModel();
     surveyScreenManager.updateScreenTypeUtilFunction();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    surveyFieldController.screenBotton.value = widget.screenBottom;
     super.initState();
   }
 

@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/screens/feedback_survey_screen.dart';
-import 'package:zonka_feedback/services/api_call_handling.dart';
 import 'package:zonka_feedback/template/data/data_model/template_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
-import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
 class PreviewTemplateDialogBox extends StatefulWidget {
@@ -65,10 +58,6 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
                 GestureDetector(
                   onTap: (){
                     Navigator.of(context).pop(true);
-               
-                                         
-                 
-                 
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -83,16 +72,21 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 5.w, horizontal: size.width * 0.1),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.r),
-                      border: Border.all(
-                          color: const Color(ColorConstant.themeColor))),
-                  child: const Text(
-                    'Add Survey',
-                    style: TextStyle(color: Color(ColorConstant.themeColor)),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 5.w, horizontal: size.width * 0.1),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.r),
+                        border: Border.all(
+                            color: const Color(ColorConstant.themeColor))),
+                    child: const Text(
+                      'Add Survey',
+                      style: TextStyle(color: Color(ColorConstant.themeColor)),
+                    ),
                   ),
                 ),
               ],
