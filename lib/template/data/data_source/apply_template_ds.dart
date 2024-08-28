@@ -11,7 +11,7 @@ class ApplyTemplateDs {
 
   Future<ApiResult<void>> applyTemplateDs({required ApplyTemplateParams applyTemplate}) async {
     try {
-       print("aaplytemplatemanagecontroller ${applyTemplate.toJson()}"); 
+       print(" ${applyTemplate.toJson()}"); 
       final response = await _httpUtil.post('/api/v1/surveys/applyTemplate',
       data: jsonEncode(applyTemplate.toJson())
       );

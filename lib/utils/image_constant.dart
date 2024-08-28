@@ -40,6 +40,7 @@ class ImageConstant {
   static const String inLoveFilled = "assests/images/survey_emoji/emoji_filled/Inlove_Fill.svg";
   static const String happyFilledSolid = "assests/images/survey_emoji/emoji_filled/Happy_Fill_Solid.svg";
   static const String veryHappyFilledSolid = "assests/images/survey_emoji/emoji_filled/Very_Happy_Fill_Solid.svg";
+  static const String imageTemplateFilter = 'assests/images/template_filter_icons_image.svg';
 
 }
 

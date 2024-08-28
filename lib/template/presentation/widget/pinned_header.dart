@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
+import 'package:zonka_feedback/utils/image_constant.dart';
 typedef BoolCallback = void Function(bool val);
 
 
@@ -29,7 +31,7 @@ class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
                   callbackFunction(value);
                   value = !value;
                 },
-                child: const Icon(Icons.add_circle_outline_sharp),
+                child: SvgPicture.asset(ImageConstant.imageTemplateFilter),
               ),
             ],
           ),

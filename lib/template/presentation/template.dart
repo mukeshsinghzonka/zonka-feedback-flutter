@@ -17,23 +17,69 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 
 class AddTemplateScreen extends StatefulWidget {
   const AddTemplateScreen({super.key});
-  
+
   get surveyResModel => null;
 
   @override
   State<AddTemplateScreen> createState() => _AddTemplateScreenState();
 }
 
-class _AddTemplateScreenState extends State<AddTemplateScreen> {
+class _AddTemplateScreenState extends State<AddTemplateScreen>
+    with TickerProviderStateMixin {
   final getTemplateManager = Get.put(GetTemplateManager());
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();
-  final ApplyTemplateManagerController applyTemplateManagerController = Get.put(ApplyTemplateManagerController());
-  final SurveryApiFeedbackController surveryFeedbackController = Get.put(SurveryApiFeedbackController());
+  final ApplyTemplateManagerController applyTemplateManagerController =
+      Get.put(ApplyTemplateManagerController());
+  final SurveryApiFeedbackController surveryFeedbackController =
+      Get.put(SurveryApiFeedbackController());
+  late AnimationController slidingAnimationController;
+  late Animation<Offset> slidingAnimation;
+  late AnimationController imageAnimationController;
+  late Animation<double> imageFilterAnimation;
   @override
   void initState() {
     getTemplateManager.call();
+    slidingAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+
+    imageAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    slidingAnimation = Tween<Offset>(
+      begin: Offset(250.w, 0.0),
+      end: const Offset(0.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: slidingAnimationController,
+      curve: Curves.easeInOut,
+    ));
+
+    imageFilterAnimation =
+        Tween<double>(begin: 0, end: 5).animate(CurvedAnimation(
+      parent: imageAnimationController,
+      curve: Curves.easeInOut,
+    ));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    slidingAnimationController.dispose();
+    imageAnimationController.dispose();
+    super.dispose();
+  }
+
+  void triggerAnimation(bool activate) {
+    if (activate) {
+      slidingAnimationController.forward();
+      imageAnimationController.forward();
+    } else {
+      slidingAnimationController.reverse();
+      imageAnimationController.reverse();
+    }
   }
 
   @override
@@ -50,9 +96,9 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> {
                 style: TextStyle(fontSize: 20.sp),
               ),
               centerTitle: true,
-               iconTheme: const IconThemeData(
-    color: Colors.white, // Change this to your desired color
-  ),
+              iconTheme: const IconThemeData(
+                color: Colors.white, // Change this to your desired color
+              ),
               backgroundColor: const Color(ColorConstant.themeColor),
               titleTextStyle: TextStyle(color: Colors.white, fontSize: 15.sp),
             ),
@@ -61,6 +107,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> {
                 callbackFunction: (val) {
                   setState(() {
                     backvalgroundColor = val;
+                    triggerAnimation(val);
                   });
                 },
               ),
@@ -90,6 +137,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> {
                                 templateIndustriesMapValue = getTemplateManager
                                     .templateData.value.templateIndustriesMap;
                             return Container(
+                              key:ValueKey(templateIndustriesMapValue[index].id??"") ,
                               padding: EdgeInsets.symmetric(horizontal: 12.h),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,39 +189,45 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> {
                                                   .id]![i];
                                       return GestureDetector(
                                         onTap: () {
-
                                           showDialog(
-        context: context,
-        builder: (_) => PreviewTemplateDialogBox(
-          templateModel: templateModel,
-        ),
-      ).then((value){
-        if(value){
-   ApiCallHandling(
-                controller: surveryFeedbackController,
-                status: ApiCallStatus.Initial,
-                sendParams: true,
-                success: () {
-             
-              Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const SurveyScreenFeedbackPage(
-                                    screenBottom: SuveryScreenBottom.templateBottomBar,
-                                   )));
-                }).handleApiCall(value:templateModel.surveyId?.id??"" );
-        }
-       else{
-        applyTemplateManagerController.call(
-          ParamsValue(surveyId: templateModel.surveyId?.id??"", templateId: templateModel.id??"" )
-         );
-       }
-      });
-                
-                                       
-                                       
-                                       
+                                            context: context,
+                                            builder: (_) =>
+                                                PreviewTemplateDialogBox(
+                                              templateModel: templateModel,
+                                            ),
+                                          ).then((value) {
+                                            if (value) {
+                                              ApiCallHandling(
+                                                      controller:
+                                                          surveryFeedbackController,
+                                                      status: ApiCallStatus.Initial,
+                                                      sendParams: true,
+                                                      success: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const SurveyScreenFeedbackPage(
+                                                                          screenBottom:
+                                                                              SuveryScreenBottom.templateBottomBar,
+                                                                        )));
+                                                      })
+                                                  .handleApiCall(
+                                                      value: templateModel
+                                                              .surveyId?.id ??
+                                                          "");
+                                            } else {
+                                              applyTemplateManagerController
+                                                  .call(ParamsValue(
+                                                      surveyId: templateModel
+                                                              .surveyId?.id ??
+                                                          "",
+                                                      templateId:
+                                                          templateModel.id ??
+                                                              ""));
+                                            }
+                                          });
                                         },
                                         child: Card(
                                           elevation: 3,
@@ -211,8 +265,8 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> {
                                                       imageUrl: templateModel
                                                               .thumbnailImage ??
                                                           '',
-                                                      errorWidget:
-                                                          (context, url, error) {
+                                                      errorWidget: (context,
+                                                          url, error) {
                                                         return Container();
                                                       },
                                                     ),
@@ -290,30 +344,60 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> {
                             );
                           },
                         ),
-                        Visibility(
-                          visible: backvalgroundColor,
-                          child: Positioned.fill(
-                            child: BackdropFilter(
-                              filter:
-                                  ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        AnimatedBuilder(
+                            animation: imageFilterAnimation,
+                            builder: (context, child) {
+                              return BackdropFilter(
+                                filter: ImageFilter.blur(
+                                    sigmaX: imageFilterAnimation.value,
+                                    sigmaY: imageFilterAnimation.value),
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                              );
+                            }),
+                        AnimatedBuilder(
+                          animation: slidingAnimation,
+                          builder: (context, child) {
+                            return Transform.translate(
+                              offset: slidingAnimation.value,
                               child: Container(
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Visibility(
-                          visible: backvalgroundColor,
-                          child: Builder(
-                            builder: (context) {
-                              return Container(
                                 alignment: Alignment.topRight,
                                 width: size.width * 0.5,
                                 height: 200.h,
-                                color: Colors.red,
-                              );
-                            }
-                          ),
+                                padding: EdgeInsets.all(10.w),
+                                color: Colors.white,
+                                child: ListView.builder(
+                                    padding: const EdgeInsets.all(0),
+                                    itemCount: getTemplateManager.templateData
+                                        .value.templateIndustriesMap.length,
+                                    itemBuilder: (context, index) {
+                                      List<TemplateIndustriesMap>
+                                          templateIndustriesMapValue =
+                                          getTemplateManager.templateData.value
+                                              .templateIndustriesMap;
+                                      return Visibility(
+                                        visible: getTemplateManager.filterTemplateIndustryMap[ templateIndustriesMapValue[index]
+                                                  .id]?.length!=0,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            // _scrollController.
+                                          },
+                                          child: Column(
+                                            crossAxisAlignment:CrossAxisAlignment.start,
+                                            children: [
+                                              Text(templateIndustriesMapValue[index]
+                                                      .name ??
+                                                  ""),
+                                              const Divider()
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
