@@ -32,7 +32,7 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-                flex: 2,
+                flex: 1,
                 child: SizedBox(
                     width: size.width,
                     child: SvgPicture.asset(ImageConstant.zonkaDrawerLogo))),
@@ -43,11 +43,11 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
               child: Column(
                 children: [
                   Expanded(
-                      child: Text(widget.templateModel.surveyId!.name ?? "")),
+                      child: Text(widget.templateModel.surveyId!.name ?? "",textAlign: TextAlign.center,)),
                   Expanded(
                       flex: 2,
                       child: Text(
-                          widget.templateModel.surveyId!.description ?? '')),
+                          widget.templateModel.surveyId!.description ?? '', textAlign: TextAlign.center)),
                 ],
               ),
             ),
@@ -55,37 +55,43 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).pop(true);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 5.w, horizontal: size.width * 0.1),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.r),
-                      color: const Color(ColorConstant.themeColor),
-                    ),
-                    child: const Text(
-                      'Preview',
-                      style: TextStyle(color: Colors.white),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 5.w, horizontal: size.width * 0.1),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.r),
+                        color: const Color(ColorConstant.themeColor),
+                      ),
+                      child: const Text(
+                        'Preview',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop(false);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 5.w, horizontal: size.width * 0.1),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.r),
-                        border: Border.all(
-                            color: const Color(ColorConstant.themeColor))),
-                    child: const Text(
-                      'Add Survey',
-                      style: TextStyle(color: Color(ColorConstant.themeColor)),
+                SizedBox(width: 5.h,),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 5.w, ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.r),
+                          border: Border.all(
+                              color: const Color(ColorConstant.themeColor))),
+                      child: const Text(
+                        'Add Survey',
+                        style: TextStyle(color: Color(ColorConstant.themeColor)),
+                      ),
                     ),
                   ),
                 ),

@@ -5,17 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
-typedef BoolCallback = void Function(bool val);
+typedef BoolCallback = void Function(Offset val);
 
 
 class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
   late BoolCallback callbackFunction;
  PinnedHeaderDelegate({required this.callbackFunction});
- bool value = true;
+   final key = GlobalKey();
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      height: 104,
+      height: 100.h,
+    
       color: const Color(ColorConstant.signUpBackgroudColor),
       padding: EdgeInsets.only(left: 12.h, right: 12.h, top: 30.h),
       child: Column(
@@ -26,26 +27,30 @@ class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
             children: [
               Text('Browse Templates',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
               GestureDetector(
+       
                 onTap: () async {
-              
-                  callbackFunction(value);
-                  value = !value;
+                   final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+                   final offset = renderBox.localToGlobal(Offset.zero);
+           
+                  callbackFunction(offset);
                 },
-                child: SvgPicture.asset(ImageConstant.imageTemplateFilter),
+                child: SvgPicture.asset(
+                  key:      key,
+                  ImageConstant.imageTemplateFilter),
               ),
             ],
           ),
-          const Text('Choose from expert survey templates for different industries and use cases.'),
+           Text('Choose from expert survey templates for different industries and use cases.',style: TextStyle(fontSize: 12.sp),),
         ],
       ),
     );
   }
 
   @override
-  double get maxExtent => 104; // Height of the pinned widget
+  double get maxExtent => 100.h; // Height of the pinned widget
 
   @override
-  double get minExtent => 104; // Height of the pinned widget
+  double get minExtent => 100.h; // Height of the pinned widget
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

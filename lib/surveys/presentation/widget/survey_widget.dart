@@ -48,7 +48,7 @@ class _SurveyWidgetState extends State<SurveyWidget>
                           MaterialPageRoute(
                               builder: (context) =>
                                   const  SurveyScreenFeedbackPage(
-                                    screenBottom: SuveryScreenBottom.templateBottomBar,
+                                    screenBottom: SuveryScreenBottom.exitBottomBar,
                                    )));
                 }).handleApiCall(value: widget.surveyResModel.surveyId);
           },

@@ -107,7 +107,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                           style: TextStyle(fontSize: 8.sp)),
                     ),
                     Container(
-                      height: size.height / 2.7,
+                      height: size.height / 2,
                       alignment: Alignment.center,
                       child: Row(
                         children: [

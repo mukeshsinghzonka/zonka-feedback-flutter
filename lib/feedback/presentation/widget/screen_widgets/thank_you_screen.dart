@@ -105,35 +105,37 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                          widget
-                                  .field!
-                                  .translations![surveyFieldController
-                                      .defaultTranslation.value]
-                                  ?.upperText ??
-                              "",
-                          style: TextStyle(
-                              fontSize: 10.sp,
-                              fontFamily:
-                                  widget.field?.fontFamilyUpperText ?? "",
-                              color: HexColor(
-                                  widget.field?.fontColorUpperText ?? ""))),
-                      SizedBox(
-                        height: 30.h,
+                      Expanded(
+                        child: Text(
+                            widget
+                                    .field!
+                                    .translations![surveyFieldController
+                                        .defaultTranslation.value]
+                                    ?.upperText ??
+                                "",
+                            style: TextStyle(
+                                fontSize: 10.sp,
+                                fontFamily:
+                                    widget.field?.fontFamilyUpperText ?? "",
+                                color: HexColor(
+                                    widget.field?.fontColorUpperText ?? ""))),
                       ),
-                      Text(
-                          widget
-                                  .field!
-                                  .translations![surveyFieldController
-                                      .defaultTranslation.value]
-                                  ?.bottomText ??
-                              "",
-                          style: TextStyle(
-                              fontSize: 8.sp,
-                              fontFamily:
-                                  widget.field?.fontFamilyBottomText ?? "",
-                              color: HexColor(
-                                  widget.field?.fontColorBottomText ?? ""))),
+                    
+                      Expanded(
+                        child: Text(
+                            widget
+                                    .field!
+                                    .translations![surveyFieldController
+                                        .defaultTranslation.value]
+                                    ?.bottomText ??
+                                "",
+                            style: TextStyle(
+                                fontSize: 8.sp,
+                                fontFamily:
+                                    widget.field?.fontFamilyBottomText ?? "",
+                                color: HexColor(
+                                    widget.field?.fontColorBottomText ?? ""))),
+                      ),
                   
                     ],
                   ),
