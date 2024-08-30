@@ -25,18 +25,21 @@ class AddTemplateScreen extends StatefulWidget {
   State<AddTemplateScreen> createState() => _AddTemplateScreenState();
 }
 
-class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProviderStateMixin {
+class _AddTemplateScreenState extends State<AddTemplateScreen>
+    with TickerProviderStateMixin {
   final getTemplateManager = Get.put(GetTemplateManager());
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();
-  final ApplyTemplateManagerController applyTemplateManagerController = Get.put(ApplyTemplateManagerController());
-  final SurveryApiFeedbackController surveryFeedbackController =Get.put(SurveryApiFeedbackController());
+  final ApplyTemplateManagerController applyTemplateManagerController =
+      Get.put(ApplyTemplateManagerController());
+  final SurveryApiFeedbackController surveryFeedbackController =
+      Get.put(SurveryApiFeedbackController());
   late AnimationController slidingAnimationController;
   late Animation<Offset> slidingAnimation;
   late AnimationController imageAnimationController;
   late Animation<double> imageFilterAnimation;
   final Map<String, GlobalKey> _keyMap = {};
-GlobalKey newKey  = GlobalKey();
+  GlobalKey newKey = GlobalKey();
 
   @override
   void initState() {
@@ -45,36 +48,24 @@ GlobalKey newKey  = GlobalKey();
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-   
 
     imageAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
-    imageFilterAnimation = Tween<double>(begin: 0, end: 5).animate(CurvedAnimation(
+    imageFilterAnimation =
+        Tween<double>(begin: 0, end: 5).animate(CurvedAnimation(
       parent: imageAnimationController,
       curve: Curves.easeInOut,
     ));
-   slidingAnimation = Tween<Offset>(
+    slidingAnimation = Tween<Offset>(
       begin: Offset(250.w, 0),
-      end:const Offset(0.0, 0),
+      end: const Offset(0.0, 0),
     ).animate(CurvedAnimation(
       parent: slidingAnimationController,
       curve: Curves.easeInOut,
     ));
 
-
-// _scrollController.addListener(
-// (){
-//   slidingAnimation = Tween<Offset>(
-//       begin: Offset(250.w, _scrollController.offset),
-//       end: Offset(0.0, _scrollController.offset),
-//     ).animate(CurvedAnimation(
-//       parent: slidingAnimationController,
-//       curve: Curves.easeInOut,
-//     ));
-// }
-// );
     super.initState();
   }
 
@@ -94,9 +85,6 @@ GlobalKey newKey  = GlobalKey();
       imageAnimationController.reverse();
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -123,13 +111,15 @@ GlobalKey newKey  = GlobalKey();
               delegate: PinnedHeaderDelegate(
                 callbackFunction: (val) {
                   Offset value = val;
-                   slidingAnimation = Tween<Offset>(
-      begin: Offset(250.w, value.dy + _scrollController.offset- 112.h),
-      end: Offset(0.0,  value.dy+ _scrollController.offset- 112.h),
-    ).animate(CurvedAnimation(
-      parent: slidingAnimationController,
-      curve: Curves.easeInOut,
-    ));
+                  slidingAnimation = Tween<Offset>(
+                    begin: Offset(
+                     _scrollController.offset+  250.w, value.dy + _scrollController.offset - 95.h),
+                    end: Offset(
+                        0.0, value.dy + _scrollController.offset - 95.h),
+                  ).animate(CurvedAnimation(
+                    parent: slidingAnimationController,
+                    curve: Curves.easeInOut,
+                  ));
                   setState(() {
                     backvalgroundColor = !backvalgroundColor;
                     triggerAnimation(backvalgroundColor);
@@ -149,7 +139,6 @@ GlobalKey newKey  = GlobalKey();
                         )),
                   )
                 : SliverToBoxAdapter(
-              
                     child: Stack(
                       alignment: AlignmentDirectional.topEnd,
                       children: [
@@ -157,18 +146,27 @@ GlobalKey newKey  = GlobalKey();
                           shrinkWrap: true,
                           padding: const EdgeInsets.all(0),
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: getTemplateManager.templateData.value.templateIndustriesMap.length,
+                          itemCount: getTemplateManager
+                              .templateData.value.templateIndustriesMap.length,
                           itemBuilder: (BuildContext context, int index) {
-                           List<TemplateIndustriesMap>  templateIndustriesMapValue = getTemplateManager.templateData.value.templateIndustriesMap;
-                   String id = templateIndustriesMapValue[index].id??'';
-          final key = GlobalKey();
-          _keyMap[id] = key;
-        
+                            List<TemplateIndustriesMap>
+                                templateIndustriesMapValue = getTemplateManager
+                                    .templateData.value.templateIndustriesMap;
+                            String id =
+                                templateIndustriesMapValue[index].id ?? '';
+                            final key = GlobalKey();
+                            _keyMap[id] = key;
+
                             return Container(
                               key: key,
                               padding: EdgeInsets.symmetric(horizontal: 12.h),
                               child: Visibility(
-                                visible: getTemplateManager.filterTemplateIndustryMap[templateIndustriesMapValue[index].id]?.length !=0,
+                                visible: getTemplateManager
+                                        .filterTemplateIndustryMap[
+                                            templateIndustriesMapValue[index]
+                                                .id]
+                                        ?.length !=
+                                    0,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -185,47 +183,77 @@ GlobalKey newKey  = GlobalKey();
                                     ),
                                     GridView.builder(
                                       shrinkWrap: true,
-                                      itemCount: getTemplateManager.filterTemplateIndustryMap[templateIndustriesMapValue[index].id]?.length ??0,
-                                      physics:const NeverScrollableScrollPhysics(),
+                                      itemCount: getTemplateManager
+                                              .filterTemplateIndustryMap[
+                                                  templateIndustriesMapValue[
+                                                          index]
+                                                      .id]
+                                              ?.length ??
+                                          0,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       padding: const EdgeInsets.all(0),
-                                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
                                         childAspectRatio: 1,
                                         mainAxisSpacing: 13,
                                         crossAxisSpacing: 25,
                                       ),
                                       itemBuilder: (context, i) {
-                                        TemplateModel templateModel = getTemplateManager.filterTemplateIndustryMap[templateIndustriesMapValue[index].id]![i];
+                                        TemplateModel templateModel =
+                                            getTemplateManager
+                                                    .filterTemplateIndustryMap[
+                                                templateIndustriesMapValue[
+                                                        index]
+                                                    .id]![i];
                                         return GestureDetector(
                                           onTap: () {
-                                       
-                                            showDialog(
-                                              context: context,
-                                              builder: (_) =>
-                                                  PreviewTemplateDialogBox(
-                                                templateModel: templateModel,
-                                              ),
-                                            ).then((value) {
-                                              if (value) {
-                                                ApiCallHandling(
-                                                        controller:surveryFeedbackController,
-                                                        status: ApiCallStatus.Initial,
-                                                        sendParams: true,
-                                                        success: () {
-                                                          Navigator.push(context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          const SurveyScreenFeedbackPage(
-                                                                            screenBottom:
-                                                                                SuveryScreenBottom.templateBottomBar,
-                                                                          )));
-                                                        })
-                                                    .handleApiCall(value: templateModel.surveyId?.id ??"");
-                                              } else {
-                                                applyTemplateManagerController.call(ParamsValue(surveyId: templateModel.surveyId?.id ??"",templateId:templateModel.id ??""));
-                                              }
-                                            });
+                                            if (backvalgroundColor == false) {
+                                              showDialog(
+                                                context: context,
+                                                builder: (_) =>
+                                                    PreviewTemplateDialogBox(
+                                                  templateModel: templateModel,
+                                                ),
+                                              ).then((value) {
+                                                if (value) {
+                                                  ApiCallHandling(
+                                                          controller:
+                                                              surveryFeedbackController,
+                                                          status: ApiCallStatus
+                                                              .Initial,
+                                                          sendParams: true,
+                                                          success: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            const SurveyScreenFeedbackPage(
+                                                                              screenBottom: SuveryScreenBottom.templateBottomBar,
+                                                                            )));
+                                                          })
+                                                      .handleApiCall(
+                                                          value: templateModel
+                                                                  .surveyId
+                                                                  ?.id ??
+                                                              "");
+                                                } else {
+                                                  applyTemplateManagerController
+                                                      .call(ParamsValue(
+                                                          surveyId:
+                                                              templateModel
+                                                                      .surveyId
+                                                                      ?.id ??
+                                                                  "",
+                                                          templateId:
+                                                              templateModel
+                                                                      .id ??
+                                                                  ""));
+                                                }
+                                              });
+                                            }
                                           },
                                           child: Card(
                                             elevation: 3,
@@ -253,14 +281,18 @@ GlobalKey newKey  = GlobalKey();
                                                         borderRadius:
                                                             BorderRadius.only(
                                                           topLeft:
-                                                              Radius.circular(10),
+                                                              Radius.circular(
+                                                                  10),
                                                           topRight:
-                                                              Radius.circular(10),
+                                                              Radius.circular(
+                                                                  10),
                                                         ),
                                                       ),
                                                       width: double.infinity,
                                                       child: CachedNetworkImage(
-                                                        imageUrl: templateModel.thumbnailImage ??'',
+                                                        imageUrl: templateModel
+                                                                .thumbnailImage ??
+                                                            '',
                                                         errorWidget: (context,
                                                             url, error) {
                                                           return Container();
@@ -275,14 +307,17 @@ GlobalKey newKey  = GlobalKey();
                                                       children: [
                                                         Expanded(
                                                           child: Text(
-                                                            templateModel.surveyId
+                                                            templateModel
+                                                                    .surveyId
                                                                     ?.name ??
                                                                 "",
-                                                                textAlign: TextAlign.center,
+                                                            textAlign: TextAlign
+                                                                .center,
                                                             style: TextStyle(
                                                               fontSize: 10.sp,
                                                               fontWeight:
-                                                                  FontWeight.bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                             ),
                                                           ),
                                                         ),
@@ -351,8 +386,7 @@ GlobalKey newKey  = GlobalKey();
                                     sigmaX: imageFilterAnimation.value,
                                     sigmaY: imageFilterAnimation.value),
                                 child: Container(
-                                  color: Colors.black.withOpacity(0.5) 
-                                ),
+                                    color: Colors.black.withOpacity(0.5)),
                               );
                             }),
                         AnimatedBuilder(
@@ -368,24 +402,48 @@ GlobalKey newKey  = GlobalKey();
                                 color: Colors.white,
                                 child: ListView.builder(
                                     padding: const EdgeInsets.all(0),
-                                    itemCount: getTemplateManager.templateData.value.templateIndustriesMap.length,
+                                    itemCount: getTemplateManager.templateData
+                                        .value.templateIndustriesMap.length,
                                     itemBuilder: (context, index) {
-                                      List<TemplateIndustriesMap> templateIndustriesMapValue = getTemplateManager.templateData.value.templateIndustriesMap;
+                                      List<TemplateIndustriesMap>
+                                          templateIndustriesMapValue =
+                                          getTemplateManager.templateData.value
+                                              .templateIndustriesMap;
                                       return Visibility(
-                                        visible: getTemplateManager.filterTemplateIndustryMap[templateIndustriesMapValue[index].id]?.length!=0,
+                                        visible: getTemplateManager
+                                                .filterTemplateIndustryMap[
+                                                    templateIndustriesMapValue[
+                                                            index]
+                                                        .id]
+                                                ?.length !=
+                                            0,
                                         child: GestureDetector(
                                           onTap: () {
-                                            Scrollable.ensureVisible( _keyMap[templateIndustriesMapValue[index].id]!.currentContext!);
-                                        
-                                              backvalgroundColor = !backvalgroundColor;
-                                              triggerAnimation(backvalgroundColor);
+                                            Scrollable.ensureVisible(_keyMap[
+                                                    templateIndustriesMapValue[
+                                                            index]
+                                                        .id]!
+                                                .currentContext!);
+
+                                            backvalgroundColor =
+                                                !backvalgroundColor;
+                                            triggerAnimation(
+                                                backvalgroundColor);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(3.h),
                                             child: Column(
-                                              crossAxisAlignment:CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Text(templateIndustriesMapValue[index] .name ??"",style: TextStyle(fontSize: 10.sp),),
+                                                Text(
+                                                  templateIndustriesMapValue[
+                                                              index]
+                                                          .name ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      fontSize: 10.sp),
+                                                ),
                                                 const Divider()
                                               ],
                                             ),

@@ -135,8 +135,7 @@ class SurveyScreenManager extends GetxController {
     return expression.isNotEmpty ? bool.parse(expression.single) : true;
   }
 
-  List<String> _getListOfTrueFalse(
-      String displayLogicExpression, Map<int, bool> checkHideMap) {
+  List<String> _getListOfTrueFalse(String displayLogicExpression, Map<int, bool> checkHideMap) {
     List<String> tokens = displayLogicExpression.split(' ');
     for (int i = 0; i < tokens.length; i++) {
       if (tokens[i] == "and" || tokens[i] == 'or' || tokens[i] == "") {
@@ -246,8 +245,7 @@ class SurveyScreenManager extends GetxController {
     for (var validationResult in validationResults) {
       String? errorText = validationResult.errorText;
       if (errorText != null && errorText.isNotEmpty) {
-        FormValidator? formValidator =
-            FormValidator.fromJson(jsonDecode(errorText));
+        FormValidator? formValidator = FormValidator.fromJson(jsonDecode(errorText));
         showIsRequired?[formValidator.formId] = formValidator;
         showNextPage = false;
       }
@@ -265,8 +263,7 @@ class SurveyScreenManager extends GetxController {
 
     if (_checkValidationOnNext()) {
       String? questionEscaped = _skipAndRedirect();
-      bool valueIsSet = _checkDisplayLogic(
-          questionEscaped == null ? false : true, questionEscaped);
+      bool valueIsSet = _checkDisplayLogic(questionEscaped == null ? false : true, questionEscaped);
       if (!valueIsSet) {
         // show exit screen of the survey
         setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);

@@ -27,7 +27,7 @@ void filterLanguageSelected(Map<String, LanguagePageTranslation>? translations) 
       filterlanguageModel.add(filteredList.first);
     }
   }
-  filterlanguageModel.value = languageModel;
+  
   update();
 }
   @override

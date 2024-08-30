@@ -1,14 +1,14 @@
 class ApplyTemplateParams{
 
 final String? workSpaceId;
-final String ?surveyName;
+final String ?surveyId;
 final String ? templateId;
 // final List<String>? locationArray;
-ApplyTemplateParams(this.workSpaceId, this.surveyName,this.templateId);
+ApplyTemplateParams(this.workSpaceId, this.surveyId,this.templateId);
 
 Map<String, dynamic> toJson() => {
   "workSpaceId":workSpaceId,
-  "surveyId":surveyName,
+  "surveyId":surveyId,
   "templateId":templateId
 };
 

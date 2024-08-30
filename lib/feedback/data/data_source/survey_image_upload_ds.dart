@@ -17,6 +17,7 @@ class SurveyImageUploadDs{
           filename: fileName,
         )
       }));
+      print("reponsemapimage $responseSurvey");
       return  ApiResult.success(data:responseSurvey['data']['imageUrl']);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));

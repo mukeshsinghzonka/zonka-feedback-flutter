@@ -31,6 +31,7 @@ class ScreenFeedBackQuesController extends GetxController{
   }
 
   SurveyScreenenum mapOfScreenByType(String type,Field field) {
+    print("maptype $type");
     switch (type) {
     case 'mcqquestion':
       return SurveyScreenenum.multipleButtonChoice;
@@ -80,6 +81,12 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.serverName;
     case 'gender':
       return SurveyScreenenum.radioChoice;
+    case 'txtComments':
+     return SurveyScreenenum.txtComments;
+    case 'txtParagraph':
+    return SurveyScreenenum.txtParagraph;
+
+    // return 
     // case 'Mobile':
     //   return SurveyScreenenum.textWidget;
     default:
@@ -117,7 +124,11 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     case SurveyScreenenum.emotionRating:
     return EmotionRatingWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.textWidget:
-    return TextboxWidget(key: ValueKey<String>(field.id??''),field: field,);
+    return TextboxWidget(key: ValueKey<String>(field.id??''),field: field,screenenumType: SurveyScreenenum.textWidget,);
+    case SurveyScreenenum.txtParagraph:
+    return TextboxWidget(key: ValueKey<String>(field.id??''),field: field,screenenumType: SurveyScreenenum.txtParagraph,);
+    case SurveyScreenenum.txtComments:
+    return TextboxWidget(key: ValueKey<String>(field.id??''),field: field,screenenumType: SurveyScreenenum.txtComments,);
     case SurveyScreenenum.dateWidget:
     return DateWidget(key: ValueKey<String>(field.id??''), field: field,);
     case SurveyScreenenum.legalTerm:

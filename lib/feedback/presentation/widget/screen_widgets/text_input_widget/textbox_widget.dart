@@ -5,11 +5,13 @@ import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
 class TextboxWidget extends StatefulWidget {
   final Field field;
-  const TextboxWidget({super.key, required this.field});
+  final SurveyScreenenum screenenumType;
+  const TextboxWidget({super.key, required this.field, required this.screenenumType});
 
   @override
   State<TextboxWidget> createState() => _TextboxWidgetState();
@@ -40,21 +42,18 @@ class _TextboxWidgetState extends State<TextboxWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom) /
-              1.5,
+      padding:EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom) /  1.5,
       child: SizedBox(
         width: 250.w,
         child: TextFormField(
           validator: (value) {
             String? valid = validationLogicManager.inputTextValidation(value);
             if (valid == null) {
-              surveyCollectDataController.updateSurveyData(
-                  quesId: widget.field.id ?? "", value: _controller.text);
+              surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _controller.text);
             }
-            return valid;
+            return null;
           },
-          maxLines: 1,
+          maxLines: widget.screenenumType == SurveyScreenenum.textWidget? 1 : 4,
           controller: _controller,
           style: TextStyle(
             fontFamily: _surveyDesignFieldController.fontFamily.value,

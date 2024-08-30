@@ -16,31 +16,37 @@ class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       height: 100.h,
-    
       color: const Color(ColorConstant.signUpBackgroudColor),
-      padding: EdgeInsets.only(left: 12.h, right: 12.h, top: 30.h),
+      padding: EdgeInsets.only(left: 12.h, right: 12.h, top: 10.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Browse Templates',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
-              GestureDetector(
-       
-                onTap: () async {
-                   final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
-                   final offset = renderBox.localToGlobal(Offset.zero);
-           
-                  callbackFunction(offset);
-                },
-                child: SvgPicture.asset(
-                  key:      key,
-                  ImageConstant.imageTemplateFilter),
-              ),
-            ],
+          Expanded(
+            flex: 3,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Browse Templates',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
+                GestureDetector(
+                   
+                  onTap: () async {
+                     final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+                     final offset = renderBox.localToGlobal(Offset.zero);
+             
+                    callbackFunction(offset);
+                  },
+                  child: SvgPicture.asset(
+                    key:      key,
+                    ImageConstant.imageTemplateFilter),
+                ),
+              ],
+            ),
           ),
-           Text('Choose from expert survey templates for different industries and use cases.',style: TextStyle(fontSize: 12.sp),),
+           Expanded(
+            flex: 2,
+            
+            child: Text('Choose from expert survey templates for different industries and use cases.',style: TextStyle(fontSize: 12.sp),)),
+     
         ],
       ),
     );

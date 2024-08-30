@@ -30,6 +30,8 @@ enum SurveyScreenenum {
   starRating,
   emotionRating,
   textWidget,
+  txtParagraph,
+  txtComments,
   dateWidget,
   imageWidget,
   welcomeWidget,

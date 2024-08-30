@@ -63,6 +63,7 @@ class ValidationLogicManager {
 
   String? inputTextValidation(String? value) {
     String pattern = field.validateRegex!.trim();
+  
     if (value == null || value.isEmpty && field.required == true) {
       FormValidator formValidator = FormValidator(
           value: ScreenValidationErrorType.REQUIRED,

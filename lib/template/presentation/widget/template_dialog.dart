@@ -61,6 +61,7 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
                       Navigator.of(context).pop(true);
                     },
                     child: Container(
+                      alignment: Alignment.center,
                       padding: EdgeInsets.symmetric(
                           vertical: 5.w, horizontal: size.width * 0.1),
                       decoration: BoxDecoration(
@@ -69,6 +70,7 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
                       ),
                       child: const Text(
                         'Preview',
+                        
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
