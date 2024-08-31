@@ -7,6 +7,7 @@ import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
@@ -27,6 +28,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
   final SurveyCollectDataController surveyCollectDataController =
       Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;
+    final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   Map<String, String> emojiConstant = {
     'angry': ImageConstant.angry_1,
     'sad': ImageConstant.sad_4,
@@ -149,16 +151,23 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
                       for (int j = 0; j < colIndx; j++)
                         Expanded(
                             child: GestureDetector(
-                          onTap: () async {
+                         onTap: () async {
                             _optionMap[widget.field.options[i].id ?? ""] = j;
-                            _choiceMap[widget.field.options[i].id ?? ""] =
-                                widget.field.choices[j].id ?? "";
+                            _choiceMap[widget.field.options[i].id ?? ""] = widget.field.choices[j].id ?? "";
                             optionId = widget.field.options[i].id ?? "";
                             for (int i = 0; i < 2; i++) {
                               await _animationController.blinkingAnimation();
                               setState(() {});
                             }
-                            setState(() {});
+                      
+                        if(_optionMap.values.contains(-1)==false){
+                                           
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});    
+                        }
+
+
                           },
                           child: AnimatedBuilder(
                               animation: _animationController.animation,
@@ -173,12 +182,10 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
                                       ? _animationController.animation.value
                                       : 1,
                                   child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                    padding: EdgeInsets.symmetric(horizontal: 5.w),
                                     child: widget.field.iconType == 'svg'
                                         ? SvgPicture.asset(
-                                            _choiceMap[widget.field.options[i]
-                                                            .id ??
+                                            _choiceMap[widget.field.options[i].id ??
                                                         ""] ==
                                                     widget.field.choices[j].id
                                                 ? filledOutlinedEmoji[widget
@@ -203,34 +210,54 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
                                                     "",
                                             height: 13.w,
                                           )
-                                        : SvgPicture.asset(
-                                            emojiConstant[widget
-                                                        .field
-                                                        .choices[j]
-                                                        .translations[
-                                                            surveyFieldController
-                                                                .defaultTranslation
-                                                                .value]
-                                                        ?.name ??
-                                                    ""] ??
-                                                "",
-                                            height: 13.w,
-                                            colorFilter: _choiceMap[widget.field
-                                                            .options[i].id] ==
-                                                        "" ||
-                                                    _choiceMap[widget
+                                        : Center(
+                                          child: Container(
+                                          
+                                            child: Stack(
+
+                                              children: [
+                                               
+                                                SvgPicture.asset(
+                                                    emojiConstant[widget
                                                                 .field
-                                                                .options[i]
-                                                                .id ??
-                                                            ""] ==
-                                                        widget
-                                                            .field.choices[j].id
-                                                ? null
-                                                : ColorFilter.mode(
-                                                    Colors.white
-                                                        .withOpacity(0.7),
-                                                    BlendMode.color),
+                                                                .choices[j]
+                                                                .translations[
+                                                                    surveyFieldController
+                                                                        .defaultTranslation
+                                                                        .value]
+                                                                ?.name ??
+                                                            ""] ??
+                                                        "",
+                                                    height: 13.w,
+                                                                                          
+                                                 
+                                                  ),
+                                                   Container(
+                                                    height: 13.w,
+                                                    width: 13.w,
+                                                     decoration:  BoxDecoration(
+         color: _choiceMap[widget.field.options[i].id] ==
+                                                                "" ||
+                                                            _choiceMap[widget
+                                                                        .field
+                                                                        .options[i]
+                                                                        .id ??
+                                                                    ""] ==
+                                                                widget
+                                                                    .field.choices[j].id
+                                                        ? null
+                                                        :
+                                                            Colors.white
+                                                                .withOpacity(0.5),
+        shape: BoxShape.circle,
+      ),
+                                                
+                                                           
+                                                ),
+                                              ],
+                                            ),
                                           ),
+                                        ),
                                   ),
                                 );
                               }),

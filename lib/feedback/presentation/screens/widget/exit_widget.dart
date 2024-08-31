@@ -5,6 +5,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_design_contr
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/utils/logic_file.dart';
 
 class ExitWidget extends StatefulWidget {
   const ExitWidget({super.key});
@@ -53,7 +54,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                                child:  Text(
                                  surveyFieldController.defaultTranslation.value.split('_')[1],
                                  textAlign: TextAlign.center,
-                                 style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
+                                 style: TextStyle(color:  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)), fontFamily: surveyFieldController.fontFamily.value),
                                ),
                              ),
                                         ),
@@ -106,7 +107,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                       child:  Text(
                         'Exit',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white, fontFamily: surveyFieldController.fontFamily.value),
+                        style: TextStyle(color:  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)), fontFamily: surveyFieldController.fontFamily.value),
                       ),
                     ),
                   ),

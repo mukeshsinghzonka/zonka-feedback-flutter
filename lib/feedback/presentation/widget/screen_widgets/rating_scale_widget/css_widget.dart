@@ -1,15 +1,14 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 import 'package:zonka_feedback/utils/logic_file.dart';
@@ -37,7 +36,7 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
   late ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
- 
+   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   @override
   void initState() {
       if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id) && surveyCollectDataController.surveyIndexData[widget.field.id]!=null){
@@ -73,7 +72,11 @@ class _CesWidgetState extends State<CesWidget>  with SingleTickerProviderStateMi
                         await _animationController.blinkingAnimation();         
                         setState(() {});
                       }
-                  setState(() {});
+                  
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});
+           
                 },
                 child: AnimatedBuilder(
                   animation: _animationController.animation,

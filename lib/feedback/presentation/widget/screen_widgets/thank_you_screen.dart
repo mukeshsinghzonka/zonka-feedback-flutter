@@ -65,7 +65,7 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
         surveyId: surveyApicontroller.surveyModel.value.id,
         surveyResponse: createSurveyResponseData()));
     await Future.delayed(Duration(seconds: surveyFieldController.thankyouScreenTimeout.value));
-    // surveyScreenManager.updateScreenTypeUtilFunction();
+    surveyScreenManager.updateScreenTypeUtilFunction();
   }
 
   @override

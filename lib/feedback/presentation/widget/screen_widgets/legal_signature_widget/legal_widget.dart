@@ -5,6 +5,7 @@ import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -22,6 +23,7 @@ class _LegalWidgetState extends State<LegalWidget> with SingleTickerProviderStat
   late  ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   @override
   void initState() {
     if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
@@ -95,7 +97,12 @@ class _LegalWidgetState extends State<LegalWidget> with SingleTickerProviderStat
                                     await _animationController.blinkingAnimation();         
                                     setState(() {});
                                   }
-            
+             
+                                           
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});    
+                        
                               }),
                            Text( widget.field.choices[index]. translations[_surveyDesignFieldController.defaultTranslation.value]?.name??"",style: TextStyle(
                             color: HexColor(_surveyDesignFieldController.optionTextColor.value),

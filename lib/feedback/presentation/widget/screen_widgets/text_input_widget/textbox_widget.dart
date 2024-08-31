@@ -11,6 +11,7 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
 class TextboxWidget extends StatefulWidget {
   final Field field;
   final SurveyScreenenum screenenumType;
+  
   const TextboxWidget({super.key, required this.field, required this.screenenumType});
 
   @override
@@ -19,20 +20,16 @@ class TextboxWidget extends StatefulWidget {
 
 class _TextboxWidgetState extends State<TextboxWidget> {
   String text = '';
-  static final TextEditingController _controller = TextEditingController();
-  final SurveyDesignFieldController _surveyDesignFieldController =
-      Get.find<SurveyDesignFieldController>();
+  final TextEditingController _controller = TextEditingController();
+  final SurveyDesignFieldController _surveyDesignFieldController = Get.find<SurveyDesignFieldController>();
   late ValidationLogicManager validationLogicManager;
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.find<SurveyCollectDataController>();
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   @override
   void initState() {
     validationLogicManager = ValidationLogicManager(field: widget.field);
     if (surveyCollectDataController.surveyIndexData
         .containsKey(widget.field.id)) {
-      _controller.text = surveyCollectDataController
-              .surveyIndexData[widget.field.id] as String? ??
-          "";
+      _controller.text = surveyCollectDataController.surveyIndexData[widget.field.id] as String? ?? "";
     } else {
       _controller.text = "";
     }
@@ -46,6 +43,8 @@ class _TextboxWidgetState extends State<TextboxWidget> {
       child: SizedBox(
         width: 250.w,
         child: TextFormField(
+         
+      
           validator: (value) {
             String? valid = validationLogicManager.inputTextValidation(value);
             if (valid == null) {

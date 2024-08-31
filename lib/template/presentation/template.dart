@@ -30,10 +30,8 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
   final getTemplateManager = Get.put(GetTemplateManager());
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();
-  final ApplyTemplateManagerController applyTemplateManagerController =
-      Get.put(ApplyTemplateManagerController());
-  final SurveryApiFeedbackController surveryFeedbackController =
-      Get.put(SurveryApiFeedbackController());
+  final ApplyTemplateManagerController applyTemplateManagerController = Get.put(ApplyTemplateManagerController());
+  final SurveryApiFeedbackController surveryFeedbackController = Get.put(SurveryApiFeedbackController());
   late AnimationController slidingAnimationController;
   late Animation<Offset> slidingAnimation;
   late AnimationController imageAnimationController;
@@ -114,8 +112,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                   slidingAnimation = Tween<Offset>(
                     begin: Offset(
                      _scrollController.offset+  250.w, value.dy + _scrollController.offset - 95.h),
-                    end: Offset(
-                        0.0, value.dy + _scrollController.offset - 95.h),
+                    end: Offset(0.0, value.dy + _scrollController.offset - 95.h),
                   ).animate(CurvedAnimation(
                     parent: slidingAnimationController,
                     curve: Curves.easeInOut,
@@ -232,7 +229,23 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                                                         (context) =>
                                                                             const SurveyScreenFeedbackPage(
                                                                               screenBottom: SuveryScreenBottom.templateBottomBar,
-                                                                            )));
+                                                                            ))).then((value){
+                                                                              print("applytemplayev $value");
+                                                                              if(value == false){
+  applyTemplateManagerController
+                                                      .call(ParamsValue(
+                                                        surveyName: templateModel.surveyId?.name??"",
+                                                          surveyId:
+                                                              templateModel
+                                                                      .surveyId
+                                                                      ?.id ??
+                                                                  "",
+                                                          templateId:
+                                                              templateModel
+                                                                      .id ??
+                                                                  ""));
+                                                                              }
+                                                                            });
                                                           })
                                                       .handleApiCall(
                                                           value: templateModel
@@ -242,6 +255,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                                 } else {
                                                   applyTemplateManagerController
                                                       .call(ParamsValue(
+                                                        surveyName: templateModel.surveyId?.name??"",
                                                           surveyId:
                                                               templateModel
                                                                       .surveyId

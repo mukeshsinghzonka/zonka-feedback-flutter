@@ -9,6 +9,7 @@ import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
@@ -27,6 +28,7 @@ class _StarRatingWidgetState extends State<StarRatingWidget>with SingleTickerPro
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   late ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   String optionId = "";
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};
@@ -122,6 +124,15 @@ class _StarRatingWidgetState extends State<StarRatingWidget>with SingleTickerPro
                                     await _animationController.blinkingAnimation();         
                                   setState(() {});
                       }
+
+                      
+                        if(_optionMap.values.contains(-1)==false){
+                                           
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});    
+                        }
+
                                   
                                 },
                                 child: AnimatedBuilder(

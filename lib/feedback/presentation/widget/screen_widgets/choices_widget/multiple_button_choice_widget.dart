@@ -6,6 +6,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
@@ -25,6 +26,7 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> with SingleTick
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   Map<String, bool> _choiceMap = {};
   String choiceId = "";
   int? range = -1;
@@ -110,7 +112,13 @@ class _ButtonChoiceWidgetState extends State<ButtonChoiceWidget> with SingleTick
            for(int i = 0 ;i<2;i++){
                 await _animationController.blinkingAnimation();         
                  setState(() {});
-          }
+           }
+
+           if(!widget.isMultiple){
+              Future.delayed(const Duration(milliseconds: 300), () {
+               surveyScreenManager.nextScreen();
+            });
+           }
           },
           child: AnimatedBuilder(
             animation: _animationController.animation,

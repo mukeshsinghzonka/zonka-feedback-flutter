@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
-
+import 'package:zonka_feedback/utils/logic_file.dart';
 class NpsWidget extends StatefulWidget {
   final Field field;
   const NpsWidget({super.key, required this.field});
@@ -31,7 +31,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
   Color selectedColor = HexColor('#F9BE00');
   late ValidationLogicManager validationLogicManager;
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
- 
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   @override
   void initState() {
      if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id) && surveyCollectDataController.surveyIndexData[widget.field.id]!=null){
@@ -50,6 +50,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
         return validationLogicManager.requiredFormValidator(choiceId == null);
       }
       surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: choiceId);
+    
       return null;
     }, builder: (context) {
       return Container(
@@ -72,7 +73,12 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
                         await _animationController.blinkingAnimation();         
                         setState(() {});
                     }
-                    setState(() {});
+                    
+                                                             
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});    
+                    
                   },
                   child: AnimatedBuilder(
                     animation: _animationController.animation,
@@ -87,7 +93,7 @@ class _NpsWidgetState extends State<NpsWidget> with SingleTickerProviderStateMix
                                 border: Border.all(color: widget.field.isButtonColored??false ? Colors.transparent: HexColor(surveyFieldController.optionTextColor.value).withOpacity(1)),     
                                 color: widget.field.isButtonColored??false ?  choiceId !=null &&  choiceId != widget.field.choices[index]? selectedColor.withOpacity(0.4): choiceId == widget.field.choices[index]? selectedColor : index>=0 && index<=6? gradientColors[0]: index>=7 && index<=8? gradientColors[1]: gradientColors[2]:HexColor(surveyFieldController.optionTextColor.value).withOpacity(choiceId!=null && choiceId == widget.field.choices[index] ? 1 : 0.1) ,borderRadius: BorderRadius.circular(5.r)),
                                 child: Text(widget.field.choices[index].translations[surveyFieldController.defaultTranslation.value]?.name??'',
-                                style: TextStyle(color: widget.field.isButtonColored??false ? Colors.white : choiceId!=null && choiceId == widget.field.choices[index] ? Colors.white: HexColor(surveyFieldController.optionTextColor.value)),
+                                style: TextStyle(color: widget.field.isButtonColored??false ? Colors.white : choiceId!=null && choiceId == widget.field.choices[index] ?  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)): HexColor(surveyFieldController.optionTextColor.value)),
                               )),
                         ),
                       );

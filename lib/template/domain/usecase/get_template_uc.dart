@@ -12,7 +12,6 @@ class GetTemplateUc extends UseCaseNoParams<ApiResult<TemplateData>>{
 
   @override
   Future<ApiResult<TemplateData>> call() async {
-    
     return await getAllTemplateRepo.getAllSurveyTemplates();
   }
 

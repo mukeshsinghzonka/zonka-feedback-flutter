@@ -20,7 +20,7 @@ class _TemplateBottomFeedbackState extends State<TemplateBottomFeedback> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(true);
             },
             child: Container(
               width: size.width * 0.4,
@@ -44,17 +44,22 @@ class _TemplateBottomFeedbackState extends State<TemplateBottomFeedback> {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 5.h),
-            width: size.width * 0.4,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Color(ColorConstant.themeColor),
-            ),
-            child: Text(
-              'Use this Template',
-              style: TextStyle(color: Colors.white),
+          GestureDetector(
+            onTap: () {
+                Navigator.of(context).pop(false);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 5.h),
+              width: size.width * 0.4,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(ColorConstant.themeColor),
+              ),
+              child: Text(
+                'Use this Template',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           )
         ],

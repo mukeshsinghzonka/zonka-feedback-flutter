@@ -6,6 +6,7 @@ import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 
 class RadioRatingLableWidget extends StatefulWidget {
@@ -24,7 +25,8 @@ class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> with Si
   late ValidationLogicManager validationLogicManager;
   int rowIndx = -1;
   int colIndx = -1;
-final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
    String ? choiceId;
   @override
@@ -121,7 +123,17 @@ final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyC
                                 for(int i = 0 ;i<2;i++){
                         await _animationController.blinkingAnimation();         
                         setState(() {});
-                    }               
+                    }   
+           
+
+           
+                        if(_optionMap.values.contains(-1)==false){
+                                           
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});    
+                        }
+
                             },
                           ),
                         );

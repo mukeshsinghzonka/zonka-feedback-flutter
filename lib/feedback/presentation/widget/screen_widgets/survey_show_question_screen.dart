@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
@@ -70,55 +69,55 @@ class _SurveyShowQuestionScreenWidgetState
                   child: StreamBuilder<bool>(
                       stream:  surveyScreenManager.myStreamController?.stream,
                       builder: (context, snapshot) {
-                        final value = snapshot.data;
+                        // final value = snapshot.data;
             
-                        if (snapshot.connectionState == ConnectionState.active && value != null && value == true && surveyFieldController.showInactiveAlert.value) {
-                          // Once the future is complete, show the dialog
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return FutureBuilder(
-                                    future: asyncDurationValue(),
-                                    builder: (context, builder) {
-                                      return AlertDialog(
-                                        shape: const RoundedRectangleBorder( borderRadius: BorderRadius.all( Radius.circular(10.0))),
-                                        actionsOverflowAlignment:
-                                            OverflowBarAlignment.center,
-                                        actionsAlignment:
-                                            MainAxisAlignment.center,
-                                        content: Text(
-                                          "You have been idle for some time. Do you wish to \n continue ?",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 8.sp),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text("NO"),
-                                            onPressed: () {
-                                              surveyScreenManager.updateScreenTypeUtilFunction();
-                                           if(timer!= null)   timer!.cancel();
-                                              Navigator.of(context).pop();
+                        // if (snapshot.connectionState == ConnectionState.active && value != null && value == true && surveyFieldController.showInactiveAlert.value) {
+                        //   // Once the future is complete, show the dialog
+                        //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                        //     showDialog(
+                        //       context: context,
+                        //       builder: (BuildContext context) {
+                        //         return FutureBuilder(
+                        //             future: asyncDurationValue(),
+                        //             builder: (context, builder) {
+                        //               return AlertDialog(
+                        //                 shape: const RoundedRectangleBorder( borderRadius: BorderRadius.all( Radius.circular(10.0))),
+                        //                 actionsOverflowAlignment:
+                        //                     OverflowBarAlignment.center,
+                        //                 actionsAlignment:
+                        //                     MainAxisAlignment.center,
+                        //                 content: Text(
+                        //                   "You have been idle for some time. Do you wish to \n continue ?",
+                        //                   textAlign: TextAlign.center,
+                        //                   style: TextStyle(fontSize: 8.sp),
+                        //                 ),
+                        //                 actions: <Widget>[
+                        //                   TextButton(
+                        //                     child: const Text("NO"),
+                        //                     onPressed: () {
+                        //                       surveyScreenManager.updateScreenTypeUtilFunction();
+                        //                    if(timer!= null)   timer!.cancel();
+                        //                       Navigator.of(context).pop();
 
-                                            },
-                                          ),
-                                          SizedBox(
-                                            width: 50.w,
-                                          ),
-                                          TextButton(
-                                            child: const Text("YES"),
-                                            onPressed: () {
-                                           if(timer!= null)  timer!.cancel();
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                            );
-                          });
-                        }
+                        //                     },
+                        //                   ),
+                        //                   SizedBox(
+                        //                     width: 50.w,
+                        //                   ),
+                        //                   TextButton(
+                        //                     child: const Text("YES"),
+                        //                     onPressed: () {
+                        //                    if(timer!= null)  timer!.cancel();
+                        //                       Navigator.of(context).pop();
+                        //                     },
+                        //                   ),
+                        //                 ],
+                        //               );
+                        //             });
+                        //       },
+                        //     );
+                        //   });
+                        // }
                         return Obx(() {
                           return AnimatedSwitcher(
                               reverseDuration:

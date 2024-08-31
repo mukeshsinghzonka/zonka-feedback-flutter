@@ -6,6 +6,7 @@ import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 import 'package:zonka_feedback/utils/logic_file.dart';
@@ -24,6 +25,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget>  with SingleTickerProvi
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   int ? range = -1;
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   String choiceId = "";
@@ -87,10 +89,15 @@ class _CheckboxWidgetState extends State<CheckboxWidget>  with SingleTickerProvi
               _choiceMap.update(widget.field.choices[index].id ?? "", (value) => !value);
               setState(() {});
             }
-               choiceId = widget.field.choices[index].id ?? "";
+             choiceId = widget.field.choices[index].id ?? "";
              for(int i = 0 ;i<2;i++){
                   await _animationController.blinkingAnimation();         
                   setState(() {});
+              }
+              if(!widget.isMultiple){
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});
               }
 
               },

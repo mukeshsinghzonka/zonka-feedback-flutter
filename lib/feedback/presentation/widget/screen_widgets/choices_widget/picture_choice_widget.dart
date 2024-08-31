@@ -8,6 +8,7 @@ import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -26,6 +27,7 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   late ValidationLogicManager validationLogicManager;
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   String optionId = "";
   int? range = -1;
   @override
@@ -108,7 +110,9 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
                     await _animationController.blinkingAnimation();         
                     setState(() {});
                 }
-                setState(() {});
+          Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});
               }
             },
             child: AnimatedBuilder(

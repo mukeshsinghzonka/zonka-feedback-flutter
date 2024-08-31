@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/utils/logic_file.dart';
 
 class ScreenSwitchWidget extends StatefulWidget {
   const ScreenSwitchWidget({super.key});
@@ -36,7 +37,7 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
                   ),
                   child: Icon(
                     Icons.arrow_back_ios_new_sharp,
-                    color: Colors.white,
+                    color: HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)), 
                     size: 10.h,
                   )),
             ),
@@ -66,7 +67,7 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
                       ),
                       child: Icon(
                         Icons.arrow_forward_ios,
-                        color: Colors.white,
+                        color:  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)),
                         size: 10.h,
                       )),
                 );

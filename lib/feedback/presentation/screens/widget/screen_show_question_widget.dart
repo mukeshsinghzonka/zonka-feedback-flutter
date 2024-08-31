@@ -23,17 +23,14 @@ class SwitchScreenWidget extends StatefulWidget {
 
 class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
   final ScreenFeedBackQuesController screenFeedBackQuesController = Get.put(ScreenFeedBackQuesController());
-  final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
-  final SurveyScreenManager surveyScreenManager =
-      Get.find<SurveyScreenManager>();
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.put(SurveyCollectDataController());
-  final VideoPlayerControllerManager videoPlayerController =
-      Get.put(VideoPlayerControllerManager());
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
+  final SurveyCollectDataController surveyCollectDataController = Get.put(SurveyCollectDataController());
+  final VideoPlayerControllerManager videoPlayerController = Get.put(VideoPlayerControllerManager());
   final double headerHeight = 100;
   bool showFirstWidget = true;
   int durationSecond = 0;
+  final Map<String, GlobalKey> _keyMap = {};
   @override
   void dispose() {
     Get.delete<ScreenFeedBackQuesController>();
@@ -51,8 +48,11 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                // Build the list of items
+                String id = widget.feedbackQuestion[index].id  ?? '';
+                final key = GlobalKey();
+                _keyMap[id] = key;
                       return Visibility(
+                        // key: key,
                         visible: surveyScreenManager.visibeSurveyWidget.containsKey(widget.feedbackQuestion[index].id ?? "")? surveyScreenManager.visibeSurveyWidget[widget.feedbackQuestion[index].id ?? ""] ??true: true,
                         child: ConstrainedBox(
                           constraints: BoxConstraints(
@@ -61,6 +61,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                 : MediaQuery.of(context).size.height * 0.7,
                           ),
                           child: Container( 
+                            // key: ,
                             margin: EdgeInsets.all(5.w),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
@@ -88,8 +89,7 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontSize: 6.sp,
-                                          color: HexColor(surveyFieldController
-                                              .headingTextColor.value)),
+                                          color: HexColor(surveyFieldController.headingTextColor.value)),
                                     ),
                                   ),
                                 ),

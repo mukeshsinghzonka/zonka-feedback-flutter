@@ -9,6 +9,7 @@ import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/youtube_video_player_controller.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
@@ -33,7 +34,7 @@ Map<String, String> _choiceMap = {};
 Map<String, int> _optionMap = {};
 String optionId= "";
 final VideoPlayerControllerManager videoPlayerController = Get.find<VideoPlayerControllerManager>();
-
+final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   @override
   void initState() {
 
@@ -131,6 +132,13 @@ final VideoPlayerControllerManager videoPlayerController = Get.find<VideoPlayerC
                                   setState(() {});
                                 }
         
+                        if(_optionMap.values.contains(-1)==false){
+                                           
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});    
+                        }
+
                               },
                               child: AnimatedBuilder(
                                 animation: _animationController.animation,

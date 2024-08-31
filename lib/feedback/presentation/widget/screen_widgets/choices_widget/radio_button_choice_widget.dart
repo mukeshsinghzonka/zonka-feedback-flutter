@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,7 @@ import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 import 'package:zonka_feedback/utils/logic_file.dart';
@@ -25,6 +28,7 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget>  with SingleTicke
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   static String ? choiceId;
   String choiceIdCheck = "";
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   @override
   void initState() {
@@ -85,6 +89,11 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget>  with SingleTicke
                             await _animationController.blinkingAnimation();         
                             setState(() {});
                         }
+                      
+Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});
+                        
                       },
                     ),
                   );

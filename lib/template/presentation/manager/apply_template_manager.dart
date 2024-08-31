@@ -18,7 +18,7 @@ class ApplyTemplateManagerController extends BaseControllerWithParams<void,Param
   Future<void> call(ParamsValue  params) async {
     setStatus(ApiCallStatus.Loading);
     ApiResult<AddTemplateModel> addTemplateresponse = await getIt.get<AddTemplateUc>().call(
-      AddTemplateParams(surveyName: "akjbs", workSpaceId: workspaceController.selectedWorkspace!.workSpaceId)
+      AddTemplateParams(surveyName: params.surveyName, workSpaceId: workspaceController.selectedWorkspace!.workSpaceId)
     );
     addTemplateresponse.when(success: (data)async {
 
@@ -42,8 +42,10 @@ class ApplyTemplateManagerController extends BaseControllerWithParams<void,Param
 class ParamsValue{
   final String surveyId;
   final String templateId;
+  final String surveyName;
 ParamsValue({
   required this.surveyId,
-  required this.templateId
+  required this.templateId,
+  required this.surveyName
 });
 }

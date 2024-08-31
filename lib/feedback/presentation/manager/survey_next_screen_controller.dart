@@ -38,8 +38,7 @@ class SurveyScreenManager extends GetxController {
   List<int> surveyIndex = [0];
   List<SurveyScreenModel> surveyScreens = [];
 
-  final Rx<ScreenTypeEnumUtil> _screenTypeEnumUtil =
-      ScreenTypeEnumUtil.languageScreen.obs;
+  final Rx<ScreenTypeEnumUtil> _screenTypeEnumUtil = ScreenTypeEnumUtil.languageScreen.obs;
   Rx<ScreenTypeEnumUtil> get screenTypeEnumUtil => _screenTypeEnumUtil;
   void setScreenTypeEnum(ScreenTypeEnumUtil value) async {
     _screenTypeEnumUtil.value = value;
@@ -63,8 +62,7 @@ class SurveyScreenManager extends GetxController {
     if (timer != null) {
       timer!.cancel();
     }
-    timer = Timer(
-        Duration(seconds: surveyFieldController.appInactiveTimeOut.value), () {
+    timer = Timer(Duration(seconds: surveyFieldController.appInactiveTimeOut.value), () {
         if(myStreamController!.isClosed == false) myStreamController!.sink.add(true);
     });
 
@@ -157,9 +155,7 @@ class SurveyScreenManager extends GetxController {
   }
 
   bool _checkDisplayLogic(bool screenSkipped, String? quesId) {
-    for (int j = screenSkipped
-            ? mapSurveyQuesIdIndex[quesId] ?? index.value + 1
-            : index.value + 1;
+    for (int j = screenSkipped ? mapSurveyQuesIdIndex[quesId] ?? index.value + 1 : index.value + 1;
         j < surveyScreens.length;
         j++) {
       bool checkBreak = false;
@@ -260,9 +256,11 @@ class SurveyScreenManager extends GetxController {
       setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
       return;
     }
-
-    if (_checkValidationOnNext()) {
+    bool checkvalidation = _checkValidationOnNext();
+    print("checkvalidation $checkvalidation");
+    if (checkvalidation) {
       String? questionEscaped = _skipAndRedirect();
+      print("checkvalidation $questionEscaped");
       bool valueIsSet = _checkDisplayLogic(questionEscaped == null ? false : true, questionEscaped);
       if (!valueIsSet) {
         // show exit screen of the survey

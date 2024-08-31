@@ -8,6 +8,7 @@ import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
@@ -32,6 +33,7 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
   int colIndx = -1;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;
+    final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   @override
   void initState() {
      if(surveyCollectDataController.surveyIndexData.containsKey(widget.field.id)){
@@ -122,8 +124,13 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
                                   await _animationController.blinkingAnimation();         
                                   setState(() {});
                                 }
-                            
-                                          setState(() {});
+                             if(_optionMap.values.contains(-1)==false){
+                                           
+                 Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});    
+                        }
+                                     
                                         },
                                         child: AnimatedBuilder(
                                           animation: _animationController.animation,

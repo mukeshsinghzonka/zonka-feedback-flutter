@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/animation/blinking_animation_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/utils/logic_file.dart';
 
 class DropDownWidget extends StatefulWidget {
   final Field field;
@@ -25,6 +25,7 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
   late ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   @override
   void initState() {
 
@@ -77,17 +78,19 @@ class _DropDownWidgetState extends State<DropDownWidget> with SingleTickerProvid
                   return DropdownMenuItem<Choice>(
                     value: value,
                     child: Text(value.translations[surveyFieldController.defaultTranslation.value]?.name??"",style: TextStyle(
-                      color: HexColor(surveyFieldController.optionTextColor.value),
+                      color: HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)),
                     ),),
                   );
                 }).toList(),
                 onChanged: (value) async {
                   choiceId = value;
-                        for(int i = 0 ;i<2;i++){
+               for(int i = 0 ;i<2;i++){
                 await _animationController.blinkingAnimation();         
                  setState(() {});
                  }
-              
+               Future.delayed(const Duration(milliseconds: 300), () {
+   surveyScreenManager.nextScreen();
+});
                 }),
           ),
         );
