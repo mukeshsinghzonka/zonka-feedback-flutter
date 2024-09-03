@@ -1,3 +1,4 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:zonka_feedback/dashboard/data/data_model/workspace_model.dart';
 import 'package:zonka_feedback/dashboard/domain/usecase/workspace_uc.dart';
 import 'package:zonka_feedback/services/controller/base_controller.dart';
@@ -7,10 +8,10 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 
 class WorkspaceController extends BaseControllerWithOutParams<void>{
   
-  WorkspaceModel ? _selectedWorkspace;
-  WorkspaceModel ? get selectedWorkspace => _selectedWorkspace;
-  void setSelectedWorkspace(WorkspaceModel ?selectedWorkspace) {
-    _selectedWorkspace = selectedWorkspace;
+  Rx<WorkspaceModel> ? _selectedWorkspace;
+  Rx<WorkspaceModel> ? get selectedWorkspace => _selectedWorkspace;
+  void setSelectedWorkspace(WorkspaceModel selectedWorkspace) {
+    _selectedWorkspace = selectedWorkspace.obs;
     update();
   }
 

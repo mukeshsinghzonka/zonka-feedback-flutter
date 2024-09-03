@@ -28,7 +28,7 @@ class _StarRatingWidgetState extends State<StarRatingWidget>with SingleTickerPro
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
   late ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
-   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   String optionId = "";
   Map<String, String> _choiceMap = {};
   Map<String, int> _optionMap = {};

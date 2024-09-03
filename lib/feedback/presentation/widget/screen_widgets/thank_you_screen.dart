@@ -38,6 +38,7 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
   @override
   void initState() {
     super.initState();
+    asyncDurationValue();
   }
 
   @override
@@ -61,9 +62,12 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
   }
 
   Future<void> asyncDurationValue() async {
+    print("surveymodel ");
     await submitsurvey.call(SurveySubmitModel(responseType: 'Online',
         surveyId: surveyApicontroller.surveyModel.value.id,
         surveyResponse: createSurveyResponseData()));
+        print("helloworld");
+        surveyCollectDataController.surveyIndexData.clear();
     await Future.delayed(Duration(seconds: surveyFieldController.thankyouScreenTimeout.value));
     surveyScreenManager.updateScreenTypeUtilFunction();
   }
@@ -71,86 +75,87 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
   @override
   Widget build(BuildContext context) {
 
-    return FutureBuilder(
-        future: asyncDurationValue(),
-        builder: (context, builder) {
-          return Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                onError: (exception, stackTrace) {},
-                fit: BoxFit.cover,
-                image:
-                    NetworkImage(surveyFieldController.thankyouPageUrlBg.value),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          onError: (exception, stackTrace) {},
+          fit: BoxFit.cover,
+          image:
+              NetworkImage(surveyFieldController.thankyouPageUrlBg.value),
+        ),
+        color: HexColor(widget.field?.pageBgColor ?? ""),
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 100.h,
+              child: Image.network(
+                surveyFieldController.thankyouPageUrlLogo.value,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container();
+                },
               ),
-              color: HexColor(widget.field?.pageBgColor ?? ""),
             ),
+          ),
+          SizedBox(
+            height: 100.h,
+          ),
+          Expanded(
+            flex: 4,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: SizedBox(
-                    height: 100.h,
-                    child: Image.network(
-                      surveyFieldController.thankyouPageUrlLogo.value,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container();
-                      },
-                    ),
-                  ),
+                  child: Text(
+                      widget
+                              .field!
+                              .translations![surveyFieldController
+                                  .defaultTranslation.value]
+                              ?.upperText ??
+                          "",
+                      style: TextStyle(
+                          fontSize: 10.sp,
+                          fontFamily:
+                              widget.field?.fontFamilyUpperText ?? "",
+                          color: HexColor(
+                              widget.field?.fontColorUpperText ?? ""))),
                 ),
-                SizedBox(
-                  height: 100.h,
-                ),
+              
                 Expanded(
-                  flex: 4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Text(
-                            widget
-                                    .field!
-                                    .translations![surveyFieldController
-                                        .defaultTranslation.value]
-                                    ?.upperText ??
-                                "",
-                            style: TextStyle(
-                                fontSize: 10.sp,
-                                fontFamily:
-                                    widget.field?.fontFamilyUpperText ?? "",
-                                color: HexColor(
-                                    widget.field?.fontColorUpperText ?? ""))),
-                      ),
-                    
-                      Expanded(
-                        child: Text(
-                            widget
-                                    .field!
-                                    .translations![surveyFieldController
-                                        .defaultTranslation.value]
-                                    ?.bottomText ??
-                                "",
-                            style: TextStyle(
-                                fontSize: 8.sp,
-                                fontFamily:
-                                    widget.field?.fontFamilyBottomText ?? "",
-                                color: HexColor(
-                                    widget.field?.fontColorBottomText ?? ""))),
-                      ),
-                  
-                    ],
+                  child: Container(
+                    padding: EdgeInsets.all(10.w),
+                    child: Text(
+                        widget
+                                .field!
+                                .translations![surveyFieldController
+                                    .defaultTranslation.value]
+                                ?.bottomText ??
+                            "",
+                            textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 8.sp,
+                            
+                            fontFamily:
+                                widget.field?.fontFamilyBottomText ?? "",
+                            color: HexColor(
+                                widget.field?.fontColorBottomText ?? ""))),
                   ),
                 ),
-               Obx(
-               () {
-                if(surveyFieldController.screenBotton.value == SuveryScreenBottom.templateBottomBar){
-                  return const TemplateBottomFeedback();
-                }
-                return const ExitWidget();
-              }
-            )
+            
               ],
             ),
-          );
-        });
+          ),
+         Obx(
+         () {
+          if(surveyFieldController.screenBotton.value == SuveryScreenBottom.templateBottomBar){
+            return const TemplateBottomFeedback();
+          }
+          return const ExitWidget();
+        }
+      )
+        ],
+      ),
+    );
   }
 }

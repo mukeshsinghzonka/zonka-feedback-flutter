@@ -118,6 +118,8 @@ class _CreateScreenState extends State<CreateScreen> {
                   if (_formKey.currentState!.validate()) {
                     ApiCallHandling(
                             controller: signUpController,
+                           
+                              dialogBoxtitle: 'Verifying User',
                             status: ApiCallStatus.Initial,
                             sendParams: false,
                             success: () {

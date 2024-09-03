@@ -26,7 +26,7 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget>  with SingleTicke
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   late ValidationLogicManager validationLogicManager;
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
-  static String ? choiceId;
+  String ? choiceId;
   String choiceIdCheck = "";
   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 
@@ -20,6 +21,7 @@ class _TemplateBottomFeedbackState extends State<TemplateBottomFeedback> {
         children: [
           GestureDetector(
             onTap: () {
+              SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
               Navigator.of(context).pop(true);
             },
             child: Container(

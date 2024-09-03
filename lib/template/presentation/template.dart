@@ -1,14 +1,14 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/screens/feedback_survey_screen.dart';
+import 'package:zonka_feedback/feedback/presentation/screens/setting_up_screen.dart';
 import 'package:zonka_feedback/services/api_call_handling.dart';
 import 'package:zonka_feedback/template/data/data_model/template_industries_map.dart';
 import 'package:zonka_feedback/template/data/data_model/template_model.dart';
+import 'package:zonka_feedback/template/presentation/manager/add_template_manager.dart';
 import 'package:zonka_feedback/template/presentation/manager/apply_template_manager.dart';
 import 'package:zonka_feedback/template/presentation/manager/get_template_manager.dart';
 import 'package:zonka_feedback/template/presentation/widget/pinned_header.dart';
@@ -30,8 +30,12 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
   final getTemplateManager = Get.put(GetTemplateManager());
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();
-  final ApplyTemplateManagerController applyTemplateManagerController = Get.put(ApplyTemplateManagerController());
-  final SurveryApiFeedbackController surveryFeedbackController = Get.put(SurveryApiFeedbackController());
+  final ApplyTemplateManagerController applyTemplateManagerController =
+      Get.put(ApplyTemplateManagerController());
+  final AddTemplateManagerController addTemplateManagerController =
+      Get.put(AddTemplateManagerController());
+  final SurveryApiFeedbackController surveryFeedbackController =
+      Get.put(SurveryApiFeedbackController());
   late AnimationController slidingAnimationController;
   late Animation<Offset> slidingAnimation;
   late AnimationController imageAnimationController;
@@ -44,12 +48,12 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
     getTemplateManager.call();
     slidingAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 150),
     );
 
     imageAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 150),
     );
     imageFilterAnimation =
         Tween<double>(begin: 0, end: 5).animate(CurvedAnimation(
@@ -83,7 +87,57 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
       imageAnimationController.reverse();
     }
   }
+  void applytemplateFunction(TemplateModel templateModel){
+    ApiCallHandling(
+                                                          controller:
+                                                              applyTemplateManagerController,
+                                                          status: ApiCallStatus
+                                                              .Initial,
+                                                          success: () {
+                                                            Navigator.of(context).pop(true);
+                                                          },
+                                                          sendParams: true,
+                                                          dialogBoxtitle:
+                                                              'applying template ...')
+                                                      .handleApiCall(
+                                                          value: ApplyTemplateParamsValue(
+                                                              surveyId:
+                                                                  templateModel
+                                                                          .surveyId
+                                                                          ?.id ??
+                                                                      "",
+                                                              templateId:
+                                                                  addTemplateManagerController
+                                                                          .addTemplateModel
+                                                                          .value
+                                                                          .id ??
+                                                                      ""));
+  }
 
+  Future<void> addTemplateFunction(TemplateModel templateModel)async {
+     ApiCallHandling(
+                                                          controller:
+                                                              addTemplateManagerController,
+                                                          status: ApiCallStatus
+                                                              .Initial,
+                                                          success: () {
+                                                            applytemplateFunction(templateModel);
+                                                          },
+                                                          sendParams: true,
+                                                          dialogBoxtitle:
+                                                              'add template ...')
+                                                      .handleApiCall(
+                                                          value: AddTemplateParamsValue(
+                                                               surveyName:
+                                                            templateModel
+                                                                    .surveyId
+                                                                    ?.name ??
+                                                                "",
+                                                       
+                                                        templateId:
+                                                            templateModel.id ??
+                                                                ""));
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -91,11 +145,16 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
       body: Obx(() {
         return CustomScrollView(
           controller: _scrollController,
+          physics:
+              backvalgroundColor ? const NeverScrollableScrollPhysics() : null,
           slivers: [
             SliverAppBar(
-              title: Text(
-                'Add Survey',
-                style: TextStyle(fontSize: 20.sp),
+              title: GestureDetector(
+                onTap: () {},
+                child: Text(
+                  'Add Survey',
+                  style: TextStyle(fontSize: 15.sp),
+                ),
               ),
               centerTitle: true,
               iconTheme: const IconThemeData(
@@ -108,11 +167,13 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
               key: newKey,
               delegate: PinnedHeaderDelegate(
                 callbackFunction: (val) {
+                  DateTime startTime = DateTime.now();
                   Offset value = val;
                   slidingAnimation = Tween<Offset>(
-                    begin: Offset(
-                     _scrollController.offset+  250.w, value.dy + _scrollController.offset - 95.h),
-                    end: Offset(0.0, value.dy + _scrollController.offset - 95.h),
+                    begin: Offset(_scrollController.offset + 250.w,
+                        value.dy + _scrollController.offset - 95.h),
+                    end:
+                        Offset(0.0, value.dy + _scrollController.offset - 95.h),
                   ).animate(CurvedAnimation(
                     parent: slidingAnimationController,
                     curve: Curves.easeInOut,
@@ -121,6 +182,11 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                     backvalgroundColor = !backvalgroundColor;
                     triggerAnimation(backvalgroundColor);
                   });
+                  DateTime endTime = DateTime.now();
+                  Duration executionTime = endTime.difference(startTime);
+
+                  // Print the execution time
+                  print('Execution time: ${executionTime.inMilliseconds} ms');
                 },
               ),
               pinned: true,
@@ -171,12 +237,11 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                       margin: EdgeInsets.only(
                                           left: 5.w, top: 10.h, bottom: 5.h),
                                       child: Text(
-                                        '${templateIndustriesMapValue[index].name}',
-                                        style: TextStyle(
-                                          fontSize: 15.sp,
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                                          '${templateIndustriesMapValue[index].name}',
+                                          style: TextStyle(
+                                            fontSize: 15.sp,
+                                            color: Colors.black,
+                                          )),
                                     ),
                                     GridView.builder(
                                       shrinkWrap: true,
@@ -213,58 +278,30 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                                     PreviewTemplateDialogBox(
                                                   templateModel: templateModel,
                                                 ),
-                                              ).then((value) {
+                                              ).then((value) async {
+                                               
+                                      
                                                 if (value) {
-                                                  ApiCallHandling(
-                                                          controller:
-                                                              surveryFeedbackController,
-                                                          status: ApiCallStatus
-                                                              .Initial,
-                                                          sendParams: true,
-                                                          success: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            const SurveyScreenFeedbackPage(
-                                                                              screenBottom: SuveryScreenBottom.templateBottomBar,
-                                                                            ))).then((value){
-                                                                              print("applytemplayev $value");
-                                                                              if(value == false){
-  applyTemplateManagerController
-                                                      .call(ParamsValue(
-                                                        surveyName: templateModel.surveyId?.name??"",
-                                                          surveyId:
-                                                              templateModel
-                                                                      .surveyId
-                                                                      ?.id ??
-                                                                  "",
-                                                          templateId:
-                                                              templateModel
-                                                                      .id ??
-                                                                  ""));
-                                                                              }
-                                                                            });
-                                                          })
-                                                      .handleApiCall(
-                                                          value: templateModel
-                                                                  .surveyId
-                                                                  ?.id ??
-                                                              "");
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              SettingUpscreen(
+                                                                screenBottom:
+                                                                    SuveryScreenBottom
+                                                                        .templateBottomBar,
+                                                                surveyId: templateModel
+                                                                        .surveyId
+                                                                        ?.id ??
+                                                                    "",
+                                                              ))).then(
+                                                      (value) async {
+                                                    if (value == false) {
+                                              addTemplateFunction(templateModel);
+                                                    }
+                                                  });
                                                 } else {
-                                                  applyTemplateManagerController
-                                                      .call(ParamsValue(
-                                                        surveyName: templateModel.surveyId?.name??"",
-                                                          surveyId:
-                                                              templateModel
-                                                                      .surveyId
-                                                                      ?.id ??
-                                                                  "",
-                                                          templateId:
-                                                              templateModel
-                                                                      .id ??
-                                                                  ""));
+                                              addTemplateFunction(templateModel);
                                                 }
                                               });
                                             }

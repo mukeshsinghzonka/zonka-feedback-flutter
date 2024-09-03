@@ -61,19 +61,14 @@ class SurveyCollectDataController extends GetxController {
 
       case "date":
         DateTime? dateValue = selectedData as DateTime?;
-        return SurveyResponse(
-            fieldId: fieldId, fieldValue: dateValue!.toIso8601String());
+        return SurveyResponse(fieldId: fieldId, fieldValue: dateValue == null? "" : dateValue.toIso8601String());
 
       case "npsquestion" || "cssquestion" || "button_rating" || "legalTerm":
         Choice? choiceId = selectedData as Choice?;
-        return SurveyResponse(fieldId: fieldId, choiceId: choiceId!.id);
+        return SurveyResponse(fieldId: fieldId, choiceId:choiceId==null? "" : choiceId.id);
 
-      case "heart_rating" ||
-            "circle_rating" ||
-            "star_rating" ||
-            "emotion_rating":
-        Map<String, String> choiceMap =
-            (selectedData as RatingDataCollector?)?.choiceMap ?? {};
+      case "heart_rating" ||  "circle_rating" || "star_rating" || "emotion_rating":
+        Map<String, String> choiceMap = (selectedData as RatingDataCollector?)?.choiceMap ?? {};
         List<SurveyResponse> valueList = [];
         choiceMap.forEach((optionId, choiceId) {
           valueList.add(
@@ -87,7 +82,7 @@ class SurveyCollectDataController extends GetxController {
         Choice? dropDownValue = selectedData as Choice?;
         return SurveyResponse(
           fieldId: fieldId,
-          choiceId: dropDownValue!.id,
+          choiceId:dropDownValue==null?"": dropDownValue.id,
         );
 
       default:
@@ -113,8 +108,7 @@ class SurveyCollectDataController extends GetxController {
             return true;
           }
         } else if (selectedData is Map<String, dynamic>?) {
-          Map<String, bool>? choiceMap =
-              Map<String, bool>.from(selectedData ?? {});
+          Map<String, bool>? choiceMap = Map<String, bool>.from(selectedData ?? {});
           bool choiceMapVal = choiceMap.containsKey(displayModel.choiceId);
           if (choiceMapVal) {
             return choiceMap[displayModel.choiceId] ?? false;
@@ -146,7 +140,10 @@ class SurveyCollectDataController extends GetxController {
         return false;
       case "npsquestion" || "cssquestion" || "button_rating" || "legalTerm":
         Choice? choiceId = selectedData as Choice?;
-        return choiceId!.id == displayModel.choiceId;
+        if(choiceId == null){
+          return false;
+        }
+        return  choiceId.id == displayModel.choiceId;
       case "heart_rating" ||
             "circle_rating" ||
             "star_rating" ||
@@ -156,7 +153,10 @@ class SurveyCollectDataController extends GetxController {
         return choiceMap.containsValue(displayModel.choiceId);
       case "dropdown":
         Choice? dropDownValue = selectedData as Choice?;
-        return dropDownValue?.choiceNodeId == displayModel.choiceId;
+          if(dropDownValue == null){
+          return false;
+        }
+        return dropDownValue.choiceNodeId == displayModel.choiceId;
       default:
         return false;
     }

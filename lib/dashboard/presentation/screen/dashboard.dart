@@ -32,16 +32,22 @@ class _DashBoardState extends State<DashBoard> {
   late double height, width, xPosition, yPosition;
   @override
   void initState() {
+    dashBoardApiCall();
+    super.initState();
+  }
+
+  void dashBoardApiCall(){
     WidgetsBinding.instance.addPostFrameCallback((_){
     ApiCallHandling(
         controller: dashboardController,
         status: ApiCallStatus.Initial,
         sendParams: false,
+          dialogBoxtitle: 'Updating...',
+       
         success: () {
-          dashboardController.call();
+         
         }).handleApiCall();
     });
-    super.initState();
   }
 
   final GlobalKey _actionKey = GlobalKey();
@@ -118,9 +124,9 @@ class _DashBoardState extends State<DashBoard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Workspaces',
-                    style: TextStyle(
+                   Text(
+                    workspaceController.selectedWorkspace?.value.workSpaceName??"WorkSpace",
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                         fontSize: ConstantSize.medium_3),
@@ -151,7 +157,19 @@ class _DashBoardState extends State<DashBoard> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const AddTemplateScreen()));
+                        builder: (context) => const AddTemplateScreen())).then((value){
+                          if(value){
+    ApiCallHandling(
+        controller: dashboardController,
+        status: ApiCallStatus.Initial,
+        sendParams: false,
+          dialogBoxtitle: 'Updating...',
+       
+        success: () {
+      
+        }).handleApiCall();
+                          }
+                        });
               },
               child: Container(
                   alignment: Alignment.center,

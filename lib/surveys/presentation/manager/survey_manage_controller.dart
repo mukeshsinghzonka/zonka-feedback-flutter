@@ -19,26 +19,25 @@ class SurveyManagerController extends GetxController {
     update();
   }
 
-  void filterSurveyList(String? searchText) {
-    if (searchText == null || searchText.isEmpty) {
-      setFilteredSurveyList(_surveyController.surveyList);
-      return;
-    }
-    setFilteredSurveyList(_surveyController.surveyList.where((element) =>element.surveyName.toLowerCase().contains(searchText.toLowerCase())) .toList());
-  }
+  // void filterSurveyList(String? searchText) {
+  //   if (searchText == null || searchText.isEmpty) {
+  //     setFilteredSurveyList(_surveyController.surveyList);
+  //     return;
+  //   }
+  //   setFilteredSurveyList(_surveyController.surveyList.where((element) =>element.surveyName.toLowerCase().contains(searchText.toLowerCase())) .toList());
+  // }
 
   Future<void> getSurveyListWorkspace() async {
     var locationData = await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.location);
     if (locationData != null) {
       List<SurveyResModel> tempList = [];
-      List<SurveyResModel> surveyWorkspaceFiltered = _surveyController.surveyList.where((element) =>element.workSpaceId ==  _workspaceController.selectedWorkspace?.workSpaceId).toList();
+      List<SurveyResModel> surveyWorkspaceFiltered = _surveyController.surveyList.where((element) =>element.workSpaceId ==  _workspaceController.selectedWorkspace?.value.workSpaceId).toList();
       for (var element in surveyWorkspaceFiltered) {
         if (element.surveyLocationList.isEmpty) {
           tempList.add(element);
         } else {
           element.surveyLocationList.map((location) {
-            if (location.locationId ==
-                _locationController.selectedLocation?.id) {
+            if (location.locationId == _locationController.selectedLocation?.id) {
               tempList.add(element);
             }
           });
@@ -46,7 +45,7 @@ class SurveyManagerController extends GetxController {
       }
       setFilteredSurveyList(tempList);
     } else {
-      setFilteredSurveyList(_surveyController.surveyList.where((element) => element.workSpaceId == _workspaceController.selectedWorkspace?.workSpaceId).toList());
+      setFilteredSurveyList(_surveyController.surveyList.where((element) => element.workSpaceId == _workspaceController.selectedWorkspace?.value.workSpaceId).toList());
     }
   }
 }

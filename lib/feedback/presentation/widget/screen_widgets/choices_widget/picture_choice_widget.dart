@@ -150,10 +150,7 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
                                                   value: progress.progress,
                                                 ),
                                               ),
-                                      errorWidget: (context, url, error) => Icon(
-                                            Icons.image_not_supported,
-                                            color: Colors.grey.shade700,
-                                          ),
+                                      errorWidget: (context, url, error) => Container(),
                                       imageUrl: widget.field.choices[i]
                                                   .optionGalleryImageId !=
                                               null

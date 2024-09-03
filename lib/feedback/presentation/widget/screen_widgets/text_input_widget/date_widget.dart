@@ -20,7 +20,7 @@ class DateWidget extends StatefulWidget {
 }
 
 class _DateWidgetState extends State<DateWidget> with SingleTickerProviderStateMixin{
- static DateTime? selectedDate;
+   DateTime? selectedDate;
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
   final SurveyDesignFieldController _surveyDesignFieldController = Get.find<SurveyDesignFieldController>();
   late  ValidationLogicManager validationLogicManager;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
@@ -54,7 +55,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                                child:  Text(
                                  surveyFieldController.defaultTranslation.value.split('_')[1],
                                  textAlign: TextAlign.center,
-                                 style: TextStyle(color:  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)), fontFamily: surveyFieldController.fontFamily.value),
+                                 style: TextStyle(color:  HexColor(LogicFile().getContrastColor(surveyFieldController.buttonColor.value)), fontFamily: surveyFieldController.fontFamily.value),
                                ),
                              ),
                                         ),
@@ -80,11 +81,13 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                 surveyScreenManager.screenTypeEnumUtil.value ==ScreenTypeEnumUtil.surveryScreen
               ,
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () { 
+
                     if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen){
                         surveyScreenManager.updateScreenTypeUtilFunction();
                     }
                     else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen){
+                      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
                       Navigator.of(context).pop();
                       Get.delete<SurveyScreenManager>();
                       surveyScreenManager.myStreamController!.close();
@@ -107,7 +110,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                       child:  Text(
                         'Exit',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color:  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)), fontFamily: surveyFieldController.fontFamily.value),
+                        style: TextStyle(color:  HexColor(LogicFile().getContrastColor(surveyFieldController.buttonColor.value)), fontFamily: surveyFieldController.fontFamily.value),
                       ),
                     ),
                   ),

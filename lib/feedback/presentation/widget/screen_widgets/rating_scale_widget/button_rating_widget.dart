@@ -22,7 +22,7 @@ class ButtonRatingWidget extends StatefulWidget {
 class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with TickerProviderStateMixin {
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
-  static Choice ? choiceId;
+  Choice ? choiceId;
   late ValidationLogicManager validationLogicManager;
   String optionId = "";
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();

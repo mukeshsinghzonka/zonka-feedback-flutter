@@ -21,7 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
     super.initState();
   }
 
@@ -37,6 +37,10 @@ class _MyAppState extends State<MyApp> {
             navigatorKey: NavigationService.navigatorKey,
             navigatorObservers: [FlutterSmartDialog.observer],
             builder: FlutterSmartDialog.init(),
+            initialRoute: '/',
+            routes: {
+               '/dashBoard': (context) => const DashBoard(),
+            },
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
@@ -49,16 +53,11 @@ class _MyAppState extends State<MyApp> {
               builder: (context, box, widget) {
                 return box.get(HiveKey.loginUser) != null
                     ? ValueListenableBuilder(
-                        valueListenable: Hive.box(HiveDirectoryUtil.locationBox)
-                            .listenable(),
+                        valueListenable: Hive.box(HiveDirectoryUtil.locationBox).listenable(),
                         builder: (context, box, widget) {
-
-                          return 
-                          (box.get(HiveKey.skipLocation)!=null && box.get(HiveKey.skipLocation) )?
+                          return (box.get(HiveKey.skipLocation)!=null && box.get(HiveKey.skipLocation) )?
                           const DashBoard(key: ValueKey('DashBoard')):
-                          box.get(HiveKey.location) == null  
-                                ? const ChooseDefaultLocation(): 
-                              const DashBoard(key: ValueKey('DashBoard'));     
+                          box.get(HiveKey.location) == null  ? const ChooseDefaultLocation():  const DashBoard(key: ValueKey('DashBoard'));     
                         },
                       )
                     : const LoginScreen(key: ValueKey('LoginScreen'));

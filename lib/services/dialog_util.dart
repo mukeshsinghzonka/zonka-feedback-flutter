@@ -6,7 +6,7 @@ class DialogUtils {
   DialogUtils.internal();
   factory DialogUtils() => _instance;
   
-  static void showCustomLoadingDialog(BuildContext context) {
+  static void showCustomLoadingDialog(BuildContext context, String dialogBoxtitle) {
     showDialog(
         context: context,
         builder: (_) {
@@ -29,7 +29,8 @@ class DialogUtils {
                     width: 30.w,
                   ),
                   Text(
-                    "Verifying User",
+                    // "Verifying User",
+                    dialogBoxtitle,
                     style: TextStyle(fontSize: 13.h),
                   ),
                 ],

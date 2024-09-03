@@ -52,7 +52,7 @@ class SurveyScreenManager extends GetxController {
    else {
       setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
    }
- 
+
   }
 
   StreamController<bool>? myStreamController = StreamController<bool>.broadcast();

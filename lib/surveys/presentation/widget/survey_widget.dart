@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/screens/feedback_survey_screen.dart';
-import 'package:zonka_feedback/services/api_call_handling.dart';
+import 'package:zonka_feedback/feedback/presentation/screens/setting_up_screen.dart';
+
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
@@ -21,9 +20,6 @@ class SurveyWidget extends StatefulWidget {
 
 class _SurveyWidgetState extends State<SurveyWidget>
     with TickerProviderStateMixin {
-  final SurveryApiFeedbackController surveryFeedbackController =
-      Get.put(SurveryApiFeedbackController());
-
   @override
   void initState() {
     super.initState();
@@ -38,19 +34,19 @@ class _SurveyWidgetState extends State<SurveyWidget>
           borderRadius: BorderRadius.circular(7.w),
           splashColor: const Color(ColorConstant.appBarBottomColor),
           onTap: () async {
-            ApiCallHandling(
-                controller: surveryFeedbackController,
-                status: ApiCallStatus.Initial,
-                sendParams: true,
-                success: () {
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const  SurveyScreenFeedbackPage(
-                                    screenBottom: SuveryScreenBottom.exitBottomBar,
-                                   )));
-                }).handleApiCall(value: widget.surveyResModel.surveyId);
+            Navigator.push(
+                context,
+                PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 1),
+                  pageBuilder: (BuildContext context,
+                      Animation<double> animation,
+                      Animation<double> secondaryAnimation) {
+                    return SettingUpscreen(
+                      screenBottom: SuveryScreenBottom.exitBottomBar,
+                      surveyId: widget.surveyResModel.surveyId,
+                    );
+                  },
+                ));
           },
           child: Container(
             padding: EdgeInsets.only(
@@ -68,7 +64,7 @@ class _SurveyWidgetState extends State<SurveyWidget>
                       widget.surveyResModel.surveyName,
                       style: TextStyle(
                           fontSize: ConstantSize.small_2.sp,
-                          fontWeight: FontWeight.w600),
+                          fontWeight: FontWeight.w400),
                     ),
                     Container(
                       alignment: Alignment.center,
@@ -95,7 +91,7 @@ class _SurveyWidgetState extends State<SurveyWidget>
                           SizedBox(width: 5.w),
                           Text(
                             widget.surveyResModel.iskioskmode
-                                ? 'Kisok Mode'
+                                ? 'Kiosk Mode'
                                 : 'Survey Mode',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -137,18 +133,18 @@ class _SurveyWidgetState extends State<SurveyWidget>
                   ],
                 ),
                 Container(
-                  padding: EdgeInsets.all(5.h),
+                  padding: EdgeInsets.all(10.h),
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                          width: 2.w,
-                          color: const Color(
-                            ColorConstant.arrowForwardColor,
+                          width: 1.w,
+                          color:  Color(
+                            ColorConstant.themeColor
                           ))),
-                  child: const Icon(
+                  child:  Icon(
                     Icons.arrow_forward_ios,
-                    size: 15,
-                    color: Color(ColorConstant.arrowForwardColor),
+                    size: 15.sp,
+                    color: Color(ColorConstant.themeColor),
                   ),
                 )
               ],

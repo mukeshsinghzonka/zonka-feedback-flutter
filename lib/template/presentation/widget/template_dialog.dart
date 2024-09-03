@@ -1,9 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:zonka_feedback/template/data/data_model/template_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
-import 'package:zonka_feedback/utils/image_constant.dart';
 
 class PreviewTemplateDialogBox extends StatefulWidget {
   final TemplateModel templateModel;
@@ -15,7 +14,6 @@ class PreviewTemplateDialogBox extends StatefulWidget {
 }
 
 class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
-   
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -34,8 +32,14 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
             Expanded(
                 flex: 1,
                 child: SizedBox(
-                    width: size.width,
-                    child: SvgPicture.asset(ImageConstant.zonkaDrawerLogo))),
+                  width: size.width,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.templateModel.thumbnailImage ?? '',
+                    errorWidget: (context, url, error) {
+                      return Container();
+                    },
+                  ),
+                )),
             SizedBox(
               height: 10.h,
             ),
@@ -43,11 +47,15 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
               child: Column(
                 children: [
                   Expanded(
-                      child: Text(widget.templateModel.surveyId!.name ?? "",textAlign: TextAlign.center,)),
+                      child: Text(
+                    widget.templateModel.surveyId!.name ?? "",
+                    textAlign: TextAlign.center,
+                  )),
                   Expanded(
                       flex: 2,
                       child: Text(
-                          widget.templateModel.surveyId!.description ?? '', textAlign: TextAlign.center)),
+                          widget.templateModel.surveyId!.description ?? '',
+                          textAlign: TextAlign.center)),
                 ],
               ),
             ),
@@ -57,7 +65,7 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.of(context).pop(true);
                     },
                     child: Container(
@@ -70,13 +78,14 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
                       ),
                       child: const Text(
                         'Preview',
-                        
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: 5.h,),
+                SizedBox(
+                  width: 5.h,
+                ),
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
@@ -85,14 +94,16 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
                     child: Container(
                       alignment: Alignment.center,
                       padding: EdgeInsets.symmetric(
-                          vertical: 5.w, ),
+                        vertical: 5.w,
+                      ),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5.r),
                           border: Border.all(
                               color: const Color(ColorConstant.themeColor))),
                       child: const Text(
                         'Add Survey',
-                        style: TextStyle(color: Color(ColorConstant.themeColor)),
+                        style:
+                            TextStyle(color: Color(ColorConstant.themeColor)),
                       ),
                     ),
                   ),

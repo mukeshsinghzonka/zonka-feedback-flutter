@@ -21,7 +21,7 @@ class CheckboxWidget extends StatefulWidget {
 }
 
 class _CheckboxWidgetState extends State<CheckboxWidget>  with SingleTickerProviderStateMixin {
-  static Map<String, bool> _choiceMap = {};
+  Map<String, bool> _choiceMap = {};
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   late ValidationLogicManager validationLogicManager;

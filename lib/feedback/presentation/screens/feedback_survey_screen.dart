@@ -25,7 +25,6 @@ class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
   
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     surveyFieldController.setFieldFromSurveyModel();
     surveyScreenManager.updateScreenTypeUtilFunction();
     surveyFieldController.screenBotton.value = widget.screenBottom;
@@ -34,7 +33,7 @@ class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+ 
     super.dispose();
   }
  

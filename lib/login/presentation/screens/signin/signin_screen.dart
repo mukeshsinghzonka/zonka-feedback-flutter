@@ -100,6 +100,8 @@ class _SignInScreenState extends State<SignInScreen> {
                ApiCallHandling(
                   controller: loginController,
                    sendParams: false,
+               
+                   dialogBoxtitle: 'Verifying User',
                   status: ApiCallStatus.Initial,
                   success: (){
                     loginController.clearTextFields();

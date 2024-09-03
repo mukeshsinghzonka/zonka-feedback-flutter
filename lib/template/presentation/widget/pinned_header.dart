@@ -21,33 +21,30 @@ class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            flex: 3,
+          Container(
+            margin: EdgeInsets.only(top: 20.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Browse Templates',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
                 GestureDetector(
-                   
                   onTap: () async {
                      final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
                      final offset = renderBox.localToGlobal(Offset.zero);
-             
-                    callbackFunction(offset);
+                     callbackFunction(offset);
                   },
                   child: SvgPicture.asset(
-                    key:      key,
+                    key: key,
                     ImageConstant.imageTemplateFilter),
+                  // child:Icon(Icons.add)
                 ),
               ],
             ),
           ),
-           Expanded(
-            flex: 2,
-            
-            child: Text('Choose from expert survey templates for different industries and use cases.',style: TextStyle(fontSize: 12.sp),)),
-     
-        ],
+           Text('Choose from expert survey templates for different industries and use cases.',style: TextStyle(fontSize: 10.sp),),
+    
+  
+            ],
       ),
     );
   }

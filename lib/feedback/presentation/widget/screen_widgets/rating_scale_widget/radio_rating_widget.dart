@@ -25,6 +25,7 @@ class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> with Si
   late ValidationLogicManager validationLogicManager;
   int rowIndx = -1;
   int colIndx = -1;
+  int optionId =-1;
   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   final BlinkingAnimmationController _animationController = BlinkingAnimmationController();
@@ -111,13 +112,15 @@ class _RadioRatingLableWidgetState extends State<RadioRatingLableWidget> with Si
                        animation: _animationController.animation,
                       builder: (context,child) {
                         return Opacity(
-                         opacity: choiceId == widget.field.choices[j].id  ? _animationController.animation.value : 1,
+                         opacity: choiceId == widget.field.choices[j].id &&     _optionMap[widget.field.options[i].id ??""]==j ? _animationController.animation.value : 1,
                           child: Radio(
                             value: widget.field.choices[j].id,
                             groupValue: _choiceMap[widget.field.options[i].id],
                             onChanged: (value) async {
                               setState(() {
                                 _choiceMap[widget.field.options[i].id??""] = value??"";
+                                    _optionMap[widget.field.options[i].id ??""] = j;
+                                    optionId = j;
                                 choiceId = value;
                               });    
                                 for(int i = 0 ;i<2;i++){

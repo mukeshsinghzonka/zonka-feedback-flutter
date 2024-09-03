@@ -26,8 +26,8 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
                 surveyScreenManager.previousScreen();
               },
               child: Container(
-                 width: 35.h,
-                  padding: EdgeInsets.all(2.w),
+                 width: 30.h,
+                
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top:40.h,left: 5.w),
                   decoration: BoxDecoration(
@@ -37,8 +37,9 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
                   ),
                   child: Icon(
                     Icons.arrow_back_ios_new_sharp,
-                    color: HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)), 
-                    size: 10.h,
+                    color: HexColor(LogicFile().getContrastColor(surveyFieldController.buttonColor.value)), 
+                    size: 18.h,
+                    weight: 20.sp,
                   )),
             ),
             Image.network(
@@ -57,8 +58,8 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
               
                   },
                   child: Container(      
-                      width: 35.h,
-                      padding: EdgeInsets.all(2.w),
+                      width: 30.h,
+                 
                       margin: EdgeInsets.only(top:40.h,right: 5.w),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -67,8 +68,9 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
                       ),
                       child: Icon(
                         Icons.arrow_forward_ios,
-                        color:  HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)),
-                        size: 10.h,
+                        color:  HexColor(LogicFile().getContrastColor(surveyFieldController.buttonColor.value)),
+                        size: 18.h,
+                    weight: 20.sp,
                       )),
                 );
               }

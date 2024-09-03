@@ -10,11 +10,12 @@ class ApiCallHandling {
    final ApiCallStatus status;
    final Function success;
    final bool sendParams;
-   ApiCallHandling({required this.controller, required this.status, required this.success,required this.sendParams});    
+   final String dialogBoxtitle;
+   ApiCallHandling({required this.controller, required this.status, required this.success,required this.sendParams, required this.dialogBoxtitle});    
    
   void handleApiCall({dynamic value}) async {
    if(controller.apiStatus.value == ApiCallStatus.Initial){
-     DialogUtils.showCustomLoadingDialog(NavigationService.navigatorKey.currentContext!);
+     DialogUtils.showCustomLoadingDialog(NavigationService.navigatorKey.currentContext!,dialogBoxtitle);
      if(sendParams){
       await controller.call(value);
      }else{
@@ -24,18 +25,19 @@ class ApiCallHandling {
 
    if(controller.apiStatus.value == ApiCallStatus.Success){
      controller.apiStatus.value = ApiCallStatus.Initial;
+      
      Navigator.of(NavigationService.navigatorKey.currentContext!).pop();
+    
      success();
    }
 
     if(controller.apiStatus.value == ApiCallStatus.Error){
+    
       Navigator.of(NavigationService.navigatorKey.currentContext!).pop();
       controller.apiStatus.value = ApiCallStatus.Initial;
       DialogUtils.showCustomErrorDialog(NavigationService.navigatorKey.currentContext!, title:  NetworkExceptions.getErrorMessage(controller.networkExceptions??const NetworkExceptions.defaultError("Default Error")));
     } 
   }
-
-
 
 
 }

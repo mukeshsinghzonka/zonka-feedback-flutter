@@ -23,7 +23,7 @@ class WorkspaceModel extends Equatable{
   factory WorkspaceModel.fromJson(Map<String, dynamic> json) {
     return WorkspaceModel(
       workSpaceId: json['_id']??"",
-      workSpaceName: json['workSpaceName']??"",
+      workSpaceName: json['workSpaceName']??"Workspace",
       companyId: json['companyId']??"",
       isFirstWorkspace: json['isFirstWorkspace']??false,
       widgetCodeInstalled: json['widgetCodeInstalled']??false,
