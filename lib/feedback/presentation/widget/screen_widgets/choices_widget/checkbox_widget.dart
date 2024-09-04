@@ -47,7 +47,7 @@ class _CheckboxWidgetState extends State<CheckboxWidget>  with SingleTickerProvi
     _animationController.initAnimationController(this);
     super.initState();
   }
-
+  int crossAxisCount = 3;
   @override
   Widget build(BuildContext context) {
     return FormField(
@@ -70,7 +70,11 @@ class _CheckboxWidgetState extends State<CheckboxWidget>  with SingleTickerProvi
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemCount: widget.field.choices.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 4),
+          
+          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+           crossAxisCount:widget.field.choices.length >=3 ? crossAxisCount:widget.field.choices.length, // Number of columns
+              childAspectRatio:widget.field.choices.length >=3 ? 4: 6,
+        ),
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () async {

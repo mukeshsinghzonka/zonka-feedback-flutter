@@ -18,12 +18,38 @@ class SurveyScreenManager extends GetxController {
   final SurveryApiFeedbackController screenFeedbackController = Get.find<SurveryApiFeedbackController>();
   final SurveyCollectDataController surveyCollectDataController = Get.put(SurveyCollectDataController());
   final SurveyDesignFieldController surveyFieldController = Get.put(SurveyDesignFieldController());
+  final ScrollController scrollController = ScrollController();
 
   final RxBool _nextScreenstop = false.obs;
   RxBool get nextScreenstop => _nextScreenstop;
 
   final RxInt _index = 0.obs;
   RxInt get index => _index;
+  void setIndex(int val){
+   _index.value= val;
+   update();
+  }
+
+  late Rx<DateTime> _surveyStartDateTime;
+  Rx<DateTime> get surveyStartDateTime => _surveyStartDateTime;
+  void setStartDateTimeValue(DateTime value){
+   _surveyStartDateTime = value.obs;
+   update();
+  }
+
+  late Rx<DateTime> _surveySubmitDateTime;
+  Rx<DateTime> get surveySubmitDateTime => _surveySubmitDateTime;
+  void surveySubmitDateTimeValue(DateTime value){
+   _surveySubmitDateTime = value.obs;
+   update();
+  }
+
+  late Rx<DateTime> _surveyFillDateTime;
+  Rx<DateTime> get surveyFillDateTime => _surveyFillDateTime;
+  void surveyFillDateTimeFalue(DateTime value){
+   _surveyFillDateTime.value = value;
+   update();
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
@@ -53,10 +79,11 @@ class SurveyScreenManager extends GetxController {
       setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
    }
 
-  }
+  } 
 
   StreamController<bool>? myStreamController = StreamController<bool>.broadcast();
   Timer? timer;
+
   Future<void> showDialogAfterDelay() async {
     // Simulate a delay of 60 seconds
     if (timer != null) {
@@ -250,12 +277,15 @@ class SurveyScreenManager extends GetxController {
   }
 
   void nextScreen() {
-    print(_index.value);
+
     if (_index.value == surveyScreens.length) {
       //show exit screen
+      setIndex(0);
       setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
       return;
     }
+
+    scrollController.animateTo(0,duration: const Duration(milliseconds: 1), curve: Curves.easeInOut, );
     bool checkvalidation = _checkValidationOnNext();
     print("checkvalidation $checkvalidation");
     if (checkvalidation) {
@@ -264,6 +294,7 @@ class SurveyScreenManager extends GetxController {
       bool valueIsSet = _checkDisplayLogic(questionEscaped == null ? false : true, questionEscaped);
       if (!valueIsSet) {
         // show exit screen of the survey
+        setIndex(0);
         setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
       }
     }
@@ -272,6 +303,7 @@ class SurveyScreenManager extends GetxController {
 
   void previousScreen() {
     if (surveyIndex.isNotEmpty && surveyIndex.length > 1) {
+          scrollController.animateTo(0,duration: const Duration(milliseconds: 1), curve: Curves.easeInOut, );
       _index.value = surveyIndex[surveyIndex.length - 2];
       showIsRequired!.clear();
       showDialogAfterDelay();

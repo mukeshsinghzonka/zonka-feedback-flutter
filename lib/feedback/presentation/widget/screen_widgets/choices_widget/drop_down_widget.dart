@@ -43,69 +43,88 @@ class _DropDownWidgetState extends State<DropDownWidget>
     super.initState();
   }
 
+Color hexToColor(String hexColor) {
+  return Color(int.parse(hexColor.replaceFirst('#', '0xFF')));
+}
+
+String colorToHex(Color color) {
+  return '#${color.value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
+}
+
+Color lightenColor(String hexColor, double amount) {
+  assert(amount >= 0 && amount <= 1, 'Amount should be between 0 and 1');
+  
+  Color color = hexToColor(hexColor);
+  
+  int r = color.red;
+  int g = color.green;
+  int b = color.blue;
+
+  int rLight = (r + (255 - r) * amount).toInt();
+  int gLight = (g + (255 - g) * amount).toInt();
+  int bLight = (b + (255 - b) * amount).toInt();
+
+  return Color.fromARGB(color.alpha, rLight, gLight, bLight);
+}
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
         animation: _animationController.animation,
         builder: (context, child) {
+print("optiontextcolor ${surveyFieldController.optionTextColor.value}");
 
+Color lightenColorValue = lightenColor(surveyFieldController.optionTextColor.value, 0.75);
+String lightenedHexColor = colorToHex(lightenColorValue);
           return Opacity(
             opacity: _animationController.animation.value,
             child: Container(
-              width: 200.w,
+              width: 170.w,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: HexColor(surveyFieldController.optionTextColor.value).withOpacity(0.1)
-                ,
+                color: HexColor(surveyFieldController.optionTextColor.value).withAlpha(50),
                 border: Border.all(
                   color: HexColor(surveyFieldController.optionTextColor.value),
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(10.r)),
               ),
               child: DropdownButtonFormField(
+                  value: choiceId,
                   hint: const Text('Select'),
                   isExpanded: true,
+                  icon: const Icon(Icons.keyboard_arrow_down),
                   isDense: true,
                   style: TextStyle(
                     color: HexColor(surveyFieldController.optionTextColor.value),
                   ),
                   validator: (value) {
                     if (widget.field.required == true && choiceId == null) {
-                      return validationLogicManager
-                          .requiredFormValidator(choiceId == null);
+                      return validationLogicManager.requiredFormValidator(choiceId == null);
                     }
-                    surveyCollectDataController.updateSurveyData(
-                        quesId: widget.field.id ?? "", value: choiceId);
+                    surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: choiceId);
                     return null;
                   },
                   decoration: InputDecoration(
+                
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
                   ),
-                  dropdownColor:HexColor(surveyFieldController.optionTextColor.value).withOpacity(0.1),
+
+              
+                
+                  dropdownColor:  Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(10.r),
                   alignment: AlignmentDirectional.centerStart,
-                  // elevation: ,
-                  items: widget.field.choices
-                      .map<DropdownMenuItem<Choice>>((Choice value) {
+                  padding: const EdgeInsets.all(0),
+                  items: widget.field.choices.map<DropdownMenuItem<Choice>>((Choice value) {
                     return DropdownMenuItem<Choice>(
                       value: value,
-                      child: Container(
-                 
-             width: double.infinity,
-                      color:HexColor(surveyFieldController.optionTextColor.value).withOpacity(0.1) ,
-                        child: Text(
-                          value
-                                  .translations[surveyFieldController
-                                      .defaultTranslation.value]
-                                  ?.name ??
-                              "",
-                          style: TextStyle(
-                            color: HexColor(LogicFile().getContrastColor(
-                                surveyFieldController.optionTextColor.value)),
+                      child:  Text(
+                          value.translations[surveyFieldController.defaultTranslation.value]?.name ??"",
+                          style:const  TextStyle(
+                            color: Colors.black,
                           ),
                         ),
-                      ),
+                      
                     );
                   }).toList(),
                   onChanged: (value) async {

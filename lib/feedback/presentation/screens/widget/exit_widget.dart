@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
@@ -22,7 +23,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-        height:size.height *0.08,
+        height:size.height * 0.08,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.blueAccent)),
                     margin: EdgeInsets.all(5.w),
@@ -30,39 +31,21 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-             Obx(
-                () {
-                   if(ScreenTypeEnumUtil.languageScreen == surveyScreenManager.screenTypeEnumUtil.value || ScreenTypeEnumUtil.exitScreen == surveyScreenManager.screenTypeEnumUtil.value){
-                       return Container();
-                   }
-                                  
+             Expanded(
+               child: Obx(
+                  () {
                    return Visibility(
-                     visible: (surveyFieldController.languagePickView.value == "both" ||
-                   surveyFieldController.languagePickView.value == "button" ) ? surveyFieldController.switchLanguageScreenDisplay.value=="both"?true:
-                   (surveyFieldController.switchLanguageScreenDisplay.value=="intro" && 
-                   surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen)?
-                   true:false:false,
-                       child: GestureDetector(
-                       onTap: () {
-                         surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.languageScreen);
-                       },
-                        child: Container(
-                               padding: EdgeInsets.symmetric(horizontal: 5.w),
-                               alignment: Alignment.center,
-                               decoration: BoxDecoration(
-                               shape: BoxShape.circle,
-                               color: HexColor(surveyFieldController.buttonColor.value),),
-                               child:  Text(
-                                 surveyFieldController.defaultTranslation.value.split('_')[1],
-                                 textAlign: TextAlign.center,
-                                 style: TextStyle(color:  HexColor(LogicFile().getContrastColor(surveyFieldController.buttonColor.value)), fontFamily: surveyFieldController.fontFamily.value),
-                               ),
-                             ),
-                                        ),
-                     );
-                   }
-                
-              
+                    visible: surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.welcomScreen&& surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.exitScreen && surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.languageScreen   ,
+                     child: CircularPercentIndicator(
+                          radius: 18.r,
+                          lineWidth: 5.0,
+                          percent: (surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1),
+                          center:  Text("${(((surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1))*100 ).toInt()}%",style: TextStyle(fontSize: 3.sp,fontWeight: FontWeight.bold,color:  HexColor(surveyFieldController.buttonColor.value)),),
+                          progressColor:  HexColor(surveyFieldController.buttonColor.value),
+                        ),
+                   );
+                 }
+               ),
              ),
             Expanded(
               flex: 8,
@@ -86,6 +69,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                     if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen){
                         surveyScreenManager.updateScreenTypeUtilFunction();
                     }
+
                     else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen){
                       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
                       Navigator.of(context).pop();

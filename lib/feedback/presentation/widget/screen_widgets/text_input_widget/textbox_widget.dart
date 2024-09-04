@@ -30,6 +30,8 @@ class _TextboxWidgetState extends State<TextboxWidget> {
   @override
   void initState() {
     validationLogicManager = ValidationLogicManager(field: widget.field);
+    print("surveywidgetcontrolervalue ${surveyCollectDataController.surveyIndexData
+        .containsKey(widget.field.id)} ${widget.field.id}");
     if (surveyCollectDataController.surveyIndexData
         .containsKey(widget.field.id)) {
       _controller.text = surveyCollectDataController.surveyIndexData[widget.field.id] as String? ?? "";
@@ -43,7 +45,7 @@ class _TextboxWidgetState extends State<TextboxWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding:EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom) /  1.5,
-      child: Container(
+      child: SizedBox(
         width: 250.w,
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.start,
@@ -51,10 +53,13 @@ class _TextboxWidgetState extends State<TextboxWidget> {
           children: [
             Expanded(
               child: TextFormField(
-               
                     
                 validator: (value) {
                   String? valid = validationLogicManager.inputTextValidation(value);
+            
+                  if(valid!=null){
+                    return valid;
+                  }
                   if (valid == null) {
                     surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _controller.text);
                   }

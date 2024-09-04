@@ -30,6 +30,7 @@ class _DashBoardState extends State<DashBoard> {
   final workspaceController = Get.put(WorkspaceController());
 
   late double height, width, xPosition, yPosition;
+  String workspaceName= "WorkSpace";
   @override
   void initState() {
     dashBoardApiCall();
@@ -42,10 +43,8 @@ class _DashBoardState extends State<DashBoard> {
         controller: dashboardController,
         status: ApiCallStatus.Initial,
         sendParams: false,
-          dialogBoxtitle: 'Updating...',
-       
+        dialogBoxtitle: 'Updating...',
         success: () {
-         
         }).handleApiCall();
     });
   }
@@ -110,6 +109,12 @@ class _DashBoardState extends State<DashBoard> {
                                 return WorkspacesList(
                                   workspaceModel:
                                       workspaceController.workspaceList[index],
+                                      onDataReceived: (p0) {
+                                        setState(() {
+                                          workspaceName = p0;
+                                        });
+                                     
+                                      },
                                 );
                               }),
                         ),
@@ -124,13 +129,15 @@ class _DashBoardState extends State<DashBoard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   Text(
-                    workspaceController.selectedWorkspace?.value.workSpaceName??"WorkSpace",
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: ConstantSize.medium_3),
-                  ),
+                Text(
+                   workspaceName,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: ConstantSize.medium_3),
+                                         ),
+                     
+                   
                   SizedBox(
                     width: 10.w,
                   ),
@@ -158,7 +165,7 @@ class _DashBoardState extends State<DashBoard> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const AddTemplateScreen())).then((value){
-                          if(value){
+                          if(value!=null &&  value){
     ApiCallHandling(
         controller: dashboardController,
         status: ApiCallStatus.Initial,

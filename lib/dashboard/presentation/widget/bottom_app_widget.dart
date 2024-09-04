@@ -11,7 +11,8 @@ import 'package:zonka_feedback/utils/constant_size.dart';
 class WorkspacesList extends StatefulWidget {
 
   final WorkspaceModel workspaceModel;
-  const WorkspacesList({super.key, required this.workspaceModel});
+   final void Function(String) onDataReceived;
+  const WorkspacesList({super.key, required this.workspaceModel, required this.onDataReceived});
 
   @override
   State<WorkspacesList> createState() => _WorkspacesListState();
@@ -32,6 +33,7 @@ class _WorkspacesListState extends State<WorkspacesList> {
           _workspaceController.setSelectedWorkspace(widget.workspaceModel);
           _dashboardController.overlayController.hide();
           _surveyManagerController.getSurveyListWorkspace();
+          widget.onDataReceived(widget.workspaceModel.workSpaceName);
           },
           child: Container(
             margin: EdgeInsets.only(top: 6.h,left: 20.w,right: 20.w),

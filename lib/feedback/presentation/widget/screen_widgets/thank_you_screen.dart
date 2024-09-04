@@ -35,9 +35,11 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
       Get.find<SurveryApiFeedbackController>();
   final SurveyCollectDataController surveyCollectDataController =
       Get.find<SurveyCollectDataController>();
+      bool _isDelayCalled = false;
   @override
   void initState() {
     super.initState();
+    surveyScreenManager.surveySubmitDateTimeValue(DateTime.now());
     asyncDurationValue();
   }
 
@@ -62,14 +64,21 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
   }
 
   Future<void> asyncDurationValue() async {
-    print("surveymodel ");
-    await submitsurvey.call(SurveySubmitModel(responseType: 'Online',
+        await submitsurvey.call(SurveySubmitModel(responseType: 'Online',
         surveyId: surveyApicontroller.surveyModel.value.id,
+        surveyStartDateTime: surveyScreenManager.surveyStartDateTime.value,
+        surveySubmitDateTime: surveyScreenManager.surveySubmitDateTime.value,
         surveyResponse: createSurveyResponseData()));
-        print("helloworld");
         surveyCollectDataController.surveyIndexData.clear();
-    await Future.delayed(Duration(seconds: surveyFieldController.thankyouScreenTimeout.value));
-    surveyScreenManager.updateScreenTypeUtilFunction();
+        // if (!_isDelayCalled) {
+        //   _isDelayCalled = true;
+        //    await Future.delayed(Duration(seconds: surveyFieldController.thankyouScreenTimeout.value)).then((value){
+        //   print("surveyfieldcontroller");
+        // });
+        // }
+    
+
+        surveyScreenManager.updateScreenTypeUtilFunction();
   }
 
   @override

@@ -63,8 +63,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    surveyScreenManager.screenTypeEnumUtil.value =
-                        ScreenTypeEnumUtil.surveryScreen;
+                    surveyScreenManager.screenTypeEnumUtil.value =  ScreenTypeEnumUtil.surveryScreen;
+                    surveyScreenManager.setStartDateTimeValue(DateTime.now());
                   },
                   child: Center(
                     child: Container(

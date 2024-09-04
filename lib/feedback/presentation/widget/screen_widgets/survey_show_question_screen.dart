@@ -28,23 +28,23 @@ class _SurveyShowQuestionScreenWidgetState
       Get.find<SurveyScreenManager>();
   final SurveryApiFeedbackController surveryFeedbackApiController =
       Get.find<SurveryApiFeedbackController>();
- Timer? timer;
+  Timer? timer;
   @override
   void initState() {
-    surveyScreenManager.showDialogAfterDelay();
+    // surveyScreenManager.showDialogAfterDelay();
     super.initState();
   }
 
-  Future<void> asyncDurationValue() async {
+  // Future<void> asyncDurationValue() async {
 
-    if(timer!=null){
-        timer!.cancel();
-    }
-     timer  = Timer(const Duration(seconds: 30), () {
-       surveyScreenManager.updateScreenTypeUtilFunction();
-     });
+  //   if(timer!=null){
+  //       timer!.cancel();
+  //   }
+  //    timer  = Timer(const Duration(seconds: 30), () {
+  //      surveyScreenManager.updateScreenTypeUtilFunction();
+  //    });
     
-  }
+  // }
 
   
 
@@ -120,18 +120,13 @@ class _SurveyShowQuestionScreenWidgetState
                         // }
                         return Obx(() {
                           return AnimatedSwitcher(
-                              reverseDuration:
-                                  const Duration(milliseconds: 1000),
+                              reverseDuration: const Duration(milliseconds: 1000),
                               switchInCurve: Curves.fastLinearToSlowEaseIn,
                               transitionBuilder: (child, animation) {
                                 if (child.key is ValueKey<int>) {
-                                  final ValueKey<int> key =
-                                      child.key as ValueKey<int>;
-                                  var fadeTransition =
-                                      Tween<double>(begin: 0, end: 1)
-                                          .animate(animation);
-                                  if (key.value !=
-                                      surveyScreenManager.index.value) {
+                                  final ValueKey<int> key = child.key as ValueKey<int>;
+                                  var fadeTransition = Tween<double>(begin: 0, end: 1).animate(animation);
+                                  if (key.value != surveyScreenManager.index.value) {
                                     return FadeTransition(
                                         opacity: fadeTransition);
                                   }

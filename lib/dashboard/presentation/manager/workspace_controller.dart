@@ -11,6 +11,7 @@ class WorkspaceController extends BaseControllerWithOutParams<void>{
   Rx<WorkspaceModel> ? _selectedWorkspace;
   Rx<WorkspaceModel> ? get selectedWorkspace => _selectedWorkspace;
   void setSelectedWorkspace(WorkspaceModel selectedWorkspace) {
+    print("workspaemodel ${selectedWorkspace.workSpaceName}");
     _selectedWorkspace = selectedWorkspace.obs;
     update();
   }

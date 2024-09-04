@@ -8,8 +8,7 @@ import 'package:zonka_feedback/utils/hive_directory_util.dart';
 import 'package:zonka_feedback/utils/hive_key.dart';
 
 class SurveyManagerController extends GetxController {
-  final WorkspaceController _workspaceController =
-      Get.find<WorkspaceController>();
+  final WorkspaceController _workspaceController = Get.find<WorkspaceController>();
   final SurveyController _surveyController = Get.find<SurveyController>();
   final LocationController _locationController = Get.find<LocationController>();
   List<SurveyResModel> _filteredSurveyList = [];

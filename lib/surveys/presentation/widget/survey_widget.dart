@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/setting_up_screen.dart';
-
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
@@ -18,8 +15,7 @@ class SurveyWidget extends StatefulWidget {
   State<SurveyWidget> createState() => _SurveyWidgetState();
 }
 
-class _SurveyWidgetState extends State<SurveyWidget>
-    with TickerProviderStateMixin {
+class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -37,7 +33,7 @@ class _SurveyWidgetState extends State<SurveyWidget>
             Navigator.push(
                 context,
                 PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 1),
+                  transitionDuration:  const Duration(milliseconds: 1),
                   pageBuilder: (BuildContext context,
                       Animation<double> animation,
                       Animation<double> secondaryAnimation) {

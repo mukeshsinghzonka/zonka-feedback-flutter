@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/feedback_survey_screen.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
@@ -19,8 +16,7 @@ class SettingUpscreen extends StatefulWidget {
 }
 
 class _SettingUPScreenState extends State<SettingUpscreen> {
-  final SurveryApiFeedbackController surveryFeedbackController =
-      Get.put(SurveryApiFeedbackController());
+  final SurveryApiFeedbackController surveryFeedbackController =  Get.put(SurveryApiFeedbackController());
 
   @override
   void initState() {
@@ -29,11 +25,6 @@ surveryFeedbackController.call(widget.surveyId ?? "");
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  //   super.dispose();
-  // }
 
 
 

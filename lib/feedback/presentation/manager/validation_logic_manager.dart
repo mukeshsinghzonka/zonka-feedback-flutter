@@ -63,7 +63,7 @@ class ValidationLogicManager {
 
   String? inputTextValidation(String? value) {
     String pattern = field.validateRegex!.trim();
-  
+  print("regexpattern $pattern");
     if (value == null || value.isEmpty && field.required == true) {
       FormValidator formValidator = FormValidator(
           value: ScreenValidationErrorType.REQUIRED,
@@ -73,11 +73,11 @@ class ValidationLogicManager {
     }
     if (!RegExp(pattern).hasMatch(value)) {
       FormValidator formValidator = FormValidator(value: ScreenValidationErrorType.REQUIRED,
-          formId: field.id ?? "",  message: field
+          formId: field.id ?? "",  message:"${field
                   .translations![
                       _surveyDesignFieldController.defaultTranslation.value]!
-                  .invalidFieldMessage ??
-              "");
+                  .invalidFieldMessage} $pattern"   
+              );
       return jsonEncode(formValidator.toJson());
     }
     return null;

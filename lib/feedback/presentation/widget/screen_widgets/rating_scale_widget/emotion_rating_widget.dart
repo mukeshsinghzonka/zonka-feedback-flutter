@@ -62,9 +62,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
   void initState() {
     if (surveyCollectDataController.surveyIndexData
         .containsKey(widget.field.id)) {
-      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id]
-                  as RatingDataCollector?)
-              ?.choiceMap ??
+      _choiceMap = (surveyCollectDataController.surveyIndexData[widget.field.id] as RatingDataCollector?) ?.choiceMap ??
           {};
       _optionMap = (surveyCollectDataController.surveyIndexData[widget.field.id]
                   as RatingDataCollector?)
@@ -160,11 +158,10 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
                               setState(() {});
                             }
                       
-                        if(_optionMap.values.contains(-1)==false){
-                                           
-                 Future.delayed(const Duration(milliseconds: 300), () {
-   surveyScreenManager.nextScreen();
-});    
+                        if(_optionMap.values.contains(-1)==false){                         
+                          Future.delayed(const Duration(milliseconds: 300), () {
+                           surveyScreenManager.nextScreen();
+                          });    
                         }
 
 
@@ -211,9 +208,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
                                             height: 13.w,
                                           )
                                         : Center(
-                                          child: Container(
-                                          
-                                            child: Stack(
+                                          child:  Stack(
 
                                               children: [
                                                
@@ -228,16 +223,15 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
                                                                 ?.name ??
                                                             ""] ??
                                                         "",
-                                                    height: 13.w,
+                                                    height: 16.w,
                                                                                           
                                                  
                                                   ),
                                                    Container(
-                                                    height: 13.w,
-                                                    width: 13.w,
+                                                    height: 16.w,
+                                                    width: 16.w,
                                                      decoration:  BoxDecoration(
-         color: _choiceMap[widget.field.options[i].id] ==
-                                                                "" ||
+         color: _choiceMap[widget.field.options[i].id] == "" ||
                                                             _choiceMap[widget
                                                                         .field
                                                                         .options[i]
@@ -258,7 +252,7 @@ class _EmotionRatingWidgetState extends State<EmotionRatingWidget>
                                             ),
                                           ),
                                         ),
-                                  ),
+                                  
                                 );
                               }),
                         )),

@@ -146,11 +146,11 @@ class _StarRatingWidgetState extends State<StarRatingWidget>with SingleTickerPro
                                         SvgPicture.asset(
                                           _optionMap[widget.field.options[i].id ?? ""]! >= j || _optionMap[widget.field.options[i].id ?? ""]==-1 ?  ImageConstant.starFilledSolid:ImageConstant.outlinedStar,
                                           color:Colors.black,
-                                          height: 30.h,
+                                          height: 40.h,
                                         ): SvgPicture.asset(
                                           ImageConstant.starSvg,
                                           color: _optionMap[widget.field.options[i].id ?? ""]! >= j || _optionMap[widget.field.options[i].id ?? ""]==-1 ? HexColor('#FFD93B') :HexColor('#FFD93B').withOpacity(0.3),
-                                          height: 30.h,
+                                          height: 40.h,
                                         ),
                                       ),
                                     );

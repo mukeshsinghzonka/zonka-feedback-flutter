@@ -36,16 +36,11 @@ class SurveySubmitModel {
       'companyId': companyId,
       'surveyId': surveyId,
       'language': language,
-      // 'surveyStartDateTime':surveyStartDateTime!=null? surveyStartDateTime!.toIso8601String():"",
-      // 'surveyFillStartDateTime':surveyFillStartDateTime!=null ?  surveyFillStartDateTime!.toIso8601String():"",
-      // 'surveySubmitDateTime':surveySubmitDateTime!=null? surveySubmitDateTime!.toIso8601String():"",
       "timeZone": -330,
-      "surveyStartDateTime": "2024-05-23 13:10:52",
+      "surveyStartDateTime": surveyStartDateTime==null ? "" : surveyStartDateTime.toString(),
       "surveyFillStartDateTime": "2024-05-23 13:11:01",
-      "surveySubmitDateTime": "2024-05-14 13:10:52",
-      'surveyResponse': surveyResponse != null? surveyResponse!.map((response) => response.toJsonSurveyReponse())
-              .toList()
-          : "",
+      "surveySubmitDateTime": surveySubmitDateTime == null? "":surveySubmitDateTime.toString(),
+      'surveyResponse': surveyResponse != null? surveyResponse!.map((response) => response.toJsonSurveyReponse()).toList(): "",
       'customer': customer == null ? {} : customer!.toJsonCustomer(),
    
     };
