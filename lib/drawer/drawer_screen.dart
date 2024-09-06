@@ -2,11 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:zonka_feedback/drawer/manager/drawer_screen_manager.dart';
+import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
 class DrawerScreen extends StatelessWidget {
-  const DrawerScreen({super.key});
-
+DrawerScreen({super.key});
+ final DrawerScreenManagerNotifier drawerScreenManagerNotifier = Get.find<DrawerScreenManagerNotifier>();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -24,6 +27,11 @@ class DrawerScreen extends StatelessWidget {
             ),
             const Divider(),
             ListTile(
+              onTap:(){
+             
+                 drawerScreenManagerNotifier.drawerScreenSet(DrawerScreenType.surveyScreen,context);
+                 
+              },
               title: Row(
                 children: [
                   SvgPicture.asset(
@@ -35,7 +43,7 @@ class DrawerScreen extends StatelessWidget {
                   const Text('Surveys'),
                 ],
               ),
-              onTap: null,
+            
             ),
             ListTile(
               title: Row(
@@ -49,7 +57,9 @@ class DrawerScreen extends StatelessWidget {
                   const Text('Settings'),
                 ],
               ),
-              onTap: null,
+              onTap: (){
+                 drawerScreenManagerNotifier.drawerScreenSet(DrawerScreenType.settingScreen,context);
+              },
             ),
             ListTile(
               title: Row(

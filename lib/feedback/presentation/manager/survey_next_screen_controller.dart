@@ -313,7 +313,7 @@ class SurveyScreenManager extends GetxController {
       }
     } else {
       //show intro screen
-      setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
+      // setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
     }
   }
 }

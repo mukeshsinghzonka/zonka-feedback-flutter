@@ -72,4 +72,12 @@ enum SuveryScreenBottom{
   templateBottomBar,
   exitBottomBar
 }
+
+
+enum DrawerScreenType{
+  surveyScreen,
+  settingScreen,
+  helpScreen,
+  sendFeedbackScreen
+}
 // enum 

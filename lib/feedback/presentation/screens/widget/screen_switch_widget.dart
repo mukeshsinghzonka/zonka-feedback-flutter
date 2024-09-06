@@ -101,6 +101,30 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
             ),
             Obx(
                () {
+                
+                    if(surveyScreenManager.index.value ==surveyScreenManager.surveyScreens.length-1 ){
+return  GestureDetector(
+onTap: () {
+       if (surveyScreenManager.nextScreenstop.value == false) {
+                      surveyScreenManager.nextScreen();
+                    }
+},
+  child: Container(
+    height: 35.h,
+    margin: EdgeInsets.only(top:40.h,right: 5.w),
+    padding: EdgeInsets.symmetric(horizontal: 5.w),
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(5.r)),
+    color: HexColor(surveyFieldController.buttonColor.value),),
+    child:  Text(
+      'Done',
+      textAlign: TextAlign.center,
+      style: TextStyle(color:  HexColor(LogicFile().getContrastColor(surveyFieldController.buttonColor.value)), fontFamily: surveyFieldController.fontFamily.value),
+    ),
+  ),
+);
+                    }
                 return GestureDetector(
                   onTap: () async {
                     if (surveyScreenManager.nextScreenstop.value == false) {

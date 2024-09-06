@@ -31,37 +31,34 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-             Expanded(
-               child: Obx(
-                  () {
-                   return Visibility(
-                    visible: surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.welcomScreen&& surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.exitScreen && surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.languageScreen   ,
-                     child: CircularPercentIndicator(
-                          radius: 18.r,
-                          lineWidth: 5.0,
-                          percent: (surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1),
-                          center:  Text("${(((surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1))*100 ).toInt()}%",style: TextStyle(fontSize: 3.sp,fontWeight: FontWeight.bold,color:  HexColor(surveyFieldController.buttonColor.value)),),
-                          progressColor:  HexColor(surveyFieldController.buttonColor.value),
-                        ),
-                   );
-                 }
-               ),
+             Obx(
+                () {
+                 return Visibility(
+                  visible: surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.welcomScreen&& surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.exitScreen && surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.languageScreen   ,
+                   child: CircularPercentIndicator(
+                        radius: 18.r,
+                        lineWidth: 5.0,
+                      backgroundColor: Colors.white,
+                        percent: (surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1),
+                        center:  Text("${(((surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1))*100 ).toInt()}%",style: TextStyle(fontSize: 3.sp,fontWeight: FontWeight.bold,color:  HexColor(surveyFieldController.buttonColor.value)),),
+                        progressColor:  HexColor(surveyFieldController.buttonColor.value),
+                      ),
+                 );
+               }
              ),
-            Expanded(
-              flex: 8,
-              child: Container(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  'Powered By Zonka FeedBack',
-                  style: TextStyle( fontFamily: surveyFieldController.fontFamily.value, fontSize: 6.sp),
-                ),
-              )),
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                'Powered By Zonka FeedBack',
+                style: TextStyle( fontFamily: surveyFieldController.fontFamily.value, fontSize: 6.sp),
+              ),
+            ),
           Obx(
              () {
               return Visibility(
                 visible:  (ScreenTypeEnumUtil.welcomScreen == surveyScreenManager.screenTypeEnumUtil.value && surveyFieldController.showExitButtonOnIntro.value)
-                || (surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen && surveyFieldController.showExitButtonONThnkyou.value) ||
-                surveyScreenManager.screenTypeEnumUtil.value ==ScreenTypeEnumUtil.surveryScreen
+                || (surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen && surveyFieldController.showExitButtonONThnkyou.value)
+  
               ,
                 child: GestureDetector(
                   onTap: () { 

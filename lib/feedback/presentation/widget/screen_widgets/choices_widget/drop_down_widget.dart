@@ -9,7 +9,6 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_design_contr
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
-import 'package:zonka_feedback/utils/logic_file.dart';
 
 class DropDownWidget extends StatefulWidget {
   final Field field;
@@ -71,10 +70,6 @@ Color lightenColor(String hexColor, double amount) {
     return AnimatedBuilder(
         animation: _animationController.animation,
         builder: (context, child) {
-print("optiontextcolor ${surveyFieldController.optionTextColor.value}");
-
-Color lightenColorValue = lightenColor(surveyFieldController.optionTextColor.value, 0.75);
-String lightenedHexColor = colorToHex(lightenColorValue);
           return Opacity(
             opacity: _animationController.animation.value,
             child: Container(
