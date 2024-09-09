@@ -65,6 +65,8 @@ class _SurveyScreenState extends State<SurveyScreen> {
               return SizedBox(
                 height: size.height * 0.80,
                 child: ListView.builder(
+                  // shrinkWrap: true,
+                  // physics: NeverScrollableScrollPhysics(),
                     itemCount: _surveyManagerController.filteredSurveyList.length+1,
                     itemBuilder: (context, index) {
                       if(index == _surveyManagerController.filteredSurveyList.length){

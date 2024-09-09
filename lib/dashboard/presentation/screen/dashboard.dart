@@ -7,6 +7,7 @@ import 'package:zonka_feedback/dashboard/presentation/manager/dashboard_controll
 import 'package:zonka_feedback/dashboard/presentation/screen/widget/add_template_widget.dart';
 import 'package:zonka_feedback/dashboard/presentation/screen/widget/appbar_workspace.dart';
 import 'package:zonka_feedback/dashboard/presentation/widget/schedule_demo_widget.dart';
+import 'package:zonka_feedback/dashboard/presentation/widget/warning_widget.dart';
 import 'package:zonka_feedback/drawer/drawer_screen.dart';
 import 'package:zonka_feedback/drawer/manager/drawer_screen_manager.dart';
 import 'package:zonka_feedback/services/api_call_handling.dart';
@@ -23,12 +24,13 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   final dashboardController = Get.put(DashboardController());
- 
-  final DrawerScreenManagerNotifier drawerScreenManagerNotifier = Get.put(DrawerScreenManagerNotifier());
+
+  final DrawerScreenManagerNotifier drawerScreenManagerNotifier =
+      Get.put(DrawerScreenManagerNotifier());
 
   @override
   void initState() {
-     WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       ApiCallHandling(
               controller: dashboardController,
               status: ApiCallStatus.Initial,
@@ -40,10 +42,8 @@ class _DashBoardState extends State<DashBoard> {
     super.initState();
   }
 
-
   final GlobalKey _actionKey = GlobalKey();
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,35 +65,38 @@ class _DashBoardState extends State<DashBoard> {
                   }
                 }),
           ),
-
           title: AppBarWorkSpace(
             actionKeyValue: _actionKey,
           ),
-
-          actions: [
-            AddTemplateWidget()
-          ],
-
-      centerTitle: true,
-      backgroundColor: const  Color(ColorConstant.themeColor)),
+          actions: [AddTemplateWidget()],
+          centerTitle: true,
+          backgroundColor: const Color(ColorConstant.themeColor)),
       drawer: DrawerScreen(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: const BottomNavigationBarWidget(),
-      body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                // WarningWidget(),
-                const ScheduleDemoWidget(),
-                Obx(() {
-                  return drawerScreenManagerNotifier.getDrawerScreen(drawerScreenManagerNotifier.drawerScreenType.value);
-                })
-              ],
-            ),
-          ],
-        ),
+      body: CustomScrollView(
+        slivers: [
+          // WarningWidget(),SliverPersistentHeader
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: WarningWidget(),
+          ),
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: ScheduleDemoWidget(),
+          ),
+          
+        
+             SliverToBoxAdapter(
+              child: Obx(
+                 () {
+                  return drawerScreenManagerNotifier.getDrawerScreen(
+                      drawerScreenManagerNotifier.drawerScreenType.value);
+                }
+              ),
+            )
+          
+        ],
       ),
     );
   }

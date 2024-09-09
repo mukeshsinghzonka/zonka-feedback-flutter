@@ -32,6 +32,10 @@ import 'package:zonka_feedback/login/domain/usecase/signup_user_uc.dart';
 import 'package:zonka_feedback/login/presentation/manager/login_controller.dart';
 import 'package:zonka_feedback/login/presentation/manager/signup_controller.dart';
 import 'package:zonka_feedback/services/logger/logger.dart';
+import 'package:zonka_feedback/setting/data/data_source/country_code_ds.dart';
+import 'package:zonka_feedback/setting/data/repo_impl/country_code_repo_impl.dart';
+import 'package:zonka_feedback/setting/domain/repo/country_code_repo.dart';
+import 'package:zonka_feedback/setting/domain/usecase/country_code_uc.dart';
 import 'package:zonka_feedback/surveys/data/data_source/survey_ds.dart';
 import 'package:zonka_feedback/surveys/data/repositories_impl/survey_repo_impl.dart';
 import 'package:zonka_feedback/surveys/domain/repositories/survey_repo.dart';
@@ -70,6 +74,7 @@ void setup() {
     getIt.registerLazySingleton(() => GetTemplateUc(getAllTemplateRepo:getIt()));
     getIt.registerLazySingleton(() => ApplyTemplateUc(applyTemplateRepo:getIt()));
     getIt.registerLazySingleton(() => AddTemplateUc(addTemplateRepo:getIt()));
+    getIt.registerLazySingleton(() => CountryCodeUc(countryCodeRepo:getIt()));
     // getIt.registerLazySingleton(() => SurveyLanguagesUc(surveyFeedbackRepo:getIt())); 
 
 
@@ -85,7 +90,7 @@ void setup() {
     getIt.registerLazySingleton<GetAllTemplateRepo>(() => GetAllTemplateRepoImpl(getAllTemplateDs: getIt()));
     getIt.registerLazySingleton<ApplyTemplateRepo>(()=>ApplyTemplateRepoImpl(applyTemplateDs: getIt()));
     getIt.registerLazySingleton<AddTemplateRepo>(()=>AddTemplateRepoImpl(addTemplateDs: getIt()));
-
+    getIt.registerLazySingleton<CountryCodeRepo>(()=>CountryCodeRepoImpl(countryCodeDs: getIt()));
 
 
     //Data Source
@@ -100,6 +105,7 @@ void setup() {
     getIt.registerLazySingleton(() => GetAllTemplateDs());
     getIt.registerLazySingleton(() => ApplyTemplateDs());
     getIt.registerLazySingleton(() => AddTemplateDs());
+    getIt.registerLazySingleton(() => CountryCodeDs());
   
 
     //Services

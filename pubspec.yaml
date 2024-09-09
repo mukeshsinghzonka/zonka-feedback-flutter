@@ -103,6 +103,7 @@ flutter:
     - assests/images/survey_emoji/outlined/
     - assests/images/survey_emoji/emoji_filled/
     - assests/large_flags/
+    - assests/json/json_phone_code.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

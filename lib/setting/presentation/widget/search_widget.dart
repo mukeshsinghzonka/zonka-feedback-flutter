@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
+typedef SearchListClassCallBack = void Function(SearchListClass val);
+
 
 class SearchCommonWidget extends StatefulWidget {
   final bool showSearchLocation;
   final bool? showImage;
   final List<SearchListClass> searchListData;
+  final SearchListClassCallBack callback;
+
   const SearchCommonWidget(
       {super.key,
       required this.showSearchLocation,
       this.showImage,
+      required this.callback,
       required this.searchListData});
 
   @override
@@ -53,28 +58,36 @@ class _SearchCommonWidgetState extends State<SearchCommonWidget> {
             child: ListView.builder(
                 itemCount: widget.searchListData.length,
                 itemBuilder: (context, value) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5.r)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(widget.searchListData[value].listName),
-                        Container(
-                          padding: EdgeInsets.all(2.h),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(ColorConstant.themeColor),
-                          ),
-                          child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                            size: 12.h,
-                          ),
-                        )
-                      ],
+                  return GestureDetector(
+                    onTap: () {
+                      widget.callback(widget.searchListData[value]);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(widget.searchListData[value].listName),
+                          Visibility(
+                            visible: widget.searchListData[value].isSelected,
+                            child: Container(
+                              padding: EdgeInsets.all(2.h),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(ColorConstant.themeColor),
+                              ),
+                              child: Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 12.h,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 }),
@@ -91,9 +104,11 @@ class SearchListClass {
   final String listName;
   final bool isSelected;
   final String id;
+  final String ?assestImageUrl;
   SearchListClass(
       {this.imageUrl,
       required this.listName,
+       this.assestImageUrl,
       required this.isSelected,
       required this.id,
       required this.showImage});

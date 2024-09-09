@@ -16,35 +16,31 @@ class SettingUpscreen extends StatefulWidget {
 }
 
 class _SettingUPScreenState extends State<SettingUpscreen> {
-  final SurveryApiFeedbackController surveryFeedbackController =  Get.put(SurveryApiFeedbackController());
+  final SurveryApiFeedbackController surveryFeedbackController =
+      Get.put(SurveryApiFeedbackController());
 
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
-surveryFeedbackController.call(widget.surveyId ?? "");
+    surveryFeedbackController.call(widget.surveyId ?? "");
     super.initState();
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: OrientationBuilder(builder: (context, builder) {
-        
-        return Obx(
-           () {
-            if(surveryFeedbackController.apiStatus.value == ApiCallStatus.Success){
-return  SurveyScreenFeedbackPage(screenBottom: widget.screenBottom,);
-            }
-            return Container(
-                    alignment: Alignment.center,
-                    child: Text("Setting up"),
-                  );
-          }
+    return Scaffold(body: OrientationBuilder(builder: (context, builder) {
+      return Obx(() {
+        if (surveryFeedbackController.apiStatus.value ==
+            ApiCallStatus.Success) {
+          return SurveyScreenFeedbackPage(
+            screenBottom: widget.screenBottom,
+          );
+        }
+        return Container(
+          alignment: Alignment.center,
+          child: const Text("Setting up"),
         );
-      })
-    );
+      });
+    }));
   }
 }

@@ -11,6 +11,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_design_contr
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/validation_logic_manager.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/utils/logic_file.dart';
 
 class PictureChoiceWidget extends StatefulWidget {
   final Field field;
@@ -169,7 +170,8 @@ class _PictureChoiceWidgetState extends State<PictureChoiceWidget>with SingleTic
                             '${widget.field.choices[i].translations[surveyFieldController.defaultTranslation.value]?.name}',
                             style: TextStyle(
                                 fontSize: 4.sp,
-                                color: _choiceMap[widget.field.choices[i].id] ??false ? Colors.white : HexColor(surveyFieldController.optionTextColor.value),
+                                // color: _choiceMap[widget.field.choices[i].id] ??false ? Colors.white : HexColor(surveyFieldController.optionTextColor.value),
+                                color:HexColor(LogicFile().getContrastColor(surveyFieldController.optionTextColor.value)),
                                 fontFamily: surveyFieldController.fontFamily.value),
                           ),
                         ],

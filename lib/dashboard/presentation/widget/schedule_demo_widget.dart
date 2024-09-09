@@ -5,11 +5,10 @@ import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 
-class ScheduleDemoWidget extends StatelessWidget {
-  const ScheduleDemoWidget({super.key});
+class ScheduleDemoWidget extends SliverPersistentHeaderDelegate {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       height: 30.h,
       decoration: BoxDecoration(
@@ -21,7 +20,7 @@ class ScheduleDemoWidget extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 3,
             blurRadius: 7,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
@@ -71,5 +70,16 @@ class ScheduleDemoWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+  
+  @override
+  double get maxExtent => 30.h;
+  
+  @override
+  double get minExtent => 30.h;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }

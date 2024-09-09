@@ -4,17 +4,18 @@ import 'package:zonka_feedback/login/presentation/manager/logout_controller.dart
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 
-class WarningWidget extends StatelessWidget {
-   WarningWidget({super.key});
+class WarningWidget extends  SliverPersistentHeaderDelegate  {
+
 final LogoutController  _logoutController = LogoutController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,  double shrinkOffset, bool overlapsContent) {
     return  GestureDetector(
       onTap: () {
         _logoutController.call();
       },
       child: Container(
+        height: 20.h,
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
                 color: const Color(ColorConstant.redColorExpire),
@@ -31,11 +32,22 @@ final LogoutController  _logoutController = LogoutController();
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           fontSize: ConstantSize.extra_small_3.sp,
-                          decorationColor: Color(ColorConstant.themeColor),
-                          color: Color(ColorConstant.themeColor)),
+                          decorationColor:const  Color(ColorConstant.themeColor),
+                          color:const  Color(ColorConstant.themeColor)),
                     ),
                   ],
                 )),
     );
+  }
+  
+  @override
+  double get maxExtent => 20.h;
+  
+  @override
+  double get minExtent => 20.h;
+  
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
   }
 }
