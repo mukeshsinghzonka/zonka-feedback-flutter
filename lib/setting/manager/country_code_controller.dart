@@ -16,7 +16,7 @@ class CountryCodeController extends BaseControllerWithOutParams<void> {
     update(); // This is valid if you're using GetxController or GetBuilder
   }
  
- Rx<CountryCodeModel> _countryCodeModel = CountryCodeModel(
+ final Rx<CountryCodeModel> _countryCodeModel = CountryCodeModel(
     countryName: '',
     dialCode: '',
     code: '',
@@ -33,9 +33,7 @@ class CountryCodeController extends BaseControllerWithOutParams<void> {
     setStatus(ApiCallStatus.Loading);
     ApiResult<List<CountryCodeModel>> result = await getIt.get<CountryCodeUc>().call();
     result.when(success: (data) async {
-          print("countrycodelist ${data!.length}");
-      setCountryCodeList(data);
-      print("countrycodelist ${countryCodeList.value.length}");
+      setCountryCodeList(data!);
       setStatus(ApiCallStatus.Success);
       return;
     }, failure: (error) async {

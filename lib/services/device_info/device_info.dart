@@ -57,7 +57,5 @@ class DeviceInfoService {
     print('Device is Low Ram: ${androidInfo.isLowRamDevice}');
 
 
-
-
   }
 }

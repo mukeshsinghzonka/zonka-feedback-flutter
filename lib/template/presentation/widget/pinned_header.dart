@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:zonka_feedback/utils/callback_function.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
-typedef BoolCallback = void Function(Offset val);
-
 
 class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
   late BoolCallback callbackFunction;

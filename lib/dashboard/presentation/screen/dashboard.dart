@@ -77,10 +77,10 @@ class _DashBoardState extends State<DashBoard> {
       body: CustomScrollView(
         slivers: [
           // WarningWidget(),SliverPersistentHeader
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: WarningWidget(),
-          ),
+          // SliverPersistentHeader(
+          //   pinned: true,
+          //   delegate: WarningWidget(),
+          // ),
           SliverPersistentHeader(
             pinned: true,
             delegate: ScheduleDemoWidget(),
