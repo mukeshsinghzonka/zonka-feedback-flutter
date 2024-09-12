@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:zonka_feedback/services/dialog_util.dart';
 import 'package:zonka_feedback/services/navigator.dart';
-import 'package:zonka_feedback/services/network/network_connectivity.dart';
 import 'package:zonka_feedback/services/network/network_exceptions.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
@@ -15,8 +14,8 @@ class ApiCallHandling {
    ApiCallHandling({required this.controller, required this.status, required this.success,required this.sendParams, required this.dialogBoxtitle});    
    
   void handleApiCall({dynamic value}) async {
-    bool networkCheck = await NetworkConnectivity().isConnected();
-   if(controller.apiStatus.value == ApiCallStatus.Initial && networkCheck){
+   
+   if(controller.apiStatus.value == ApiCallStatus.Initial){
      DialogUtils.showCustomLoadingDialog(NavigationService.navigatorKey.currentContext!,dialogBoxtitle);
      if(sendParams){
       await controller.call(value);

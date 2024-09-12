@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/device_model.dart';
+// import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/device_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_reponse_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_submit_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/thankyou_model.dart';
@@ -13,8 +13,11 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_design_contr
 import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/template_widget.dart';
+import 'package:zonka_feedback/services/hive/hive_service.dart';
+import 'package:zonka_feedback/services/network/network_connectivity.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+import 'package:zonka_feedback/utils/hive_directory_util.dart';
 
 class ThankYouWidget extends StatefulWidget {
   final ThankyouPage? field;
@@ -35,7 +38,7 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
       Get.find<SurveryApiFeedbackController>();
   final SurveyCollectDataController surveyCollectDataController =
       Get.find<SurveyCollectDataController>();
-  bool _isDelayCalled = false;
+  // bool _isDelayCalled = false;
   @override
   void initState() {
     super.initState();
@@ -63,8 +66,9 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
 
   Future<void> asyncDurationValue() async {
         
-     await submitsurvey.call(
-        SurveySubmitModel(
+    //  bool checkInternetConnection = await NetworkConnectivity().isConnected();
+
+     SurveySubmitModel submitSurveyModel =   SurveySubmitModel(
         responseType:'Device',
         language:surveyFieldController.defaultTranslation.value,
         syncType:"Auto",  //Manual
@@ -73,9 +77,25 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
         surveyStartDateTime: surveyFieldController.surveyStartDateTime.value,
         surveySubmitDateTime: DateTime.now(),
         surveyFillStartDateTime: surveyFieldController.surveyFillDateTime.value,
-        surveyResponse: createSurveyResponseData())
-        );
+        surveyResponse: createSurveyResponseData());
 
+        // if(checkInternetConnection) {
+        //  await submitsurvey.call(submitSurveyModel);
+        // }
+        // else{
+        
+        dynamic value = await HiveService().getData(HiveDirectoryUtil.submitSurveyBox,surveyApicontroller.surveyModel.value.id??"");
+        if(value !=null){
+           List<SurveySubmitModel> surveyModelList = [];
+          // //  if((value is  List<SurveySubmitModel>) == false){
+          //    HiveService().deleteData(HiveDirectoryUtil.submitSurveyBox, surveyApicontroller.surveyModel.value.id??"");
+          // //  }
+           surveyModelList.addAll(value);
+           surveyModelList.add(submitSurveyModel);
+           await HiveService().putData(HiveDirectoryUtil.submitSurveyBox, surveyApicontroller.surveyModel.value.id??"", surveyModelList);
+        }
+        
+        // }
 
         surveyCollectDataController.surveyIndexData.clear();
         // if (!_isDelayCalled) {

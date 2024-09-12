@@ -42,7 +42,7 @@ class _WorkspacesListState extends State<WorkspacesList> {
                           padding: EdgeInsets.only(left: 10.w,right: 10.w),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: widget.workspaceModel ==_workspaceController.selectedWorkspace? const Color(ColorConstant.appBarBottomColor):null,
+                            color: widget.workspaceModel ==_workspaceController.selectedWorkspace!.value ? const Color(ColorConstant.appBarBottomColor):null,
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(8.r),
                           ),

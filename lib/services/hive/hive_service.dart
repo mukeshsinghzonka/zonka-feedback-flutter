@@ -28,6 +28,8 @@ class HiveService {
     await box!.put(key, value);
   }
 
+
+
   Future<dynamic> getData(String boxName, String key) async {
     final box = await openBox(boxName);
     return box!.get(key);

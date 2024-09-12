@@ -1,12 +1,10 @@
 import 'package:hive/hive.dart';
-import 'package:zonka_feedback/services/hive/hive_type_id.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_location_model.dart';
 
 
-@HiveType(typeId: HiveTypeId.surveyResTypeId)
 class SurveyResModel extends HiveObject{
 
-  @HiveField(0)
+
   final List<SurveyLocationModel> surveyLocationList;
 
   @HiveField(1)

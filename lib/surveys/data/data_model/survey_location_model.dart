@@ -1,10 +1,7 @@
 
 
 import 'package:hive/hive.dart';
-import 'package:zonka_feedback/services/hive/hive_type_id.dart';
 
-
-@HiveType(typeId: HiveTypeId.surveyLocationTypeId)
 class SurveyLocationModel extends HiveObject{
 
   @HiveField(0)

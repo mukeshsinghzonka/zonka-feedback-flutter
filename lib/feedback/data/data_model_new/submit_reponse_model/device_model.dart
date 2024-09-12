@@ -1,9 +1,23 @@
-class DeviceModel {
+
+
+import 'package:hive/hive.dart';
+import 'package:zonka_feedback/services/hive/hive_type_id.dart';
+
+part 'device_model.g.dart';
+
+@HiveType(typeId: HiveTypeId.deviceModelId)
+class DeviceModel extends HiveObject {
+  @HiveField(0)
   final String? deviceOsVersion;
+  @HiveField(1)
   final String? appVersion;
+  @HiveField(2)
   final String? appVersionCode;
+  @HiveField(3)
   final String? networkType;
+  @HiveField(4)
   final String? syncType;
+  @HiveField(5)
   final String? deviceBatteryLevel;
 
   DeviceModel(
