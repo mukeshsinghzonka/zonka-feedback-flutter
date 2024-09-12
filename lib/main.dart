@@ -6,6 +6,7 @@ import 'package:zonka_feedback/services/device_info/device_info.dart';
 import 'package:zonka_feedback/services/device_info/location_info.dart';
 import 'package:zonka_feedback/services/device_info/pakage_info.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
+import 'package:zonka_feedback/services/network/network_connectivity.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/network/http_services.dart';
@@ -20,6 +21,8 @@ void main()async  {
   PakageInfoService().init();
   FlutterSmartDialog.init();
   await HiveService().init();
+   await NetworkConnectivity().initNetworConnection();
+  NetworkConnectivity().startListening();
   HttpUtil().initServerType(ServerType.NIGHTLY);
   setup();
   runApp(const MyApp());

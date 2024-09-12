@@ -20,7 +20,7 @@ class SurveyScreenFeedbackPage extends StatefulWidget {
 class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
   final SurveyScreenManager surveyScreenManager = Get.put(SurveyScreenManager());
   final SurveryApiFeedbackController surveryFeedbackController = Get.find<SurveryApiFeedbackController>();
-  final SurveyDesignFieldController surveyFieldController = Get.put(SurveyDesignFieldController());
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   
   @override
   void initState() {
@@ -30,12 +30,7 @@ class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
     super.initState();
   }
 
-  @override
-  void dispose() {
- 
-    super.dispose();
-  }
- 
+
 
 
   @override

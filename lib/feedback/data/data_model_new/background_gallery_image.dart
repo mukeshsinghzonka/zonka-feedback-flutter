@@ -1,5 +1,7 @@
-class BackgroundGalleryImageId{
 
+
+class BackgroundGalleryImageId{
+  
   final String? id;
   final String? path;
   final String? compnayId;

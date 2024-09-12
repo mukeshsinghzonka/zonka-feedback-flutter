@@ -13,7 +13,6 @@ class LocationDataSource {
       for (int i = 0; i < locationList.length; i++) {
         locationListData.add(LocationModel.fromMap(locationList[i]));
       }
-      print("loacationListData:${locationListData.length}");
       return ApiResult.success(data: locationListData);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/display_logic_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_reponse_model.dart';
@@ -18,7 +19,7 @@ class SurveyCollectDataController extends GetxController {
 
   dynamic createDataForApiHit(String fieldId, String fieldName) {
     dynamic selectedData = surveyIndexData[fieldId];
-
+    print("createDataForApiHit $selectedData $fieldId $fieldName");
     switch (fieldName) {
       case "msqquestion" || "checkbox" || "picture_rating" || "mcqquestion":
         Map<String, bool> choiceMap = Map<String, bool>.from(selectedData);
@@ -59,9 +60,13 @@ class SurveyCollectDataController extends GetxController {
         String? textValue = selectedData as String?;
         return SurveyResponse(fieldId: fieldId, fieldValue: textValue);
 
+      case "txtComments":
+        String? textValue = selectedData as String?;
+        return SurveyResponse(fieldId: fieldId, fieldValue: textValue);
       case "date":
         DateTime? dateValue = selectedData as DateTime?;
-        return SurveyResponse(fieldId: fieldId, fieldValue: dateValue == null? "" : dateValue.toIso8601String());
+        DateFormat formattedDate = DateFormat('yyyy-MM-dd');
+        return SurveyResponse(fieldId: fieldId, fieldValue: dateValue == null? "" :formattedDate.format(dateValue).toString());
 
       case "npsquestion" || "cssquestion" || "button_rating" || "legalTerm":
         Choice? choiceId = selectedData as Choice?;

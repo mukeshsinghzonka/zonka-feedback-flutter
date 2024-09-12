@@ -19,7 +19,7 @@ class LoginUserDs {
       _httpUtil.changeDioUrl(urlType: SetBaseUrl.LOGIN);
       final response = await _httpUtil.post('/api/v1/login',data: jsonEncode(signInBodyModel!.toJsonAndroid()));
       LoginResponse value = LoginResponse.fromJson(response["data"]);
-      await HiveService().putData(HiveDirectoryUtil.loginBox, HiveKey.loginUser, value);
+      await HiveService().putData(HiveDirectoryUtil.loginBox, HiveKey.loginUserKey, value);
       await value.save();
       return ApiResult.success(data: value);
     } catch (e) {
@@ -34,8 +34,7 @@ class LoginUserDs {
         _httpUtil.changeDioUrl(urlType:signupBodyModel.region == 'US' ? SetBaseUrl.US : SetBaseUrl.EU);
         final response = await _httpUtil.post('/api/v1/signup',data: jsonEncode(signupBodyModel.toJsonAndroid()));
         LoginResponse value = LoginResponse.fromJson(response["data"]);
-        await HiveService()
-            .putData(HiveDirectoryUtil.loginBox, HiveKey.loginUser, value);
+        await HiveService().putData(HiveDirectoryUtil.loginBox, HiveKey.loginUserKey, value);
         await value.save();
         return ApiResult.success(data: value);
       } else {

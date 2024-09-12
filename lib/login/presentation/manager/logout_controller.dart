@@ -22,8 +22,8 @@ class LogoutController extends BaseControllerWithOutParams<void> {
   // }
 
   Future<void> _deleteData() async {
-    await HiveService().deleteData(HiveDirectoryUtil.locationBox, HiveKey.location);
-    await HiveService().deleteData(HiveDirectoryUtil.loginBox, HiveKey.loginUser);
+    await HiveService().deleteData(HiveDirectoryUtil.locationBox, HiveKey.locationKey);
+    await HiveService().deleteData(HiveDirectoryUtil.loginBox, HiveKey.loginUserKey);
   }
 
   Future<void> _clearBox() async {

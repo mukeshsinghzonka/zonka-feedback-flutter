@@ -30,26 +30,7 @@ class SurveyScreenManager extends GetxController {
    update();
   }
 
-  late Rx<DateTime> _surveyStartDateTime;
-  Rx<DateTime> get surveyStartDateTime => _surveyStartDateTime;
-  void setStartDateTimeValue(DateTime value){
-   _surveyStartDateTime = value.obs;
-   update();
-  }
-
-  late Rx<DateTime> _surveySubmitDateTime;
-  Rx<DateTime> get surveySubmitDateTime => _surveySubmitDateTime;
-  void surveySubmitDateTimeValue(DateTime value){
-   _surveySubmitDateTime = value.obs;
-   update();
-  }
-
-  late Rx<DateTime> _surveyFillDateTime;
-  Rx<DateTime> get surveyFillDateTime => _surveyFillDateTime;
-  void surveyFillDateTimeFalue(DateTime value){
-   _surveyFillDateTime.value = value;
-   update();
-  }
+ 
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;

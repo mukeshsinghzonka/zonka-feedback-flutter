@@ -20,6 +20,7 @@ class DashboardController extends BaseControllerWithOutParams<void> {
     await workSpaceController.call();
     await surveyController.call();
     _surveyManagerController.getSurveyListWorkspace();
+    // _surveyManagerController.hitSurveyDbHive();
     setStatus(ApiCallStatus.Success);
   }
 }

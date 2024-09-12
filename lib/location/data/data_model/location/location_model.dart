@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:hive/hive.dart';
+import 'package:zonka_feedback/services/hive/hive_type_id.dart';
 part 'location_model.g.dart';
 
-@HiveType(typeId: 1) // Assign a unique typeId for this class
+@HiveType(typeId: HiveTypeId.typeIdLocation) // Assign a unique typeId for this class
 class LocationModel extends HiveObject with EquatableMixin {
 
   @HiveField(0)

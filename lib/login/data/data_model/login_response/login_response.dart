@@ -1,8 +1,9 @@
 
 import 'package:hive/hive.dart';
+import 'package:zonka_feedback/services/hive/hive_type_id.dart';
 part 'login_response.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: HiveTypeId.typeIdLogin)
 class LoginResponse extends HiveObject {
  
   @HiveField(0)

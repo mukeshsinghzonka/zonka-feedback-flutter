@@ -1,15 +1,39 @@
+import 'package:hive/hive.dart';
+import 'package:zonka_feedback/services/hive/hive_type_id.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_location_model.dart';
 
-class SurveyResModel {
+
+@HiveType(typeId: HiveTypeId.surveyResTypeId)
+class SurveyResModel extends HiveObject{
+
+  @HiveField(0)
   final List<SurveyLocationModel> surveyLocationList;
+
+  @HiveField(1)
   final String viewMode;
+
+  @HiveField(2)
   final String mode;
+
+  @HiveField(3)
   final bool iskioskmode;
+
+  @HiveField(4)
   final String defaultLanguageCode;
-  final bool  isActive;
+
+  @HiveField(5)
+  final bool isActive;
+
+  @HiveField(6)
   final String workSpaceId;
+
+  @HiveField(7)
   final String surveyId;
+
+  @HiveField(8)
   final String surveyName;
+
+  @HiveField(9)
   final int surveyMongifiedId;
 
   SurveyResModel({

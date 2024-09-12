@@ -12,10 +12,10 @@ class SurveyResponse {
 
   Map<String, dynamic> toJsonSurveyReponse() {
     return {
-      "fieldId": fieldId,
-      "fieldValue": fieldValue,
-      "choiceId": choiceId,
-      "optionId": optionId
+      "fieldId": fieldId??"",
+      "fieldValue": fieldValue??"",
+      "choiceId": choiceId??"",
+      "optionId": optionId??""
     };
   }
 }

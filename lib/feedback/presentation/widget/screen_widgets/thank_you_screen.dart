@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/device_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_reponse_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_submit_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/thankyou_model.dart';
@@ -35,11 +35,11 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
       Get.find<SurveryApiFeedbackController>();
   final SurveyCollectDataController surveyCollectDataController =
       Get.find<SurveyCollectDataController>();
-      bool _isDelayCalled = false;
+  bool _isDelayCalled = false;
   @override
   void initState() {
     super.initState();
-    surveyScreenManager.surveySubmitDateTimeValue(DateTime.now());
+  
     asyncDurationValue();
   }
 
@@ -50,7 +50,6 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
 
   List<SurveyResponse>? createSurveyResponseData() {
     List<SurveyResponse> listSurveyResponse = [];
-
     surveyCollectDataController.surveyIndexData.forEach((key, value) {
       dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
       if (surveyDetail is List<SurveyResponse>) {
@@ -59,16 +58,25 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
         listSurveyResponse.add(surveyDetail);
       }
     });
-
     return listSurveyResponse.isNotEmpty ? listSurveyResponse : null;
   }
 
   Future<void> asyncDurationValue() async {
-        await submitsurvey.call(SurveySubmitModel(responseType: 'Online',
+        
+     await submitsurvey.call(
+        SurveySubmitModel(
+        responseType:'Device',
+        language:surveyFieldController.defaultTranslation.value,
+        syncType:"Auto",  //Manual
+        // deviceModel: DeviceModel(appVersion: , appVersionCode: appVersionCode, deviceBatteryLevel: deviceBatteryLevel, deviceOsVersion: deviceOsVersion, networkType: networkType, syncType: syncType),
         surveyId: surveyApicontroller.surveyModel.value.id,
-        surveyStartDateTime: surveyScreenManager.surveyStartDateTime.value,
-        surveySubmitDateTime: surveyScreenManager.surveySubmitDateTime.value,
-        surveyResponse: createSurveyResponseData()));
+        surveyStartDateTime: surveyFieldController.surveyStartDateTime.value,
+        surveySubmitDateTime: DateTime.now(),
+        surveyFillStartDateTime: surveyFieldController.surveyFillDateTime.value,
+        surveyResponse: createSurveyResponseData())
+        );
+
+
         surveyCollectDataController.surveyIndexData.clear();
         // if (!_isDelayCalled) {
         //   _isDelayCalled = true;
@@ -78,7 +86,7 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
         // }
     
 
-        surveyScreenManager.updateScreenTypeUtilFunction();
+        // surveyScreenManager.updateScreenTypeUtilFunction();
   }
 
   @override

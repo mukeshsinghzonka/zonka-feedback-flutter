@@ -51,11 +51,11 @@ class _MyAppState extends State<MyApp> {
             home: ValueListenableBuilder(
               valueListenable: Hive.box(HiveDirectoryUtil.loginBox).listenable(),
               builder: (context, box, widget) {
-                return box.get(HiveKey.loginUser) != null
+                return box.get(HiveKey.loginUserKey) != null
                     ? ValueListenableBuilder(
                         valueListenable: Hive.box(HiveDirectoryUtil.locationBox).listenable(),
                         builder: (context, box, widget) {
-                      return ((box.get(HiveKey.skipLocation)!=null && box.get(HiveKey.skipLocation))  ||  box.get(HiveKey.location) != null) ? 
+                      return ((box.get(HiveKey.skipLocationKey)!=null && box.get(HiveKey.skipLocationKey))  ||  box.get(HiveKey.locationKey) != null) ? 
                             const DashBoard(key: ValueKey('DashBoard')) :
                             const ChooseDefaultLocation();  
                         },

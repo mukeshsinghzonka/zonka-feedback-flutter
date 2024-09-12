@@ -18,16 +18,9 @@ class SurveyManagerController extends GetxController {
     update();
   }
 
-  // void filterSurveyList(String? searchText) {
-  //   if (searchText == null || searchText.isEmpty) {
-  //     setFilteredSurveyList(_surveyController.surveyList);
-  //     return;
-  //   }
-  //   setFilteredSurveyList(_surveyController.surveyList.where((element) =>element.surveyName.toLowerCase().contains(searchText.toLowerCase())) .toList());
-  // }
 
   Future<void> getSurveyListWorkspace() async {
-    var locationData = await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.location);
+    var locationData = await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.locationKey);
     if (locationData != null) {
       List<SurveyResModel> tempList = [];
       List<SurveyResModel> surveyWorkspaceFiltered = _surveyController.surveyList.where((element) =>element.workSpaceId ==  _workspaceController.selectedWorkspace?.value.workSpaceId).toList();

@@ -22,6 +22,8 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
       Get.find<SurveyDesignFieldController>();
   final SurveyScreenManager surveyScreenManager =
       Get.find<SurveyScreenManager>();
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,7 +66,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                 GestureDetector(
                   onTap: () {
                     surveyScreenManager.screenTypeEnumUtil.value =  ScreenTypeEnumUtil.surveryScreen;
-                    surveyScreenManager.setStartDateTimeValue(DateTime.now());
+                   surveyFieldController.surveyFillDateTimeFalue(DateTime.now());
                   },
                   child: Center(
                     child: Container(

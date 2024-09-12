@@ -15,8 +15,8 @@ class SurveyImageUploadUc extends UseCase<ApiResult<String> ,SurveyImageUploadUc
 class SurveyImageUploadUcParams extends Equatable {
 final String fileName;
 final String filePath;
-  final String referenceCode;
-  const SurveyImageUploadUcParams({ required this.fileName, required this.filePath, required this.referenceCode});
+final String referenceCode;
+const SurveyImageUploadUcParams({ required this.fileName, required this.filePath, required this.referenceCode});
   
   @override
   List<Object?> get props => [

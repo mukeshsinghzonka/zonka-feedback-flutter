@@ -61,6 +61,7 @@ class _TextboxWidgetState extends State<TextboxWidget> {
                     return valid;
                   }
                   if (valid == null) {
+                    print("textsvaed");
                     surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: _controller.text);
                   }
                   return null;

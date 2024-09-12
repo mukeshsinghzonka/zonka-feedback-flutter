@@ -139,7 +139,7 @@ class _ChooseDefaultLocationState extends State<ChooseDefaultLocation> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                        await HiveService().putData(HiveDirectoryUtil.locationBox, HiveKey.skipLocation, true);
+                        await HiveService().putData(HiveDirectoryUtil.locationBox, HiveKey.skipLocationKey, true);
                         },
                         child: Container(
                           alignment: Alignment.center,

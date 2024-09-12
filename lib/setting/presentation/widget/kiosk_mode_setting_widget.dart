@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kiosk_mode/kiosk_mode.dart';
 
 class KioskModeSettingWidget extends StatefulWidget {
   const KioskModeSettingWidget({super.key});
@@ -10,21 +11,38 @@ class KioskModeSettingWidget extends StatefulWidget {
 
 class _KioskModeSettingWidgetState extends State<KioskModeSettingWidget> {
   bool isSwitched = false;
-  var textValue = 'Switch is OFF';
 
-  void toggleSwitch(bool value) {
+  Future<void> toggleSwitch(bool value) async {
     if (isSwitched == false) {
+      await startKioskMode();
       setState(() {
         isSwitched = true;
-        textValue = 'Switch Button is ON';
       });
-      print('Switch Button is ON');
+    } else {
+      await stopKioskMode();
+      setState(() {
+        isSwitched = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getKioskModeValue();
+    super.initState();
+  }
+
+  Future<void> getKioskModeValue() async {
+    KioskMode value = await getKioskMode();
+
+    if (value == KioskMode.enabled) {
+      setState(() {
+        isSwitched = true;
+      });
     } else {
       setState(() {
         isSwitched = false;
-        textValue = 'Switch Button is OFF';
       });
-      print('Switch Button is OFF');
     }
   }
 

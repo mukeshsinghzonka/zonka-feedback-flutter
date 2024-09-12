@@ -13,12 +13,12 @@ class LocationController extends BaseControllerWithOutParams<void> {
   LocationModel? get selectedLocation => _selectedLocation;
   Future<void> setSelectedLocation(LocationModel? location) async {
     _selectedLocation = location;
-    await HiveService().putData(HiveDirectoryUtil.locationBox, HiveKey.location, location);
+    await HiveService().putData(HiveDirectoryUtil.locationBox, HiveKey.locationKey, location);
     update();
   }
 
   void setSelectedLocationFromHive() async {
-   Future<LocationModel> value =  await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.location);
+   Future<LocationModel> value =  await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.locationKey);
    _selectedLocation = value as LocationModel;      
     update();
   }
@@ -35,8 +35,7 @@ class LocationController extends BaseControllerWithOutParams<void> {
   @override
   Future<void> call() async {
     setStatus(ApiCallStatus.Loading);
-    ApiResult<List<LocationModel>> result =
-        await getIt.get<LocationUc>().call();
+    ApiResult<List<LocationModel>> result = await getIt.get<LocationUc>().call();
     result.when(success: (data) async {
       setStatus(ApiCallStatus.Success);
       setLocationList(data);

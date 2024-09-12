@@ -104,7 +104,7 @@ class HttpUtil {
 
     var accessToken = await HiveService().getData(
       HiveDirectoryUtil.loginBox,
-      HiveKey.loginUser,
+      HiveKey.loginUserKey,
     );
     if (accessToken is LoginResponse && accessToken.token.isNotEmpty) {
       headers['X-ACCESS-TOKEN'] = accessToken.token;

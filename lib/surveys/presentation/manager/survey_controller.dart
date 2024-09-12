@@ -46,7 +46,7 @@ class SurveyController extends BaseControllerWithOutParams<void> {
   }
 
   Future<void> setParamsFromLocationController() async {
-    var data = await HiveService().getData(HiveDirectoryUtil.loginBox, HiveKey.loginUser);
+    var data = await HiveService().getData(HiveDirectoryUtil.loginBox, HiveKey.loginUserKey);
     if (data != null) {
       _setParams(locationController.locationList
           .map((locationItem) => SurveyReqModel(

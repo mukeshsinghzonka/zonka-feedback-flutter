@@ -1,3 +1,4 @@
+
 class SurveyTranslation {
     SurveyTranslation({
         required this.clearButText,

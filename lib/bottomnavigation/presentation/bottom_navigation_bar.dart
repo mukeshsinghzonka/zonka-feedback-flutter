@@ -20,47 +20,60 @@ class BottomNavigationBarWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: Container(
-                height: 45.h,
-                padding: EdgeInsets.all(2.w),
-                margin: EdgeInsets.only(top: 7.h , bottom: 10.h, right: 3.w,left: 10.w),
-                decoration: const BoxDecoration(
-                    color: Color(ColorConstant.themeColor),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Row(
-                  children: [
-                     SizedBox(
-                      width: 7.w,
-                    ),
-                    SvgPicture.asset(ImageConstant.updateCloudIcons),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              'Update Survey',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: ConstantSize.small_2.sp),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Last Update on 30 Mar 2020',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: ConstantSize.extra_small_3.sp),
-                            ),
-                          )
-                        ],
+              child: GestureDetector(
+                onTap: () {
+          //         Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => HiveBoxesView(
+          //       hiveBoxes: Boxes.allBoxes,
+          //       onError: (String errorMessage) =>
+          //       {
+          //         print(errorMessage)
+          //       })),
+          // );
+                },
+                child: Container(
+                  height: 45.h,
+                  padding: EdgeInsets.all(2.w),
+                  margin: EdgeInsets.only(top: 7.h , bottom: 10.h, right: 3.w,left: 10.w),
+                  decoration: const BoxDecoration(
+                      color: Color(ColorConstant.themeColor),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Row(
+                    children: [
+                       SizedBox(
+                        width: 7.w,
                       ),
-                    ),
-                  ],
+                      SvgPicture.asset(ImageConstant.updateCloudIcons),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                'Update Survey',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: ConstantSize.small_2.sp),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Last Update on 30 Mar 2020',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: ConstantSize.extra_small_3.sp),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

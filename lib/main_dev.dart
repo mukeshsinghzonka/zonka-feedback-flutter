@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
+import 'package:zonka_feedback/services/network/network_connectivity.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/services/network/http_services.dart';
 import 'package:zonka_feedback/services/sharedprefrence_service.dart';
@@ -21,6 +22,8 @@ void main() async  {
   FlutterSmartDialog.init();
   await HiveService().init();
   HttpUtil().initServerType(ServerType.NIGHTLY);
+  await NetworkConnectivity().initNetworConnection();
+  NetworkConnectivity().startListening();
   setup();
   runApp( const MyApp());
 }

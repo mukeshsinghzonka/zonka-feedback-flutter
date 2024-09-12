@@ -30,6 +30,7 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
           borderRadius: BorderRadius.circular(7.w),
           splashColor: const Color(ColorConstant.appBarBottomColor),
           onTap: () async {
+       
             Navigator.push(
                 context,
                 PageRouteBuilder(
@@ -64,8 +65,7 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                     ),
                     Container(
                       alignment: Alignment.center,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      padding:EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(7.w)),
                         color: widget.surveyResModel.iskioskmode

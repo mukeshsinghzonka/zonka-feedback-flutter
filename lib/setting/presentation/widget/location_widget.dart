@@ -58,9 +58,8 @@ class _LocationWidgetState extends State<LocationWidgetSetting> {
                       child: Builder(
                         builder: (context) {
                           if(locationController.selectedLocation == null){
-                              return  Container(
-                               child:  Text('Select Location',style: TextStyle(color: Colors.grey.shade700, fontFamily: 'Source Sans Pro',),),
-                              );
+                              return  Text('Select Location',style: TextStyle(color: Colors.grey.shade700, fontFamily: 'Source Sans Pro',),);
+                              
                           }
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

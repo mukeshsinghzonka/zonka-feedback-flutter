@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:kiosk_mode/kiosk_mode.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
@@ -28,21 +29,26 @@ class ScheduleDemoWidget extends SliverPersistentHeaderDelegate {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  ImageConstant.drawerHeadPhoneIcons,
-                  width: ConstantSize.medium_2,
-                ),
-                SizedBox(
-                  width: 2.w,
-                ),
-                const Text(
-                  "Schedule a Demo",
-                  style: TextStyle(fontSize: ConstantSize.small_2),
-                ),
-              ],
+            child: GestureDetector(
+              onTap: () {
+                  stopKioskMode();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    ImageConstant.drawerHeadPhoneIcons,
+                    width: ConstantSize.medium_2,
+                  ),
+                  SizedBox(
+                    width: 2.w,
+                  ),
+                  const Text(
+                    "Schedule a Demo",
+                    style: TextStyle(fontSize: ConstantSize.small_2),
+                  ),
+                ],
+              ),
             ),
           ),
           Container(
