@@ -6,12 +6,8 @@ import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SubmitSurveyManagerController extends BaseControllerWithParams<void, SurveySubmitModel> {
-//    late Rx<SurveyModel> _surveyModel;
-//  Rx<SurveyModel> get surveyModel => _surveyModel;
-//  void setSurveyModel(SurveyModel value) async {
-//     _surveyModel = Rx<SurveyModel>(value);
-//     update();
-//   }
+
+
 
   @override
   Future<void> call(SurveySubmitModel params) async {

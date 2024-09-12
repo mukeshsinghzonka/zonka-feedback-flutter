@@ -1,23 +1,15 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 // import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/device_model.dart';
-import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_reponse_model.dart';
-import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_submit_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/thankyou_model.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/submit_survey_manager.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survey_collect_data_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
-import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/exit_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/widget/template_widget.dart';
-import 'package:zonka_feedback/services/hive/hive_service.dart';
-import 'package:zonka_feedback/services/network/network_connectivity.dart';
+import 'package:zonka_feedback/surveys/presentation/manager/survey_sync_controller.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
-import 'package:zonka_feedback/utils/hive_directory_util.dart';
+
 
 class ThankYouWidget extends StatefulWidget {
   final ThankyouPage? field;
@@ -28,113 +20,54 @@ class ThankYouWidget extends StatefulWidget {
 }
 
 class _ThankYouWidgetState extends State<ThankYouWidget> {
-  final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
-  final SurveyScreenManager surveyScreenManager =
-      Get.find<SurveyScreenManager>();
-  final SubmitSurveyManagerController submitsurvey =
-      Get.put(SubmitSurveyManagerController());
-  final SurveryApiFeedbackController surveyApicontroller =
-      Get.find<SurveryApiFeedbackController>();
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.find<SurveyCollectDataController>();
-  // bool _isDelayCalled = false;
+  
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
+  final SurveySyncController surveySyncController = Get.put(SurveySyncController());
+
   @override
   void initState() {
     super.initState();
-  
-    asyncDurationValue();
+    surveySyncController.asyncDurationValue();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
-  List<SurveyResponse>? createSurveyResponseData() {
-    List<SurveyResponse> listSurveyResponse = [];
-    surveyCollectDataController.surveyIndexData.forEach((key, value) {
-      dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
-      if (surveyDetail is List<SurveyResponse>) {
-        listSurveyResponse.addAll(surveyDetail);
-      } else if (surveyDetail is SurveyResponse) {
-        listSurveyResponse.add(surveyDetail);
-      }
-    });
-    return listSurveyResponse.isNotEmpty ? listSurveyResponse : null;
-  }
 
-  Future<void> asyncDurationValue() async {
-        
-    //  bool checkInternetConnection = await NetworkConnectivity().isConnected();
-
-     SurveySubmitModel submitSurveyModel =   SurveySubmitModel(
-        responseType:'Device',
-        language:surveyFieldController.defaultTranslation.value,
-        syncType:"Auto",  //Manual
-        // deviceModel: DeviceModel(appVersion: , appVersionCode: appVersionCode, deviceBatteryLevel: deviceBatteryLevel, deviceOsVersion: deviceOsVersion, networkType: networkType, syncType: syncType),
-        surveyId: surveyApicontroller.surveyModel.value.id,
-        surveyStartDateTime: surveyFieldController.surveyStartDateTime.value,
-        surveySubmitDateTime: DateTime.now(),
-        surveyFillStartDateTime: surveyFieldController.surveyFillDateTime.value,
-        surveyResponse: createSurveyResponseData());
-
-        // if(checkInternetConnection) {
-        //  await submitsurvey.call(submitSurveyModel);
-        // }
-        // else{
-        
-        dynamic value = await HiveService().getData(HiveDirectoryUtil.submitSurveyBox,surveyApicontroller.surveyModel.value.id??"");
-        if(value !=null){
-           List<SurveySubmitModel> surveyModelList = [];
-          // //  if((value is  List<SurveySubmitModel>) == false){
-          //    HiveService().deleteData(HiveDirectoryUtil.submitSurveyBox, surveyApicontroller.surveyModel.value.id??"");
-          // //  }
-           surveyModelList.addAll(value);
-           surveyModelList.add(submitSurveyModel);
-           await HiveService().putData(HiveDirectoryUtil.submitSurveyBox, surveyApicontroller.surveyModel.value.id??"", surveyModelList);
-        }
-        
-        // }
-
-        surveyCollectDataController.surveyIndexData.clear();
-        // if (!_isDelayCalled) {
-        //   _isDelayCalled = true;
-        //    await Future.delayed(Duration(seconds: surveyFieldController.thankyouScreenTimeout.value)).then((value){
-        //   print("surveyfieldcontroller");
-        // });
-        // }
-    
-
-        // surveyScreenManager.updateScreenTypeUtilFunction();
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           onError: (exception, stackTrace) {},
           fit: BoxFit.cover,
-          image:
-              NetworkImage(surveyFieldController.thankyouPageUrlBg.value),
+          image: NetworkImage(surveyFieldController.thankyouPageUrlBg.value),
         ),
         color: HexColor(widget.field?.pageBgColor ?? ""),
       ),
       child: Column(
         children: [
           Expanded(
-            child: SizedBox(
-              height: 100.h,
-              child: Image.network(
-                surveyFieldController.thankyouPageUrlLogo.value,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container();
-                },
-              ),
-            ),
+  child: SizedBox(
+    height: 100.h,
+    child: Image.network(
+      surveyFieldController.thankyouPageUrlLogo.value,
+      errorBuilder: (context, error, stackTrace) {
+        // Optionally, log the error
+        debugPrint('Image load failed: $error');
+        
+        // Return a fallback widget like a placeholder image or text
+        return Container(
+          alignment: Alignment.center,
+          child: const Icon(
+            Icons.broken_image,
+            size: 50,
+            color: Colors.grey,
           ),
+        );
+      },
+    ),
+  ),
+),
           SizedBox(
             height: 100.h,
           ),
@@ -153,12 +86,10 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
                           "",
                       style: TextStyle(
                           fontSize: 10.sp,
-                          fontFamily:
-                              widget.field?.fontFamilyUpperText ?? "",
+                          fontFamily: widget.field?.fontFamilyUpperText ?? "",
                           color: HexColor(
                               widget.field?.fontColorUpperText ?? ""))),
                 ),
-              
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.all(10.w),
@@ -169,28 +100,25 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
                                     .defaultTranslation.value]
                                 ?.bottomText ??
                             "",
-                            textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 8.sp,
-                            
                             fontFamily:
                                 widget.field?.fontFamilyBottomText ?? "",
                             color: HexColor(
                                 widget.field?.fontColorBottomText ?? ""))),
                   ),
                 ),
-            
               ],
             ),
           ),
-         Obx(
-         () {
-          if(surveyFieldController.screenBotton.value == SuveryScreenBottom.templateBottomBar){
-            return const TemplateBottomFeedback();
-          }
-          return const ExitWidget();
-        }
-      )
+          Obx(() {
+            if (surveyFieldController.screenBotton.value ==
+                SuveryScreenBottom.templateBottomBar) {
+              return const TemplateBottomFeedback();
+            }
+            return const ExitWidget();
+          })
         ],
       ),
     );

@@ -95,6 +95,7 @@ class SurveyDesignFieldController extends GetxController {
     thankyouPageUrlLogo.value = createImageUrl(
         valueData.thankyouPage?.pageLogoGalleryImageId?.compnayId ?? "",
         valueData.thankyouPage?.pageLogoGalleryImageId?.path ?? "");
+        
     langugagePageLogo.value = createImageUrl(
         valueData.languagePage?.pageLogoGalleryImageId?.compnayId ?? "",
         valueData.languagePage?.pageLogoGalleryImageId?.path ?? "");

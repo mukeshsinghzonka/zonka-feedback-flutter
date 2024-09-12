@@ -116,18 +116,15 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                                 width: 5.w,
                               ),
                               ValueListenableBuilder(
-                                valueListenable:
-                                    Hive.box(HiveDirectoryUtil.submitSurveyBox)
-                                        .listenable(),
+                                valueListenable: Hive.box(HiveDirectoryUtil.submitSurveyBox).listenable(),
                                 builder:
                                     (context, Box<dynamic> box, widgetBox) {
                                   // Retrieve the value using the key (surveyId)
                                   dynamic value = box.get(widget.surveyResModel.surveyId);
-print("ValueListenableBuilder $value");
                                   // Check if value is null or empty and handle accordingly
                                   if (value != null) {
                                     return Text(
-                                      ' Unsynced Response: ${value.toString()}',
+                                      'Unsynced Response: ${value.length}',
                                       style: TextStyle(
                                         color: Colors.grey.shade400,
                                         fontSize: ConstantSize.extra_small_3.sp,
@@ -135,7 +132,7 @@ print("ValueListenableBuilder $value");
                                     );
                                   } else {
                                     return Text(
-                                      '0 Unsynced Response',
+                                      'Unsynced Response 0',
                                       style: TextStyle(
                                         color: Colors.grey.shade400,
                                         fontSize: ConstantSize.extra_small_3.sp,
@@ -144,7 +141,7 @@ print("ValueListenableBuilder $value");
                                   }
                                 },
                                 child: Text(
-                                  '0 Unsynced Response',
+                                  'Unsynced Response 0',
                                   style: TextStyle(
                                     color: Colors.grey.shade400,
                                     fontSize: ConstantSize.extra_small_3.sp,
