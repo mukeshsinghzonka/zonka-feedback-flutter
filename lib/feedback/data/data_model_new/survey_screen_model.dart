@@ -2,8 +2,6 @@ import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 
 import 'package:hive/hive.dart';
 import 'package:zonka_feedback/services/hive/hive_type_id.dart';
-import 'field_model.dart'; // Assuming you have a Field class defined separately
-
 part 'survey_screen_model.g.dart'; // Required for Hive type adapter generation
 
 @HiveType(typeId: HiveTypeId.surveyScreenModelId)// Unique ID for SurveyScreenModel adapter

@@ -5,8 +5,6 @@ import 'package:zonka_feedback/feedback/data/data_model_new/option_translation.d
 import 'package:hive/hive.dart';
 import 'package:zonka_feedback/services/hive/hive_type_id.dart';
 
-import 'option_translation.dart'; // Assuming OptionTranslation is another model class with Hive integration
-
 part 'option_model.g.dart'; // Required for Hive type adapter generation
 
 

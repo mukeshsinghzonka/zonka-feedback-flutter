@@ -30,6 +30,7 @@ class HiveTypeId{
   static const int languagePageModelId = 28;
   static const int surveyResModelId = 29;
   static const int surveyLocationModelId = 30;
+  static const int workspaceModelId = 30;
 
 
   
