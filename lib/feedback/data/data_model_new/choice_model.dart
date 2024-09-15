@@ -1,9 +1,44 @@
+import 'package:hive/hive.dart';
 import 'package:equatable/equatable.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/choice_translation_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/logic_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/option_gallery_image.dart';
+import 'package:zonka_feedback/services/hive/hive_type_id.dart';
 
+// Register the adapters for all classes
+part 'choice_model.g.dart';
 
-class Choice extends Equatable {
-  const Choice({
+// Choice Model
+@HiveType(typeId: HiveTypeId.choiceModelId)
+class Choice extends HiveObject with EquatableMixin {
+  @HiveField(0)
+  final Logic? logic;
+
+  @HiveField(1)
+  final String? choiceNodeId;
+
+  @HiveField(2)
+  final bool? isNaChoice;
+
+  @HiveField(3)
+  final int? choiceWeight;
+
+  @HiveField(4)
+  final bool? markedCorrect;
+
+  @HiveField(5)
+  final OptionGalleryImageId? optionGalleryImageId;
+
+  @HiveField(6)
+  final String? id;
+
+  @HiveField(7)
+  final Map<String, ChoiceTranslation> translations;
+
+  @HiveField(8)
+  final int? preMongifiedId;
+
+  Choice({
     required this.logic,
     required this.choiceNodeId,
     required this.isNaChoice,
@@ -14,16 +49,6 @@ class Choice extends Equatable {
     required this.translations,
     required this.preMongifiedId,
   });
-
-  final Logic? logic;
-  final String? choiceNodeId;
-  final bool? isNaChoice;
-  final int? choiceWeight;
-  final bool? markedCorrect;
-  final OptionGalleryImageId? optionGalleryImageId;
-  final String? id;
-  final Map<String, ChoiceTranslation> translations;
-  final int? preMongifiedId;
 
   factory Choice.fromJson(Map<String, dynamic> json) {
     return Choice(
@@ -44,7 +69,6 @@ class Choice extends Equatable {
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
         logic,
         choiceNodeId,
@@ -54,50 +78,8 @@ class Choice extends Equatable {
         optionGalleryImageId,
         id,
         translations,
-        preMongifiedId
+        preMongifiedId,
       ];
 }
 
-class ChoiceTranslation extends Equatable {
-  const ChoiceTranslation({
-    required this.name,
-    required this.helpText,
-  });
 
-  final String? name;
-  final String? helpText;
-
-  factory ChoiceTranslation.fromJson(Map<String, dynamic>? json) {
-    if (json == null) {
-      throw ArgumentError("JSON data cannot be null");
-    }
-    return ChoiceTranslation(
-      name: json["name"],
-      helpText: json["helpText"],
-    );
-  }
-
-  @override
-  List<Object?> get props => [name, helpText];
-}
-
-class OptionGalleryImageId extends Equatable {
-  final String path;
-  final String id;
-  final String companyId;
-
- const OptionGalleryImageId(
-      {required this.path, required this.id, required this.companyId});
-
-  factory OptionGalleryImageId.fromJson(Map<String, dynamic> json) {
-    return OptionGalleryImageId(
-        path: json["path"], id: json["_id"], companyId: json["companyId"]);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {"path": path, "id": id, "companyId": companyId};
-  }
-
-  @override
-  List<Object?> get props => [path, id, companyId];
-}

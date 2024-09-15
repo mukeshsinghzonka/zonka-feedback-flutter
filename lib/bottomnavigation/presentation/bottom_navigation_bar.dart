@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:zonka_feedback/services/work_manager_service.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
@@ -78,25 +79,30 @@ class BottomNavigationBarWidget extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Container(
-                   height: 45.h,
-                padding: EdgeInsets.all(3.w),
-                margin: EdgeInsets.only(top: 9.h , bottom: 10.h, right: 8.w,left: 5.w),
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      ImageConstant.syncServerIcons,
-                    ),
-                    SizedBox(width: 10.w,),
-                    Text(
-                      'Sync with Server',
-                      style: TextStyle(color: Colors.black,fontSize: ConstantSize.small_2.sp),
-                    ),
-                  ],
+              child: GestureDetector(
+                onTap: () {
+                  WorkManagerService().startWorkManager();
+                },
+                child: Container(
+                     height: 45.h,
+                  padding: EdgeInsets.all(3.w),
+                  margin: EdgeInsets.only(top: 9.h , bottom: 10.h, right: 8.w,left: 5.w),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        ImageConstant.syncServerIcons,
+                      ),
+                      SizedBox(width: 10.w,),
+                      Text(
+                        'Sync with Server',
+                        style: TextStyle(color: Colors.black,fontSize: ConstantSize.small_2.sp),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )

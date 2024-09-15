@@ -53,6 +53,9 @@ class SurveySubmitModel extends HiveObject  {
 
   @HiveField(14)
   final String? ipAddress;
+  
+  @HiveField(15)
+  String ? failureReason;
 
   SurveySubmitModel(
       {this.responseType,
@@ -68,6 +71,7 @@ class SurveySubmitModel extends HiveObject  {
       this.syncType,
       this.customer,
       this.locationId,
+      this.failureReason,
       this.deviceResponseRequestId,
       this.deviceModel});
 

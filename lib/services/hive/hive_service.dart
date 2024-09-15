@@ -35,6 +35,17 @@ class HiveService {
     return box!.get(key);
   }
 
+
+ Future<dynamic> getDataAt(String boxName, int key) async {
+    final box = await openBox(boxName);
+    return box!.getAt(key);
+  }
+
+   Future<dynamic> deleteDataAt(String boxName, int key) async {
+    final box = await openBox(boxName);
+    return box!.deleteAt(key);
+  }
+  
   Future<void> deleteData(String boxName, String key) async {
     final box = await openBox(boxName);
     await box!.delete(key);

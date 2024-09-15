@@ -18,7 +18,7 @@ class SubmitSurveyManagerController extends BaseControllerWithParams<void, Surve
       return;
     }, failure: (error) async {
       setStatus(ApiCallStatus.Error);
-      setNetworkExceptions(error);
+      // setNetworkExceptions(error);
     });
   }
 }

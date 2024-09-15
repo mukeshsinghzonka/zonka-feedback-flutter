@@ -81,3 +81,8 @@ enum DrawerScreenType{
   sendFeedbackScreen
 }
 // enum 
+
+enum WorkManagerTask{
+ updateSurveyTaskWork,
+
+}

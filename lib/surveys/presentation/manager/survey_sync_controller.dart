@@ -12,23 +12,17 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
 
 class SurveySyncController extends GetxController {
-  
-  final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
-  final SurveyScreenManager surveyScreenManager =
-      Get.find<SurveyScreenManager>();
-  final SubmitSurveyManagerController submitsurvey =
-      Get.put(SubmitSurveyManagerController());
-  final SurveryApiFeedbackController surveyApicontroller =
-      Get.find<SurveryApiFeedbackController>();
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.find<SurveyCollectDataController>();
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
+  final SubmitSurveyManagerController submitsurvey =  Get.put(SubmitSurveyManagerController());
+  final SurveryApiFeedbackController surveyApicontroller =  Get.find<SurveryApiFeedbackController>();
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
 
   List<SurveyResponse>? createSurveyResponseData() {
     List<SurveyResponse> listSurveyResponse = [];
     surveyCollectDataController.surveyIndexData.forEach((key, value) {
-      dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(
-          key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
+      dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
+      print("surveymanagerkey ${ surveyScreenManager.mapSurveyIdAndFieldName[key]}");
       if (surveyDetail is List<SurveyResponse>) {
         listSurveyResponse.addAll(surveyDetail);
       } else if (surveyDetail is SurveyResponse) {
@@ -38,16 +32,13 @@ class SurveySyncController extends GetxController {
     return listSurveyResponse.isNotEmpty ? listSurveyResponse : null;
   }
 
-Future<void> addDataToHiveLocal(SurveySubmitModel submitSurveyModel)async {
-    dynamic value = await HiveService().getData(HiveDirectoryUtil.submitSurveyBox,surveyApicontroller.surveyModel.value.id ?? "");
-      List<SurveySubmitModel> surveyModelList = [];
-      if (value != null && value is List) {
-        // Try casting each item in the list to SurveySubmitModel
-        surveyModelList.addAll(value.map((e) => e as SurveySubmitModel).toList());
-      }
-      surveyModelList.add(submitSurveyModel);
-      await HiveService().putData(HiveDirectoryUtil.submitSurveyBox, surveyApicontroller.surveyModel.value.id ?? "", surveyModelList);
-}
+  Future<void> addDataToHiveLocal(SurveySubmitModel submitSurveyModel) async {
+    await HiveService().addData(HiveDirectoryUtil.submitSurveyBox, submitSurveyModel);
+  }
+
+  Future<void> addDataToFailHiveLocal(SurveySubmitModel submitSurveyModel) async {
+    await HiveService().addData(HiveDirectoryUtil.failedSurveyBox, submitSurveyModel);
+  }
 
   Future<void> asyncDurationValue() async {
     bool checkInternetConnection = await NetworkConnectivity().isConnected();
@@ -65,11 +56,11 @@ Future<void> addDataToHiveLocal(SurveySubmitModel submitSurveyModel)async {
 
     if (checkInternetConnection) {
       await submitsurvey.call(submitSurveyModel);
-      if(submitsurvey.apiStatus.value == ApiCallStatus.Error){
-          await addDataToHiveLocal(submitSurveyModel);
+      if (submitsurvey.apiStatus.value == ApiCallStatus.Error) {
+        await addDataToFailHiveLocal(submitSurveyModel);
       }
     } else {
-       await addDataToHiveLocal(submitSurveyModel);
+      await addDataToHiveLocal(submitSurveyModel);
     }
 
     surveyCollectDataController.surveyIndexData.clear();
@@ -82,4 +73,6 @@ Future<void> addDataToHiveLocal(SurveySubmitModel submitSurveyModel)async {
 
     // surveyScreenManager.updateScreenTypeUtilFunction();
   }
+
+ 
 }

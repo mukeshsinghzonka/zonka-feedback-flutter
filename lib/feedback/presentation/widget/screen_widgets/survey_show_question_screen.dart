@@ -169,9 +169,9 @@ class _SurveyShowQuestionScreenWidgetState
                                   feedbackQuestion: surveryFeedbackApiController
                                       .surveyModel
                                       .value
-                                      .surveyScreens[
+                                      .surveyScreens?[
                                           surveyScreenManager.index.value]
-                                      .fields,
+                                      .fields??[],
                                   index: surveyScreenManager.index.value,
                                 ),
                               ));

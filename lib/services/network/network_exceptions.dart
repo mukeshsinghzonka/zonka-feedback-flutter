@@ -93,8 +93,10 @@ abstract class NetworkExceptions with _$NetworkExceptions {
             case DioExceptionType.sendTimeout:
               networkExceptions =const NetworkExceptions.sendTimeout();
               break;
-            case DioExceptionType.badCertificate:
+            case DioExceptionType.badCertificate: 
+            networkExceptions =const NetworkExceptions.unexpectedError();
             case DioExceptionType.unknown:
+            networkExceptions =const NetworkExceptions.unexpectedError();
           }
         } else if (error is SocketException) {
           networkExceptions =const NetworkExceptions.noInternetConnection();

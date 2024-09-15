@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/background_gallery_image.dart';
-import 'package:zonka_feedback/feedback/data/data_model_new/language_page_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/language_page_translation.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/page_logo_gallery_image.dart';
 import 'package:zonka_feedback/services/hive/hive_type_id.dart';
 

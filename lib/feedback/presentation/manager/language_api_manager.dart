@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/language_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/language_page_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/language_page_translation.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/selected_language_uc.dart';
 import 'package:zonka_feedback/services/controller/base_controller.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';

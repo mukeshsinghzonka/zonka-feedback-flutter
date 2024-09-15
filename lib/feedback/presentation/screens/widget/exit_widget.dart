@@ -33,6 +33,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
         children: [
              Obx(
                 () {
+                  print("surveyindexvalue ${surveyScreenManager.index.value} ${surveyScreenManager.surveyScreens.length-1}");
                  return Visibility(
                   visible: surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.welcomScreen&& surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.exitScreen && surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.languageScreen   ,
                    child: CircularPercentIndicator(
@@ -40,7 +41,9 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                         lineWidth: 5.0,
                       backgroundColor: Colors.white,
                         percent: (surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1),
-                        center:  Text("${(((surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1))*100 ).toInt()}%",style: TextStyle(fontSize: 3.sp,fontWeight: FontWeight.bold,color:  HexColor(surveyFieldController.buttonColor.value)),),
+                        center:  Text("${surveyScreenManager.surveyScreens.length > 1 
+      ? (((surveyScreenManager.index.value) / (surveyScreenManager.surveyScreens.length - 1)) * 100).toInt()
+      : 0}%",style: TextStyle(fontSize: 3.sp,fontWeight: FontWeight.bold,color:  HexColor(surveyFieldController.buttonColor.value)),),
                         progressColor:  HexColor(surveyFieldController.buttonColor.value),
                       ),
                  );

@@ -80,7 +80,7 @@ class SurveyScreenManager extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    surveyScreens = screenFeedbackController.surveyModel.value.surveyScreens;
+    surveyScreens = screenFeedbackController.surveyModel.value.surveyScreens??[];
     _initalizeMapSurveyQuesIdIndex();
   }
 
@@ -284,7 +284,7 @@ class SurveyScreenManager extends GetxController {
 
   void previousScreen() {
     if (surveyIndex.isNotEmpty && surveyIndex.length > 1) {
-          scrollController.animateTo(0,duration: const Duration(milliseconds: 1), curve: Curves.easeInOut, );
+       scrollController.animateTo(0,duration: const Duration(milliseconds: 1), curve: Curves.easeInOut,);
       _index.value = surveyIndex[surveyIndex.length - 2];
       showIsRequired!.clear();
       showDialogAfterDelay();

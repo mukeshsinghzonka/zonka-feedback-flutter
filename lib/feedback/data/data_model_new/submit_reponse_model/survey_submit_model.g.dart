@@ -30,6 +30,7 @@ class SurveySubmitModelAdapter extends TypeAdapter<SurveySubmitModel> {
       syncType: fields[12] as String?,
       customer: fields[10] as Customer?,
       locationId: fields[4] as String?,
+      failureReason: fields[15] as String?,
       deviceResponseRequestId: fields[13] as String?,
       deviceModel: fields[11] as DeviceModel?,
     );
@@ -38,7 +39,7 @@ class SurveySubmitModelAdapter extends TypeAdapter<SurveySubmitModel> {
   @override
   void write(BinaryWriter writer, SurveySubmitModel obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.responseType)
       ..writeByte(1)
@@ -68,7 +69,9 @@ class SurveySubmitModelAdapter extends TypeAdapter<SurveySubmitModel> {
       ..writeByte(13)
       ..write(obj.deviceResponseRequestId)
       ..writeByte(14)
-      ..write(obj.ipAddress);
+      ..write(obj.ipAddress)
+      ..writeByte(15)
+      ..write(obj.failureReason);
   }
 
   @override

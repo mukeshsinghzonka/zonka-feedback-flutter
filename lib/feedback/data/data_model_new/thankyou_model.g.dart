@@ -8,7 +8,7 @@ part of 'thankyou_model.dart';
 
 class ThankyouPageAdapter extends TypeAdapter<ThankyouPage> {
   @override
-  final int typeId = 300;
+  final int typeId = 23;
 
   @override
   ThankyouPage read(BinaryReader reader) {
