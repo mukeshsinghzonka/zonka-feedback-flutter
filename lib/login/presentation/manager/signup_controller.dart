@@ -5,6 +5,7 @@ import 'package:zonka_feedback/login/domain/usecase/signup_user_uc.dart';
 import 'package:zonka_feedback/services/controller/base_controller.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
+import 'package:zonka_feedback/services/workmanager_functions/work_manager_service.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 
@@ -31,6 +32,7 @@ class SignupController extends BaseControllerWithOutParams<void> {
       region: dataCenter.value,
       ));
      response.when(success: (data) async {
+      WorkManagerService().updateFailedSurveyTask();
      setStatus(ApiCallStatus.Success);
      return;
     }, failure: (error) async {

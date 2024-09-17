@@ -80,9 +80,18 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
 
   void triggerAnimation(bool activate) {
     if (activate) {
+      setState(() {
+        backvalgroundColor = false;
+      });
+
       slidingAnimationController.forward();
       imageAnimationController.forward();
     } else {
+      setState(() {
+        backvalgroundColor = true;
+      });
+
+
       slidingAnimationController.reverse();
       imageAnimationController.reverse();
     }
@@ -179,7 +188,6 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                     curve: Curves.easeInOut,
                   ));
                   setState(() {
-                    backvalgroundColor = !backvalgroundColor;
                     triggerAnimation(backvalgroundColor);
                   });
                   DateTime endTime = DateTime.now();
@@ -281,7 +289,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                               ).then((value) async {
                                                
                                       
-                                                if (value) {
+                                                if (value!=null && value) {
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -476,10 +484,9 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                                         .id]!
                                                 .currentContext!);
 
-                                            backvalgroundColor =
-                                                !backvalgroundColor;
-                                            triggerAnimation(
-                                                backvalgroundColor);
+
+
+                                            triggerAnimation(backvalgroundColor);
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(3.h),

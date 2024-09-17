@@ -1,6 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zonka_feedback/login/presentation/manager/logout_controller.dart';
 import 'package:zonka_feedback/services/device_info/device_info.dart';
 import 'package:zonka_feedback/services/dialog_util.dart';
 import 'package:zonka_feedback/services/navigator.dart';
@@ -15,6 +16,7 @@ class AppVersionWidget extends StatefulWidget {
 
 class _ApVersionWidgetState extends State<AppVersionWidget> {
   AndroidDeviceInfo androidDeviceInfo = DeviceInfoService().androidInfo;
+  final LogoutController  _logoutController = LogoutController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -126,8 +128,11 @@ class _ApVersionWidgetState extends State<AppVersionWidget> {
                 ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {
-                       DialogUtils.showCustomDialogBox(NavigationService.navigatorKey.currentContext!, title: 'Do you really want to sign out?', leftButtonTitle: 'Yes, sign out', rightButtonTitle: 'No don\'t sign out');
+                    onTap: ()async  {
+                  bool? result= await      DialogUtils.showCustomDialogBox(NavigationService.navigatorKey.currentContext!, title: 'Do you really want to sign out?', leftButtonTitle: 'Yes, sign out', rightButtonTitle: 'No don\'t sign out');
+                 if (result == true) {
+                       _logoutController.call();
+                 }
                     },
                     child: Container(
                       alignment: Alignment.centerRight,

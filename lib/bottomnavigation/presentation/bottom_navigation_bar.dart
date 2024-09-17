@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:zonka_feedback/services/work_manager_service.dart';
+import 'package:zonka_feedback/services/workmanager_functions/work_manager_service.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';

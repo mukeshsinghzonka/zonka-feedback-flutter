@@ -23,7 +23,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-        height:size.height * 0.08,
+        height:size.height * 0.12,
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.blueAccent)),
                     margin: EdgeInsets.all(5.w),
@@ -36,16 +36,21 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                   print("surveyindexvalue ${surveyScreenManager.index.value} ${surveyScreenManager.surveyScreens.length-1}");
                  return Visibility(
                   visible: surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.welcomScreen&& surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.exitScreen && surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.languageScreen   ,
-                   child: CircularPercentIndicator(
-                        radius: 18.r,
-                        lineWidth: 5.0,
-                      backgroundColor: Colors.white,
-                        percent: (surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1),
-                        center:  Text("${surveyScreenManager.surveyScreens.length > 1 
-      ? (((surveyScreenManager.index.value) / (surveyScreenManager.surveyScreens.length - 1)) * 100).toInt()
-      : 0}%",style: TextStyle(fontSize: 3.sp,fontWeight: FontWeight.bold,color:  HexColor(surveyFieldController.buttonColor.value)),),
-                        progressColor:  HexColor(surveyFieldController.buttonColor.value),
-                      ),
+                   child: Container(
+                       decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueAccent)),
+                    alignment: Alignment.center,
+                     child: CircularPercentIndicator(
+                          radius: size.height * 0.05,
+                          lineWidth: 4.0,
+                        backgroundColor: Colors.white,
+                          percent: (surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1),
+                          center:  Text("${surveyScreenManager.surveyScreens.length > 1 
+                           ? (((surveyScreenManager.index.value) / (surveyScreenManager.surveyScreens.length - 1)) * 100).toInt()
+                           : 0}%",style: TextStyle(fontSize: 3.sp,fontWeight: FontWeight.bold,color:  HexColor(surveyFieldController.buttonColor.value)),),
+                          progressColor:  HexColor(surveyFieldController.buttonColor.value),
+                        ),
+                   ),
                  );
                }
              ),

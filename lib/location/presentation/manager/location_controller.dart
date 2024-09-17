@@ -18,7 +18,7 @@ class LocationController extends BaseControllerWithOutParams<void> {
   }
 
   void setSelectedLocationFromHive() async {
-   Future<LocationModel> value =  await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.locationKey);
+   LocationModel value =  await HiveService().getData(HiveDirectoryUtil.locationBox, HiveKey.locationKey);
    _selectedLocation = value as LocationModel;      
     update();
   }

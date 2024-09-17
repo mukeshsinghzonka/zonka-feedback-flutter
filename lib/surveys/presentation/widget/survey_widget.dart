@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_submit_model.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/setting_up_screen.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
+import 'package:zonka_feedback/surveys/domain/entity/survey_count_response.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
@@ -19,10 +19,11 @@ class SurveyWidget extends StatefulWidget {
   State<SurveyWidget> createState() => _SurveyWidgetState();
 }
 
-class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMixin {
+class _SurveyWidgetState extends State<SurveyWidget>
+    with TickerProviderStateMixin {
   @override
   void initState() {
-    super.initState();
+      super.initState();
   }
 
   @override
@@ -107,43 +108,56 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                         children: [
                           Row(
                             children: [
-                              Text(
-                                '0 Response Today',
-                                style: TextStyle(
-                                    color: Colors.grey.shade400,
-                                    fontSize: ConstantSize.extra_small_3.sp),
+                              ValueListenableBuilder(
+                                valueListenable: Hive.box(HiveDirectoryUtil
+                                        .totalSurveySubmitResponse)
+                                    .listenable(),
+                                builder: (context, Box<dynamic> box, _) {
+                                  // Fetch the count using the surveyId (or another unique key)
+                                  final surveyId =
+                                      widget.surveyResModel.surveyId;
+                                  var surveyCount = box.get(surveyId,
+                                      defaultValue: SurveyCountResponseData(
+                                          count: 0, dateTime: DateTime.now()));
+
+                                  return Text(
+                                    '${surveyCount.count} Response Today',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade400,
+                                      fontSize: ConstantSize.extra_small_3.sp,
+                                    ),
+                                  );
+                                },
                               ),
                               SizedBox(
                                 width: 5.w,
                               ),
-                       ValueListenableBuilder(
-  valueListenable: Hive.box(HiveDirectoryUtil.submitSurveyBox).listenable(),
-  builder: (context, Box<dynamic> box, _) {
-    // Retrieve the values and cast them to List<SurveySubmitModel>
-    List<SurveySubmitModel> surveySubmitModel = box.values.toList().cast<SurveySubmitModel>();
-
-    // Filter the list based on the surveyId and count the matching items
-    int count = surveySubmitModel.where((e) => e.surveyId == widget.surveyResModel.surveyId).length;
-
-
-    // Since the list is never null, we just check the count
-    return Text(
-      'Unsynced Response: $count',
-      style: TextStyle(
-        color: Colors.grey.shade400,
-        fontSize: ConstantSize.extra_small_3.sp,
-      ),
-    );
-  },
-  child: Text(
-    'Unsynced Response: 0',
-    style: TextStyle(
-      color: Colors.grey.shade400,
-      fontSize: ConstantSize.extra_small_3.sp,
-    ),
-  ),
-),
-
+                              ValueListenableBuilder(
+                                valueListenable:Hive.box(HiveDirectoryUtil.submitSurveyBox).listenable(),
+                                builder: (context, Box<dynamic> box, _) {
+                                  print("hellow");
+                                  // Retrieve the values and cast them to List<SurveySubmitModel>
+                                  List<dynamic> surveySubmitModel = box.values.toList();
+                                  // print("HiveDirectoryUtilsubmitSurveyBox ${ box.values.toList()}");
+                                  // Filter the list based on the surveyId and count the matching items
+                                  int count = surveySubmitModel.where((e) =>e.surveyId == widget.surveyResModel.surveyId).length;
+                                  // Since the list is never null, we just check the count
+                                  return Text(
+                                    'Unsynced Response: $count',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade400,
+                                      fontSize: ConstantSize.extra_small_3.sp,
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'Unsynced Response: 0',
+                                  style: TextStyle(
+                                    color: Colors.grey.shade400,
+                                    fontSize: ConstantSize.extra_small_3.sp,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                           Text(

@@ -8,7 +8,7 @@ part of 'workspace_model.dart';
 
 class WorkspaceModelAdapter extends TypeAdapter<WorkspaceModel> {
   @override
-  final int typeId = 30;
+  final int typeId = 31;
 
   @override
   WorkspaceModel read(BinaryReader reader) {

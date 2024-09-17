@@ -2,8 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:zonka_feedback/services/dialog_util.dart';
-import 'package:zonka_feedback/services/navigator.dart';
+import 'package:zonka_feedback/services/workmanager_functions/work_manager_service.dart';
 
 class NetworkConnectivity {
   static final NetworkConnectivity _instance = NetworkConnectivity.internal();
@@ -28,12 +27,13 @@ class NetworkConnectivity {
 
   void startListening() {
     _listener = InternetConnection().onStatusChange.listen((InternetStatus status) {
+      
       switch (status) {
         case InternetStatus.connected:
           connectionStatus.value = InternetStatus.connected;
+          WorkManagerService().startWorkManager();
           break;
         case InternetStatus.disconnected:
-          DialogUtils.showCustomErrorDialog(NavigationService.navigatorKey.currentContext!, title: "No Internet Connection");
           connectionStatus.value = InternetStatus.disconnected;
           break;
       }

@@ -33,18 +33,7 @@ class _AppBarWorkSpaceState extends State<AppBarWorkSpace> {
     yPosition = offset.dy;
   }
 
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        workspaceName =
-            workspaceController.selectedWorkspace?.value.workSpaceName ??
-                "WorkSpace";
-      });
-    });
-
-    super.initState();
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -95,12 +84,22 @@ class _AppBarWorkSpaceState extends State<AppBarWorkSpace> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              workspaceName,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: ConstantSize.medium_3),
+            GetBuilder(
+              init: workspaceController,
+              builder: (context) {
+                return Container(
+                  width: 150.w,
+                  alignment: Alignment.center,
+                  child: Text(
+                      workspaceController.selectedWorkspace?.value.workSpaceName ??"",
+                
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: ConstantSize.medium_2),
+                  ),
+                );
+              }
             ),
             SizedBox(
               width: 10.w,

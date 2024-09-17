@@ -39,7 +39,7 @@ class AddTemplateWidget extends StatelessWidget {
                       border: Border.all(color: Colors.white, width: 1.w)),
                   child: Icon(
                     Icons.add,
-                    size: 17.sp,
+                    size:20.sp,
                     color: Colors.white,
                     weight: 40.w,
                   )),

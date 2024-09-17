@@ -6,4 +6,5 @@ Future<void> openHiveBox() async {
    await HiveService().openBox(HiveDirectoryUtil.locationBox);
    await HiveService().openBox(HiveDirectoryUtil.submitSurveyBox);
    await HiveService().openBox(HiveDirectoryUtil.failedSurveyBox);
+   await HiveService().openBox(HiveDirectoryUtil.totalSurveySubmitResponse);
 }

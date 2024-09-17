@@ -18,7 +18,7 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       child: Container(
         height: size.height * 0.4,
         width: size.width * 0.8,

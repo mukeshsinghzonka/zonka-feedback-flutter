@@ -262,6 +262,7 @@ class SurveyScreenManager extends GetxController {
     if (_index.value == surveyScreens.length) {
       //show exit screen
       setIndex(0);
+      surveyIndex=[0];
       setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
       return;
     }
@@ -276,6 +277,7 @@ class SurveyScreenManager extends GetxController {
       if (!valueIsSet) {
         // show exit screen of the survey
         setIndex(0);
+        surveyIndex=[0];
         setScreenTypeEnum(ScreenTypeEnumUtil.exitScreen);
       }
     }

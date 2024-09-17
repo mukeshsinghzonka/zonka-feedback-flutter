@@ -1,4 +1,4 @@
-import 'package:zonka_feedback/feedback/data/data_source/survey_image_upload_ds.dart';
+import 'package:zonka_feedback/feedback/data/data_source/network_ds/survey_image_upload_ds.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_image_upload_feedback_repo.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 

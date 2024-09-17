@@ -33,6 +33,7 @@ import 'package:zonka_feedback/location/data/data_model/location/location_model.
 import 'package:zonka_feedback/login/data/data_model/login_response/login_response.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_location_model.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
+import 'package:zonka_feedback/surveys/domain/entity/survey_count_response.dart';
 
 
 Future<void> registerHiveAdaptor() async {
@@ -68,6 +69,6 @@ Future<void> registerHiveAdaptor() async {
      Hive.registerAdapter(SurveyLocationModelAdapter());
      Hive.registerAdapter(OptionGalleryImageIdAdapter());
      Hive.registerAdapter(WorkspaceModelAdapter());
-
+     Hive.registerAdapter(SurveyCountResponseDataAdapter());
      
 }

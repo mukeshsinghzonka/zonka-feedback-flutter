@@ -27,7 +27,7 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
   @override
   void initState() {
     super.initState();
-    surveySyncController.asyncDurationValue();
+    surveySyncController.asyncDurationValue(syncType: 'Automatic');
   }
 
 
@@ -76,38 +76,34 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
+                Text(
+                    widget
+                            .field!
+                            .translations![surveyFieldController
+                                .defaultTranslation.value]
+                            ?.upperText ??
+                        "",
+                    style: TextStyle(
+                        fontSize: 10.sp,
+                        fontFamily: widget.field?.fontFamilyUpperText ?? "",
+                        color: HexColor(
+                            widget.field?.fontColorUpperText ?? ""))),
+                Container(
+                  padding: EdgeInsets.all(10.w),
                   child: Text(
                       widget
                               .field!
                               .translations![surveyFieldController
                                   .defaultTranslation.value]
-                              ?.upperText ??
+                              ?.bottomText ??
                           "",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 10.sp,
-                          fontFamily: widget.field?.fontFamilyUpperText ?? "",
+                          fontSize: 8.sp,
+                          fontFamily:
+                              widget.field?.fontFamilyBottomText ?? "",
                           color: HexColor(
-                              widget.field?.fontColorUpperText ?? ""))),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(10.w),
-                    child: Text(
-                        widget
-                                .field!
-                                .translations![surveyFieldController
-                                    .defaultTranslation.value]
-                                ?.bottomText ??
-                            "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 8.sp,
-                            fontFamily:
-                                widget.field?.fontFamilyBottomText ?? "",
-                            color: HexColor(
-                                widget.field?.fontColorBottomText ?? ""))),
-                  ),
+                              widget.field?.fontColorBottomText ?? ""))),
                 ),
               ],
             ),

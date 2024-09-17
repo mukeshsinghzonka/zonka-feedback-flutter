@@ -1,5 +1,5 @@
 import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model/survey_submit_model.dart';
-import 'package:zonka_feedback/feedback/data/data_source/survey_submit_ds.dart';
+import 'package:zonka_feedback/feedback/data/data_source/network_ds/survey_submit_ds.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_submit_repo.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 
