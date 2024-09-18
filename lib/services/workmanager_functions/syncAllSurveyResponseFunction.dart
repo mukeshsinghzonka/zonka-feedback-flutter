@@ -17,12 +17,11 @@ Future<void> syncAllSurveyReponse() async {
   int count = 0;
 
   while (box.values.isNotEmpty) {
+    print("syncallsurveys");
     var key = box.keys.toList().length - 1;
     try {
-      var surveyValue =
-          await HiveService().getDataAt(HiveDirectoryUtil.submitSurveyBox, key);
-      ApiResult<void> response =
-          await getIt.get<SurveySubmitUc>().call(surveyValue);
+      var surveyValue = await HiveService().getDataAt(HiveDirectoryUtil.submitSurveyBox, key);
+      ApiResult<void> response = await getIt.get<SurveySubmitUc>().call(surveyValue);
       bool checkInternetConnection = true;
       response.when(
         success: (data) {
@@ -34,10 +33,8 @@ Future<void> syncAllSurveyReponse() async {
             checkInternetConnection = false;
           }
           if (count == 3) {
-            await HiveService()
-                .deleteDataAt(HiveDirectoryUtil.submitSurveyBox, key);
-            await HiveService()
-                .addData(HiveDirectoryUtil.failedSurveyBox, surveyValue);
+            await HiveService().deleteDataAt(HiveDirectoryUtil.submitSurveyBox, key);
+            await HiveService().addData(HiveDirectoryUtil.failedSurveyBox, surveyValue);
             count = 0;
           } else {
             count++;

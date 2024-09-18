@@ -12,7 +12,18 @@ class SurveyFeedBackLocalDataSource {
   Future<ApiResult<SurveyModel>> getSurveyFeedBackLocalDs({required String? suveryId})async {
        try {
         var value =  await HiveService().getData(HiveDirectoryUtil.surveyDownloadResponseBox, suveryId??"");
-        return ApiResult.success(data:value);
+       print("localsurveyvalue $value");
+
+      SurveyModel? surveyModel;
+
+      if (value != null) {
+        // Assuming 'value' is already an instance of SurveyModel, no need to deserialize
+        surveyModel = value as SurveyModel;
+      }
+if(surveyModel  == null){
+       return const ApiResult.failure(error: NetworkExceptions.notFound("Data is not saved in local"));
+}
+        return ApiResult.success(data:surveyModel);
        }
        catch(e){
           return ApiResult.failure(error: NetworkExceptions.getDioException(e));

@@ -5,7 +5,8 @@ class HiveDirectoryUtil{
   static const String totalSurveySubmitResponse = "totalSurveySubmitResponse";
   static const String failedSurveyBox = "failedSurveyBox";
   static const String surveyDownloadResponseBox = "surveyDownloadResponseBox";
-  
+  static const String surveyResModelBox = "surveyResModelBox";
+  static const String workSpaceModelBox = "workSpaceModelBox";
   
 
 }

@@ -13,7 +13,7 @@ class SurveySubmitDs {
       print("reponseSurvey ${jsonEncode({"response": suverySubmitModel.toJsonSurveySubmit()})}");
       final responseSurvey = await _httpUtil.post('/api/v1/responses/add',data: jsonEncode({"response": suverySubmitModel.toJsonSurveySubmit()}));
       print("reponseSurvey $responseSurvey");
-      return ApiResult.success(data: true);
+      return const ApiResult.success(data: true);
     } catch (e) {
       return ApiResult.failure(error: NetworkExceptions.getDioException(e));
     }

@@ -17,13 +17,12 @@ Future<void> syncAllFailedSurveyReponse() async {
   // Loop from last key to the first
 
   while (box.values.isNotEmpty) {
+    print("syncallFailedsurveys");
     var key = box.keys.toList().length - 1;
-
+     print("failedreponses ${box.keys.toList()} ${key}");
     try {
-      var surveyValue =
-          await HiveService().getDataAt(HiveDirectoryUtil.failedSurveyBox, key);
-      ApiResult<void> response =
-          await getIt.get<SurveySubmitUc>().call(surveyValue);
+      var surveyValue = await HiveService().getDataAt(HiveDirectoryUtil.failedSurveyBox, key);
+      ApiResult<void> response = await getIt.get<SurveySubmitUc>().call(surveyValue);
       bool checkInternetConnection = true;
       response.when(
         success: (data) {
@@ -34,8 +33,7 @@ Future<void> syncAllFailedSurveyReponse() async {
           if (error == const NetworkExceptions.noInternetConnection()) {
             checkInternetConnection = false;
           }
-          await HiveService()
-              .deleteDataAt(HiveDirectoryUtil.submitSurveyBox, key);
+          await HiveService().deleteDataAt(HiveDirectoryUtil.failedSurveyBox, key);
         },
       );
 

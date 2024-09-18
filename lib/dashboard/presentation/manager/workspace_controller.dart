@@ -31,7 +31,7 @@ class WorkspaceController extends BaseControllerWithOutParams<void>{
       setStatus(ApiCallStatus.Success);
       setWorkspaceList(data);
       if(data!.isNotEmpty){
-        setSelectedWorkspace(data[1]);
+        setSelectedWorkspace(data[0]);
       }
       return;
     }, failure: (error) async {

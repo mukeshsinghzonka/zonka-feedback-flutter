@@ -77,8 +77,9 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
 
                     else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen){
                       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-                      Navigator.of(context).pop();
                       Get.delete<SurveyScreenManager>();
+                      Navigator.of(context).pop();
+                   
                       surveyScreenManager.myStreamController!.close();
                     }
                     else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen ){

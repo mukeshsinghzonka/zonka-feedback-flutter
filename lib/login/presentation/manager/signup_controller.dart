@@ -32,8 +32,8 @@ class SignupController extends BaseControllerWithOutParams<void> {
       region: dataCenter.value,
       ));
      response.when(success: (data) async {
-      WorkManagerService().updateFailedSurveyTask();
      setStatus(ApiCallStatus.Success);
+     WorkManagerService().updateFailedSurveyTask();
      return;
     }, failure: (error) async {
     setStatus(ApiCallStatus.Error);

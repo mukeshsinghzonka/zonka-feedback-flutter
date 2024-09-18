@@ -89,7 +89,9 @@ class SurveyScreenManager extends GetxController {
       for (int j = 0; j < surveyScreens[i].fields.length; j++) {
         Field field = surveyScreens[i].fields[j];
         mapSurveyQuesIdIndex[field.id ?? ""] = i;
+        print("mappingfield ${field.id } ${ field.fieldName }"); 
         mapSurveyIdAndFieldName[field.id ?? ""] = field.fieldName ?? "";
+         print("mappingfield ${field.id } ${ field.fieldName } ${ mapSurveyIdAndFieldName[field.id ?? ""]}"); 
       }
     }
   }

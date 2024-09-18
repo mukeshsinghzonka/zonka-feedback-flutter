@@ -19,8 +19,7 @@ import 'package:zonka_feedback/utils/hive_directory_util.dart';
 class SurveySyncController extends GetxController {
   final SurveyDesignFieldController surveyFieldController =
       Get.find<SurveyDesignFieldController>();
-  final SurveyScreenManager surveyScreenManager =
-      Get.find<SurveyScreenManager>();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   final SubmitSurveyManagerController submitsurvey =
       Get.put(SubmitSurveyManagerController());
   final SurveryApiFeedbackController surveyApicontroller =
@@ -33,6 +32,7 @@ class SurveySyncController extends GetxController {
   List<SurveyResponse>? createSurveyResponseData() {
     List<SurveyResponse> listSurveyResponse = [];
     surveyCollectDataController.surveyIndexData.forEach((key, value) {
+      print("filednamesurvey ${surveyScreenManager.mapSurveyIdAndFieldName[key]} $key ${surveyScreenManager.mapSurveyIdAndFieldName}");
       dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(
           key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
       if (surveyDetail is List<SurveyResponse>) {
@@ -45,8 +45,7 @@ class SurveySyncController extends GetxController {
   }
 
   Future<void> addDataToHiveLocal(SurveySubmitModel submitSurveyModel) async {
-    await HiveService()
-        .addData(HiveDirectoryUtil.submitSurveyBox, submitSurveyModel);
+    await HiveService().addData(HiveDirectoryUtil.submitSurveyBox, submitSurveyModel);
   }
 
   Future<void> updateTotalSurveyAdded(SurveySubmitModel submitSurveyModel) async {
@@ -91,7 +90,7 @@ class SurveySyncController extends GetxController {
     if (checkInternetConnection) {
       await submitsurvey.call(submitSurveyModel);
       if (submitsurvey.apiStatus.value == ApiCallStatus.Error) {
-        await addDataToHiveLocal(submitSurveyModel);
+      await addDataToHiveLocal(submitSurveyModel);
       }
     } else {
       await addDataToHiveLocal(submitSurveyModel);
@@ -104,6 +103,7 @@ class SurveySyncController extends GetxController {
     }
 
     surveyCollectDataController.surveyIndexData.clear();
+
     // if (!_isDelayCalled) {
     //   _isDelayCalled = true;
     //    await Future.delayed(Duration(seconds: surveyFieldController.thankyouScreenTimeout.value)).then((value){

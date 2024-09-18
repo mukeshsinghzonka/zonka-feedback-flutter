@@ -6,6 +6,7 @@ import 'package:zonka_feedback/services/workmanager_functions/syncAllSurveyRespo
 
 @pragma('vm:entry-point')
 void callBackWorkManager() {
+
   Workmanager().executeTask((taskName, inputData) async {
     switch (taskName) {
       case 'updateSurveyTask':
@@ -15,7 +16,7 @@ void callBackWorkManager() {
         await syncAllFailedSurveyReponse();
         break;
       case 'downloadAllSurvey':
-        await downloadAllSurvey(inputData);
+        await downloadAllSurvey();
         break;
     }
     return Future.value(true);
@@ -30,6 +31,7 @@ class WorkManagerService {
   String taskName = 'updateSurveyTask';
   String taskNameUpdate = 'updateFailedSurveyTask';
   String downloadAllSurvey = "downloadAllSurvey";
+
   void initWorkManager() async {
     await Workmanager().initialize(
       callBackWorkManager,
@@ -41,22 +43,31 @@ class WorkManagerService {
     var uniqueId = DateTime.now().second.toString();
     Workmanager().registerOneOffTask(uniqueId, taskName,
         initialDelay: const Duration(seconds: 1),
+        existingWorkPolicy: ExistingWorkPolicy.keep,
         constraints: Constraints(networkType: NetworkType.connected));
   }
 
   void updateFailedSurveyTask() {
+    Workmanager().cancelByTag(taskNameUpdate);
     var uniqueId = DateTime.now().second.toString();
     Workmanager().registerPeriodicTask(uniqueId, taskNameUpdate,
         initialDelay: const Duration(seconds: 2),
         frequency: const Duration(hours: 24),
+        existingWorkPolicy: ExistingWorkPolicy.keep,
         constraints: Constraints(networkType: NetworkType.connected));
   }
 
-  void downloadAllSurveyTask(Map<String, dynamic>? value) {
+  void downloadAllSurveyTask() {
     var uniqueId = DateTime.now().second.toString();
     Workmanager().registerOneOffTask(uniqueId, downloadAllSurvey,
-        initialDelay: const Duration(seconds: 1),
-        inputData: value,
-        constraints: Constraints(networkType: NetworkType.connected));
+    initialDelay: const Duration(seconds: 1),
+    existingWorkPolicy: ExistingWorkPolicy.keep,
+    constraints: Constraints(networkType: NetworkType.connected));
+    
+  }
+
+
+  void cancelAllWorkManager(){
+    Workmanager().cancelAll();
   }
 }

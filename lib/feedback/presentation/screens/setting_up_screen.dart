@@ -17,8 +17,10 @@ class SettingUpscreen extends StatefulWidget {
 }
 
 class _SettingUpScreenState extends State<SettingUpscreen> {
-  final SurveryApiFeedbackController surveryFeedbackController = Get.put(SurveryApiFeedbackController());
-   final SurveyDesignFieldController surveyFieldController = Get.put(SurveyDesignFieldController());
+  final SurveryApiFeedbackController surveryFeedbackController =
+      Get.put(SurveryApiFeedbackController());
+  final SurveyDesignFieldController surveyFieldController =
+      Get.put(SurveyDesignFieldController());
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
@@ -27,10 +29,18 @@ class _SettingUpScreenState extends State<SettingUpscreen> {
   }
 
   Future<void> initializeValue() async {
-   await surveryFeedbackController.call(widget.surveyId ?? "");
-   surveyFieldController.setStartDateTimeValue(DateTime.now());
+    await surveryFeedbackController.call(widget.surveyId ?? "");
+    if (surveryFeedbackController.apiStatus.value == ApiCallStatus.Error) {
+      Navigator.of(context).pop();
+    }
+    surveyFieldController.setStartDateTimeValue(DateTime.now());
   }
 
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +50,7 @@ class _SettingUpScreenState extends State<SettingUpscreen> {
             ApiCallStatus.Success) {
           return SurveyScreenFeedbackPage(
             screenBottom: widget.screenBottom,
+            key: ValueKey(widget.surveyId),
           );
         }
         return Container(

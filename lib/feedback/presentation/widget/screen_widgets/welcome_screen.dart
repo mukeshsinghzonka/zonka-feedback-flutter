@@ -26,7 +26,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Container(   
       decoration: BoxDecoration(
         image: DecorationImage(
           onError: (exception, stackTrace) {},

@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:zonka_feedback/dashboard/data/data_source/local_network/workspace_local_ds.dart';
+import 'package:zonka_feedback/feedback/data/data_source/local_ds/survey_feedback_local_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/selected_languaga_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/survey_feedback_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/survey_image_upload_ds.dart';
@@ -16,7 +18,7 @@ import 'package:zonka_feedback/feedback/domain/usecase/survey_feedback_uc.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_image_upload_uc.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_submit_uc.dart';
 import 'package:zonka_feedback/location/data/data_source/location_ds.dart';
-import 'package:zonka_feedback/dashboard/data/data_source/workspace_ds.dart';
+import 'package:zonka_feedback/dashboard/data/data_source/network_ds/workspace_ds.dart';
 import 'package:zonka_feedback/location/data/repositories_impl/location_repo_impl.dart';
 import 'package:zonka_feedback/dashboard/data/repositories_impl/workspace_repo_impl.dart';
 import 'package:zonka_feedback/location/domain/repositories/location_repo.dart';
@@ -36,6 +38,7 @@ import 'package:zonka_feedback/setting/data/data_source/country_code_ds.dart';
 import 'package:zonka_feedback/setting/data/repo_impl/country_code_repo_impl.dart';
 import 'package:zonka_feedback/setting/domain/repo/country_code_repo.dart';
 import 'package:zonka_feedback/setting/domain/usecase/country_code_uc.dart';
+import 'package:zonka_feedback/surveys/data/data_source/local_ds/survey_local_ds.dart';
 import 'package:zonka_feedback/surveys/data/data_source/network_ds/survey_ds.dart';
 import 'package:zonka_feedback/surveys/data/repositories_impl/survey_repo_impl.dart';
 import 'package:zonka_feedback/surveys/domain/repositories/survey_repo.dart';
@@ -81,9 +84,9 @@ void setup() {
     //Repository
     getIt.registerLazySingleton<LoginFeatureRepo>(() => LoginRepoImpl(loginDataSource: getIt()));
     getIt.registerLazySingleton<LocationRepo>(() => LocationRepoImpl(locationDataSource: getIt()));
-    getIt.registerLazySingleton<WorkspaceRepo>(() => WorkspaceRepoImpl(workspaceDataSource: getIt()));
-    getIt.registerLazySingleton<SurveyRepository>(() => SurveyRepoImpl(surveyDataSource: getIt()));
-    getIt.registerLazySingleton<SurveyFeedbackRepo>(() => SurveyFeedbackRepoImpl(surveyFeedBackDataSource: getIt()));
+    getIt.registerLazySingleton<WorkspaceRepo>(() => WorkspaceRepoImpl(workspaceDataSource: getIt(), workspaceLocalDs: getIt()));
+    getIt.registerLazySingleton<SurveyRepository>(() => SurveyRepoImpl(surveyDataSource: getIt(), surveyLocalDs: getIt()));
+    getIt.registerLazySingleton<SurveyFeedbackRepo>(() => SurveyFeedbackRepoImpl(surveyFeedBackDataSource: getIt() , submitSurveyLocalDs:getIt()));
     getIt.registerLazySingleton<ImageUploadFeedRepo>(() => SurveryImageUploadImageRepoImpl(surveyImageUploadDs: getIt()));
     getIt.registerLazySingleton<SelectedLanguageRepo>(() => SelectedLanguageRepoImpl(selectedLanguagaDs: getIt()));
     getIt.registerLazySingleton<SurveySubmitRepo>(() => SurveySubmitRepoImpl(submitSurveyDs: getIt()));
@@ -106,7 +109,9 @@ void setup() {
     getIt.registerLazySingleton(() => ApplyTemplateDs());
     getIt.registerLazySingleton(() => AddTemplateDs());
     getIt.registerLazySingleton(() => CountryCodeDs());
-  
+    getIt.registerLazySingleton(() => SurveyFeedBackLocalDataSource());
+    getIt.registerLazySingleton(() => SurveyLocalDs()); 
+    getIt.registerLazySingleton(() => WorkspaceLocalDs());  
 
     //Services
     getIt.registerLazySingleton(() => LoggerService());

@@ -18,7 +18,7 @@ class LoginController extends BaseControllerWithOutParams<void> {
     setStatus(ApiCallStatus.Loading);
      ApiResult<LoginResponse> response = await  getIt.get<LoginUserUc>().call(SignInBodyModel(emailId:emailTextController.text, password:passwordTextController.text));
       response.when(success: (data) async {
-      WorkManagerService().updateFailedSurveyTask();
+        WorkManagerService().updateFailedSurveyTask();
      setStatus(ApiCallStatus.Success);
      return;
     }, failure: (error) async {

@@ -137,8 +137,8 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
                                 
                     },
                     child: Container(      
-                        width: 30.h,
-                   
+                        width: 40.h,
+      
                         margin: EdgeInsets.only(top:size.height * 0.08 ),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(

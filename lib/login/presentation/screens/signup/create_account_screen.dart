@@ -5,8 +5,11 @@ import 'package:zonka_feedback/login/presentation/manager/signup_controller.dart
 import 'package:zonka_feedback/login/presentation/manager/switch_screen_controller.dart';
 import 'package:zonka_feedback/login/presentation/widget/input_text_field.dart';
 import 'package:zonka_feedback/services/api_call_handling.dart';
+import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
+import 'package:zonka_feedback/utils/hive_directory_util.dart';
+import 'package:zonka_feedback/utils/hive_key.dart';
 
 class CreateScreen extends StatefulWidget {
   const CreateScreen({super.key});
@@ -114,7 +117,7 @@ class _CreateScreenState extends State<CreateScreen> {
                 height: 20.h,
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   if (_formKey.currentState!.validate()) {
                     ApiCallHandling(
                             controller: signUpController,
@@ -127,6 +130,7 @@ class _CreateScreenState extends State<CreateScreen> {
                               signUpController.clearTextFields();
                             })
                         .handleApiCall();
+                   await  HiveService().putData(HiveDirectoryUtil.surveyDownloadResponseBox,HiveKey.surveyDownloadedBool,false);
                   }
                 },
                 child: Container(

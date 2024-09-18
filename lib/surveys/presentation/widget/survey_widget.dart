@@ -19,8 +19,7 @@ class SurveyWidget extends StatefulWidget {
   State<SurveyWidget> createState() => _SurveyWidgetState();
 }
 
-class _SurveyWidgetState extends State<SurveyWidget>
-    with TickerProviderStateMixin {
+class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMixin {
   @override
   void initState() {
       super.initState();

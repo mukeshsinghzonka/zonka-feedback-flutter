@@ -6,8 +6,11 @@ import 'package:zonka_feedback/login/presentation/manager/switch_screen_controll
 import 'package:zonka_feedback/login/presentation/screens/signin/other_signin_screen.dart';
 import 'package:zonka_feedback/login/presentation/widget/input_text_field.dart';
 import 'package:zonka_feedback/services/api_call_handling.dart';
+import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
+import 'package:zonka_feedback/utils/hive_directory_util.dart';
+import 'package:zonka_feedback/utils/hive_key.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -107,6 +110,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     loginController.clearTextFields();
                   }
                 ).handleApiCall();
+                await  HiveService().putData(HiveDirectoryUtil.surveyDownloadResponseBox,HiveKey.surveyDownloadedBool,false);
               },
               child: Container(
                 width: 331.w,
