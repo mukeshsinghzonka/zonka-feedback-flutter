@@ -34,6 +34,10 @@ import 'package:zonka_feedback/login/data/data_model/login_response/login_respon
 import 'package:zonka_feedback/surveys/data/data_model/survey_location_model.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/surveys/domain/entity/survey_count_response.dart';
+import 'package:zonka_feedback/template/data/data_model/surveyId_model.dart';
+import 'package:zonka_feedback/template/data/data_model/template_industries_map.dart';
+import 'package:zonka_feedback/template/data/data_model/template_mapping_model.dart';
+import 'package:zonka_feedback/template/data/data_model/template_model.dart';
 
 
 Future<void> registerHiveAdaptor() async {
@@ -70,5 +74,9 @@ Future<void> registerHiveAdaptor() async {
      Hive.registerAdapter(OptionGalleryImageIdAdapter());
      Hive.registerAdapter(WorkspaceModelAdapter());
      Hive.registerAdapter(SurveyCountResponseDataAdapter());
+     Hive.registerAdapter(SurveyIdAdapter());
+     Hive.registerAdapter(TemplateIndustriesMapAdapter());
+     Hive.registerAdapter(TemplateDataAdapter());
+     Hive.registerAdapter(TemplateModelAdapter());
      
 }

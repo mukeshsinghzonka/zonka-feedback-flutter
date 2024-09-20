@@ -21,6 +21,7 @@ class CountryCodeController extends BaseControllerWithOutParams<void> {
     dialCode: '',
     code: '',
   ).obs;
+  
   Rx<CountryCodeModel> get countryCodeModel=>_countryCodeModel;
   void setCountryCodeModel(CountryCodeModel value){
     _countryCodeModel.value = value;

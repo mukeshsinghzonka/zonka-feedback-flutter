@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:zonka_feedback/dashboard/data/data_source/local_network/workspace_local_ds.dart';
+import 'package:zonka_feedback/feedback/data/data_source/local_ds/selected_local_language_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/local_ds/survey_feedback_local_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/selected_languaga_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/survey_feedback_ds.dart';
@@ -43,9 +44,10 @@ import 'package:zonka_feedback/surveys/data/data_source/network_ds/survey_ds.dar
 import 'package:zonka_feedback/surveys/data/repositories_impl/survey_repo_impl.dart';
 import 'package:zonka_feedback/surveys/domain/repositories/survey_repo.dart';
 import 'package:zonka_feedback/surveys/domain/usecase/survey_uc.dart';
-import 'package:zonka_feedback/template/data/data_source/add_template_ds.dart';
-import 'package:zonka_feedback/template/data/data_source/apply_template_ds.dart';
-import 'package:zonka_feedback/template/data/data_source/get_template_ds.dart';
+import 'package:zonka_feedback/template/data/data_source/local_ds/get_local_template_ds.dart';
+import 'package:zonka_feedback/template/data/data_source/network_ds/add_template_ds.dart';
+import 'package:zonka_feedback/template/data/data_source/network_ds/apply_template_ds.dart';
+import 'package:zonka_feedback/template/data/data_source/network_ds/get_template_ds.dart';
 import 'package:zonka_feedback/template/data/repo_impl/add_template_repo_impl.dart';
 import 'package:zonka_feedback/template/data/repo_impl/apply_template_repo_impl.dart';
 import 'package:zonka_feedback/template/data/repo_impl/get_template_repo_impl.dart';
@@ -88,9 +90,9 @@ void setup() {
     getIt.registerLazySingleton<SurveyRepository>(() => SurveyRepoImpl(surveyDataSource: getIt(), surveyLocalDs: getIt()));
     getIt.registerLazySingleton<SurveyFeedbackRepo>(() => SurveyFeedbackRepoImpl(surveyFeedBackDataSource: getIt() , submitSurveyLocalDs:getIt()));
     getIt.registerLazySingleton<ImageUploadFeedRepo>(() => SurveryImageUploadImageRepoImpl(surveyImageUploadDs: getIt()));
-    getIt.registerLazySingleton<SelectedLanguageRepo>(() => SelectedLanguageRepoImpl(selectedLanguagaDs: getIt()));
+    getIt.registerLazySingleton<SelectedLanguageRepo>(() => SelectedLanguageRepoImpl(selectedLanguagaDs: getIt(), selectedLocalLanguageDs: getIt()));
     getIt.registerLazySingleton<SurveySubmitRepo>(() => SurveySubmitRepoImpl(submitSurveyDs: getIt()));
-    getIt.registerLazySingleton<GetAllTemplateRepo>(() => GetAllTemplateRepoImpl(getAllTemplateDs: getIt()));
+    getIt.registerLazySingleton<GetAllTemplateRepo>(() => GetAllTemplateRepoImpl(getAllTemplateDs: getIt(), getLocalTemplateDs: getIt()));
     getIt.registerLazySingleton<ApplyTemplateRepo>(()=>ApplyTemplateRepoImpl(applyTemplateDs: getIt()));
     getIt.registerLazySingleton<AddTemplateRepo>(()=>AddTemplateRepoImpl(addTemplateDs: getIt()));
     getIt.registerLazySingleton<CountryCodeRepo>(()=>CountryCodeRepoImpl(countryCodeDs: getIt()));
@@ -111,7 +113,9 @@ void setup() {
     getIt.registerLazySingleton(() => CountryCodeDs());
     getIt.registerLazySingleton(() => SurveyFeedBackLocalDataSource());
     getIt.registerLazySingleton(() => SurveyLocalDs()); 
-    getIt.registerLazySingleton(() => WorkspaceLocalDs());  
+    getIt.registerLazySingleton(() => WorkspaceLocalDs());
+    getIt.registerLazySingleton(() => SelectedLocalLanguageDs()); 
+     getIt.registerLazySingleton(() =>GetLocalTemplateDs());  
 
     //Services
     getIt.registerLazySingleton(() => LoggerService());

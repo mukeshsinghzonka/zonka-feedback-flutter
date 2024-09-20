@@ -85,6 +85,7 @@ class SurveyScreenManager extends GetxController {
   }
 
   void _initalizeMapSurveyQuesIdIndex() {
+    mapSurveyIdAndFieldName.clear(); // Clear previous data
     for (int i = 0; i < surveyScreens.length; i++) {
       for (int j = 0; j < surveyScreens[i].fields.length; j++) {
         Field field = surveyScreens[i].fields[j];

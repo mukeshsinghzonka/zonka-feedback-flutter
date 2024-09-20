@@ -19,8 +19,7 @@ class LanguageWidget extends StatefulWidget {
 }
 
 class _LanguageWidgetState extends State<LanguageWidget> {
-  final LanguageManagerController languageManagerController =
-      Get.put(LanguageManagerController());
+  final LanguageManagerController languageManagerController = Get.put(LanguageManagerController());
   final SurveyDesignFieldController surveyFieldController =
       Get.find<SurveyDesignFieldController>();
   final SurveyScreenManager surveyScreenManager =
@@ -53,9 +52,8 @@ class _LanguageWidgetState extends State<LanguageWidget> {
   }
 
   Future<void> languageManagerCall() async {
-    await languageManagerController.call();
-    languageManagerController
-        .filterLanguageSelected(widget.languagePage!.translations);
+    await languageManagerController.call("Local");
+    languageManagerController.filterLanguageSelected(widget.languagePage!.translations);
   }
 
   @override

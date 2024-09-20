@@ -31,7 +31,12 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
   }
 
 
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+  Get.delete<SurveySyncController>();
+    super.dispose();
+  }
  
   @override
   Widget build(BuildContext context) {

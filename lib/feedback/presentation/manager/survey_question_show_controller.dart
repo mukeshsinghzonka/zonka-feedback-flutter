@@ -19,6 +19,7 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/ratin
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/rank_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/rating_scale_widget/star_rating_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/date_widget.dart';
+import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/phone_number_widget.dart';
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/textbox_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
@@ -53,7 +54,7 @@ class ScreenFeedBackQuesController extends GetxController{
       return SurveyScreenenum.starRating;
     case 'emotion_rating':
       return SurveyScreenenum.emotionRating;
-    case 'text_box' || 'Email' || 'MembershipNo' || 'FullName':
+    case 'text_box' || 'Email' || 'MembershipNo' || 'FullName' || 'FirstName' || 'Name':
       return SurveyScreenenum.textWidget;
     case 'date':
       return SurveyScreenenum.dateWidget;
@@ -87,8 +88,8 @@ class ScreenFeedBackQuesController extends GetxController{
     return SurveyScreenenum.txtParagraph;
 
     // return 
-    // case 'Mobile':
-    //   return SurveyScreenenum.textWidget;
+    case 'Mobile':
+      return SurveyScreenenum.mobileNumber;
     default:
       return SurveyScreenenum.buttonChoice;
   }
@@ -149,6 +150,8 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     return RadioRatingLableWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.serverName:
     return DropDownWidget(key: ValueKey<String>(field.id??''),field: field,);
+     case SurveyScreenenum.mobileNumber:
+    return PhoneNumberWidget(key: ValueKey<String>(field.id??''),field: field,);
 
     default: return Container();
   }

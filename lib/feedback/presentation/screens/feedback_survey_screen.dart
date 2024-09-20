@@ -18,9 +18,7 @@ class SurveyScreenFeedbackPage extends StatefulWidget {
 }
 
 class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
-  final SurveyScreenManager surveyScreenManager = Get.put(SurveyScreenManager(
-    
-  ));
+  final SurveyScreenManager surveyScreenManager = Get.put(SurveyScreenManager());
   final SurveryApiFeedbackController surveryFeedbackController = Get.find<SurveryApiFeedbackController>();
   final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
   

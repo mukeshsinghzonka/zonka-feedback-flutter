@@ -74,12 +74,10 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                     if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen){
                         surveyScreenManager.updateScreenTypeUtilFunction();
                     }
-
                     else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen){
                       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
                       Get.delete<SurveyScreenManager>();
                       Navigator.of(context).pop();
-                   
                       surveyScreenManager.myStreamController!.close();
                     }
                     else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen ){
@@ -91,7 +89,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                   },
                   child: Container(
                     alignment: Alignment.bottomCenter,
-                    child:  Container(
+                     child:  Container(
                       padding: EdgeInsets.symmetric(horizontal: 5.w),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(

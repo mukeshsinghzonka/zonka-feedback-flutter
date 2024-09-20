@@ -69,6 +69,7 @@ dependencies:
   internet_connection_checker_plus: ^2.5.1
   hive_ui: ^1.0.14
   workmanager: ^0.5.2
+  country_code_picker: ^3.0.0
 
   
   

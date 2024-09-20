@@ -7,7 +7,7 @@ import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
-class LanguageManagerController extends BaseControllerWithOutParams<void>{
+class LanguageManagerController extends BaseControllerWithParams<void, String >{
 
   
   List<LanguageModel> _languageModel = [];
@@ -31,9 +31,9 @@ void filterLanguageSelected(Map<String, LanguagePageTranslation>? translations) 
   update();
 }
   @override
-  Future<void> call() async {
+  Future<void> call(String params) async {
    setStatus(ApiCallStatus.Loading);
-    ApiResult<List<LanguageModel>> response = await getIt.get<SelectedLanguageUc>().call();
+    ApiResult<List<LanguageModel>> response = await getIt.get<SelectedLanguageUc>().call(params);
       response.when(success: (data)  {
       setStatus(ApiCallStatus.Success);
       setUpdateLanguage(data??[]);

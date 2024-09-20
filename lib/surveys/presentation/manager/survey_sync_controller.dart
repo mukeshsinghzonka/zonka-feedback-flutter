@@ -20,10 +20,8 @@ class SurveySyncController extends GetxController {
   final SurveyDesignFieldController surveyFieldController =
       Get.find<SurveyDesignFieldController>();
   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
-  final SubmitSurveyManagerController submitsurvey =
-      Get.put(SubmitSurveyManagerController());
-  final SurveryApiFeedbackController surveyApicontroller =
-      Get.find<SurveryApiFeedbackController>();
+  final SubmitSurveyManagerController submitsurvey = Get.put(SubmitSurveyManagerController());
+  final SurveryApiFeedbackController surveyApicontroller = Get.find<SurveryApiFeedbackController>();
   final SurveyCollectDataController surveyCollectDataController =
       Get.find<SurveyCollectDataController>();
   AndroidDeviceInfo androidDeviceInfo = DeviceInfoService().androidInfo;
@@ -32,9 +30,10 @@ class SurveySyncController extends GetxController {
   List<SurveyResponse>? createSurveyResponseData() {
     List<SurveyResponse> listSurveyResponse = [];
     surveyCollectDataController.surveyIndexData.forEach((key, value) {
-      print("filednamesurvey ${surveyScreenManager.mapSurveyIdAndFieldName[key]} $key ${surveyScreenManager.mapSurveyIdAndFieldName}");
+      print("${surveyScreenManager.mapSurveyIdAndFieldName} ${surveyScreenManager.mapSurveyIdAndFieldName[key]} $key ");
       dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(
           key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
+     print("${surveyScreenManager.mapSurveyIdAndFieldName} $surveyDetail ");
       if (surveyDetail is List<SurveyResponse>) {
         listSurveyResponse.addAll(surveyDetail);
       } else if (surveyDetail is SurveyResponse) {
@@ -68,6 +67,7 @@ class SurveySyncController extends GetxController {
 
   Future<void> asyncDurationValue({required String syncType}) async {
     List<SurveyResponse>? surveyResponse = createSurveyResponseData();
+    print("surveyResponselisnt $surveyResponse");
     SurveySubmitModel submitSurveyModel = SurveySubmitModel(
         responseType: 'Device',
         language: surveyFieldController.defaultTranslation.value,

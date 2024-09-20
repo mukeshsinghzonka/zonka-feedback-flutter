@@ -103,9 +103,7 @@ Color lightenColor(String hexColor, double amount) {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(horizontal: 4.w),
                   ),
-
-              
-                
+  
                   dropdownColor:  Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(10.r),
                   alignment: AlignmentDirectional.centerStart,

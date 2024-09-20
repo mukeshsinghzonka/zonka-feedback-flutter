@@ -17,5 +17,4 @@ CountryCodeModel({
    countryName: json['name']);
 }
 
-
 }

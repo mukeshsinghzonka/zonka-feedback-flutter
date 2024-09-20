@@ -1,5 +1,5 @@
 import 'package:workmanager/workmanager.dart';
-import 'package:zonka_feedback/services/workmanager_functions/downloadAllSurvey.dart';
+import 'package:zonka_feedback/services/workmanager_functions/download_all_survey.dart';
 import 'package:zonka_feedback/services/workmanager_functions/syncAllFailedSurveyReponseFunction.dart';
 import 'package:zonka_feedback/services/workmanager_functions/syncAllSurveyResponseFunction.dart';
 

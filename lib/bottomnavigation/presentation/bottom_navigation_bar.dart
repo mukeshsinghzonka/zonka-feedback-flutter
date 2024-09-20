@@ -24,10 +24,9 @@ class BottomNavigationBarWidget extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                height: 45.h,
-                            
+          
                 padding: EdgeInsets.all(2.w),
-                margin: EdgeInsets.only(top: 7.h , bottom: 10.h, right: 3.w,left: 10.w),
+                margin: EdgeInsets.only(top: 7.h , bottom: 8.h, right: 3.w,left: 10.w),
                 decoration: const BoxDecoration(
                     color: Color(ColorConstant.themeColor),
                     borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -40,25 +39,23 @@ class BottomNavigationBarWidget extends StatelessWidget {
                     SizedBox(
                       width: 10.w,
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Update Survey',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: ConstantSize.small_2.sp),
-                          ),
-                          Text(
-                            'Last Update on 30 Mar 2020',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: ConstantSize.extra_small_3.sp),
-                          )
-                        ],
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Update Survey',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: ConstantSize.small_2.sp),
+                        ),
+                        Text(
+                          'Last Update on 30 Mar 2020',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: ConstantSize.extra_small_3.sp),
+                        )
+                      ],
                     ),
                   ],
                 ),
@@ -72,7 +69,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                 child: Container(
                      height: 45.h,
                   padding: EdgeInsets.all(3.w),
-                  margin: EdgeInsets.only(top: 9.h , bottom: 10.h, right: 8.w,left: 5.w),
+                   margin: EdgeInsets.only(top: 7.h , bottom: 8.h, right: 3.w,left: 10.w),
                   decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(10))),

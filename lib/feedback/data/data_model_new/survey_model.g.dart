@@ -112,6 +112,7 @@ class SurveyModelAdapter extends TypeAdapter<SurveyModel> {
       sequenceOrder: fields[92] as int?,
       widgetSequenceOrder: fields[93] as int?,
       surveyScreens: (fields[94] as List?)?.cast<SurveyScreenModel>(),
+      staffScreen: (fields[132] as List).cast<dynamic>(),
       hideInDevice: fields[95] as bool?,
       isActive: fields[96] as bool?,
       isDeleted: fields[97] as bool?,
@@ -155,7 +156,7 @@ class SurveyModelAdapter extends TypeAdapter<SurveyModel> {
   @override
   void write(BinaryWriter writer, SurveyModel obj) {
     writer
-      ..writeByte(132)
+      ..writeByte(133)
       ..writeByte(0)
       ..write(obj.newVersion)
       ..writeByte(1)
@@ -398,6 +399,8 @@ class SurveyModelAdapter extends TypeAdapter<SurveyModel> {
       ..write(obj.lastModifierUserAgent)
       ..writeByte(120)
       ..write(obj.lastModifierAction)
+      ..writeByte(132)
+      ..write(obj.staffScreen)
       ..writeByte(121)
       ..write(obj.id)
       ..writeByte(122)

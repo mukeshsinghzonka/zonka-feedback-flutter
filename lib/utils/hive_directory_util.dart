@@ -7,6 +7,8 @@ class HiveDirectoryUtil{
   static const String surveyDownloadResponseBox = "surveyDownloadResponseBox";
   static const String surveyResModelBox = "surveyResModelBox";
   static const String workSpaceModelBox = "workSpaceModelBox";
+  static const String languageModelBox = "languageModelBox";
+  static const String templateModelBox = "templateModelBox";
   
 
 }

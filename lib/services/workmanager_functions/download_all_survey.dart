@@ -1,9 +1,7 @@
 import 'package:zonka_feedback/dashboard/data/data_model/workspace_model.dart';
-import 'package:zonka_feedback/feedback/data/data_model_new/survey_model.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_feedback_uc.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
-import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
 import 'package:zonka_feedback/utils/hive_key.dart';
@@ -12,10 +10,8 @@ Future<void> downloadAllSurvey() async {
   await HiveService().init();
   setup();
   try {
-    var surveyList = await HiveService()
-        .getData(HiveDirectoryUtil.surveyResModelBox, HiveKey.surveyResKey);
-    var workSpaceList = await HiveService()
-        .getData(HiveDirectoryUtil.workSpaceModelBox, HiveKey.workSpaceKey);
+    var surveyList = await HiveService().getData(HiveDirectoryUtil.surveyResModelBox, HiveKey.surveyResKey);
+    var workSpaceList = await HiveService().getData(HiveDirectoryUtil.workSpaceModelBox, HiveKey.workSpaceKey);
 
     // Map to store workspaceId and corresponding surveyIds
     Map<String, List<String>> workspaceMapSurveyId = {};
@@ -47,8 +43,7 @@ Future<void> downloadAllSurvey() async {
     // Log the final mapping
     print("Workspace and Survey ID Map: $workspaceMapSurveyId");
 
-    print(
-        "worspancekidkeymapping ${workspaceMapSurveyId} ${workspaceMapSurveyId.keys.length} ");
+    print("worspancekidkeymapping ${workspaceMapSurveyId} ${workspaceMapSurveyId.keys.length} ");
  for (var key in workspaceMapSurveyId.keys) {
   List<String>? surveyIdList = workspaceMapSurveyId[key];
 

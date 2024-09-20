@@ -13,13 +13,12 @@ class CountryCodeWidget extends StatefulWidget {
 
 class _CountryCodeWidgetState extends State<CountryCodeWidget> {
   bool countryCodeDrop = false;
-  final countryCodeController = Get.put(CountryCodeController());
+  final countryCodeController = Get.find<CountryCodeController>();
 
 
   @override
   void initState() {
-    countryCodeController.call();
-    super.initState();
+      super.initState();
   }
 
  
@@ -65,7 +64,6 @@ class _CountryCodeWidgetState extends State<CountryCodeWidget> {
                               builder: (context) {
                                 if(countryCodeController.countryCodeModel.value.dialCode==''){
                                    return  Text('Select Country Code',style: TextStyle(color: Colors.grey.shade700, fontFamily: 'Source Sans Pro',),);
-                              
                                 }
                                 return Row(
                                   children: [

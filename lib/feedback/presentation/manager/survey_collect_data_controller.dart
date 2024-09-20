@@ -56,7 +56,7 @@ class SurveyCollectDataController extends GetxController {
             }
           });
         }
-      case "text_box":
+      case "text_box" || 'Email' || 'MembershipNo' || 'FullName' || 'FirstName' || 'Name':
         String? textValue = selectedData as String?;
         return SurveyResponse(fieldId: fieldId, fieldValue: textValue);
 
@@ -90,6 +90,18 @@ class SurveyCollectDataController extends GetxController {
           choiceId:dropDownValue==null?"": dropDownValue.id,
         );
 
+      case "RankingQuestion":
+      List<Choice> items = List<Choice>.from(selectedData);
+      List<SurveyResponse> valueList = [];
+      items.map((e){
+          valueList.add(SurveyResponse(
+            choiceId: e.id,
+            fieldId: fieldId,
+            fieldValue:((e.choiceWeight ?? 0) + 1).toString(),
+          ));
+      });
+      return valueList;
+
       default:
     }
     return null;
@@ -98,6 +110,7 @@ class SurveyCollectDataController extends GetxController {
   bool checkIfDisplayConditionMatched(
       DisplayLogicModel displayModel, String fieldName) {
     dynamic selectedData = surveyIndexData[displayModel.fieldId];
+    print("selectedata $selectedData");
     switch (fieldName) {
       case "msqquestion" || "checkbox" || "picture_rating" || "mcqquestion":
         Map<String, bool> choiceMap = Map<String, bool>.from(selectedData);

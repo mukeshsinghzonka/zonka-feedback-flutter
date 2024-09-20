@@ -112,7 +112,7 @@ class SurveyModel extends HiveObject{
     required this.sequenceOrder,
     required this.widgetSequenceOrder,
     required this.surveyScreens,
-    // required this.staffScreen,
+    required this.staffScreen,
     required this.hideInDevice,
     required this.isActive,
     required this.isDeleted,
@@ -520,8 +520,8 @@ class SurveyModel extends HiveObject{
 
   // @HiveField(121)
   // final String? surveyCloseRedirectUrl;
-
-  // final List<dynamic> staffScreen;
+ @HiveField(132)
+  final List<dynamic> staffScreen;
 
   @HiveField(121)
   final String? id;
@@ -670,7 +670,7 @@ class SurveyModel extends HiveObject{
           ? []
           : List<SurveyScreenModel>.from(
               json["surveyScreens"]!.map((x) => SurveyScreenModel.fromJson(x))),
-      // staffScreen: json["staffScreen"] == null ? [] : List<dynamic>.from(json["staffScreen"]!.map((x) => x)),
+      staffScreen: json["staffScreen"] == null ? [] : List<dynamic>.from(json["staffScreen"]!.map((x) => x)),
       hideInDevice: json["hideInDevice"],
       isActive: json["isActive"],
       isDeleted: json["isDeleted"],
