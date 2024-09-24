@@ -86,3 +86,9 @@ enum WorkManagerTask{
  updateSurveyTaskWork,
 
 }
+
+enum PortName{
+  syncAllSurveyReponse,
+  syncAllFailedSurveyReponse,
+  downloadAllSurveyTask
+}

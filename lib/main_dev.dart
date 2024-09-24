@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
+import 'package:zonka_feedback/services/isolates/isolate_service.dart';
 import 'package:zonka_feedback/services/network/network_connectivity.dart';
 import 'package:zonka_feedback/services/workmanager_functions/work_manager_service.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';

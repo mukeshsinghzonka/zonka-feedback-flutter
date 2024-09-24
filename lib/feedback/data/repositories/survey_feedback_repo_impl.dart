@@ -16,7 +16,6 @@ class SurveyFeedbackRepoImpl extends SurveyFeedbackRepo {
   @override
   Future<ApiResult<SurveyModel>> surveyFeedbackRepo({required String? suveryId}) async {
     bool checkInternet = await networkConnectivity.isConnected();
-    print("checkinernetconnected $checkInternet");
     if (checkInternet) {
       return await surveyFeedBackDataSource.getSurveyFeedBackDs(suveryId: suveryId);
     } else {

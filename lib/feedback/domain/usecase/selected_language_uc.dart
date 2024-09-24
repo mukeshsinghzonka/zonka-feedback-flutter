@@ -3,7 +3,7 @@ import 'package:zonka_feedback/feedback/domain/repositories/selected_language_re
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/usecase/usecase.dart';
 
-class SelectedLanguageUc extends UseCase<ApiResult< List<LanguageModel>>, String >{
+class SelectedLanguageUc extends UseCase<ApiResult<List<LanguageModel>>, String >{
 
   final SelectedLanguageRepo selectedLanguageRepo;
   SelectedLanguageUc({required this.selectedLanguageRepo});

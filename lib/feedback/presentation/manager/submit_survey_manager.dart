@@ -2,8 +2,10 @@ import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model
 import 'package:zonka_feedback/feedback/domain/usecase/survey_submit_uc.dart';
 import 'package:zonka_feedback/services/controller/base_controller.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
+import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
+import 'package:zonka_feedback/utils/hive_directory_util.dart';
 
 class SubmitSurveyManagerController extends BaseControllerWithParams<void, SurveySubmitModel> {
 
@@ -17,6 +19,7 @@ class SubmitSurveyManagerController extends BaseControllerWithParams<void, Surve
       setStatus(ApiCallStatus.Success);
       return;
     }, failure: (error) async {
+      await HiveService().addData(HiveDirectoryUtil.submitSurveyBox, params);
       setStatus(ApiCallStatus.Error);
       // setNetworkExceptions(error);
     });

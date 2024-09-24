@@ -5,13 +5,12 @@ import 'package:zonka_feedback/services/workmanager_functions/syncAllSurveyRespo
 
 
 @pragma('vm:entry-point')
-void callBackWorkManager() {
-
+void callBackWorkManager() {    
   Workmanager().executeTask((taskName, inputData) async {
     switch (taskName) {
       case 'updateSurveyTask':
-        await syncAllSurveyReponse();
-        break;
+       await syncAllSurveyReponse();
+       break;
       case 'updateFailedSurveyTask':
         await syncAllFailedSurveyReponse();
         break;
@@ -19,6 +18,7 @@ void callBackWorkManager() {
         await downloadAllSurvey();
         break;
     }
+
     return Future.value(true);
   });
 }
@@ -52,7 +52,7 @@ class WorkManagerService {
     var uniqueId = DateTime.now().second.toString();
     Workmanager().registerPeriodicTask(uniqueId, taskNameUpdate,
         initialDelay: const Duration(seconds: 2),
-        frequency: const Duration(hours: 24),
+        frequency: const Duration(seconds: 20),
         existingWorkPolicy: ExistingWorkPolicy.keep,
         constraints: Constraints(networkType: NetworkType.connected));
   }

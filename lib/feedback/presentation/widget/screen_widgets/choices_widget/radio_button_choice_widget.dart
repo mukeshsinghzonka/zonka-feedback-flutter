@@ -61,7 +61,7 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget>  with SingleTicke
             shrinkWrap:true,
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount:widget.field.choices.length >=3 ? crossAxisCount:widget.field.choices.length, // Number of columns
               childAspectRatio:widget.field.choices.length >=3 ? 4: 6, // Aspect ratio of each grid item
               mainAxisSpacing: 10.0, // Space between the items vertically

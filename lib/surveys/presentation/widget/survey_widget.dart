@@ -1,15 +1,24 @@
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/setting_up_screen.dart';
+import 'package:zonka_feedback/services/hive/hive_service.dart';
+import 'package:zonka_feedback/services/shared_preference.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/surveys/domain/entity/survey_count_response.dart';
+import 'package:zonka_feedback/surveys/presentation/manager/survey_time_unsync_controller.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
+
+import '../../../services/hive/open_hive_box.dart';
 
 class SurveyWidget extends StatefulWidget {
   final SurveyResModel surveyResModel;
@@ -20,13 +29,14 @@ class SurveyWidget extends StatefulWidget {
 }
 
 class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMixin {
-  @override
-  void initState() {
-      super.initState();
-  }
+
+   
+ final surveyController = Get.find<SurveyTimeUnsyncController>();
+
 
   @override
   Widget build(BuildContext context) {
+
     return Card(
         margin: EdgeInsets.only(top: 10.h, left: 13.w, right: 13.w),
         color: Colors.white,
@@ -68,8 +78,7 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                     ),
                     Container(
                       alignment: Alignment.center,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(7.w)),
                         color: widget.surveyResModel.iskioskmode
@@ -108,16 +117,11 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                           Row(
                             children: [
                               ValueListenableBuilder(
-                                valueListenable: Hive.box(HiveDirectoryUtil
-                                        .totalSurveySubmitResponse)
-                                    .listenable(),
+                                valueListenable: Hive.box(HiveDirectoryUtil.totalSurveySubmitResponse).listenable(),
                                 builder: (context, Box<dynamic> box, _) {
                                   // Fetch the count using the surveyId (or another unique key)
-                                  final surveyId =
-                                      widget.surveyResModel.surveyId;
-                                  var surveyCount = box.get(surveyId,
-                                      defaultValue: SurveyCountResponseData(
-                                          count: 0, dateTime: DateTime.now()));
+                                  final surveyId = widget.surveyResModel.surveyId;
+                                  var surveyCount = box.get(surveyId,defaultValue: SurveyCountResponseData(count: 0, dateTime: DateTime.now()));
 
                                   return Text(
                                     '${surveyCount.count} Response Today',
@@ -132,14 +136,14 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                                 width: 5.w,
                               ),
                               ValueListenableBuilder(
-                                valueListenable:Hive.box(HiveDirectoryUtil.submitSurveyBox).listenable(),
+                                valueListenable: Hive.box(HiveDirectoryUtil.submitSurveyBox).listenable(),
                                 builder: (context, Box<dynamic> box, _) {
-                                  print("hellow");
                                   // Retrieve the values and cast them to List<SurveySubmitModel>
                                   List<dynamic> surveySubmitModel = box.values.toList();
                                   // print("HiveDirectoryUtilsubmitSurveyBox ${ box.values.toList()}");
                                   // Filter the list based on the surveyId and count the matching items
-                                  int count = surveySubmitModel.where((e) =>e.surveyId == widget.surveyResModel.surveyId).length;
+                                
+                                  int count = surveySubmitModel.where((e) => e.surveyId.toString() == widget.surveyResModel.surveyId).length;
                                   // Since the list is never null, we just check the count
                                   return Text(
                                     'Unsynced Response: $count',
@@ -159,11 +163,24 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                               ),
                             ],
                           ),
-                          Text(
-                              'Last Synced ${DateFormat.jm().format(DateTime.now())} ${DateFormat.yMMMEd().format(DateTime.now())}',
-                              style: TextStyle(
-                                  color: Colors.grey.shade400,
-                                  fontSize: ConstantSize.extra_small_3.sp))
+                           GetBuilder<SurveyTimeUnsyncController>(
+  init: surveyController,
+  builder: (controller) {
+    print("Survey ID: ${widget.surveyResModel.surveyId}");
+    print("Last Sync Times: ${controller.surveyLastSyncTime}");
+    print("Last Sync Time for Survey: ${controller.surveyLastSyncTime[widget.surveyResModel.surveyId]}");
+
+    // Safely check if the survey ID exists in the map
+    DateTime? lastSyncTime = controller.surveyLastSyncTime[widget.surveyResModel.surveyId];
+    return Text(lastSyncTime != null ? lastSyncTime.toString() : 'No sync time available',
+      style: TextStyle(
+        color: Colors.grey.shade400,
+        fontSize: ConstantSize.extra_small_3.sp,
+      ),
+    );
+  },
+)
+
                         ],
                       ),
                     ),
@@ -174,11 +191,12 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                          width: 1.w, color: Color(ColorConstant.themeColor))),
+                          width: 1.w,
+                          color: const Color(ColorConstant.themeColor))),
                   child: Icon(
                     Icons.arrow_forward_ios,
                     size: 15.sp,
-                    color: Color(ColorConstant.themeColor),
+                    color: const Color(ColorConstant.themeColor),
                   ),
                 )
               ],

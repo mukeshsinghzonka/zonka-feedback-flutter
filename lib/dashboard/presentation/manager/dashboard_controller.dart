@@ -1,17 +1,16 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/dashboard/presentation/manager/workspace_controller.dart';
+import 'package:zonka_feedback/feedback/presentation/manager/auto_suggest_api_manager.dart';
 import 'package:zonka_feedback/location/presentation/manager/location_controller.dart';
 import 'package:zonka_feedback/services/controller/base_controller.dart';
-import 'package:zonka_feedback/services/hive/hive_service.dart';
-import 'package:zonka_feedback/services/workmanager_functions/work_manager_service.dart';
 import 'package:zonka_feedback/setting/manager/country_code_controller.dart';
 import 'package:zonka_feedback/surveys/presentation/manager/survey_controller.dart';
 import 'package:zonka_feedback/surveys/presentation/manager/survey_manage_controller.dart';
+import 'package:zonka_feedback/template/presentation/manager/get_template_manager.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
-import 'package:zonka_feedback/utils/hive_directory_util.dart';
-import 'package:zonka_feedback/utils/hive_key.dart';
-
 import '../../../feedback/presentation/manager/language_api_manager.dart';
 
 class DashboardController extends BaseControllerWithOutParams<void> {
@@ -22,14 +21,37 @@ class DashboardController extends BaseControllerWithOutParams<void> {
   final _languageManagerController = Get.put(LanguageManagerController());
   final overlayController = OverlayPortalController();
   final countryCodeController = Get.put(CountryCodeController());
+  final autoSuggestController = Get.put(AutoSuggestApiManager());
+  final getTemplateManager = Get.put(GetTemplateManager());
 
+  void isolateEntryPoint(SendPort sendPort) {
+    // Call isolated functions here
+    // Isolate-safe code should not rely on GetX controllers or other main-thread-bound resources
 
- Future<void> downloadSurveyManager() async {
-    // var value = await HiveService().getData(HiveDirectoryUtil.surveyDownloadResponseBox,HiveKey.surveyDownloadedBool);
-    // if (value == false) {
-      WorkManagerService().downloadAllSurveyTask();
-      // await HiveService().putData(HiveDirectoryUtil.surveyDownloadResponseBox,HiveKey.surveyDownloadedBool, true);
-    // }
+    // Simulate the isolated task
+    countryCodeController.call();
+    _languageManagerController.call('Remote');
+    autoSuggestController.call();
+    getTemplateManager.call();
+    sendPort.send(
+        'CountryCodeController, LanguageManager, and others called in Isolate.');
+
+    // You can also handle specific tasks for each controller call, but avoid accessing GetX directly.
+  }
+
+  void callFunctionInIsolate() async {
+    // Create a ReceivePort for communication with the isolate
+    final receivePort = ReceivePort();
+
+    // Spawn an isolate and pass the SendPort
+    await Isolate.spawn(isolateEntryPoint, receivePort.sendPort);
+
+    // Listen to the ReceivePort for messages
+    receivePort.listen((message) {
+      if (message is String) {
+        print('Isolate says: $message');
+      }
+    });
   }
 
   @override
@@ -38,9 +60,8 @@ class DashboardController extends BaseControllerWithOutParams<void> {
     await workSpaceController.call();
     await surveyController.call();
     await _surveyManagerController.getSurveyListWorkspace();
-      await countryCodeController.call();
-    await _languageManagerController.call('Remote');
-    downloadSurveyManager();
+    callFunctionInIsolate();
+    //  WorkManagerService().downloadAllSurveyTask();
     setStatus(ApiCallStatus.Success);
   }
 }

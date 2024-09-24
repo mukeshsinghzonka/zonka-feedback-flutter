@@ -2,10 +2,7 @@ import 'package:aad_oauth/model/token.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/services/microsoft_auth.dart/microsoft_service.dart';
-import 'package:zonka_feedback/utils/hive_directory_util.dart';
-import 'package:zonka_feedback/utils/hive_key.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
 import 'dart:developer';
 
@@ -24,7 +21,7 @@ class _OtherLoginWidgetState extends State<OtherLoginWidget> {
           GestureDetector(
             onTap: () async {
             Token ? microsoftLogin = await  MicroSoftService().login();
-             await  HiveService().putData(HiveDirectoryUtil.surveyDownloadResponseBox,HiveKey.surveyDownloadedBool,false);
+
             log('microsoftLogin: $microsoftLogin');
             // dev.log("microsoftlogin ${microsoftLogin?.toMap()}");
             // logger.d("Debug log");

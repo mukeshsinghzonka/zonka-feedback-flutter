@@ -6,6 +6,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:zonka_feedback/dashboard/presentation/screen/dashboard.dart';
 import 'package:zonka_feedback/location/presentation/screen/choose_location_screen.dart';
 import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
+import 'package:zonka_feedback/services/isolates/global_isolate.dart';
+import 'package:zonka_feedback/services/isolates/isolate_service.dart';
 import 'package:zonka_feedback/services/navigator.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
@@ -19,9 +21,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+ 
+IsolateService isolateService1 = IsolateService(portName: 'isolate_port1');
+
+
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
+    isolateService1.initPortWithName();
     super.initState();
   }
  

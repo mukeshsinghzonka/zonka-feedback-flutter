@@ -1,4 +1,5 @@
 
+import 'dart:ui';
 import 'package:hive/hive.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_submit_uc.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
@@ -10,7 +11,7 @@ import 'package:zonka_feedback/utils/hive_directory_util.dart';
 Future<void> syncAllFailedSurveyReponse() async {
   await HiveService().init();
   setup();
-
+  
   // Open the Hive box
   var box = await Hive.openBox(HiveDirectoryUtil.failedSurveyBox);
   // List<dynamic> boxKeyList = box.keys.toList();
@@ -36,7 +37,7 @@ Future<void> syncAllFailedSurveyReponse() async {
           await HiveService().deleteDataAt(HiveDirectoryUtil.failedSurveyBox, key);
         },
       );
-
+       
       if (checkInternetConnection == false) {
         break;
       }

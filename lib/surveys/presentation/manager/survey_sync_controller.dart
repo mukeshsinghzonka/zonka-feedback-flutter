@@ -43,9 +43,6 @@ class SurveySyncController extends GetxController {
     return listSurveyResponse.isNotEmpty ? listSurveyResponse : null;
   }
 
-  Future<void> addDataToHiveLocal(SurveySubmitModel submitSurveyModel) async {
-    await HiveService().addData(HiveDirectoryUtil.submitSurveyBox, submitSurveyModel);
-  }
 
   Future<void> updateTotalSurveyAdded(SurveySubmitModel submitSurveyModel) async {
     var responseData = await HiveService().getData(HiveDirectoryUtil.totalSurveySubmitResponse,submitSurveyModel.surveyId ?? "");
@@ -65,9 +62,11 @@ class SurveySyncController extends GetxController {
     await HiveService().putData(HiveDirectoryUtil.totalSurveySubmitResponse,submitSurveyModel.surveyId ?? "", valueFinal);
   }
 
+
   Future<void> asyncDurationValue({required String syncType}) async {
+    
+
     List<SurveyResponse>? surveyResponse = createSurveyResponseData();
-    print("surveyResponselisnt $surveyResponse");
     SurveySubmitModel submitSurveyModel = SurveySubmitModel(
         responseType: 'Device',
         language: surveyFieldController.defaultTranslation.value,
@@ -84,25 +83,12 @@ class SurveySyncController extends GetxController {
         surveySubmitDateTime: DateTime.now(),
         surveyFillStartDateTime: surveyFieldController.surveyFillDateTime.value,
         surveyResponse: surveyResponse);
-
-    bool checkInternetConnection = await NetworkConnectivity().isConnected();
-
-    if (checkInternetConnection) {
       await submitsurvey.call(submitSurveyModel);
-      if (submitsurvey.apiStatus.value == ApiCallStatus.Error) {
-      await addDataToHiveLocal(submitSurveyModel);
-      }
-    } else {
-      await addDataToHiveLocal(submitSurveyModel);
-    }
-
-    try {
       await updateTotalSurveyAdded(submitSurveyModel);
-    } catch (e) {
-      print("updatedsurvey $e");
-    }
+      surveyCollectDataController.surveyIndexData.clear();
+   
+   
 
-    surveyCollectDataController.surveyIndexData.clear();
 
     // if (!_isDelayCalled) {
     //   _isDelayCalled = true;

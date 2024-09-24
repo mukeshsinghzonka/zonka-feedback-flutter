@@ -6,4 +6,7 @@ class SettingController extends GetxController{
   final bool _isPreviewSwitched = false;
   bool get preViewSwitchedSurvey => _isPreviewSwitched;
 
+
+  
+
 }

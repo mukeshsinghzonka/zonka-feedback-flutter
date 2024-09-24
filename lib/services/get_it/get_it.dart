@@ -1,19 +1,25 @@
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get_it/get_it.dart';
 import 'package:zonka_feedback/dashboard/data/data_source/local_network/workspace_local_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/local_ds/selected_local_language_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/local_ds/survey_feedback_local_ds.dart';
+import 'package:zonka_feedback/feedback/data/data_source/network_ds/auto_suggest_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/selected_languaga_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/survey_feedback_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/survey_image_upload_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/network_ds/survey_submit_ds.dart';
+import 'package:zonka_feedback/feedback/data/repositories/auto_suggest_repo_impl.dart';
 import 'package:zonka_feedback/feedback/data/repositories/selected_language_repo_impl.dart';
 import 'package:zonka_feedback/feedback/data/repositories/survery_image_upload_image_repo_impl.dart';
 import 'package:zonka_feedback/feedback/data/repositories/survey_feedback_repo_impl.dart';
 import 'package:zonka_feedback/feedback/data/repositories/survey_submit_repo_impl.dart';
+import 'package:zonka_feedback/feedback/domain/repositories/auto_suggest_repo.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/selected_language_repo.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_feedback_repo.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_image_upload_feedback_repo.dart';
 import 'package:zonka_feedback/feedback/domain/repositories/survey_submit_repo.dart';
+import 'package:zonka_feedback/feedback/domain/usecase/auto_suggest_uc.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/selected_language_uc.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_feedback_uc.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_image_upload_uc.dart';
@@ -44,6 +50,7 @@ import 'package:zonka_feedback/surveys/data/data_source/network_ds/survey_ds.dar
 import 'package:zonka_feedback/surveys/data/repositories_impl/survey_repo_impl.dart';
 import 'package:zonka_feedback/surveys/domain/repositories/survey_repo.dart';
 import 'package:zonka_feedback/surveys/domain/usecase/survey_uc.dart';
+import 'package:zonka_feedback/surveys/presentation/manager/survey_time_unsync_controller.dart';
 import 'package:zonka_feedback/template/data/data_source/local_ds/get_local_template_ds.dart';
 import 'package:zonka_feedback/template/data/data_source/network_ds/add_template_ds.dart';
 import 'package:zonka_feedback/template/data/data_source/network_ds/apply_template_ds.dart';
@@ -80,6 +87,7 @@ void setup() {
     getIt.registerLazySingleton(() => ApplyTemplateUc(applyTemplateRepo:getIt()));
     getIt.registerLazySingleton(() => AddTemplateUc(addTemplateRepo:getIt()));
     getIt.registerLazySingleton(() => CountryCodeUc(countryCodeRepo:getIt()));
+    getIt.registerLazySingleton(() => AutoSuggestUc(autoSuggestRepo:getIt()));
     // getIt.registerLazySingleton(() => SurveyLanguagesUc(surveyFeedbackRepo:getIt())); 
 
 
@@ -96,6 +104,8 @@ void setup() {
     getIt.registerLazySingleton<ApplyTemplateRepo>(()=>ApplyTemplateRepoImpl(applyTemplateDs: getIt()));
     getIt.registerLazySingleton<AddTemplateRepo>(()=>AddTemplateRepoImpl(addTemplateDs: getIt()));
     getIt.registerLazySingleton<CountryCodeRepo>(()=>CountryCodeRepoImpl(countryCodeDs: getIt()));
+    getIt.registerLazySingleton<AutoSuggestRepo>(()=>AutoSuggestRepoImpl(autoSuggestDs: getIt()));
+    
 
 
     //Data Source
@@ -115,10 +125,15 @@ void setup() {
     getIt.registerLazySingleton(() => SurveyLocalDs()); 
     getIt.registerLazySingleton(() => WorkspaceLocalDs());
     getIt.registerLazySingleton(() => SelectedLocalLanguageDs()); 
-     getIt.registerLazySingleton(() =>GetLocalTemplateDs());  
+    getIt.registerLazySingleton(()=> GetLocalTemplateDs()); 
+    getIt.registerLazySingleton(()=> AutoSuggestDs());  
 
     //Services
     getIt.registerLazySingleton(() => LoggerService());
 
     
+
+
+    //init controllers 
+    Get.lazyPut(() => SurveyTimeUnsyncController());
 }

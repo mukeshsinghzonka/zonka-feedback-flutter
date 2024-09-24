@@ -107,10 +107,12 @@ class SurveyCollectDataController extends GetxController {
     return null;
   }
 
-  bool checkIfDisplayConditionMatched(
-      DisplayLogicModel displayModel, String fieldName) {
+  bool checkIfDisplayConditionMatched(DisplayLogicModel displayModel, String fieldName) {
     dynamic selectedData = surveyIndexData[displayModel.fieldId];
     print("selectedata $selectedData");
+    if(selectedData==null){
+      return false;
+    }
     switch (fieldName) {
       case "msqquestion" || "checkbox" || "picture_rating" || "mcqquestion":
         Map<String, bool> choiceMap = Map<String, bool>.from(selectedData);
@@ -162,10 +164,7 @@ class SurveyCollectDataController extends GetxController {
           return false;
         }
         return  choiceId.id == displayModel.choiceId;
-      case "heart_rating" ||
-            "circle_rating" ||
-            "star_rating" ||
-            "emotion_rating":
+      case "heart_rating" || "circle_rating" || "star_rating" || "emotion_rating":
         Map<String, String> choiceMap =
             (selectedData as RatingDataCollector?)?.choiceMap ?? {};
         return choiceMap.containsValue(displayModel.choiceId);

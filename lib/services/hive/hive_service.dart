@@ -12,6 +12,7 @@ class HiveService {
 
  Future<void> init() async  {
      final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+     print("hivepathappDocumentDir ${appDocumentDir.path}");
      Hive.init(appDocumentDir.path);
      await registerHiveAdaptor();
      await openHiveBox();

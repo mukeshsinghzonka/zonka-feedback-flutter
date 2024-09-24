@@ -27,7 +27,7 @@ class AddTemplateScreen extends StatefulWidget {
 
 class _AddTemplateScreenState extends State<AddTemplateScreen>
     with TickerProviderStateMixin {
-  final getTemplateManager = Get.put(GetTemplateManager());
+  final getTemplateManager = Get.find<GetTemplateManager>();
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();
   final ApplyTemplateManagerController applyTemplateManagerController =
@@ -45,7 +45,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
 
   @override
   void initState() {
-    getTemplateManager.call();
+    
     slidingAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 150),

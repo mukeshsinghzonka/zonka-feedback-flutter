@@ -16,6 +16,7 @@ class SurveyDataSource {
     try {
       final response = await _httpUtil.post('/api/v1/surveys/surveyByLocationsAndUsers',data:jsonEncode(params.map((model) => model.toJson()).toList()) );
       List surveyMapping = response['data']['surveysMap'];
+      print("surveyremodel ${surveyMapping[0]}");
       List<SurveyResModel> surveyList = surveyMapping.map((survey) => SurveyResModel.fromJson(survey)).toList();
       await HiveService().putData(HiveDirectoryUtil.surveyResModelBox, HiveKey.surveyResKey,surveyList);
       return ApiResult.success(data: surveyList);
