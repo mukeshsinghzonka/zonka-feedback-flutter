@@ -1,6 +1,8 @@
 
 
 import 'package:hive/hive.dart';
+import 'package:zonka_feedback/bottomnavigation/data/data_model/udpate_survey_res_model.dart';
+import 'package:zonka_feedback/bottomnavigation/data/data_model/update_survey_model.dart';
 import 'package:zonka_feedback/dashboard/data/data_model/workspace_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/background_gallery_image.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
@@ -78,5 +80,7 @@ Future<void> registerHiveAdaptor() async {
      Hive.registerAdapter(TemplateIndustriesMapAdapter());
      Hive.registerAdapter(TemplateDataAdapter());
      Hive.registerAdapter(TemplateModelAdapter());
+     Hive.registerAdapter(UpdateSurveyResModelAdapter());
+     Hive.registerAdapter(UpdateSurveyModelAdapter());
      
 }

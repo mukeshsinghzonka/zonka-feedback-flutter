@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zonka_feedback/services/shared_preference.dart';
 import 'package:zonka_feedback/surveys/presentation/manager/survey_manage_controller.dart';
 import 'package:zonka_feedback/surveys/presentation/manager/survey_search_controller.dart';
 import 'package:zonka_feedback/surveys/presentation/widget/survey_widget.dart';
@@ -100,8 +99,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
               return SizedBox(
                 height: size.height * 0.80,
                 child: ListView.builder(
-                  // shrinkWrap: true,
-                  // physics: NeverScrollableScrollPhysics(),
+                 
                     itemCount: _surveyManagerController.filteredSurveyList.length+1,
                     itemBuilder: (context, index) {
                       if(index == _surveyManagerController.filteredSurveyList.length){

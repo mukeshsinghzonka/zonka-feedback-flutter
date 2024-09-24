@@ -36,6 +36,8 @@ class HiveTypeId{
   static const int surveyId = 34;
   static const int templateIndustriesMapId = 35;
   static const int templateDataId = 36;
+  static const int updateSurveyId = 37;
+  static const int updateResSurveyId = 38;
 
 
   

@@ -11,9 +11,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/survey_next_screen_
 import 'package:zonka_feedback/services/device_info/battery_info.dart';
 import 'package:zonka_feedback/services/device_info/device_info.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
-import 'package:zonka_feedback/services/network/network_connectivity.dart';
 import 'package:zonka_feedback/surveys/domain/entity/survey_count_response.dart';
-import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
 
 class SurveySyncController extends GetxController {

@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_it/get_it.dart';
+import 'package:zonka_feedback/bottomnavigation/data/data_source/update_survey_ds.dart';
+import 'package:zonka_feedback/bottomnavigation/data/repo_impl/update_survey_repo_impl.dart';
+import 'package:zonka_feedback/bottomnavigation/domain/repositories/update_survey_repo.dart';
+import 'package:zonka_feedback/bottomnavigation/domain/usecase/update_survey_uc.dart';
 import 'package:zonka_feedback/dashboard/data/data_source/local_network/workspace_local_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/local_ds/selected_local_language_ds.dart';
 import 'package:zonka_feedback/feedback/data/data_source/local_ds/survey_feedback_local_ds.dart';
@@ -88,6 +92,7 @@ void setup() {
     getIt.registerLazySingleton(() => AddTemplateUc(addTemplateRepo:getIt()));
     getIt.registerLazySingleton(() => CountryCodeUc(countryCodeRepo:getIt()));
     getIt.registerLazySingleton(() => AutoSuggestUc(autoSuggestRepo:getIt()));
+    getIt.registerLazySingleton(() => UpdateSurveyUc(updateSurveyRepo:getIt()));
     // getIt.registerLazySingleton(() => SurveyLanguagesUc(surveyFeedbackRepo:getIt())); 
 
 
@@ -105,6 +110,7 @@ void setup() {
     getIt.registerLazySingleton<AddTemplateRepo>(()=>AddTemplateRepoImpl(addTemplateDs: getIt()));
     getIt.registerLazySingleton<CountryCodeRepo>(()=>CountryCodeRepoImpl(countryCodeDs: getIt()));
     getIt.registerLazySingleton<AutoSuggestRepo>(()=>AutoSuggestRepoImpl(autoSuggestDs: getIt()));
+    getIt.registerLazySingleton<UpdateSurveyRepo>(()=>UpdateSurveyRepoImpl(updateSurveyDs: getIt()));
     
 
 
@@ -125,8 +131,9 @@ void setup() {
     getIt.registerLazySingleton(() => SurveyLocalDs()); 
     getIt.registerLazySingleton(() => WorkspaceLocalDs());
     getIt.registerLazySingleton(() => SelectedLocalLanguageDs()); 
-    getIt.registerLazySingleton(()=> GetLocalTemplateDs()); 
-    getIt.registerLazySingleton(()=> AutoSuggestDs());  
+    getIt.registerLazySingleton(() => GetLocalTemplateDs()); 
+    getIt.registerLazySingleton(() => AutoSuggestDs());
+    getIt.registerLazySingleton(() => UpdateSurveyDs());  
 
     //Services
     getIt.registerLazySingleton(() => LoggerService());

@@ -10,6 +10,6 @@ class HiveDirectoryUtil{
   static const String languageModelBox = "languageModelBox";
   static const String templateModelBox = "templateModelBox";
   static const String surveyLastSyncDateTime = "surveyLastSyncDateTime";
+  static const String updateHiveSurveyId = "updateHiveSurveyId";
   
-
 }

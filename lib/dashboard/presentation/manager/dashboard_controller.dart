@@ -60,7 +60,11 @@ class DashboardController extends BaseControllerWithOutParams<void> {
     await workSpaceController.call();
     await surveyController.call();
     await _surveyManagerController.getSurveyListWorkspace();
-    callFunctionInIsolate();
+    countryCodeController.call();
+    _languageManagerController.call('Remote');
+    autoSuggestController.call();
+    getTemplateManager.call();
+    // callFunctionInIsolate();
     //  WorkManagerService().downloadAllSurveyTask();
     setStatus(ApiCallStatus.Success);
   }

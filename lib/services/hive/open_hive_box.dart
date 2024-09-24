@@ -11,5 +11,5 @@ Future<void> openHiveBox() async {
    await HiveService().openBox(HiveDirectoryUtil.workSpaceModelBox);
    await HiveService().openBox(HiveDirectoryUtil.surveyDownloadResponseBox);
    await HiveService().openBox(HiveDirectoryUtil.surveyLastSyncDateTime);
-   
+   await HiveService().openBox(HiveDirectoryUtil.updateHiveSurveyId);   
 }

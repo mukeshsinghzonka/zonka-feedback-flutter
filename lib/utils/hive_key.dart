@@ -7,5 +7,7 @@ class HiveKey{
   static const String workSpaceKey = "workSpaceKey";
   static const String languageSurveyKey = "languageSurveyKey";
   static const String templateSurveyKey = "templateSurveyKey";
+  static const String updateSurveyKey = "updateSurveyKey";
+  
 
 }

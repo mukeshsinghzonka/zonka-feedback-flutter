@@ -1,5 +1,6 @@
 import 'package:workmanager/workmanager.dart';
 import 'package:zonka_feedback/services/workmanager_functions/download_all_survey.dart';
+import 'package:zonka_feedback/services/workmanager_functions/download_udpated_survey.dart';
 import 'package:zonka_feedback/services/workmanager_functions/syncAllFailedSurveyReponseFunction.dart';
 import 'package:zonka_feedback/services/workmanager_functions/syncAllSurveyResponseFunction.dart';
 
@@ -17,6 +18,10 @@ void callBackWorkManager() {
       case 'downloadAllSurvey':
         await downloadAllSurvey();
         break;
+      case 'downloadUpdatedSurvey':
+        await downloadUpdatedAllSurvey();
+        break;
+
     }
 
     return Future.value(true);
@@ -31,6 +36,7 @@ class WorkManagerService {
   String taskName = 'updateSurveyTask';
   String taskNameUpdate = 'updateFailedSurveyTask';
   String downloadAllSurvey = "downloadAllSurvey";
+  String downloadUpdateSurvey ="downloadUpdateSurvey";
 
   void initWorkManager() async {
     await Workmanager().initialize(
@@ -66,6 +72,14 @@ class WorkManagerService {
     
   }
 
+
+ void downloadUpdateAllSurveyTask() {
+    var uniqueId = DateTime.now().second.toString();
+    Workmanager().registerOneOffTask(uniqueId, downloadUpdateSurvey,
+    initialDelay: const Duration(seconds: 1),
+    existingWorkPolicy: ExistingWorkPolicy.keep,
+    constraints: Constraints(networkType: NetworkType.connected)); 
+  }
 
   void cancelAllWorkManager(){
     Workmanager().cancelAll();

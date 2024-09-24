@@ -1,15 +1,8 @@
-import 'dart:isolate';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:zonka_feedback/feedback/presentation/screens/setting_up_screen.dart';
-import 'package:zonka_feedback/services/hive/hive_service.dart';
-import 'package:zonka_feedback/services/shared_preference.dart';
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/surveys/domain/entity/survey_count_response.dart';
 import 'package:zonka_feedback/surveys/presentation/manager/survey_time_unsync_controller.dart';
@@ -17,8 +10,6 @@ import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
-
-import '../../../services/hive/open_hive_box.dart';
 
 class SurveyWidget extends StatefulWidget {
   final SurveyResModel surveyResModel;
