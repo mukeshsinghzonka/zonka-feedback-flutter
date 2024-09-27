@@ -4,12 +4,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:zonka_feedback/surveys/presentation/manager/survey_manage_controller.dart';
 import 'package:zonka_feedback/surveys/presentation/manager/survey_search_controller.dart';
 import 'package:zonka_feedback/surveys/presentation/widget/survey_widget.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
+import 'package:zonka_feedback/services/isolates/global_isolate.dart';
 
+import '../../services/hive/hive_service.dart';
+import '../../utils/hive_directory_util.dart';
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({super.key});
 
@@ -21,31 +25,16 @@ class _SurveyScreenState extends State<SurveyScreen> {
    
   final SurveyManagerController _surveyManagerController = Get.put(SurveyManagerController());
   final SurveySearchController _surveySearchController = Get.put(SurveySearchController());
-  final receivePort = ReceivePort();
 
 
   @override
   void initState() {
     super.initState();
-    
-    IsolateNameServer.registerPortWithName(receivePort.sendPort, 'mainThreadPort');
-    // Listen for messages from the isolate indicating that Hive has been updated
-    receivePort.listen((message) async {
-      if (message == 'hive_updated') {
-        if (mounted) {
-          setState(() {});
-        }
-      }
-    });
+
+
   }
 
-    @override
-  void dispose() {
-    // Unregister the port when the widget is disposed
-    IsolateNameServer.removePortNameMapping('mainThreadPort');
-    receivePort.close(); // Close the port to prevent memory leaks
-    super.dispose();
-  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

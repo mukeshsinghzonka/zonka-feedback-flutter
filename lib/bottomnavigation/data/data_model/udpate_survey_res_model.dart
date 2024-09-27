@@ -22,13 +22,22 @@ class UpdateSurveyResModel extends HiveObject {
 
   // Factory constructor to create an instance from JSON
   factory UpdateSurveyResModel.fromJson(Map<String, dynamic> json) {
-    return UpdateSurveyResModel(
-      updatesAvailable: json['updatesAvailable'] as bool,
-      isDeleted: json['isDeleted'] as bool,
-      surveyId: json['surveyId'] as String,
-    );
-  }
+    print("jsonvalue updatesAvailable: ${json['updatesAvailable']} "
+          "isDeleted: ${json['isDeleted']} "
+          "surveyId: ${json['surveyId']}");
 
+    // Ensure that we cast values correctly
+    return UpdateSurveyResModel(
+      updatesAvailable: json['updatesAvailable'] is bool
+          ? json['updatesAvailable']
+          : ( json['updatesAvailable']=="true"?true:false ?? false), // default to false
+      isDeleted: json['isDeleted'] is bool
+          ? json['isDeleted']
+          : (json['isDeleted'] =="true"?true:false?? false), // default to false
+      surveyId: json['surveyId'] is String
+          ? json['surveyId']
+          : (json['surveyId'] ?? ""), // default to an empty string
+    );}
   // Convert the model to a JSON object
   Map<String, dynamic> toJson() {
     return {

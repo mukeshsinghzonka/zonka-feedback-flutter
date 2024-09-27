@@ -29,8 +29,7 @@ class SurveySyncController extends GetxController {
     List<SurveyResponse> listSurveyResponse = [];
     surveyCollectDataController.surveyIndexData.forEach((key, value) {
       print("${surveyScreenManager.mapSurveyIdAndFieldName} ${surveyScreenManager.mapSurveyIdAndFieldName[key]} $key ");
-      dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(
-          key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
+      dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
      print("${surveyScreenManager.mapSurveyIdAndFieldName} $surveyDetail ");
       if (surveyDetail is List<SurveyResponse>) {
         listSurveyResponse.addAll(surveyDetail);

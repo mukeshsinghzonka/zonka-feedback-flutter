@@ -69,6 +69,10 @@ import 'package:zonka_feedback/template/domain/usecase/add_template_uc.dart';
 import 'package:zonka_feedback/template/domain/usecase/apply_template_uc.dart';
 import 'package:zonka_feedback/template/domain/usecase/get_template_uc.dart';
 
+import '../../feedback/presentation/manager/survery_api_feedback_controller.dart';
+import '../../template/presentation/manager/add_template_manager.dart';
+import '../../template/presentation/manager/apply_template_manager.dart';
+
 final getIt = GetIt.instance;
 
 void setup() {
@@ -143,4 +147,8 @@ void setup() {
 
     //init controllers 
     Get.lazyPut(() => SurveyTimeUnsyncController());
+    Get.lazyPut(() => ApplyTemplateManagerController());
+    Get.lazyPut(() => AddTemplateManagerController());
+    Get.lazyPut(() => SurveryApiFeedbackController());
+
 }

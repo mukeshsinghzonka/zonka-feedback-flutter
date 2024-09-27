@@ -21,9 +21,14 @@ class SurveyWidget extends StatefulWidget {
 
 class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMixin {
 
-   
  final surveyController = Get.find<SurveyTimeUnsyncController>();
 
+
+
+ @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +40,9 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
           borderRadius: BorderRadius.circular(7.w),
           splashColor: const Color(ColorConstant.appBarBottomColor),
           onTap: () async {
+            // setState(() {
+            //
+            // });
             Navigator.push(
                 context,
                 PageRouteBuilder(
@@ -108,36 +116,14 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                           Row(
                             children: [
                               ValueListenableBuilder(
-                                valueListenable: Hive.box(HiveDirectoryUtil.totalSurveySubmitResponse).listenable(),
-                                builder: (context, Box<dynamic> box, _) {
-                                  // Fetch the count using the surveyId (or another unique key)
-                                  final surveyId = widget.surveyResModel.surveyId;
-                                  var surveyCount = box.get(surveyId,defaultValue: SurveyCountResponseData(count: 0, dateTime: DateTime.now()));
-
-                                  return Text(
-                                    '${surveyCount.count} Response Today',
-                                    style: TextStyle(
-                                      color: Colors.grey.shade400,
-                                      fontSize: ConstantSize.extra_small_3.sp,
-                                    ),
-                                  );
-                                },
-                              ),
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                              ValueListenableBuilder(
-                                valueListenable: Hive.box(HiveDirectoryUtil.submitSurveyBox).listenable(),
+                                valueListenable: Hive.box(HiveDirectoryUtil.totalSurveyResponseCount).listenable(),
                                 builder: (context, Box<dynamic> box, _) {
                                   // Retrieve the values and cast them to List<SurveySubmitModel>
-                                  List<dynamic> surveySubmitModel = box.values.toList();
-                                  // print("HiveDirectoryUtilsubmitSurveyBox ${ box.values.toList()}");
-                                  // Filter the list based on the surveyId and count the matching items
-                                
-                                  int count = surveySubmitModel.where((e) => e.surveyId.toString() == widget.surveyResModel.surveyId).length;
+                                  final surveyId = widget.surveyResModel.surveyId;
+                                  var surveyCount = box.get(surveyId);
                                   // Since the list is never null, we just check the count
                                   return Text(
-                                    'Unsynced Response: $count',
+                                    'Response Today: $surveyCount',
                                     style: TextStyle(
                                       color: Colors.grey.shade400,
                                       fontSize: ConstantSize.extra_small_3.sp,
@@ -145,32 +131,82 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                                   );
                                 },
                                 child: Text(
-                                  'Unsynced Response: 0',
+                                  'Response Today: 0',
                                   style: TextStyle(
                                     color: Colors.grey.shade400,
                                     fontSize: ConstantSize.extra_small_3.sp,
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              ValueListenableBuilder(
+                                valueListenable: Hive.box(HiveDirectoryUtil.surveyUnsyncResponseCount).listenable(),
+                                builder: (context, Box<dynamic> box, _) {
+                                  // Fetch the count using the surveyId (or another unique key)
+                                  final surveyId = widget.surveyResModel.surveyId;
+                                  var surveyCount = box.get(surveyId);
+
+                                  return Text(
+                                    'Unsynced Response: ${surveyCount ?? 0}',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade400,
+                                      fontSize: ConstantSize.extra_small_3.sp,
+                                    ),
+                                  );
+                                },
+                              ),
+
+
                             ],
                           ),
-                           GetBuilder<SurveyTimeUnsyncController>(
-  init: surveyController,
-  builder: (controller) {
-    print("Survey ID: ${widget.surveyResModel.surveyId}");
-    print("Last Sync Times: ${controller.surveyLastSyncTime}");
-    print("Last Sync Time for Survey: ${controller.surveyLastSyncTime[widget.surveyResModel.surveyId]}");
 
-    // Safely check if the survey ID exists in the map
-    DateTime? lastSyncTime = controller.surveyLastSyncTime[widget.surveyResModel.surveyId];
-    return Text(lastSyncTime != null ? lastSyncTime.toString() : 'No sync time available',
-      style: TextStyle(
-        color: Colors.grey.shade400,
-        fontSize: ConstantSize.extra_small_3.sp,
-      ),
-    );
-  },
-)
+                          ValueListenableBuilder(
+                            valueListenable: Hive.box(HiveDirectoryUtil.surveyLastSyncDateTime).listenable(),
+                            builder: (context, Box<dynamic> box, _) {
+                              // Retrieve the values and cast them to List<SurveySubmitModel>
+                              dynamic surveySubmitModel = box.get(widget.surveyResModel.surveyId);
+
+                              print("syvedatetimevakue ${surveySubmitModel} ");
+                              // print("HiveDirectoryUtilsubmitSurveyBox ${ box.values.toList()}");
+                              // Filter the list based on the surveyId and count the matching items
+
+                              // int count = surveySubmitModel.where((e) => e.surveyId.toString() == widget.surveyResModel.surveyId).length;
+                              // Since the list is never null, we just check the count
+                              return Text(
+                                'Unsynced Response: ${surveySubmitModel ?? "NA"}',
+                                style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                  fontSize: ConstantSize.extra_small_3.sp,
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Unsynced Response: 0',
+                              style: TextStyle(
+                                color: Colors.grey.shade400,
+                                fontSize: ConstantSize.extra_small_3.sp,
+                              ),
+                            ),
+                          ),
+//                            GetBuilder<SurveyTimeUnsyncController>(
+//   init: surveyController,
+//   builder: (controller) {
+//     print("Survey ID: ${widget.surveyResModel.surveyId}");
+//     print("Last Sync Times: ${controller.surveyLastSyncTime}");
+//     print("Last Sync Time for Survey: ${controller.surveyLastSyncTime[widget.surveyResModel.surveyId]}");
+//
+//     // Safely check if the survey ID exists in the map
+//     DateTime? lastSyncTime = controller.surveyLastSyncTime[widget.surveyResModel.surveyId];
+//     return Text(lastSyncTime != null ? lastSyncTime.toString() : 'No sync time available',
+//       style: TextStyle(
+//         color: Colors.grey.shade400,
+//         fontSize: ConstantSize.extra_small_3.sp,
+//       ),
+//     );
+//   },
+// )
 
                         ],
                       ),

@@ -4,6 +4,8 @@ import 'package:zonka_feedback/services/workmanager_functions/download_udpated_s
 import 'package:zonka_feedback/services/workmanager_functions/syncAllFailedSurveyReponseFunction.dart';
 import 'package:zonka_feedback/services/workmanager_functions/syncAllSurveyResponseFunction.dart';
 
+import 'clear_total_survey_response.dart';
+
 
 @pragma('vm:entry-point')
 void callBackWorkManager() {    
@@ -21,6 +23,9 @@ void callBackWorkManager() {
       case 'downloadUpdatedSurvey':
         await downloadUpdatedAllSurvey();
         break;
+      case 'clearTotalSurveyReponse':
+        await clearTotalSurveyResponse();
+        break;
 
     }
 
@@ -36,7 +41,8 @@ class WorkManagerService {
   String taskName = 'updateSurveyTask';
   String taskNameUpdate = 'updateFailedSurveyTask';
   String downloadAllSurvey = "downloadAllSurvey";
-  String downloadUpdateSurvey ="downloadUpdateSurvey";
+  String downloadUpdateSurvey ="downloadUpdatedSurvey";
+  String clearTotalSurveyReponse = "clearTotalSurveyReponse";
 
   void initWorkManager() async {
     await Workmanager().initialize(
@@ -80,6 +86,15 @@ class WorkManagerService {
     existingWorkPolicy: ExistingWorkPolicy.keep,
     constraints: Constraints(networkType: NetworkType.connected)); 
   }
+
+   void clearTotalResponseSurveyFromBox(){
+     var uniqueId = DateTime.now().second.toString();
+     Workmanager().registerPeriodicTask(uniqueId, clearTotalSurveyReponse,
+         initialDelay: const Duration(seconds: 1),
+         existingWorkPolicy: ExistingWorkPolicy.keep,
+         frequency: const Duration(seconds: 30),
+         constraints: Constraints(networkType: NetworkType.connected));
+   }
 
   void cancelAllWorkManager(){
     Workmanager().cancelAll();

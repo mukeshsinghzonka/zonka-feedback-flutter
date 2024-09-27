@@ -14,7 +14,7 @@ class SurveyManagerController extends GetxController {
   List<SurveyResModel> _filteredSurveyList = [];
   List<SurveyResModel> get filteredSurveyList => _filteredSurveyList;
   void setFilteredSurveyList(List<SurveyResModel>? surveyList) {
-    _filteredSurveyList = surveyList ?? [];
+    _filteredSurveyList = (surveyList ?? []).reversed.toList();
     update();
   }
 

@@ -16,10 +16,11 @@ class UpdateSurveyModel extends HiveObject {
   UpdateSurveyModel({required this.surveyId, required this.modifiedDate});
 
   factory UpdateSurveyModel.fromJson(Map<String, dynamic> json) {
+    print("updatedatetimevalue ${DateTime.parse(json['modifiedDate']).toUtc()} ${json['surveyId']}");
     return UpdateSurveyModel(
         surveyId: json['surveyId'],
         modifiedDate: json['modifiedDate'] != null
-            ? DateTime.parse(json['modifiedDate'])
+            ?  DateTime.parse(json['modifiedDate']).toUtc()
             : null);
   }
 

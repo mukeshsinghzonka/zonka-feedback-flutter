@@ -30,72 +30,14 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
   final getTemplateManager = Get.find<GetTemplateManager>();
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();
-  final ApplyTemplateManagerController applyTemplateManagerController =
-      Get.put(ApplyTemplateManagerController());
-  final AddTemplateManagerController addTemplateManagerController =
-      Get.put(AddTemplateManagerController());
-  final SurveryApiFeedbackController surveryFeedbackController =
-      Get.put(SurveryApiFeedbackController());
-  late AnimationController slidingAnimationController;
-  late Animation<Offset> slidingAnimation;
-  late AnimationController imageAnimationController;
-  late Animation<double> imageFilterAnimation;
+  final ApplyTemplateManagerController applyTemplateManagerController = Get.find<ApplyTemplateManagerController>();
+  final AddTemplateManagerController addTemplateManagerController = Get.find<AddTemplateManagerController>();
+
   final Map<String, GlobalKey> _keyMap = {};
   GlobalKey newKey = GlobalKey();
 
-  @override
-  void initState() {
-    
-    slidingAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 150),
-    );
-
-    imageAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 150),
-    );
-    imageFilterAnimation =
-        Tween<double>(begin: 0, end: 5).animate(CurvedAnimation(
-      parent: imageAnimationController,
-      curve: Curves.easeInOut,
-    ));
-    slidingAnimation = Tween<Offset>(
-      begin: Offset(250.w, 0),
-      end: const Offset(0.0, 0),
-    ).animate(CurvedAnimation(
-      parent: slidingAnimationController,
-      curve: Curves.easeInOut,
-    ));
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    slidingAnimationController.dispose();
-    imageAnimationController.dispose();
-    super.dispose();
-  }
-
-  void triggerAnimation(bool activate) {
-    if (activate) {
-      setState(() {
-        backvalgroundColor = false;
-      });
-
-      slidingAnimationController.forward();
-      imageAnimationController.forward();
-    } else {
-      setState(() {
-        backvalgroundColor = true;
-      });
 
 
-      slidingAnimationController.reverse();
-      imageAnimationController.reverse();
-    }
-  }
   void applytemplateFunction(TemplateModel templateModel){
     ApiCallHandling(
                                                           controller:
@@ -178,18 +120,18 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                 callbackFunction: (val) {
                   DateTime startTime = DateTime.now();
                   Offset value = val;
-                  slidingAnimation = Tween<Offset>(
-                    begin: Offset(_scrollController.offset + 250.w,
-                        value.dy + _scrollController.offset - 95.h),
-                    end:
-                        Offset(0.0, value.dy + _scrollController.offset - 95.h),
-                  ).animate(CurvedAnimation(
-                    parent: slidingAnimationController,
-                    curve: Curves.easeInOut,
-                  ));
-                  setState(() {
-                    triggerAnimation(backvalgroundColor);
-                  });
+                  // slidingAnimation = Tween<Offset>(
+                  //   begin: Offset(_scrollController.offset + 250.w,
+                  //       value.dy + _scrollController.offset - 95.h),
+                  //   end:
+                  //       Offset(0.0, value.dy + _scrollController.offset - 95.h),
+                  // ).animate(CurvedAnimation(
+                  //   parent: slidingAnimationController,
+                  //   curve: Curves.easeInOut,
+                  // ));
+                  // setState(() {
+                  //   // triggerAnimation(backvalgroundColor);
+                  // });
                   DateTime endTime = DateTime.now();
                   Duration executionTime = endTime.difference(startTime);
 
@@ -288,8 +230,8 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                                 ),
                                               ).then((value) async {
                                                
-                                      
-                                                if (value!=null && value) {
+                                      print("templatevalue $value");
+                                                if (value!=null && value=="PREVIEW_SURVEY") {
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -308,7 +250,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                               addTemplateFunction(templateModel);
                                                     }
                                                   });
-                                                } else {
+                                                } else if (value!=null && value=="ADD_SURVEY") {
                                               addTemplateFunction(templateModel);
                                                 }
                                               });
@@ -348,15 +290,16 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                                                         ),
                                                       ),
                                                       width: double.infinity,
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: templateModel
-                                                                .thumbnailImage ??
-                                                            '',
-                                                        errorWidget: (context,
-                                                            url, error) {
-                                                          return Container();
-                                                        },
-                                                      ),
+                                                      // child: CachedNetworkImage(
+                                                      //   imageUrl: templateModel
+                                                      //           .thumbnailImage ??
+                                                      //       '',
+                                                      //   errorWidget: (context,
+                                                      //       url, error) {
+                                                      //     return Container();
+                                                      //   },
+                                                      // ),
+                                                      child: Container(),
                                                     ),
                                                   ),
                                                   SizedBox(height: 5.h),
@@ -436,83 +379,84 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                             );
                           },
                         ),
-                        AnimatedBuilder(
-                            animation: imageFilterAnimation,
-                            builder: (context, child) {
-                              return BackdropFilter(
-                                blendMode: BlendMode.luminosity,
-                                filter: ImageFilter.blur(
-                                    sigmaX: imageFilterAnimation.value,
-                                    sigmaY: imageFilterAnimation.value),
-                                child: Container(
-                                    color: Colors.black.withOpacity(0.5)),
-                              );
-                            }),
-                        AnimatedBuilder(
-                          animation: slidingAnimation,
-                          builder: (context, child) {
-                            return Transform.translate(
-                              offset: slidingAnimation.value,
-                              child: Container(
-                                alignment: Alignment.topRight,
-                                width: size.width * 0.6,
-                                height: 300.h,
-                                padding: EdgeInsets.all(10.w),
-                                color: Colors.white,
-                                child: ListView.builder(
-                                    padding: const EdgeInsets.all(0),
-                                    itemCount: getTemplateManager.templateData
-                                        .value.templateIndustriesMap.length,
-                                    itemBuilder: (context, index) {
-                                      List<TemplateIndustriesMap>
-                                          templateIndustriesMapValue =
-                                          getTemplateManager.templateData.value
-                                              .templateIndustriesMap;
-                                      return Visibility(
-                                        visible: getTemplateManager
-                                                .filterTemplateIndustryMap[
-                                                    templateIndustriesMapValue[
-                                                            index]
-                                                        .id]
-                                                ?.length !=
-                                            0,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Scrollable.ensureVisible(_keyMap[
-                                                    templateIndustriesMapValue[
-                                                            index]
-                                                        .id]!
-                                                .currentContext!);
 
-
-
-                                            triggerAnimation(backvalgroundColor);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.all(3.h),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  templateIndustriesMapValue[
-                                                              index]
-                                                          .name ??
-                                                      "",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp),
-                                                ),
-                                                const Divider()
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                              ),
-                            );
-                          },
-                        ),
+                        // AnimatedBuilder(
+                        //     animation: imageFilterAnimation,
+                        //     builder: (context, child) {
+                        //       return BackdropFilter(
+                        //         blendMode: BlendMode.luminosity,
+                        //         filter: ImageFilter.blur(
+                        //             sigmaX: imageFilterAnimation.value,
+                        //             sigmaY: imageFilterAnimation.value),
+                        //         child: Container(
+                        //             color: Colors.black.withOpacity(0.5)),
+                        //       );
+                        //     }),
+                        // AnimatedBuilder(
+                        //   animation: slidingAnimation,
+                        //   builder: (context, child) {
+                        //     return Transform.translate(
+                        //       offset: slidingAnimation.value,
+                        //       child: Container(
+                        //         alignment: Alignment.topRight,
+                        //         width: size.width * 0.6,
+                        //         height: 300.h,
+                        //         padding: EdgeInsets.all(10.w),
+                        //         color: Colors.white,
+                        //         child: ListView.builder(
+                        //             padding: const EdgeInsets.all(0),
+                        //             itemCount: getTemplateManager.templateData
+                        //                 .value.templateIndustriesMap.length,
+                        //             itemBuilder: (context, index) {
+                        //               List<TemplateIndustriesMap>
+                        //                   templateIndustriesMapValue =
+                        //                   getTemplateManager.templateData.value
+                        //                       .templateIndustriesMap;
+                        //               return Visibility(
+                        //                 visible: getTemplateManager
+                        //                         .filterTemplateIndustryMap[
+                        //                             templateIndustriesMapValue[
+                        //                                     index]
+                        //                                 .id]
+                        //                         ?.length !=
+                        //                     0,
+                        //                 child: GestureDetector(
+                        //                   onTap: () {
+                        //                     Scrollable.ensureVisible(_keyMap[
+                        //                             templateIndustriesMapValue[
+                        //                                     index]
+                        //                                 .id]!
+                        //                         .currentContext!);
+                        //
+                        //
+                        //
+                        //                     // triggerAnimation(backvalgroundColor);
+                        //                   },
+                        //                   child: Container(
+                        //                     padding: EdgeInsets.all(3.h),
+                        //                     child: Column(
+                        //                       crossAxisAlignment:
+                        //                           CrossAxisAlignment.start,
+                        //                       children: [
+                        //                         Text(
+                        //                           templateIndustriesMapValue[
+                        //                                       index]
+                        //                                   .name ??
+                        //                               "",
+                        //                           style: TextStyle(
+                        //                               fontSize: 10.sp),
+                        //                         ),
+                        //                         const Divider()
+                        //                       ],
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //               );
+                        //             }),
+                        //       ),
+                        //     );
+                        //   },
+                        // ),
                       ],
                     ),
                   )

@@ -151,8 +151,8 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     case SurveyScreenenum.serverName:
     return DropDownWidget(key: ValueKey<String>(field.id??''),field: field,);
      case SurveyScreenenum.mobileNumber:
-    return PhoneNumberWidget(key: ValueKey<String>(field.id??''),field: field,);
-
+    // return PhoneNumberWidget(key: ValueKey<String>(field.id??''),field: field,);
+      return Container();
     default: return Container();
   }
 }

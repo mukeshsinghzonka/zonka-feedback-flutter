@@ -25,9 +25,13 @@ class UpdateSurveyDs {
       List<dynamic> value = box!.keys.toList();
       for (int i = 0; i < value.length; i++) {
         String surveyId = value[i];
-        DateTime modifiedDateValue = await HiveService().getData(HiveDirectoryUtil.updateHiveSurveyId, surveyId);
-        updatedSurveyModel.add(UpdateSurveyModel(modifiedDate: modifiedDateValue, surveyId: surveyId));
+        if(surveyId != HiveKey.updateSurveyKey){
+         var modifiedDateValue = await HiveService().getData(HiveDirectoryUtil.updateHiveSurveyId, surveyId);
+          updatedSurveyModel.add(UpdateSurveyModel(modifiedDate: modifiedDateValue, surveyId: surveyId));
+        }
+   
       }
+
       final response = await _httpUtil.post(
         '/api/v1/surveys/checkSurveyUpdate',
         data: {
@@ -44,7 +48,6 @@ class UpdateSurveyDs {
       for(var valueData in response['data'] ){
             updateResModelList.add(UpdateSurveyResModel.fromJson(valueData));
       }
-      print("udpateresmodelvalue ${updateResModelList}");
       HiveService().putData(HiveDirectoryUtil.updateHiveSurveyId, HiveKey.updateSurveyKey, updateResModelList);
       WorkManagerService().downloadUpdateAllSurveyTask();
       return ApiResult.success(data: updateResModelList);

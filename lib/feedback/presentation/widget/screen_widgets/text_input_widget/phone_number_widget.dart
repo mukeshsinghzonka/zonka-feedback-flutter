@@ -34,6 +34,7 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: size.width / 5),
+      height: size.height/20,
       child: Row(
         children: [
           Container(

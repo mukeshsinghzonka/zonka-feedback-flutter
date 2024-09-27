@@ -12,6 +12,7 @@ import 'package:zonka_feedback/surveys/presentation/manager/survey_manage_contro
 import 'package:zonka_feedback/template/presentation/manager/get_template_manager.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import '../../../feedback/presentation/manager/language_api_manager.dart';
+import '../../../services/workmanager_functions/work_manager_service.dart';
 
 class DashboardController extends BaseControllerWithOutParams<void> {
   final locationController = Get.put(LocationController());
@@ -24,35 +25,20 @@ class DashboardController extends BaseControllerWithOutParams<void> {
   final autoSuggestController = Get.put(AutoSuggestApiManager());
   final getTemplateManager = Get.put(GetTemplateManager());
 
-  void isolateEntryPoint(SendPort sendPort) {
+
+  void isolateEntryPoint(SendPort sendPort) async {
     // Call isolated functions here
     // Isolate-safe code should not rely on GetX controllers or other main-thread-bound resources
 
     // Simulate the isolated task
-    countryCodeController.call();
-    _languageManagerController.call('Remote');
-    autoSuggestController.call();
-    getTemplateManager.call();
-    sendPort.send(
-        'CountryCodeController, LanguageManager, and others called in Isolate.');
+   await countryCodeController.call();
+   await _languageManagerController.call('Remote');
+   await autoSuggestController.call();
+   await getTemplateManager.call();
 
     // You can also handle specific tasks for each controller call, but avoid accessing GetX directly.
   }
 
-  void callFunctionInIsolate() async {
-    // Create a ReceivePort for communication with the isolate
-    final receivePort = ReceivePort();
-
-    // Spawn an isolate and pass the SendPort
-    await Isolate.spawn(isolateEntryPoint, receivePort.sendPort);
-
-    // Listen to the ReceivePort for messages
-    receivePort.listen((message) {
-      if (message is String) {
-        print('Isolate says: $message');
-      }
-    });
-  }
 
   @override
   Future<void> call() async {
@@ -60,11 +46,11 @@ class DashboardController extends BaseControllerWithOutParams<void> {
     await workSpaceController.call();
     await surveyController.call();
     await _surveyManagerController.getSurveyListWorkspace();
-    countryCodeController.call();
-    _languageManagerController.call('Remote');
-    autoSuggestController.call();
-    getTemplateManager.call();
-    // callFunctionInIsolate();
+    // countryCodeController.call();
+    // _languageManagerController.call('Remote');
+    // autoSuggestController.call();
+    // getTemplateManager.call();
+
     //  WorkManagerService().downloadAllSurveyTask();
     setStatus(ApiCallStatus.Success);
   }

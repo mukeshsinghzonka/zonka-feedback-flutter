@@ -22,7 +22,7 @@ import 'package:zonka_feedback/utils/image_constant.dart';
     @override
     Widget build(BuildContext context) {
      return Container(
-        height: 55.h,
+        height: 60.h,
         margin: EdgeInsets.only(left: 10.w, right: 10.w),
 
         decoration: const BoxDecoration(
@@ -34,8 +34,8 @@ import 'package:zonka_feedback/utils/image_constant.dart';
           children: [
             Expanded(
               child: GestureDetector(
-                onTap: () {
-                    updateController.call();
+                onTap: () async {
+                    await updateController.call();
                 },
                 child: Container(
                   padding: EdgeInsets.all(2.w),

@@ -9,6 +9,7 @@ import 'package:zonka_feedback/login/presentation/screens/login_screen.dart';
 import 'package:zonka_feedback/services/isolates/global_isolate.dart';
 import 'package:zonka_feedback/services/isolates/isolate_service.dart';
 import 'package:zonka_feedback/services/navigator.dart';
+import 'package:zonka_feedback/services/workmanager_functions/work_manager_service.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
 import 'package:zonka_feedback/utils/hive_key.dart';
@@ -22,13 +23,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
- 
-IsolateService isolateService1 = IsolateService(portName: 'isolate_port1');
 
 
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
+    WorkManagerService().clearTotalResponseSurveyFromBox();
     isolateService1.initPortWithName();
     super.initState();
   }

@@ -1,5 +1,3 @@
-import 'package:zonka_feedback/bottomnavigation/data/data_model/udpate_survey_res_model.dart';
-import 'package:zonka_feedback/bottomnavigation/data/data_model/update_survey_model.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_feedback_uc.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
@@ -7,19 +5,42 @@ import 'package:zonka_feedback/utils/hive_directory_util.dart';
 import 'package:zonka_feedback/utils/hive_key.dart';
 
 Future<void> downloadUpdatedAllSurvey() async {
-  await HiveService().init();
-  setup();
   try {
-    List<UpdateSurveyResModel> updateResSurveyModel = await HiveService().getData(HiveDirectoryUtil.updateHiveSurveyId, HiveKey.updateSurveyKey);
-    for (int i = 0; i < updateResSurveyModel.length; i++) {
-      if(updateResSurveyModel[i].updatesAvailable){
-         await getIt.get<SurveyFeedbackUc>().call(updateResSurveyModel[i].surveyId);
-      }
-      else if(updateResSurveyModel[i].isDeleted){
-         await HiveService().deleteData(HiveDirectoryUtil.surveyDownloadResponseBox, updateResSurveyModel[i].surveyId);
+    // Initialize Hive service if not already done
+    await HiveService().init();
+
+    // Perform necessary setup
+    setup();
+
+    // Fetch updated survey models from Hive
+  dynamic updateResSurveyModel = await HiveService().getData(
+      HiveDirectoryUtil.updateHiveSurveyId,
+      HiveKey.updateSurveyKey,
+    );
+
+
+    // Loop through the survey models to update or delete as needed
+    for (var surveyModel in updateResSurveyModel) {
+      try {
+        if (surveyModel.updatesAvailable) {
+          // Perform update operation
+          await getIt.get<SurveyFeedbackUc>().call(surveyModel.surveyId);
+        } else if (surveyModel.isDeleted) {
+          // Perform delete operation
+          await HiveService().deleteData(
+            HiveDirectoryUtil.surveyDownloadResponseBox,
+            surveyModel.surveyId,
+          );
+        }
+      } catch (innerError) {
+        // Handle errors related to a specific survey
+        print("Error processing surveyId: ${surveyModel.surveyId}, Error: $innerError");
       }
     }
+
+
   } catch (e) {
-    print("Error processing survey");
+    // General error handling
+    print("Error processing surveys: $e");
   }
 }

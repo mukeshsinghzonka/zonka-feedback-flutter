@@ -9,18 +9,17 @@ import 'package:zonka_feedback/utils/enum_util.dart';
 class SettingUpscreen extends StatefulWidget {
   final SuveryScreenBottom screenBottom;
   final String? surveyId;
-  const SettingUpscreen(
-      {super.key, required this.screenBottom, required this.surveyId});
+  const SettingUpscreen({super.key, required this.screenBottom, required this.surveyId});
 
   @override
   State<SettingUpscreen> createState() => _SettingUpScreenState();
 }
 
 class _SettingUpScreenState extends State<SettingUpscreen> {
-  final SurveryApiFeedbackController surveryFeedbackController =
-      Get.put(SurveryApiFeedbackController());
-  final SurveyDesignFieldController surveyFieldController =
-      Get.put(SurveyDesignFieldController());
+
+  final SurveryApiFeedbackController surveryFeedbackController = Get.put(SurveryApiFeedbackController());
+  final SurveyDesignFieldController surveyFieldController = Get.put(SurveyDesignFieldController());
+
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
@@ -46,8 +45,7 @@ class _SettingUpScreenState extends State<SettingUpscreen> {
   Widget build(BuildContext context) {
     return Scaffold(body: OrientationBuilder(builder: (context, builder) {
       return Obx(() {
-        if (surveryFeedbackController.apiStatus.value ==
-            ApiCallStatus.Success) {
+        if (surveryFeedbackController.apiStatus.value == ApiCallStatus.Success) {
           return SurveyScreenFeedbackPage(
             screenBottom: widget.screenBottom,
             key: ValueKey(widget.surveyId),

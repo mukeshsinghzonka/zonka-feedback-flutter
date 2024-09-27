@@ -13,7 +13,7 @@ class SurveyFeedBackDataSource {
       final responseSurvey = await _httpUtil.get('/api/v1/surveys/download/$suveryId');
       SurveyModel surveyFeedBackModel = SurveyModel.fromJson(responseSurvey['data']['survey']);
       HiveService().putData(HiveDirectoryUtil.surveyDownloadResponseBox, suveryId??"", surveyFeedBackModel);
-      HiveService().putData(HiveDirectoryUtil.updateHiveSurveyId,suveryId??"",DateTime.now());
+      HiveService().putData(HiveDirectoryUtil.updateHiveSurveyId,suveryId??"",DateTime.now().toUtc());
       return ApiResult.success(data:surveyFeedBackModel);
     } catch (e) {
       await surveyFeedBackDataSource.getSurveyFeedBackLocalDs(suveryId: suveryId);

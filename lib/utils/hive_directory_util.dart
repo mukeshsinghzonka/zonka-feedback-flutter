@@ -11,5 +11,7 @@ class HiveDirectoryUtil{
   static const String templateModelBox = "templateModelBox";
   static const String surveyLastSyncDateTime = "surveyLastSyncDateTime";
   static const String updateHiveSurveyId = "updateHiveSurveyId";
+  static const String surveyUnsyncResponseCount  ="surveyUnsyncResponseCount";
+  static const String totalSurveyResponseCount = "totalSurveyResponseCount";
   
 }

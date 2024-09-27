@@ -1,3 +1,4 @@
+import 'dart:isolate';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,12 +26,12 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   final dashboardController = Get.put(DashboardController());
-
   final DrawerScreenManagerNotifier drawerScreenManagerNotifier = Get.put(DrawerScreenManagerNotifier());
+  // final receivePort = ReceivePort();
 
   @override
   void initState() {
-    
+    // Isolate.spawn(drawerScreenManagerNotifier.isolateEntryPoint, receivePort.sendPort);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ApiCallHandling(
               controller: dashboardController,

@@ -66,7 +66,7 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pop("PREVIEW_SURVEY");
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -89,7 +89,7 @@ class _PreviewTemplateDialogBoxState extends State<PreviewTemplateDialogBox> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pop(false);
+                      Navigator.of(context).pop("ADD_SURVEY");
                     },
                     child: Container(
                       alignment: Alignment.center,
