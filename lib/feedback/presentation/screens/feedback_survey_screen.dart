@@ -39,13 +39,13 @@ class _SurveyScreenState extends State<SurveyScreenFeedbackPage>  {
       return Obx(
         () {
           if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.welcomScreen && surveyFieldController.showIntroPage.value){
-            return WelcomeWidget(introPage:surveryFeedbackController.surveyModel.value.introPage );
+            return WelcomeWidget(introPage:surveryFeedbackController.surveyDataModel.value.surveyModel!.introPage );
           }
           else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen ){
-            return LanguageWidget(languagePage:surveryFeedbackController.surveyModel.value.languagePage);
+            return LanguageWidget(languagePage:surveryFeedbackController.surveyDataModel.value.surveyModel!.languagePage);
           }
           else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.exitScreen){
-           return ThankYouWidget(field: surveryFeedbackController.surveyModel.value.thankyouPage);
+           return ThankYouWidget(field: surveryFeedbackController.surveyDataModel.value.surveyModel!.thankyouPage);
           }
           else {
             return const SurveyShowQuestionScreenWidget();

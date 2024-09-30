@@ -28,9 +28,7 @@ class SurveySyncController extends GetxController {
   List<SurveyResponse>? createSurveyResponseData() {
     List<SurveyResponse> listSurveyResponse = [];
     surveyCollectDataController.surveyIndexData.forEach((key, value) {
-      print("${surveyScreenManager.mapSurveyIdAndFieldName} ${surveyScreenManager.mapSurveyIdAndFieldName[key]} $key ");
       dynamic surveyDetail = surveyCollectDataController.createDataForApiHit(key, surveyScreenManager.mapSurveyIdAndFieldName[key] ?? "");
-     print("${surveyScreenManager.mapSurveyIdAndFieldName} $surveyDetail ");
       if (surveyDetail is List<SurveyResponse>) {
         listSurveyResponse.addAll(surveyDetail);
       } else if (surveyDetail is SurveyResponse) {
@@ -75,7 +73,7 @@ class SurveySyncController extends GetxController {
             deviceOsVersion: androidDeviceInfo.version.baseOS,
             networkType: '',
             syncType: syncType),
-        surveyId: surveyApicontroller.surveyModel.value.id,
+        surveyId: surveyApicontroller.surveyDataModel.value.surveyModel!.id,
         surveyStartDateTime: surveyFieldController.surveyStartDateTime.value,
         surveySubmitDateTime: DateTime.now(),
         surveyFillStartDateTime: surveyFieldController.surveyFillDateTime.value,

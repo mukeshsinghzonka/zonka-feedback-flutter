@@ -48,8 +48,7 @@ Future<void> downloadAllSurvey() async {
       if (surveyIdList != null && surveyIdList.isNotEmpty) {
         for (String surveyId in surveyIdList) {
           // Fetch data for each survey from Hive
-          dynamic valueSurvey = await HiveService()
-              .getData(HiveDirectoryUtil.surveyDownloadResponseBox, surveyId);
+          dynamic valueSurvey = await HiveService().getData(HiveDirectoryUtil.surveyDownloadResponseBox, surveyId);
 
           if (valueSurvey != null) {
             // Survey is already downloaded

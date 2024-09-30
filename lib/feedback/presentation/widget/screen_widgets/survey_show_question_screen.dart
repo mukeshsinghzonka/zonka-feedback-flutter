@@ -166,9 +166,8 @@ class _SurveyShowQuestionScreenWidgetState
                                   }
                                 },
                                 child: SwitchScreenWidget(
-                                  feedbackQuestion: surveryFeedbackApiController
-                                      .surveyModel
-                                      .value
+                                  feedbackQuestion: surveryFeedbackApiController.surveyDataModel.value.
+                                      surveyModel!
                                       .surveyScreens?[
                                           surveyScreenManager.index.value]
                                       .fields??[],

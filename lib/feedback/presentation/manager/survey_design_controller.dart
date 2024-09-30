@@ -71,7 +71,7 @@ class SurveyDesignFieldController extends GetxController {
   }
 
   void setFieldFromSurveyModel() {
-    final valueData = _screenFeedbackController.surveyModel.value;
+    final valueData = _screenFeedbackController.surveyDataModel.value.surveyModel!;
     headingTextColor.value = valueData.fontColorLabel ?? "#000000";
     optionTextColor.value = valueData.fontColorValue ?? "#000000";
     buttonColor.value = valueData.buttonColor ?? "#000000";
@@ -130,6 +130,6 @@ class SurveyDesignFieldController extends GetxController {
   }
 
   String createImageUrl(String companyId, String path) {
-    return '${_screenFeedbackController.surveyModel.value.s3GalleryImageUrl}$companyId/$path';
+    return '${_screenFeedbackController.surveyDataModel.value.s3GalleryImageUrl}$companyId/$path';
   }
 }

@@ -8,6 +8,6 @@ class HiveKey{
   static const String languageSurveyKey = "languageSurveyKey";
   static const String templateSurveyKey = "templateSurveyKey";
   static const String updateSurveyKey = "updateSurveyKey";
-  
+  static const String surveyLastUpdateKey = "surveyLastUpdateKey";
 
 }

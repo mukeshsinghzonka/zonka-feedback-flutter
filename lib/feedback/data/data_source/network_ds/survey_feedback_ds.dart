@@ -5,13 +5,16 @@ import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/network/http_services.dart';
 import 'package:zonka_feedback/services/network/network_exceptions.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
+
+import '../../data_model_new/survey_data_model.dart';
 class SurveyFeedBackDataSource {
   final HttpUtil _httpUtil = HttpUtil();
   final SurveyFeedBackLocalDataSource surveyFeedBackDataSource = SurveyFeedBackLocalDataSource();
-  Future<ApiResult<SurveyModel>> getSurveyFeedBackDs({required String? suveryId}) async {
+  Future<ApiResult<SurveyDataModel>> getSurveyFeedBackDs({required String? suveryId}) async {
     try {
       final responseSurvey = await _httpUtil.get('/api/v1/surveys/download/$suveryId');
-      SurveyModel surveyFeedBackModel = SurveyModel.fromJson(responseSurvey['data']['survey']);
+      print("surveyreponsedata ${responseSurvey['data']['servers']}");
+      SurveyDataModel surveyFeedBackModel = SurveyDataModel.fromJson(responseSurvey['data']);
       HiveService().putData(HiveDirectoryUtil.surveyDownloadResponseBox, suveryId??"", surveyFeedBackModel);
       HiveService().putData(HiveDirectoryUtil.updateHiveSurveyId,suveryId??"",DateTime.now().toUtc());
       return ApiResult.success(data:surveyFeedBackModel);

@@ -26,9 +26,7 @@ void callBackWorkManager() {
       case 'clearTotalSurveyReponse':
         await clearTotalSurveyResponse();
         break;
-
     }
-
     return Future.value(true);
   });
 }
@@ -52,7 +50,7 @@ class WorkManagerService {
   }
 
   void startWorkManager() {
-    var uniqueId = DateTime.now().second.toString();
+    var uniqueId = DateTime.now().millisecond.toString();
     Workmanager().registerOneOffTask(uniqueId, taskName,
         initialDelay: const Duration(seconds: 1),
         existingWorkPolicy: ExistingWorkPolicy.keep,
@@ -61,7 +59,7 @@ class WorkManagerService {
 
   void updateFailedSurveyTask() {
     Workmanager().cancelByTag(taskNameUpdate);
-    var uniqueId = DateTime.now().second.toString();
+    var uniqueId = DateTime.now().millisecond.toString();
     Workmanager().registerPeriodicTask(uniqueId, taskNameUpdate,
         initialDelay: const Duration(seconds: 2),
         frequency: const Duration(seconds: 20),
@@ -70,7 +68,7 @@ class WorkManagerService {
   }
 
   void downloadAllSurveyTask() {
-    var uniqueId = DateTime.now().second.toString();
+    var uniqueId = DateTime.now().millisecond.toString();
     Workmanager().registerOneOffTask(uniqueId, downloadAllSurvey,
     initialDelay: const Duration(seconds: 1),
     existingWorkPolicy: ExistingWorkPolicy.keep,
@@ -80,7 +78,7 @@ class WorkManagerService {
 
 
  void downloadUpdateAllSurveyTask() {
-    var uniqueId = DateTime.now().second.toString();
+    var uniqueId = DateTime.now().millisecond.toString();
     Workmanager().registerOneOffTask(uniqueId, downloadUpdateSurvey,
     initialDelay: const Duration(seconds: 1),
     existingWorkPolicy: ExistingWorkPolicy.keep,
@@ -88,11 +86,13 @@ class WorkManagerService {
   }
 
    void clearTotalResponseSurveyFromBox(){
-     var uniqueId = DateTime.now().second.toString();
+     var uniqueId = DateTime.now().millisecond.toString();
      Workmanager().registerPeriodicTask(uniqueId, clearTotalSurveyReponse,
          initialDelay: const Duration(seconds: 1),
          existingWorkPolicy: ExistingWorkPolicy.keep,
-         frequency: const Duration(seconds: 30),
+         frequency: const Duration(
+           hours: 1
+         ),
          constraints: Constraints(networkType: NetworkType.connected));
    }
 

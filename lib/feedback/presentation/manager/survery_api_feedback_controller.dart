@@ -6,21 +6,28 @@ import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
+import '../../data/data_model_new/survey_data_model.dart';
+
 class SurveryApiFeedbackController extends BaseControllerWithParams<void, String> {
- late Rx<SurveyModel> _surveyModel;
- Rx<SurveyModel> get surveyModel => _surveyModel;
- void setSurveyModel(SurveyModel value) async {
-    _surveyModel = Rx<SurveyModel>(value);      
-    update();
-  } 
+
+
+
+ late Rx<SurveyDataModel> _surveyDataModel;
+ Rx<SurveyDataModel> get surveyDataModel => _surveyDataModel;
+ void setSurveyDataModel(SurveyDataModel value) async {
+   _surveyDataModel = Rx<SurveyDataModel>(value);
+   update();
+ }
+
+
 
   @override
   Future<void> call(String params) async {
     setStatus(ApiCallStatus.Loading);
-    ApiResult<SurveyModel> response = await getIt.get<SurveyFeedbackUc>().call(params);
+    ApiResult<SurveyDataModel> response = await getIt.get<SurveyFeedbackUc>().call(params);
       response.when(success: (data)  {
+      setSurveyDataModel(data!);
       setStatus(ApiCallStatus.Success);
-      setSurveyModel(data!);
       return;
     }, failure: (error) async {
       setStatus(ApiCallStatus.Error);

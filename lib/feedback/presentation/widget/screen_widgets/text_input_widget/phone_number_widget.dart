@@ -25,7 +25,7 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
 
  @override
   void initState() {
-        validationLogicManager = ValidationLogicManager(field: widget.field);
+   validationLogicManager = ValidationLogicManager(field: widget.field);
     super.initState();
   }
 
@@ -52,7 +52,6 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
               padding: const EdgeInsets.all(0),
               backgroundColor:HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
               onChanged: (element) => {
-                print("countrycodelement ${element.dialCode}"),
                 // phoneNumber =  "${element.dialCode}"
                 dialCode = element.dialCode??"+91"
               },
@@ -66,70 +65,72 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
           SizedBox(
             width: size.width / 100,
           ),
-          TextFormField(
-            controller: _phoneNumberController,
-               validator: (value) {
-                print("textcpontrvalue ${phoneNumber} ${value}");
-                String? valid = validationLogicManager.inputTextValidation(value);
-          
-                if(valid!=null){
-                  return valid;
-                }
-          
-                if (valid == null) {
-                  print("textsvaed");
-                  surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: phoneNumber);
-                }
-                return null;
-              },
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                errorStyle: const TextStyle(color: Colors.transparent),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: HexColor(
-                          _surveyDesignFieldController.optionTextColor.value),
-                      width: 1.0),
+          Expanded(
+            child: TextFormField(
+              controller: _phoneNumberController,
+                 validator: (value) {
+
+                  String? valid = validationLogicManager.inputTextValidation(value);
+            
+                  if(valid!=null){
+                    return valid;
+                  }
+            
+                  if (valid == null) {
+
+                    surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: phoneNumber);
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  errorStyle: const TextStyle(color: Colors.transparent),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: HexColor(
+                            _surveyDesignFieldController.optionTextColor.value),
+                        width: 1.0),
+                  ),
+                  hintText: widget
+                          .field
+                          .translations![_surveyDesignFieldController
+                              .defaultTranslation.value]
+                          ?.placeHolder ??
+                      '',
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: HexColor(_surveyDesignFieldController
+                              .optionTextColor.value),
+                          width: 1.0),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: HexColor(_surveyDesignFieldController
+                              .optionTextColor.value),
+                          width: 1.0),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  filled: true,
+                  fillColor: HexColor(
+                          _surveyDesignFieldController.optionTextColor.value)
+                      .withOpacity(0.1),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 7.0, horizontal: 10.0),
+                  isDense: true,
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: HexColor(_surveyDesignFieldController
+                              .optionTextColor.value),
+                          width: 1.0),
+                      borderRadius: BorderRadius.circular(10.0)),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: HexColor(_surveyDesignFieldController
+                              .optionTextColor.value),
+                          width: 1.0),
+                      borderRadius: BorderRadius.circular(10.0)),
                 ),
-                hintText: widget
-                        .field
-                        .translations![_surveyDesignFieldController
-                            .defaultTranslation.value]
-                        ?.placeHolder ??
-                    '',
-                errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: HexColor(_surveyDesignFieldController
-                            .optionTextColor.value),
-                        width: 1.0),
-                    borderRadius: BorderRadius.circular(8.0)),
-                focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: HexColor(_surveyDesignFieldController
-                            .optionTextColor.value),
-                        width: 1.0),
-                    borderRadius: BorderRadius.circular(8.0)),
-                filled: true,
-                fillColor: HexColor(
-                        _surveyDesignFieldController.optionTextColor.value)
-                    .withOpacity(0.1),
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 7.0, horizontal: 10.0),
-                isDense: true,
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: HexColor(_surveyDesignFieldController
-                            .optionTextColor.value),
-                        width: 1.0),
-                    borderRadius: BorderRadius.circular(10.0)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: HexColor(_surveyDesignFieldController
-                            .optionTextColor.value),
-                        width: 1.0),
-                    borderRadius: BorderRadius.circular(10.0)),
               ),
-            )
+          )
         ],
       ),
     );

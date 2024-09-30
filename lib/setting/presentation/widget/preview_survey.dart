@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../utils/global_value_notifier.dart';
+
 class PreViewSurveyWidget extends StatefulWidget {
   const PreViewSurveyWidget({super.key});
 
@@ -75,8 +77,13 @@ class _PreViewSurveyWidgetState extends State<PreViewSurveyWidget> {
                   ),
                 ),
                 Switch(
-                  onChanged: toggleSwitch,
-                  value: isSwitched,
+                  onChanged: (data){
+                    isPreviewModeOn.value = data;
+                    setState(() {
+
+                    });
+                  },
+                  value:   isPreviewModeOn.value,
                   activeColor: Colors.green,
                 )
               ],

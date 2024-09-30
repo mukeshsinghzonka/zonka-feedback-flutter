@@ -86,8 +86,6 @@ class ScreenFeedBackQuesController extends GetxController{
      return SurveyScreenenum.txtComments;
     case 'txtParagraph':
     return SurveyScreenenum.txtParagraph;
-
-    // return 
     case 'Mobile':
       return SurveyScreenenum.mobileNumber;
     default:
@@ -98,7 +96,7 @@ class ScreenFeedBackQuesController extends GetxController{
 
 
 Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) {
-  
+
   switch (screen) {
     case SurveyScreenenum.buttonChoice:
     return ButtonChoiceWidget(key: ValueKey<String>(field.id??''), field: field,isMultiple: true,);
@@ -151,8 +149,8 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     case SurveyScreenenum.serverName:
     return DropDownWidget(key: ValueKey<String>(field.id??''),field: field,);
      case SurveyScreenenum.mobileNumber:
-    // return PhoneNumberWidget(key: ValueKey<String>(field.id??''),field: field,);
-      return Container();
+    return PhoneNumberWidget(key: ValueKey<String>(field.id??''),field: field,);
+
     default: return Container();
   }
 }

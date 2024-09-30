@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:zonka_feedback/feedback/domain/usecase/survey_submit_uc.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
@@ -8,7 +7,6 @@ import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/network/network_exceptions.dart';
 import 'package:zonka_feedback/services/workmanager_functions/sync_survey_send_port_model.dart';
-import 'package:zonka_feedback/surveys/presentation/manager/survey_time_unsync_controller.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
 
 Future<void> syncAllSurveyReponse() async {
@@ -36,8 +34,6 @@ Future<void> syncAllSurveyReponse() async {
           HiveService().putData(HiveDirectoryUtil.surveyLastSyncDateTime,surveyValue.surveyId ?? "", DateTime.now());
           dynamic count = await HiveService().getData(HiveDirectoryUtil.surveyUnsyncResponseCount, surveyValue.surveyId??"");
           await HiveService().putData(HiveDirectoryUtil.surveyUnsyncResponseCount, surveyValue.surveyId??"",count == null? 0:count <= 0 ? 0 : count - 1);
-
-
           port!.send(jsonEncode(SyncSurveyPortModel(dateTime:DateTime.now(),surveyId:surveyValue.surveyId??"").toJson()));
         },
         failure: (error) async {
@@ -49,8 +45,7 @@ Future<void> syncAllSurveyReponse() async {
             await HiveService().deleteDataAt(HiveDirectoryUtil.submitSurveyBox, key);
             dynamic countvalue = await HiveService().getData(HiveDirectoryUtil.surveyUnsyncResponseCount, surveyValue.surveyId??"");
             await HiveService().putData(HiveDirectoryUtil.surveyUnsyncResponseCount, surveyValue.surveyId??"",countvalue == null? 0:countvalue <= 0 ? 0 : countvalue - 1);
-
-            port!.send(jsonEncode(SyncSurveyPortModel(dateTime:DateTime.now(),surveyId:surveyValue.surveyId??"").toJson));
+            port!.send(jsonEncode(SyncSurveyPortModel(dateTime:DateTime.now(),surveyId:surveyValue.surveyId??"").toJson()));
             await HiveService().addData(HiveDirectoryUtil.failedSurveyBox, surveyValue);
 
             count = 0;

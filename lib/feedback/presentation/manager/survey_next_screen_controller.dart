@@ -80,7 +80,7 @@ class SurveyScreenManager extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    surveyScreens = screenFeedbackController.surveyModel.value.surveyScreens??[];
+    surveyScreens = screenFeedbackController.surveyDataModel.value.surveyModel!.surveyScreens??[];
     _initalizeMapSurveyQuesIdIndex();
   }
 

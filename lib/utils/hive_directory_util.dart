@@ -13,5 +13,5 @@ class HiveDirectoryUtil{
   static const String updateHiveSurveyId = "updateHiveSurveyId";
   static const String surveyUnsyncResponseCount  ="surveyUnsyncResponseCount";
   static const String totalSurveyResponseCount = "totalSurveyResponseCount";
-  
+  static const String surveyLastUpdateDateTime = "surveyLastUpdateDateTime";
 }

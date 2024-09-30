@@ -55,7 +55,7 @@ class _ImageCaptureWidgetState extends State<ImageCaptureWidget> {
               fileName: file!.name,
               filePath: file.path,
               referenceCode:
-                  surveryApiFeedbackController.surveyModel.value.id ?? ""));
+                  surveryApiFeedbackController.surveyDataModel.value.surveyModel!.id ?? ""));
           setState(() {
             imageloading = false;
             imageUrlLink = surveyImageUploadManager.imageUrl.value;

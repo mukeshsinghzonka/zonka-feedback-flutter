@@ -5,6 +5,8 @@ import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/network/network_connectivity.dart';
 import 'package:zonka_feedback/feedback/data/data_source/local_ds/survey_feedback_local_ds.dart';
 
+import '../data_model_new/survey_data_model.dart';
+
 class SurveyFeedbackRepoImpl extends SurveyFeedbackRepo {
   final SurveyFeedBackDataSource surveyFeedBackDataSource;
   final SurveyFeedBackLocalDataSource submitSurveyLocalDs;
@@ -14,7 +16,7 @@ class SurveyFeedbackRepoImpl extends SurveyFeedbackRepo {
       required this.submitSurveyLocalDs});
 
   @override
-  Future<ApiResult<SurveyModel>> surveyFeedbackRepo({required String? suveryId}) async {
+  Future<ApiResult<SurveyDataModel>> surveyFeedbackRepo({required String? suveryId}) async {
     bool checkInternet = await networkConnectivity.isConnected();
     if (checkInternet) {
       return await surveyFeedBackDataSource.getSurveyFeedBackDs(suveryId: suveryId);

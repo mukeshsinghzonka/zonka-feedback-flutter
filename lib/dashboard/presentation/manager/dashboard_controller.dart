@@ -26,18 +26,6 @@ class DashboardController extends BaseControllerWithOutParams<void> {
   final getTemplateManager = Get.put(GetTemplateManager());
 
 
-  void isolateEntryPoint(SendPort sendPort) async {
-    // Call isolated functions here
-    // Isolate-safe code should not rely on GetX controllers or other main-thread-bound resources
-
-    // Simulate the isolated task
-   await countryCodeController.call();
-   await _languageManagerController.call('Remote');
-   await autoSuggestController.call();
-   await getTemplateManager.call();
-
-    // You can also handle specific tasks for each controller call, but avoid accessing GetX directly.
-  }
 
 
   @override
@@ -46,12 +34,11 @@ class DashboardController extends BaseControllerWithOutParams<void> {
     await workSpaceController.call();
     await surveyController.call();
     await _surveyManagerController.getSurveyListWorkspace();
-    // countryCodeController.call();
-    // _languageManagerController.call('Remote');
-    // autoSuggestController.call();
-    // getTemplateManager.call();
+    countryCodeController.call();
+    _languageManagerController.call('Remote');
+    autoSuggestController.call();
+    getTemplateManager.call();
 
-    //  WorkManagerService().downloadAllSurveyTask();
     setStatus(ApiCallStatus.Success);
   }
 }

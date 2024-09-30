@@ -6,33 +6,49 @@ import 'package:zonka_feedback/feedback/presentation/screens/setting_up_screen.d
 import 'package:zonka_feedback/surveys/data/data_model/survey_res_model.dart';
 import 'package:zonka_feedback/surveys/domain/entity/survey_count_response.dart';
 import 'package:zonka_feedback/surveys/presentation/manager/survey_time_unsync_controller.dart';
+import 'package:zonka_feedback/surveys/presentation/widget/preview_mode_on_dialog_box.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
 
+import '../../../utils/global_value_notifier.dart';
+
 class SurveyWidget extends StatefulWidget {
   final SurveyResModel surveyResModel;
+
   const SurveyWidget({super.key, required this.surveyResModel});
 
   @override
   State<SurveyWidget> createState() => _SurveyWidgetState();
 }
 
-class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMixin {
+class _SurveyWidgetState extends State<SurveyWidget>
+    with TickerProviderStateMixin {
+  final surveyController = Get.find<SurveyTimeUnsyncController>();
 
- final surveyController = Get.find<SurveyTimeUnsyncController>();
-
-
-
- @override
+  @override
   void initState() {
     super.initState();
   }
 
+  void pushToSurveyScreen() {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 1),
+          pageBuilder: (BuildContext context, Animation<double> animation,
+              Animation<double> secondaryAnimation) {
+            return SettingUpscreen(
+              screenBottom: SuveryScreenBottom.exitBottomBar,
+              surveyId: widget.surveyResModel.surveyId,
+            );
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Card(
         margin: EdgeInsets.only(top: 10.h, left: 13.w, right: 13.w),
         color: Colors.white,
@@ -40,22 +56,24 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
           borderRadius: BorderRadius.circular(7.w),
           splashColor: const Color(ColorConstant.appBarBottomColor),
           onTap: () async {
-            // setState(() {
-            //
-            // });
-            Navigator.push(
-                context,
-                PageRouteBuilder(
-                  transitionDuration: const Duration(milliseconds: 1),
-                  pageBuilder: (BuildContext context,
-                      Animation<double> animation,
-                      Animation<double> secondaryAnimation) {
-                    return SettingUpscreen(
-                      screenBottom: SuveryScreenBottom.exitBottomBar,
-                      surveyId: widget.surveyResModel.surveyId,
+            if (isPreviewModeOn.value == true) {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return const Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: PreviewModeOnDialogBox(),
                     );
-                  },
-                ));
+                  }).then((value) {
+                if (value == true) {
+                  pushToSurveyScreen();
+                }
+              });
+            } else {
+              pushToSurveyScreen();
+            }
           },
           child: Container(
             padding: EdgeInsets.only(
@@ -77,7 +95,8 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                     ),
                     Container(
                       alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(7.w)),
                         color: widget.surveyResModel.iskioskmode
@@ -116,14 +135,17 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                           Row(
                             children: [
                               ValueListenableBuilder(
-                                valueListenable: Hive.box(HiveDirectoryUtil.totalSurveyResponseCount).listenable(),
+                                valueListenable: Hive.box(HiveDirectoryUtil
+                                        .totalSurveyResponseCount)
+                                    .listenable(),
                                 builder: (context, Box<dynamic> box, _) {
                                   // Retrieve the values and cast them to List<SurveySubmitModel>
-                                  final surveyId = widget.surveyResModel.surveyId;
+                                  final surveyId =
+                                      widget.surveyResModel.surveyId;
                                   var surveyCount = box.get(surveyId);
                                   // Since the list is never null, we just check the count
                                   return Text(
-                                    'Response Today: $surveyCount',
+                                    'Response Today: ${surveyCount ?? 0} ',
                                     style: TextStyle(
                                       color: Colors.grey.shade400,
                                       fontSize: ConstantSize.extra_small_3.sp,
@@ -157,23 +179,13 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                                   );
                                 },
                               ),
-
-
                             ],
                           ),
 
                           ValueListenableBuilder(
                             valueListenable: Hive.box(HiveDirectoryUtil.surveyLastSyncDateTime).listenable(),
                             builder: (context, Box<dynamic> box, _) {
-                              // Retrieve the values and cast them to List<SurveySubmitModel>
                               dynamic surveySubmitModel = box.get(widget.surveyResModel.surveyId);
-
-                              print("syvedatetimevakue ${surveySubmitModel} ");
-                              // print("HiveDirectoryUtilsubmitSurveyBox ${ box.values.toList()}");
-                              // Filter the list based on the surveyId and count the matching items
-
-                              // int count = surveySubmitModel.where((e) => e.surveyId.toString() == widget.surveyResModel.surveyId).length;
-                              // Since the list is never null, we just check the count
                               return Text(
                                 'Unsynced Response: ${surveySubmitModel ?? "NA"}',
                                 style: TextStyle(
@@ -190,24 +202,7 @@ class _SurveyWidgetState extends State<SurveyWidget> with TickerProviderStateMix
                               ),
                             ),
                           ),
-//                            GetBuilder<SurveyTimeUnsyncController>(
-//   init: surveyController,
-//   builder: (controller) {
-//     print("Survey ID: ${widget.surveyResModel.surveyId}");
-//     print("Last Sync Times: ${controller.surveyLastSyncTime}");
-//     print("Last Sync Time for Survey: ${controller.surveyLastSyncTime[widget.surveyResModel.surveyId]}");
 //
-//     // Safely check if the survey ID exists in the map
-//     DateTime? lastSyncTime = controller.surveyLastSyncTime[widget.surveyResModel.surveyId];
-//     return Text(lastSyncTime != null ? lastSyncTime.toString() : 'No sync time available',
-//       style: TextStyle(
-//         color: Colors.grey.shade400,
-//         fontSize: ConstantSize.extra_small_3.sp,
-//       ),
-//     );
-//   },
-// )
-
                         ],
                       ),
                     ),

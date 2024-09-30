@@ -38,9 +38,12 @@ class HiveTypeId{
   static const int templateDataId = 36;
   static const int updateSurveyId = 37;
   static const int updateResSurveyId = 38;
+  static const int surveyDataModel = 39;
+  static const int timeZoneModel = 40;
+  static const int loggedInUserModel = 41;
+  static const int countryIdModel= 42;
+  static const int companyInfoModel = 43;
 
-
-  
 
 
 }

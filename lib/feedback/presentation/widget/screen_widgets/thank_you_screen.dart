@@ -10,6 +10,8 @@ import 'package:zonka_feedback/surveys/presentation/manager/survey_sync_controll
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
 
+import '../../../../utils/global_value_notifier.dart';
+
 
 class ThankYouWidget extends StatefulWidget {
   final ThankyouPage? field;
@@ -27,7 +29,10 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
   @override
   void initState() {
     super.initState();
-    surveySyncController.asyncDurationValue(syncType: 'Automatic');
+    if(isPreviewModeOn.value == false) {
+      surveySyncController.asyncDurationValue(syncType: 'Automatic');
+    }
+
   }
 
 
@@ -51,28 +56,28 @@ class _ThankYouWidgetState extends State<ThankYouWidget> {
       ),
       child: Column(
         children: [
-          Expanded(
-  child: SizedBox(
-    height: 100.h,
-    child: Image.network(
-      surveyFieldController.thankyouPageUrlLogo.value,
-      errorBuilder: (context, error, stackTrace) {
-        // Optionally, log the error
-        debugPrint('Image load failed: $error');
-        
-        // Return a fallback widget like a placeholder image or text
-        return Container(
-          alignment: Alignment.center,
-          child: const Icon(
-            Icons.broken_image,
-            size: 50,
-            color: Colors.grey,
-          ),
-        );
-      },
-    ),
-  ),
-),
+//           Expanded(
+//   child: SizedBox(
+//     height: 100.h,
+//     child: Image.network(
+//       surveyFieldController.thankyouPageUrlLogo.value,
+//       errorBuilder: (context, error, stackTrace) {
+//         // Optionally, log the error
+//         debugPrint('Image load failed: $error');
+//
+//         // Return a fallback widget like a placeholder image or text
+//         return Container(
+//           alignment: Alignment.center,
+//           child: const Icon(
+//             Icons.broken_image,
+//             size: 50,
+//             color: Colors.grey,
+//           ),
+//         );
+//       },
+//     ),
+//   ),
+// ),
           SizedBox(
             height: 100.h,
           ),

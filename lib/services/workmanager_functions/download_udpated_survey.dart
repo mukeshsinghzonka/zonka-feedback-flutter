@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:zonka_feedback/feedback/domain/usecase/survey_feedback_uc.dart';
 import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
@@ -6,6 +8,8 @@ import 'package:zonka_feedback/utils/hive_key.dart';
 
 Future<void> downloadUpdatedAllSurvey() async {
   try {
+    final port = IsolateNameServer.lookupPortByName('isolate_port2');
+
     // Initialize Hive service if not already done
     await HiveService().init();
 
@@ -37,8 +41,7 @@ Future<void> downloadUpdatedAllSurvey() async {
         print("Error processing surveyId: ${surveyModel.surveyId}, Error: $innerError");
       }
     }
-
-
+    port!.send(DateTime.now().toString());
   } catch (e) {
     // General error handling
     print("Error processing surveys: $e");

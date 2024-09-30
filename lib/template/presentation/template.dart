@@ -25,8 +25,7 @@ class AddTemplateScreen extends StatefulWidget {
   State<AddTemplateScreen> createState() => _AddTemplateScreenState();
 }
 
-class _AddTemplateScreenState extends State<AddTemplateScreen>
-    with TickerProviderStateMixin {
+class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProviderStateMixin {
   final getTemplateManager = Get.find<GetTemplateManager>();
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();

@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
     WorkManagerService().clearTotalResponseSurveyFromBox();
     isolateService1.initPortWithName();
+    isolateService2.initPortWithName();
     super.initState();
   }
  
