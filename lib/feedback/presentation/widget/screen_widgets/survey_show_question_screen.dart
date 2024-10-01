@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survey_design_controller.dart';
@@ -11,6 +12,8 @@ import 'package:zonka_feedback/feedback/presentation/screens/widget/screen_switc
 import 'package:zonka_feedback/feedback/presentation/screens/widget/template_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import 'package:zonka_feedback/utils/hexcolor_util.dart';
+
+import '../../../../utils/global_value_notifier.dart';
 
 class SurveyShowQuestionScreenWidget extends StatefulWidget {
   const SurveyShowQuestionScreenWidget({super.key});
@@ -29,6 +32,7 @@ class _SurveyShowQuestionScreenWidgetState
   final SurveryApiFeedbackController surveryFeedbackApiController =
       Get.find<SurveryApiFeedbackController>();
   Timer? timer;
+
   @override
   void initState() {
     // surveyScreenManager.showDialogAfterDelay();
@@ -43,13 +47,12 @@ class _SurveyShowQuestionScreenWidgetState
   //    timer  = Timer(const Duration(seconds: 30), () {
   //      surveyScreenManager.updateScreenTypeUtilFunction();
   //    });
-    
-  // }
 
-  
+  // }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -60,131 +63,103 @@ class _SurveyShowQuestionScreenWidgetState
         ),
         child: Column(
           children: [
-            const Expanded(flex: 7, child: ScreenSwitchWidget()),
             Expanded(
-                flex: 29,
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blueAccent)),
-                  child: StreamBuilder<bool>(
-                      stream:  surveyScreenManager.myStreamController?.stream,
-                      builder: (context, snapshot) {
-                        // final value = snapshot.data;
-            
-                        // if (snapshot.connectionState == ConnectionState.active && value != null && value == true && surveyFieldController.showInactiveAlert.value) {
-                        //   // Once the future is complete, show the dialog
-                        //   WidgetsBinding.instance.addPostFrameCallback((_) {
-                        //     showDialog(
-                        //       context: context,
-                        //       builder: (BuildContext context) {
-                        //         return FutureBuilder(
-                        //             future: asyncDurationValue(),
-                        //             builder: (context, builder) {
-                        //               return AlertDialog(
-                        //                 shape: const RoundedRectangleBorder( borderRadius: BorderRadius.all( Radius.circular(10.0))),
-                        //                 actionsOverflowAlignment:
-                        //                     OverflowBarAlignment.center,
-                        //                 actionsAlignment:
-                        //                     MainAxisAlignment.center,
-                        //                 content: Text(
-                        //                   "You have been idle for some time. Do you wish to \n continue ?",
-                        //                   textAlign: TextAlign.center,
-                        //                   style: TextStyle(fontSize: 8.sp),
-                        //                 ),
-                        //                 actions: <Widget>[
-                        //                   TextButton(
-                        //                     child: const Text("NO"),
-                        //                     onPressed: () {
-                        //                       surveyScreenManager.updateScreenTypeUtilFunction();
-                        //                    if(timer!= null)   timer!.cancel();
-                        //                       Navigator.of(context).pop();
+              child: Column(
+                children: [
+                  const Expanded(flex: 7, child: ScreenSwitchWidget()),
+                  Visibility(
+                    visible: isPreviewModeOn.value,
+                    child: Container(
+                      height: size.height / 10,
+                      color: Colors.grey.shade400,
+                      width: size.width,
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Survey Preview Mode',
+                        style: TextStyle(fontSize: 10.sp),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 38,
+                    child: Container(
+                        // decoration: BoxDecoration(
+                        //     border: Border.all(color: Colors.blueAccent)),
+                        child: Obx(() {
+                      return AnimatedSwitcher(
+                          reverseDuration: const Duration(milliseconds: 1000),
+                          switchInCurve: Curves.fastLinearToSlowEaseIn,
+                          transitionBuilder: (child, animation) {
+                            if (child.key is ValueKey<int>) {
+                              final ValueKey<int> key =
+                                  child.key as ValueKey<int>;
+                              var fadeTransition =
+                                  Tween<double>(begin: 0, end: 1)
+                                      .animate(animation);
+                              if (key.value !=
+                                  surveyScreenManager.index.value) {
+                                return FadeTransition(opacity: fadeTransition);
+                              }
 
-                        //                     },
-                        //                   ),
-                        //                   SizedBox(
-                        //                     width: 50.w,
-                        //                   ),
-                        //                   TextButton(
-                        //                     child: const Text("YES"),
-                        //                     onPressed: () {
-                        //                    if(timer!= null)  timer!.cancel();
-                        //                       Navigator.of(context).pop();
-                        //                     },
-                        //                   ),
-                        //                 ],
-                        //               );
-                        //             });
-                        //       },
-                        //     );
-                        //   });
-                        // }
-                        return Obx(() {
-                          return AnimatedSwitcher(
-                              reverseDuration: const Duration(milliseconds: 1000),
-                              switchInCurve: Curves.fastLinearToSlowEaseIn,
-                              transitionBuilder: (child, animation) {
-                                if (child.key is ValueKey<int>) {
-                                  final ValueKey<int> key = child.key as ValueKey<int>;
-                                  var fadeTransition = Tween<double>(begin: 0, end: 1).animate(animation);
-                                  if (key.value != surveyScreenManager.index.value) {
-                                    return FadeTransition(
-                                        opacity: fadeTransition);
-                                  }
+                              final Offset beginOffset = surveyScreenManager
+                                          .screenTypeEnumUtil.value ==
+                                      ScreenTypeEnumUtil.nextScreen
+                                  ? const Offset(1.0, 0.0)
+                                  : const Offset(-1.0, 0.0);
 
-                                  final Offset beginOffset = surveyScreenManager
-                                              .screenTypeEnumUtil.value ==
-                                          ScreenTypeEnumUtil.nextScreen
-                                      ? const Offset(1.0, 0.0)
-                                      : const Offset(-1.0, 0.0);
-
-                                  var offsetAnimation = Tween<Offset>(
-                                    begin: beginOffset,
-                                    end: const Offset(
-                                        0.0, 0.0), // end at the center
-                                  ).animate(animation);
-                                  return SlideTransition(
-                                    position: offsetAnimation,
-                                    child: child,
-                                  );
-                                } else {
-                                  // Handle cases where the key is not a ValueKey<int>
-                                  return child; // Or handle as needed
+                              var offsetAnimation = Tween<Offset>(
+                                begin: beginOffset,
+                                end:
+                                    const Offset(0.0, 0.0), // end at the center
+                              ).animate(animation);
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            } else {
+                              // Handle cases where the key is not a ValueKey<int>
+                              return child; // Or handle as needed
+                            }
+                          },
+                          duration: const Duration(milliseconds: 1000),
+                          child: GestureDetector(
+                            key: ValueKey<int>(surveyScreenManager.index.value),
+                            onHorizontalDragEnd: (DragEndDetails details) {
+                              if (details.primaryVelocity! > 0) {
+                                // User swiped Left
+                                surveyScreenManager.previousScreen();
+                              } else if (details.primaryVelocity! < 0) {
+                                // User swiped Right
+                                if (surveyScreenManager.nextScreenstop.value ==
+                                    false) {
+                                  surveyScreenManager.nextScreen();
                                 }
-                              },
-                              duration: const Duration(milliseconds: 1000),
-                              child: GestureDetector(
-                                key: ValueKey<int>(surveyScreenManager.index.value),
-                                onHorizontalDragEnd: (DragEndDetails details) {
-                                  if (details.primaryVelocity! > 0) {
-                                    // User swiped Left
-                                    surveyScreenManager.previousScreen();
-                                  } else if (details.primaryVelocity! < 0) {
-                                    // User swiped Right
-                                    if (surveyScreenManager.nextScreenstop.value == false) {
-                                      surveyScreenManager.nextScreen();
-                                    }
-                                  }
-                                },
-                                child: SwitchScreenWidget(
-                                  feedbackQuestion: surveryFeedbackApiController.surveyDataModel.value.
-                                      surveyModel!
+                              }
+                            },
+                            child: SwitchScreenWidget(
+                              feedbackQuestion: surveryFeedbackApiController
+                                      .surveyDataModel
+                                      .value
+                                      .surveyModel!
                                       .surveyScreens?[
                                           surveyScreenManager.index.value]
-                                      .fields??[],
-                                  index: surveyScreenManager.index.value,
-                                ),
-                              ));
-                        });
-                      }),
-                )),
-            Obx(
-               () {
-                if(surveyFieldController.screenBotton.value == SuveryScreenBottom.templateBottomBar){
-                  return const TemplateBottomFeedback();
-                }
-                return const ExitWidget();
+                                      .fields ??
+                                  [],
+                              index: surveyScreenManager.index.value,
+                            ),
+                          ));
+                    })),
+                  ),
+                ],
+              ),
+            ),
+            Obx(() {
+              if (surveyFieldController.screenBotton.value ==
+                  SuveryScreenBottom.templateBottomBar) {
+                return const TemplateBottomFeedback();
               }
-            )
+              return const ExitWidget();
+            })
           ],
         ));
   }

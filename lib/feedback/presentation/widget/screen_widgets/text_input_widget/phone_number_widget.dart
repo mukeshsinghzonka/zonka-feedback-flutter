@@ -34,11 +34,11 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: size.width / 5),
-      height: size.height/20,
+      height: size.height/5,
       child: Row(
         children: [
           Container(
-            height: size.height / 10,
+            height: size.height / 9,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color:HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
@@ -52,9 +52,15 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
               padding: const EdgeInsets.all(0),
               backgroundColor:HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
               onChanged: (element) => {
-                // phoneNumber =  "${element.dialCode}"
                 dialCode = element.dialCode??"+91"
               },
+              boxDecoration:  BoxDecoration(
+                color:HexColor(_surveyDesignFieldController.optionTextColor.value).withOpacity(0.1),
+                border: Border.all(
+                  color: HexColor(_surveyDesignFieldController.optionTextColor.value),
+                ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
               initialSelection: 'IN',
               showCountryOnly: false,
               showOnlyCountryWhenClosed: false,
@@ -71,19 +77,22 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
                  validator: (value) {
 
                   String? valid = validationLogicManager.inputTextValidation(value);
-            
+
                   if(valid!=null){
                     return valid;
                   }
-            
-                  if (valid == null) {
 
+                  if (valid == null) {
                     surveyCollectDataController.updateSurveyData(quesId: widget.field.id ?? "", value: phoneNumber);
                   }
+
                   return null;
                 },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
+                  constraints: BoxConstraints(
+                    maxHeight:  size.height / 9,
+                  ),
                   errorStyle: const TextStyle(color: Colors.transparent),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(

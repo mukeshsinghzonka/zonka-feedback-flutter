@@ -49,20 +49,37 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 50.h,
             ),
-            Obx(() {
-              return AnimatedSwitcher(
-                switchOutCurve: Curves.linear,
-                duration:const Duration(seconds: 1),
-                child:
-                    switchScreenController.currentScreen.value == Screen.login
-                        ? const SignInScreen()
-                        : switchScreenController.currentScreen.value == Screen.signup
-                        ? const SignUpScreen()  
-                        : switchScreenController.currentScreen.value == Screen.createaccount ? const CreateScreen() 
-                        : Container(),
-              );
-            }),
-         
+            // Obx(() {
+            //   return AnimatedSwitcher(
+            //     switchOutCurve: Curves.linear,
+            //     duration:const Duration(seconds: 1),
+            //     child:
+            //         switchScreenController.currentScreen.value == Screen.login
+            //             ? const SignInScreen()
+            //             : switchScreenController.currentScreen.value == Screen.signup
+            //             ? const SignUpScreen()
+            //             : switchScreenController.currentScreen.value == Screen.createaccount ? const CreateScreen()
+            //             : Container(),
+            //   );
+            // }),
+
+            GetX<SwitchScreenController>(
+              init: switchScreenController,
+              builder: (controller) {
+                return AnimatedSwitcher(
+                  switchOutCurve: Curves.linear,
+                  duration: const Duration(seconds: 1),
+                  child: controller.currentScreen.value == Screen.login
+                      ? const SignInScreen()
+                      : controller.currentScreen.value == Screen.signup
+                      ? const SignUpScreen()
+                      : controller.currentScreen.value == Screen.createaccount
+                      ? const CreateScreen()
+                      : Container(),
+                );
+              },
+            )
+
           ],
         ),
       )),

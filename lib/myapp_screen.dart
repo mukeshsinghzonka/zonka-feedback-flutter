@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
+    // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]);
     WorkManagerService().clearTotalResponseSurveyFromBox();
     isolateService1.initPortWithName();
     isolateService2.initPortWithName();

@@ -8,5 +8,6 @@ class SwitchScreenController extends GetxController {
   Rx<Screen>  get currentScreen => _currentScreen;
   void changeScreen(Screen screen) {
     _currentScreen.value = screen;
+    update();
   }
 }

@@ -62,20 +62,8 @@ class SurveyScreenManager extends GetxController {
 
   } 
 
-  StreamController<bool>? myStreamController = StreamController<bool>.broadcast();
-  Timer? timer;
 
-  Future<void> showDialogAfterDelay() async {
-    // Simulate a delay of 60 seconds
-    if (timer != null) {
-      timer!.cancel();
-    }
-    timer = Timer(Duration(seconds: surveyFieldController.appInactiveTimeOut.value), () {
-        if(myStreamController!.isClosed == false) myStreamController!.sink.add(true);
-    });
 
-    return;
-  }
 
   @override
   void onInit() {
@@ -197,7 +185,7 @@ class SurveyScreenManager extends GetxController {
         _index.value = j;
         surveyIndex.add(_index.value);
         showIsRequired!.clear();
-        showDialogAfterDelay();
+
         setScreenTypeEnum(ScreenTypeEnumUtil.nextScreen);
         return true;
       }
@@ -249,6 +237,7 @@ class SurveyScreenManager extends GetxController {
     bool showNextPage = true;
     showIsRequired!.clear(); // Clear the observable map
     var validationResults = _formKey.currentState!.validateGranularly();
+
     for (var validationResult in validationResults) {
       String? errorText = validationResult.errorText;
       if (errorText != null && errorText.isNotEmpty) {
@@ -292,7 +281,7 @@ class SurveyScreenManager extends GetxController {
        scrollController.animateTo(0,duration: const Duration(milliseconds: 1), curve: Curves.easeInOut,);
       _index.value = surveyIndex[surveyIndex.length - 2];
       showIsRequired!.clear();
-      showDialogAfterDelay();
+
       if (surveyIndex.last != 0) {
         surveyIndex.removeLast();
         setScreenTypeEnum(ScreenTypeEnumUtil.previousScreen);

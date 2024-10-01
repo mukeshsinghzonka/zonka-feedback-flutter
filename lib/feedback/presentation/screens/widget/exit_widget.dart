@@ -23,9 +23,11 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-        height:size.height * 0.12,
+        height:size.height /12,
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
+                      color: Colors.white,
+                        // border: Border.all(color: Colors.blueAccent)
+                    ),
                     margin: EdgeInsets.all(5.w),
                     alignment: Alignment.bottomCenter,
       child: Row(
@@ -33,15 +35,15 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
         children: [
              Obx(
                 () {
-                  print("surveyindexvalue ${surveyScreenManager.index.value} ${surveyScreenManager.surveyScreens.length-1}");
                  return Visibility(
                   visible: surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.welcomScreen&& surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.exitScreen && surveyScreenManager.screenTypeEnumUtil.value !=ScreenTypeEnumUtil.languageScreen   ,
                    child: Container(
-                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
+                     height: size.height/10,
+                       // decoration: BoxDecoration(
+                       //  border: Border.all(color: Colors.blueAccent)),
                     alignment: Alignment.center,
                      child: CircularPercentIndicator(
-                          radius: size.height * 0.05,
+                          radius: size.height /27,
                           lineWidth: 4.0,
                         backgroundColor: Colors.white,
                           percent: (surveyScreenManager.index.value) /(surveyScreenManager.surveyScreens.length-1),
@@ -78,7 +80,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
                       Get.delete<SurveyScreenManager>();
                       Navigator.of(context).pop();
-                      surveyScreenManager.myStreamController!.close();
+
                     }
                     else if(surveyScreenManager.screenTypeEnumUtil.value == ScreenTypeEnumUtil.languageScreen ){
                       surveyScreenManager.setScreenTypeEnum(ScreenTypeEnumUtil.welcomScreen);
@@ -88,6 +90,7 @@ final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
                     }
                   },
                   child: Container(
+
                     alignment: Alignment.bottomCenter,
                      child:  Container(
                       padding: EdgeInsets.symmetric(horizontal: 5.w),

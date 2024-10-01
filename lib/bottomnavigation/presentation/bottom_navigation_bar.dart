@@ -3,11 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:intl/intl.dart';
 import 'package:zonka_feedback/bottomnavigation/presentation/manager/update_survey_controller.dart';
 import 'package:zonka_feedback/services/workmanager_functions/work_manager_service.dart';
 import 'package:zonka_feedback/utils/color_constant.dart';
 import 'package:zonka_feedback/utils/constant_size.dart';
 import 'package:zonka_feedback/utils/image_constant.dart';
+
+import '../../utils/hive_directory_util.dart';
+import '../../utils/hive_key.dart';
 
 
   class BottomNavigationBarWidget extends StatefulWidget {
@@ -44,6 +50,7 @@ import 'package:zonka_feedback/utils/image_constant.dart';
                       color: Color(ColorConstant.themeColor),
                       borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: Row(
+
                     children: [
                        SizedBox(
                         width: 7.w,
@@ -52,23 +59,52 @@ import 'package:zonka_feedback/utils/image_constant.dart';
                       SizedBox(
                         width: 10.w,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Update Survey',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: ConstantSize.small_2.sp),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Container(
+                               alignment:Alignment.centerLeft,
+                                  child: Text(
+                                    'Update Survey',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: ConstantSize.small_2.sp),
+                                  ),
+                                ),
+                              ),
+
+                              Expanded(
+                                child: ValueListenableBuilder(
+                                    valueListenable: Hive.box(HiveDirectoryUtil.surveyLastUpdateDateTime).listenable(),
+                                    builder: (context,  Box<dynamic> box, _) {
+                                      var surveyCount = box.get(HiveKey.surveyLastUpdateKey);
+                                   return
+                                      Builder(
+                                        builder: (context) {
+                                        if(surveyCount == null){
+                                          return Container();
+                                        }
+                                          return Text(
+                                            'Last Update on ${DateFormat('dd MMM yyyy').format(surveyCount.surveyUpdateDateTime)}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: ConstantSize.extra_small_3.sp,
+                                            ),
+                                          );
+                                        }
+                                      );
+                                    }
+                                ),
+                              )
+                            ],
                           ),
-                          Text(
-                            'Last Update on 30 Mar 2020',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: ConstantSize.extra_small_3.sp),
-                          )
-                        ],
+                        ),
                       ),
                     ],
                   ),
@@ -90,13 +126,18 @@ import 'package:zonka_feedback/utils/image_constant.dart';
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(
-                        ImageConstant.syncServerIcons,
+                      Expanded(
+                        child: SvgPicture.asset(
+                          ImageConstant.syncServerIcons,
+                        ),
                       ),
                       SizedBox(width: 10.w,),
-                      Text(
-                        'Sync with Server',
-                        style: TextStyle(color: Colors.black,fontSize: ConstantSize.small_2.sp),
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          'Sync with Server',
+                          style: TextStyle(color: Colors.black,fontSize: ConstantSize.small_2.sp),
+                        ),
                       ),
                     ],
                   ),

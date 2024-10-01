@@ -52,8 +52,7 @@ class LanguageModel extends HiveObject {
           ? DateTime.parse(json['createdDate'])
           : null,
       shortCode: json['shortCode'],
-      imageUrlAsset:
-          "assets/large_flags/${json['languageCode'].toString().split('_')[1].toUpperCase()}.png",
+      imageUrlAsset: "assets/large_flags/${json['languageCode'].toString().split('_')[1].toUpperCase()}.png",
     );
   }
 }

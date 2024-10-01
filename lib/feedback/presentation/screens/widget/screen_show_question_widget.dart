@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,7 @@ import 'package:zonka_feedback/utils/hexcolor_util.dart';
 class SwitchScreenWidget extends StatefulWidget {
   final List<Field> feedbackQuestion;
   final int index;
+
   const SwitchScreenWidget(
       {super.key, required this.feedbackQuestion, required this.index});
 
@@ -22,26 +25,84 @@ class SwitchScreenWidget extends StatefulWidget {
 }
 
 class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
-  final ScreenFeedBackQuesController screenFeedBackQuesController =
-      Get.put(ScreenFeedBackQuesController());
-  final SurveyDesignFieldController surveyFieldController =
-      Get.find<SurveyDesignFieldController>();
-  final SurveyScreenManager surveyScreenManager =
-      Get.find<SurveyScreenManager>();
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.put(SurveyCollectDataController());
-  final VideoPlayerControllerManager videoPlayerController =
-      Get.put(VideoPlayerControllerManager());
+  final ScreenFeedBackQuesController screenFeedBackQuesController = Get.put(ScreenFeedBackQuesController());
+  final SurveyDesignFieldController surveyFieldController = Get.find<SurveyDesignFieldController>();
+  final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
+  final SurveyCollectDataController surveyCollectDataController = Get.put(SurveyCollectDataController());
+  final VideoPlayerControllerManager videoPlayerController = Get.put(VideoPlayerControllerManager());
   final double headerHeight = 100;
   bool showFirstWidget = true;
   int durationSecond = 0;
-  
   final Map<String, GlobalKey> _keyMap = {};
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    // showDialogAfterDelay();
+  }
+
   @override
   void dispose() {
+    // Cancel the timer when the widget is disposed to avoid memory leaks
+    if (timer != null) {
+      timer!.cancel();
+    }
     Get.delete<ScreenFeedBackQuesController>();
     super.dispose();
   }
+
+  Future<void> showDialogAfterDelay() async {
+    // Ensure any previously active timer is canceled
+    timer?.cancel();
+
+    // Start a new timer
+    timer = Timer(Duration(seconds: 5), () {
+      // Ensure this runs after the frame is built
+      if (mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                actionsOverflowAlignment: OverflowBarAlignment.center,
+                actionsAlignment: MainAxisAlignment.center,
+                content: Text(
+                  "You have been idle for some time. Do you wish to \n continue?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 8.sp),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text("NO"),
+                    onPressed: () {
+                      // Handle "NO" press, perform necessary action
+                      surveyScreenManager.updateScreenTypeUtilFunction();
+                      timer?.cancel();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  SizedBox(width: 50.w),
+                  TextButton(
+                    child: const Text("YES"),
+                    onPressed: () {
+                      // Handle "YES" press, reset timer
+                      timer?.cancel();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        });
+      }
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,53 +113,60 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
         slivers: [
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
+                  (BuildContext context, int index) {
                 String id = widget.feedbackQuestion[index].id ?? '';
                 final key = GlobalKey();
                 _keyMap[id] = key;
                 return Visibility(
-                  visible: surveyScreenManager.visibeSurveyWidget.containsKey(widget.feedbackQuestion[index].id ?? "")
-                      ? surveyScreenManager.visibeSurveyWidget[widget.feedbackQuestion[index].id ?? ""] ??
-                          true
+                  visible: surveyScreenManager.visibeSurveyWidget.containsKey(widget.feedbackQuestion[index].id ?? "") ? surveyScreenManager.visibeSurveyWidget[
+                  widget.feedbackQuestion[index].id ?? ""] ??
+                      true
                       : true,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: widget.feedbackQuestion.length > 1
                           ? double.minPositive
-                          : MediaQuery.of(context).size.height * 0.7,
+                          : MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.7,
                     ),
                     child: Container(
                       margin: EdgeInsets.all(5.w),
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blueAccent)),
+                      // decoration: BoxDecoration(
+                      //     border: Border.all(color: Colors.blueAccent)),
                       child: Column(
                         children: [
                           Container(
                               margin: EdgeInsets.symmetric(vertical: 5.h),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blueAccent)),
+                              // decoration: BoxDecoration(
+                              //     border: Border.all(color: Colors.blueAccent)),
                               child: Text(
-                                '${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.fieldLabel}',
+                                '${widget.feedbackQuestion[index]
+                                    .translations?[surveyFieldController
+                                    .defaultTranslation.value]?.fieldLabel}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 6.sp,
                                     fontFamily:
-                                        surveyFieldController.fontFamily.value,
+                                    surveyFieldController.fontFamily.value,
                                     color: HexColor(surveyFieldController
                                         .headingTextColor.value)),
                               )),
                           Visibility(
                             visible: widget
-                                    .feedbackQuestion[index]
-                                    .translations?[surveyFieldController
-                                        .defaultTranslation.value]
-                                    ?.subTitle !=
+                                .feedbackQuestion[index]
+                                .translations?[surveyFieldController
+                                .defaultTranslation.value]
+                                ?.subTitle !=
                                 "",
                             child: Container(
                               margin: EdgeInsets.symmetric(vertical: 5.h),
                               child: Text(
-                                '${widget.feedbackQuestion[index].translations?[surveyFieldController.defaultTranslation.value]?.subTitle}',
+                                '${widget.feedbackQuestion[index]
+                                    .translations?[surveyFieldController
+                                    .defaultTranslation.value]?.subTitle}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 6.sp,
@@ -110,15 +178,15 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                           Obx(() {
                             return Visibility(
                               visible: surveyScreenManager.showIsRequired!
-                                      .containsKey(
-                                          widget.feedbackQuestion[index].id ??
-                                              "") ==
+                                  .containsKey(
+                                  widget.feedbackQuestion[index].id ??
+                                      "") ==
                                   true,
                               child: Container(
                                 padding: EdgeInsets.all(5.h),
                                 decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.r)),
+                                    BorderRadius.all(Radius.circular(5.r)),
                                     border: Border.all(color: Colors.red)),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -134,40 +202,40 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                                     ),
                                     Builder(builder: (context) {
                                       if (surveyScreenManager
-                                              .showIsRequired![widget
-                                                      .feedbackQuestion[index]
-                                                      .id ??
-                                                  ""]
-                                              ?.value ==
+                                          .showIsRequired![widget
+                                          .feedbackQuestion[index]
+                                          .id ??
+                                          ""]
+                                          ?.value ==
                                           ScreenValidationErrorType.REQUIRED) {
                                         return Text(
                                           surveyScreenManager
-                                                      .showIsRequired![widget
-                                                              .feedbackQuestion[
-                                                                  index]
-                                                              .id ??
-                                                          ""]!
-                                                      .message !=
-                                                  null
+                                              .showIsRequired![widget
+                                              .feedbackQuestion[
+                                          index]
+                                              .id ??
+                                              ""]!
+                                              .message !=
+                                              null
                                               ? surveyScreenManager
-                                                      .showIsRequired![widget
-                                                              .feedbackQuestion[
-                                                                  index]
-                                                              .id ??
-                                                          ""]!
-                                                      .message ??
-                                                  ""
+                                              .showIsRequired![widget
+                                              .feedbackQuestion[
+                                          index]
+                                              .id ??
+                                              ""]!
+                                              .message ??
+                                              ""
                                               : 'This is a required field',
                                           style: const TextStyle(
                                             color: Colors.red,
                                           ),
                                         );
                                       } else if (surveyScreenManager
-                                              .showIsRequired![widget
-                                                      .feedbackQuestion[index]
-                                                      .id ??
-                                                  ""]
-                                              ?.value ==
+                                          .showIsRequired![widget
+                                          .feedbackQuestion[index]
+                                          .id ??
+                                          ""]
+                                          ?.value ==
                                           ScreenValidationErrorType
                                               .WRONGSELECTION) {
                                         return Text(
@@ -194,28 +262,32 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                               margin: EdgeInsets.all(3.w),
                               decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10.r)),
+                                BorderRadius.all(Radius.circular(10.r)),
                               ),
                               child: widget.feedbackQuestion[index].quesImages
-                                      .isNotEmpty
+                                  .isNotEmpty
                                   ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      child: Image.network(
-                                        fit: BoxFit.cover,
-                                        '${surveyFieldController.s3GalleryImageUrl.value}${widget.feedbackQuestion[index].quesImages.first.companyId}/${widget.feedbackQuestion[index].quesImages.first.path}',
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Container();
-                                        },
-                                      ),
-                                    )
+                                borderRadius: BorderRadius.circular(10.r),
+                                child: Image.network(
+                                  fit: BoxFit.cover,
+                                  '${surveyFieldController.s3GalleryImageUrl
+                                      .value}${widget.feedbackQuestion[index]
+                                      .quesImages.first.companyId}/${widget
+                                      .feedbackQuestion[index].quesImages.first
+                                      .path}',
+                                  errorBuilder:
+                                      (context, error, stackTrace) {
+                                    return Container();
+                                  },
+                                ),
+                              )
                                   : Container(),
                             );
                           }),
                           Builder(builder: (context) {
                             if (videoPlayerController.surveyVideoFieldData
-                                    .containsKey(
-                                        widget.feedbackQuestion[index].id) ==
+                                .containsKey(
+                                widget.feedbackQuestion[index].id) ==
                                 false) {
                               return Container();
                             }
@@ -224,8 +296,8 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                               width: 180.w,
                               child: YoutubePlayer(
                                 controller: videoPlayerController
-                                        .surveyVideoFieldData[
-                                    widget.feedbackQuestion[index].id ?? ""]!,
+                                    .surveyVideoFieldData[
+                                widget.feedbackQuestion[index].id ?? ""]!,
                                 showVideoProgressIndicator: false,
                                 progressIndicatorColor: Colors.amber,
                                 progressColors: const ProgressBarColors(
@@ -247,10 +319,10 @@ class _SwitchScreenWidgetState extends State<SwitchScreenWidget> {
                 );
               },
 
-              childCount: widget.feedbackQuestion.length, // Number of items in the list
+              childCount:
+              widget.feedbackQuestion.length, // Number of items in the list
             ),
           ),
-          
         ],
       ),
     );

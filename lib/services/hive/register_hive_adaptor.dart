@@ -7,6 +7,7 @@ import 'package:zonka_feedback/dashboard/data/data_model/workspace_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/background_gallery_image.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/choice_translation_model.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/company_info_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/display_logic_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/field_model.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/filed_translation_model.dart';
@@ -40,6 +41,11 @@ import 'package:zonka_feedback/template/data/data_model/surveyId_model.dart';
 import 'package:zonka_feedback/template/data/data_model/template_industries_map.dart';
 import 'package:zonka_feedback/template/data/data_model/template_mapping_model.dart';
 import 'package:zonka_feedback/template/data/data_model/template_model.dart';
+
+import '../../feedback/data/data_model_new/logged_in_user.dart';
+import '../../feedback/data/data_model_new/server_name.dart';
+import '../../feedback/data/data_model_new/survey_data_model.dart';
+import '../workmanager_functions/workmanager_model/update_survey_model.dart';
 
 
 Future<void> registerHiveAdaptor() async {
@@ -82,5 +88,10 @@ Future<void> registerHiveAdaptor() async {
      Hive.registerAdapter(TemplateModelAdapter());
      Hive.registerAdapter(UpdateSurveyResModelAdapter());
      Hive.registerAdapter(UpdateSurveyModelAdapter());
+     Hive.registerAdapter(SurveyDataModelAdapter());
+     Hive.registerAdapter(CompanyInfoModelAdapter());
+     Hive.registerAdapter(LoggedInUserAdapter());
+     Hive.registerAdapter(ServerNameModelAdapter());
+     Hive.registerAdapter(UpdateSurveyModelValueAdapter());
      
 }

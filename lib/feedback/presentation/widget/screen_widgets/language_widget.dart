@@ -116,13 +116,13 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                               },
                               child: Container(
                                 alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      border:
-                                          Border.all(color: Colors.blueAccent)),
+                                  // decoration: BoxDecoration(
+                                  //     border:
+                                  //         Border.all(color: Colors.blueAccent)),
                                   child: const Icon(Icons.arrow_back_ios))),
                           Container(
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                            // decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
                             width: size.width * 0.83,
                             child: ListView.builder(
                               controller: _scrollController,
@@ -171,8 +171,8 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                                             padding: EdgeInsets.all(3.w),
                                             decoration: BoxDecoration(
                                               color: Colors.black,
-                                              border: Border.all(
-                                                  color: Colors.blueAccent),
+                                              // border: Border.all(
+                                              //     color: Colors.blueAccent),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(10.r)),
                                             ),
@@ -180,6 +180,7 @@ class _LanguageWidgetState extends State<LanguageWidget> {
                                               children: [
                                                 Builder(
                                                   builder: (context) {
+
                                                     if (widget.languagePage
                                                             ?.showFlagWithLanguage ==
                                                         false) {

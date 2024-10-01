@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:zonka_feedback/feedback/data/data_model_new/server_name.dart';
 import 'package:zonka_feedback/feedback/data/data_model_new/survey_model.dart';
 
 import '../../../services/hive/hive_type_id.dart';
@@ -28,6 +29,9 @@ class SurveyDataModel extends HiveObject {
   @HiveField(5)
   final LoggedInUser? loggedInUser; // Ensure LoggedInUser has its own Hive adapter
 
+  @HiveField(6)
+  List<ServerNameModel>? serveNameModel;
+
   SurveyDataModel({
     required this.surveyModel,
     required this.distribution,
@@ -35,6 +39,7 @@ class SurveyDataModel extends HiveObject {
     required this.trackingInfo,
     required this.s3GalleryImageUrl,
     required this.loggedInUser,
+    required this.serveNameModel
   });
 
   // From JSON (factory constructor)
@@ -43,13 +48,10 @@ class SurveyDataModel extends HiveObject {
       surveyModel: json['survey'] != null ? SurveyModel.fromJson(json['survey']) : null,
       distribution: json['distribution'],
       trackingInfo: json['trackingInfo'],
-      companyInfoModel: json['companyInfoModel'] != null
-          ? CompanyInfoModel.fromJson(json['companyInfoModel'])
-          : null,
+      companyInfoModel: json['companyInfoModel'] != null ? CompanyInfoModel.fromJson(json['companyInfoModel']) : null,
       s3GalleryImageUrl: json['s3GalleryImageUrl'],
-      loggedInUser: json['loggedInUser'] != null
-          ? LoggedInUser.fromJson(json['loggedInUser'])
-          : null,
+      loggedInUser: json['loggedInUser'] != null ? LoggedInUser.fromJson(json['loggedInUser']) : null,
+      serveNameModel: (json['servers'] as List<dynamic>?) ?.map((item) => ServerNameModel.fromJson(item)).toList(),
     );
   }
 

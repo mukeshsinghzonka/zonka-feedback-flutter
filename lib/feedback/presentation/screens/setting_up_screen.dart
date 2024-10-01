@@ -45,7 +45,8 @@ class _SettingUpScreenState extends State<SettingUpscreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: OrientationBuilder(builder: (context, builder) {
+    return Scaffold(
+        body: OrientationBuilder(builder: (context, builder) {
       return Obx(() {
         if (surveryFeedbackController.apiStatus.value == ApiCallStatus.Success) {
           return SurveyScreenFeedbackPage(
@@ -55,7 +56,7 @@ class _SettingUpScreenState extends State<SettingUpscreen> {
         }
         return Container(
           alignment: Alignment.center,
-          child: const Text("Setting up"),
+          child: const Text("Setting up... "),
         );
       });
     }));

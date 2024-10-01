@@ -6,6 +6,8 @@ import 'package:zonka_feedback/feedback/data/data_model_new/submit_reponse_model
 import 'package:zonka_feedback/feedback/domain/entity/rating_data_collector.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
 
+import '../../data/data_model_new/server_name.dart';
+
 class SurveyCollectDataController extends GetxController {
   final SurveryApiFeedbackController screenFeedbackController = Get.find<SurveryApiFeedbackController>();
   RxMap<String, dynamic> surveyIndexData = <String, dynamic>{}.obs;
@@ -14,8 +16,6 @@ class SurveyCollectDataController extends GetxController {
     surveyIndexData[quesId] = value;
     update();
   }
-
- 
 
   dynamic createDataForApiHit(String fieldId, String fieldName) {
     dynamic selectedData = surveyIndexData[fieldId];
@@ -30,6 +30,7 @@ class SurveyCollectDataController extends GetxController {
               SurveyResponse(
                 fieldId: fieldId,
                 choiceId: choiceId,
+                fieldName: fieldName
               ),
             );
           }
@@ -41,6 +42,7 @@ class SurveyCollectDataController extends GetxController {
           return SurveyResponse(
             fieldId: fieldId,
             choiceId: radioButtonChoiceId,
+              fieldName: fieldName
           );
         } else if (selectedData is Map<String, dynamic>?) {
           Map<String, bool>? choiceMap = Map<String, bool>.from(selectedData ?? {});
@@ -51,6 +53,7 @@ class SurveyCollectDataController extends GetxController {
                 SurveyResponse(
                   fieldId: fieldId,
                   choiceId: choiceId,
+                    fieldName: fieldName
                 ),
               );
             }
@@ -58,19 +61,19 @@ class SurveyCollectDataController extends GetxController {
         }
       case "text_box" || 'Email' || 'MembershipNo' || 'FullName' || 'FirstName' || 'Name':
         String? textValue = selectedData as String?;
-        return SurveyResponse(fieldId: fieldId, fieldValue: textValue);
+        return SurveyResponse(fieldId: fieldId, fieldValue: textValue,  fieldName: fieldName);
 
       case "txtComments":
         String? textValue = selectedData as String?;
-        return SurveyResponse(fieldId: fieldId, fieldValue: textValue);
+        return SurveyResponse(fieldId: fieldId, fieldValue: textValue,  fieldName: fieldName);
       case "date":
         DateTime? dateValue = selectedData as DateTime?;
         DateFormat formattedDate = DateFormat('yyyy-MM-dd');
-        return SurveyResponse(fieldId: fieldId, fieldValue: dateValue == null? "" :formattedDate.format(dateValue).toString());
+        return SurveyResponse(fieldId: fieldId, fieldValue: dateValue == null? "" :formattedDate.format(dateValue).toString(),  fieldName: fieldName);
 
       case "npsquestion" || "cssquestion" || "button_rating" || "legalTerm":
         Choice? choiceId = selectedData as Choice?;
-        return SurveyResponse(fieldId: fieldId, choiceId:choiceId==null? "" : choiceId.id);
+        return SurveyResponse(fieldId: fieldId, choiceId:choiceId==null? "" : choiceId.id, fieldName: fieldName);
 
       case "heart_rating" ||  "circle_rating" || "star_rating" || "emotion_rating":
         Map<String, String> choiceMap = (selectedData as RatingDataCollector?)?.choiceMap ?? {};
@@ -78,7 +81,7 @@ class SurveyCollectDataController extends GetxController {
         choiceMap.forEach((optionId, choiceId) {
           valueList.add(
             SurveyResponse(
-                fieldId: fieldId, choiceId: choiceId, optionId: optionId),
+                fieldId: fieldId, choiceId: choiceId, optionId: optionId,  fieldName: fieldName),
           );
         });
         return valueList;
@@ -87,20 +90,41 @@ class SurveyCollectDataController extends GetxController {
         Choice? dropDownValue = selectedData as Choice?;
         return SurveyResponse(
           fieldId: fieldId,
+          fieldName: fieldName,
           choiceId:dropDownValue==null?"": dropDownValue.id,
         );
 
       case "RankingQuestion":
-      List<Choice> items = List<Choice>.from(selectedData);
-      List<SurveyResponse> valueList = [];
-      items.map((e){
-          valueList.add(SurveyResponse(
+        List<Choice> items = List<Choice>.from(selectedData);
+
+        // Using map to create a new list from items
+        List<SurveyResponse> valueList = items.map((e) {
+          return SurveyResponse(
             choiceId: e.id,
             fieldId: fieldId,
-            fieldValue:((e.choiceWeight ?? 0) + 1).toString(),
-          ));
-      });
-      return valueList;
+            fieldName: fieldName,
+            fieldValue: ((e.choiceWeight ?? 0) + 1).toString(),
+          );
+        }).toList(); // Convert the iterable from map to a List
+        // Return the valueList after processing
+        return valueList;
+
+      case "Mobile":
+        String? phoneNumber  = selectedData as String?;
+        return SurveyResponse(
+          fieldId: fieldId,
+          fieldValue: phoneNumber??"",
+            fieldName: fieldName
+        );
+
+      case "ServerName":
+        ServerNameModel ? serverNameModel  = selectedData as ServerNameModel?;
+        return SurveyResponse(
+          fieldId: fieldId,
+          fieldValue: serverNameModel?.userId??"",
+          takenBy: serverNameModel?.userId??"",
+            fieldName: fieldName
+        );
 
       default:
     }
@@ -174,6 +198,18 @@ class SurveyCollectDataController extends GetxController {
           return false;
         }
         return dropDownValue.choiceNodeId == displayModel.choiceId;
+
+      case "Mobile":
+        String ? phoneNumber = selectedData as String?;
+        switch (displayModel.actionTaken) {
+          case "FL":
+            return phoneNumber != null;
+          case "NF":
+            return phoneNumber == null;
+        }
+        return false;
+
+
       default:
         return false;
     }

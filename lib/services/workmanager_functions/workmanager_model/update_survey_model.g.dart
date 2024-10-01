@@ -1,44 +1,39 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'survey_reponse_model.dart';
+part of 'update_survey_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SurveyResponseAdapter extends TypeAdapter<SurveyResponse> {
+class UpdateSurveyModelValueAdapter
+    extends TypeAdapter<UpdateSurveyModelValue> {
   @override
-  final int typeId = 3;
+  final int typeId = 45;
 
   @override
-  SurveyResponse read(BinaryReader reader) {
+  UpdateSurveyModelValue read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SurveyResponse(
-      fieldId: fields[0] as String?,
-      fieldValue: fields[1] as String?,
-      choiceId: fields[2] as String?,
-      optionId: fields[3] as String?,
-      takenBy: fields[4] as String?,
+    return UpdateSurveyModelValue(
+      countSurveyUpdated: fields[1] as int,
+      surveyUpdateDateTime: fields[0] as DateTime,
+      surveyId: (fields[2] as List?)?.cast<String>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, SurveyResponse obj) {
+  void write(BinaryWriter writer, UpdateSurveyModelValue obj) {
     writer
-      ..writeByte(5)
-      ..writeByte(0)
-      ..write(obj.fieldId)
-      ..writeByte(1)
-      ..write(obj.fieldValue)
-      ..writeByte(2)
-      ..write(obj.choiceId)
       ..writeByte(3)
-      ..write(obj.optionId)
-      ..writeByte(4)
-      ..write(obj.takenBy);
+      ..writeByte(0)
+      ..write(obj.surveyUpdateDateTime)
+      ..writeByte(1)
+      ..write(obj.countSurveyUpdated)
+      ..writeByte(2)
+      ..write(obj.surveyId);
   }
 
   @override
@@ -47,7 +42,7 @@ class SurveyResponseAdapter extends TypeAdapter<SurveyResponse> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SurveyResponseAdapter &&
+      other is UpdateSurveyModelValueAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

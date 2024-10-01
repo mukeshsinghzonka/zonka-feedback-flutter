@@ -15,4 +15,5 @@ Future<void> openHiveBox() async {
    await Hive.openBox(HiveDirectoryUtil.updateHiveSurveyId);
    await Hive.openBox(HiveDirectoryUtil.surveyUnsyncResponseCount);
    await Hive.openBox(HiveDirectoryUtil.totalSurveyResponseCount);
+   await Hive.openBox(HiveDirectoryUtil.surveyLastUpdateDateTime);
 }

@@ -91,7 +91,7 @@ class WorkManagerService {
          initialDelay: const Duration(seconds: 1),
          existingWorkPolicy: ExistingWorkPolicy.keep,
          frequency: const Duration(
-           hours: 1
+           hours: 24
          ),
          constraints: Constraints(networkType: NetworkType.connected));
    }

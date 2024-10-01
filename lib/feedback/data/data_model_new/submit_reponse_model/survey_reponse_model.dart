@@ -15,12 +15,19 @@ class SurveyResponse  extends HiveObject {
   final String ?choiceId;
   @HiveField(3)
   final String ?optionId;
+  @HiveField(4)
+  final String ? takenBy;
+
+  @HiveField(5)
+  final String ? fieldName;
 
   SurveyResponse({
      this.fieldId,
      this.fieldValue,
      this.choiceId,
      this.optionId,
+     this.takenBy,
+     this.fieldName
   });
 
   Map<String, dynamic> toJsonSurveyReponse() {
@@ -28,7 +35,9 @@ class SurveyResponse  extends HiveObject {
       "fieldId": fieldId??"",
       "fieldValue": fieldValue??"",
       "choiceId": choiceId??"",
-      "optionId": optionId??""
+      "optionId": optionId??"",
+      "takenBy":takenBy??"",
+      "filedName":fieldName??""
     };
   }
 }

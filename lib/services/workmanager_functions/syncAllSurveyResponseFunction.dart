@@ -6,7 +6,7 @@ import 'package:zonka_feedback/services/get_it/get_it.dart';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
 import 'package:zonka_feedback/services/network/api_result.dart';
 import 'package:zonka_feedback/services/network/network_exceptions.dart';
-import 'package:zonka_feedback/services/workmanager_functions/sync_survey_send_port_model.dart';
+import 'package:zonka_feedback/services/workmanager_functions/workmanager_model/sync_survey_send_port_model.dart';
 import 'package:zonka_feedback/utils/hive_directory_util.dart';
 
 Future<void> syncAllSurveyReponse() async {

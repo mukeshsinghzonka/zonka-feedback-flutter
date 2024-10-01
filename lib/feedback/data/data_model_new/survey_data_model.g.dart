@@ -23,13 +23,14 @@ class SurveyDataModelAdapter extends TypeAdapter<SurveyDataModel> {
       trackingInfo: fields[2] as dynamic,
       s3GalleryImageUrl: fields[4] as String?,
       loggedInUser: fields[5] as LoggedInUser?,
+      serveNameModel: (fields[6] as List?)?.cast<ServerNameModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, SurveyDataModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.surveyModel)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class SurveyDataModelAdapter extends TypeAdapter<SurveyDataModel> {
       ..writeByte(4)
       ..write(obj.s3GalleryImageUrl)
       ..writeByte(5)
-      ..write(obj.loggedInUser);
+      ..write(obj.loggedInUser)
+      ..writeByte(6)
+      ..write(obj.serveNameModel);
   }
 
   @override

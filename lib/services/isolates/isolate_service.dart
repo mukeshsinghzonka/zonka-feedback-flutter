@@ -4,7 +4,8 @@ import 'dart:ui';
 import 'package:zonka_feedback/services/hive/hive_service.dart';
 import '../../utils/hive_directory_util.dart';
 import '../../utils/hive_key.dart';
-import '../workmanager_functions/sync_survey_send_port_model.dart';
+import '../workmanager_functions/workmanager_model/sync_survey_send_port_model.dart';
+import '../workmanager_functions/workmanager_model/update_survey_model.dart';
 
 
 class IsolateService {
@@ -36,7 +37,13 @@ class IsolateService {
        break;
      case 'isolate_port2':
        if(data!=null){
-        await HiveService().putData(HiveDirectoryUtil.surveyLastUpdateDateTime, HiveKey.surveyLastUpdateKey, DateTime.parse(data));
+         UpdateSurveyModelValue updateSurveyModelValue = UpdateSurveyModelValue.fromJson(jsonDecode(data));
+         await HiveService().putData(HiveDirectoryUtil.surveyLastUpdateDateTime, HiveKey.surveyLastUpdateKey, updateSurveyModelValue);
+
+        for(int i = 0;i<updateSurveyModelValue.surveyId!.length;i++){
+           await HiveService().putData(HiveDirectoryUtil.updateHiveSurveyId,updateSurveyModelValue.surveyId![i]??"",updateSurveyModelValue.surveyUpdateDateTime.toUtc());
+        }
+
        }
        break;
 

@@ -18,51 +18,52 @@ class _PreviewModeOnDialogBoxState extends State<PreviewModeOnDialogBox> {
         padding: EdgeInsets.all(10.w),
         child: Column(
           children: [
-            const Text(
-              "You are starting the Preview Survey mode. It makes easy for you to test the survey you have activated using the Zonka Feedback Survey Builder.",
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            const Text(
-              'Any information and response captured during this will not be saved.',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            const Text(
-              'Are you sure you want to continue ?',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
+             Expanded(
+               child: Text(
+                "You are starting the Preview Survey mode. It makes easy for you to test the survey you have activated using the Zonka Feedback Survey Builder.",
+                textAlign: TextAlign.center,
+                           ),
+             ),
+
+             Expanded(
+               child: Text(
+                'Any information and response captured during this will not be saved.',
+                textAlign: TextAlign.center,
+                           ),
+             ),
+
+             Expanded(
+               child: Text(
+                'Are you sure you want to continue ?',
+                textAlign: TextAlign.center,
+                           ),
+             ),
+
             Container(
               margin: EdgeInsets.symmetric(horizontal: 30.w),
-
               child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                    GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop(false);
-                },
-                      child: Text('No',style: TextStyle(
-                        fontSize: 15.sp,
-                          color: Color(ColorConstant.themeColor)
-                      ),),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop(false);
+                    },
+                    child: Text(
+                      'No',
+                      style: TextStyle(
+                          fontSize: 10.sp,
+                          color: Color(ColorConstant.themeColor)),
                     ),
-                   GestureDetector(
-                     onTap: () {
-                       Navigator.of(context).pop(true);
-                     },
-                     child: Text("Yes",style:TextStyle(
-                         fontSize: 15.sp,
-                       color: Color(ColorConstant.themeColor)
-                     ) ),
-                   )
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text("Yes",
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            color: Color(ColorConstant.themeColor))),
+                  )
                 ],
               ),
             )

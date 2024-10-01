@@ -43,7 +43,8 @@ class HiveTypeId{
   static const int loggedInUserModel = 41;
   static const int countryIdModel= 42;
   static const int companyInfoModel = 43;
-
+  static const int serverNameModel= 44;
+  static const int updateSurveyModelValue = 45;
 
 
 }

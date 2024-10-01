@@ -51,7 +51,7 @@ class _ButtonRatingWidgetState extends State<ButtonRatingWidget> with TickerProv
       return null;
     }, builder: (context) {
       return Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        // decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
         child: GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

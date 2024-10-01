@@ -3,9 +3,7 @@ import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedbac
 import 'package:zonka_feedback/utils/enum_util.dart';
 
 class SurveyDesignFieldController extends GetxController {
-  final SurveryApiFeedbackController _screenFeedbackController =
-      Get.find<SurveryApiFeedbackController>();
-
+  final SurveryApiFeedbackController _screenFeedbackController = Get.find<SurveryApiFeedbackController>();
   RxString headingTextColor = '#000000'.obs;
   RxString optionTextColor = '#000000'.obs;
   RxString buttonColor = '#000000'.obs;
@@ -22,7 +20,6 @@ class SurveyDesignFieldController extends GetxController {
   RxString thankyouPageUrlBg = "".obs;
   RxString langugagePageLogo = "".obs;
   RxString languageBackgroundPage = "".obs;
-
   RxBool showIntroPage = false.obs;
   RxBool showThankyouPage = false.obs;
   RxBool showInactiveAlert = false.obs;
@@ -33,10 +30,8 @@ class SurveyDesignFieldController extends GetxController {
   RxBool allowGetsureToExit = false.obs;
   RxString exitPin = "".obs;
   RxString exitPassword = "".obs;
-
   RxString redirectUrlFromWebSurvey = "".obs;
   RxInt redirectWebSurveyIn = 0.obs;
-
   RxBool hideLogoInDevice = false.obs;
   RxBool isEmailTrackingEnabled = false.obs;
   RxBool isSmsTrackingEnabled = false.obs;

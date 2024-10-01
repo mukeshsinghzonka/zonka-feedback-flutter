@@ -20,8 +20,7 @@ class SurveySyncController extends GetxController {
   final SurveyScreenManager surveyScreenManager = Get.find<SurveyScreenManager>();
   final SubmitSurveyManagerController submitsurvey = Get.put(SubmitSurveyManagerController());
   final SurveryApiFeedbackController surveyApicontroller = Get.find<SurveryApiFeedbackController>();
-  final SurveyCollectDataController surveyCollectDataController =
-      Get.find<SurveyCollectDataController>();
+  final SurveyCollectDataController surveyCollectDataController = Get.find<SurveyCollectDataController>();
   AndroidDeviceInfo androidDeviceInfo = DeviceInfoService().androidInfo;
   final BatteryInfoService _batteryInfoService = BatteryInfoService();
 
@@ -62,6 +61,7 @@ class SurveySyncController extends GetxController {
     
 
     List<SurveyResponse>? surveyResponse = createSurveyResponseData();
+
     SurveySubmitModel submitSurveyModel = SurveySubmitModel(
         responseType: 'Device',
         language: surveyFieldController.defaultTranslation.value,

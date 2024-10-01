@@ -23,6 +23,8 @@ import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_
 import 'package:zonka_feedback/feedback/presentation/widget/screen_widgets/text_input_widget/textbox_widget.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 
+import '../widget/screen_widgets/choices_widget/drop_down_server_name.dart';
+
 
 class ScreenFeedBackQuesController extends GetxController{
 
@@ -147,7 +149,7 @@ Widget  _switchWidget({required SurveyScreenenum screen, required Field field}) 
     case SurveyScreenenum.radioRatingLable:
     return RadioRatingLableWidget(key: ValueKey<String>(field.id??''),field: field,);
     case SurveyScreenenum.serverName:
-    return DropDownWidget(key: ValueKey<String>(field.id??''),field: field,);
+    return DropDownServerNameWidget(key: ValueKey<String>(field.id??''),field: field,);
      case SurveyScreenenum.mobileNumber:
     return PhoneNumberWidget(key: ValueKey<String>(field.id??''),field: field,);
 

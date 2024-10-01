@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/feedback/presentation/manager/survery_api_feedback_controller.dart';
@@ -25,7 +26,8 @@ class AddTemplateScreen extends StatefulWidget {
   State<AddTemplateScreen> createState() => _AddTemplateScreenState();
 }
 
-class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProviderStateMixin {
+class _AddTemplateScreenState extends State<AddTemplateScreen>
+    with TickerProviderStateMixin {
   final getTemplateManager = Get.find<GetTemplateManager>();
   bool backvalgroundColor = false;
   final ScrollController _scrollController = ScrollController();
@@ -35,59 +37,38 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProvid
   final Map<String, GlobalKey> _keyMap = {};
   GlobalKey newKey = GlobalKey();
 
-
-
-  void applytemplateFunction(TemplateModel templateModel){
+  void applytemplateFunction(TemplateModel templateModel) {
     ApiCallHandling(
-                                                          controller:
-                                                              applyTemplateManagerController,
-                                                          status: ApiCallStatus
-                                                              .Initial,
-                                                          success: () {
-                                                            Navigator.of(context).pop(true);
-                                                          },
-                                                          sendParams: true,
-                                                          dialogBoxtitle:
-                                                              'applying template ...')
-                                                      .handleApiCall(
-                                                          value: ApplyTemplateParamsValue(
-                                                              surveyId:
-                                                                  templateModel
-                                                                          .surveyId
-                                                                          ?.id ??
-                                                                      "",
-                                                              templateId:
-                                                                  addTemplateManagerController
-                                                                          .addTemplateModel
-                                                                          .value
-                                                                          .id ??
-                                                                      ""));
+            controller: applyTemplateManagerController,
+            status: ApiCallStatus.Initial,
+            success: () {
+              Navigator.of(context).pop(true);
+            },
+            sendParams: true,
+            dialogBoxtitle: 'applying template ...')
+        .handleApiCall(
+            value: ApplyTemplateParamsValue(
+                surveyId: templateModel.surveyId?.id ?? "",
+                templateId:
+                    addTemplateManagerController.addTemplateModel.value.id ??
+                        ""));
   }
 
-  Future<void> addTemplateFunction(TemplateModel templateModel)async {
-     ApiCallHandling(
-                                                          controller:
-                                                              addTemplateManagerController,
-                                                          status: ApiCallStatus
-                                                              .Initial,
-                                                          success: () {
-                                                            applytemplateFunction(templateModel);
-                                                          },
-                                                          sendParams: true,
-                                                          dialogBoxtitle:
-                                                              'add template ...')
-                                                      .handleApiCall(
-                                                          value: AddTemplateParamsValue(
-                                                               surveyName:
-                                                            templateModel
-                                                                    .surveyId
-                                                                    ?.name ??
-                                                                "",
-                                                       
-                                                        templateId:
-                                                            templateModel.id ??
-                                                                ""));
+  Future<void> addTemplateFunction(TemplateModel templateModel) async {
+    ApiCallHandling(
+            controller: addTemplateManagerController,
+            status: ApiCallStatus.Initial,
+            success: () {
+              applytemplateFunction(templateModel);
+            },
+            sendParams: true,
+            dialogBoxtitle: 'add template ...')
+        .handleApiCall(
+            value: AddTemplateParamsValue(
+                surveyName: templateModel.surveyId?.name ?? "",
+                templateId: templateModel.id ?? ""));
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -95,8 +76,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProvid
       body: Obx(() {
         return CustomScrollView(
           controller: _scrollController,
-          physics:
-              backvalgroundColor ? const NeverScrollableScrollPhysics() : null,
+
           slivers: [
             SliverAppBar(
               title: GestureDetector(
@@ -117,29 +97,13 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProvid
               key: newKey,
               delegate: PinnedHeaderDelegate(
                 callbackFunction: (val) {
-                  DateTime startTime = DateTime.now();
                   Offset value = val;
-                  // slidingAnimation = Tween<Offset>(
-                  //   begin: Offset(_scrollController.offset + 250.w,
-                  //       value.dy + _scrollController.offset - 95.h),
-                  //   end:
-                  //       Offset(0.0, value.dy + _scrollController.offset - 95.h),
-                  // ).animate(CurvedAnimation(
-                  //   parent: slidingAnimationController,
-                  //   curve: Curves.easeInOut,
-                  // ));
-                  // setState(() {
-                  //   // triggerAnimation(backvalgroundColor);
-                  // });
-                  DateTime endTime = DateTime.now();
-                  Duration executionTime = endTime.difference(startTime);
-
-                  // Print the execution time
-                  print('Execution time: ${executionTime.inMilliseconds} ms');
+                  
                 },
               ),
               pinned: true,
             ),
+
             getTemplateManager.apiStatus.value == ApiCallStatus.Loading
                 ? SliverToBoxAdapter(
                     child: Container(
@@ -152,7 +116,6 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProvid
                   )
                 : SliverToBoxAdapter(
                     child: Stack(
-                      alignment: AlignmentDirectional.topEnd,
                       children: [
                         ListView.builder(
                           shrinkWrap: true,
@@ -224,13 +187,9 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProvid
                                               showDialog(
                                                 context: context,
                                                 builder: (_) =>
-                                                    PreviewTemplateDialogBox(
-                                                  templateModel: templateModel,
-                                                ),
+                                                    PreviewTemplateDialogBox(templateModel: templateModel,),
                                               ).then((value) async {
-                                               
-                                      print("templatevalue $value");
-                                                if (value!=null && value=="PREVIEW_SURVEY") {
+                                                if (value != null &&  value == "PREVIEW_SURVEY") {
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -246,11 +205,11 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProvid
                                                               ))).then(
                                                       (value) async {
                                                     if (value == false) {
-                                              addTemplateFunction(templateModel);
+                                                      addTemplateFunction(templateModel);
                                                     }
                                                   });
-                                                } else if (value!=null && value=="ADD_SURVEY") {
-                                              addTemplateFunction(templateModel);
+                                                } else if (value != null && value == "ADD_SURVEY") {
+                                                  addTemplateFunction(templateModel);
                                                 }
                                               });
                                             }
@@ -289,16 +248,16 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProvid
                                                         ),
                                                       ),
                                                       width: double.infinity,
-                                                      // child: CachedNetworkImage(
-                                                      //   imageUrl: templateModel
-                                                      //           .thumbnailImage ??
-                                                      //       '',
-                                                      //   errorWidget: (context,
-                                                      //       url, error) {
-                                                      //     return Container();
-                                                      //   },
-                                                      // ),
-                                                      child: Container(),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: templateModel
+                                                                .thumbnailImage ??
+                                                            '',
+                                                        errorWidget: (context,
+                                                            url, error) {
+                                                          return Container();
+                                                        },
+                                                      ),
+                                                      // child: Container(),
                                                     ),
                                                   ),
                                                   SizedBox(height: 5.h),
@@ -379,83 +338,59 @@ class _AddTemplateScreenState extends State<AddTemplateScreen> with TickerProvid
                           },
                         ),
 
-                        // AnimatedBuilder(
-                        //     animation: imageFilterAnimation,
-                        //     builder: (context, child) {
-                        //       return BackdropFilter(
-                        //         blendMode: BlendMode.luminosity,
-                        //         filter: ImageFilter.blur(
-                        //             sigmaX: imageFilterAnimation.value,
-                        //             sigmaY: imageFilterAnimation.value),
-                        //         child: Container(
-                        //             color: Colors.black.withOpacity(0.5)),
-                        //       );
-                        //     }),
-                        // AnimatedBuilder(
-                        //   animation: slidingAnimation,
-                        //   builder: (context, child) {
-                        //     return Transform.translate(
-                        //       offset: slidingAnimation.value,
-                        //       child: Container(
-                        //         alignment: Alignment.topRight,
-                        //         width: size.width * 0.6,
-                        //         height: 300.h,
-                        //         padding: EdgeInsets.all(10.w),
-                        //         color: Colors.white,
-                        //         child: ListView.builder(
-                        //             padding: const EdgeInsets.all(0),
-                        //             itemCount: getTemplateManager.templateData
-                        //                 .value.templateIndustriesMap.length,
-                        //             itemBuilder: (context, index) {
-                        //               List<TemplateIndustriesMap>
-                        //                   templateIndustriesMapValue =
-                        //                   getTemplateManager.templateData.value
-                        //                       .templateIndustriesMap;
-                        //               return Visibility(
-                        //                 visible: getTemplateManager
-                        //                         .filterTemplateIndustryMap[
-                        //                             templateIndustriesMapValue[
-                        //                                     index]
-                        //                                 .id]
-                        //                         ?.length !=
-                        //                     0,
-                        //                 child: GestureDetector(
-                        //                   onTap: () {
-                        //                     Scrollable.ensureVisible(_keyMap[
-                        //                             templateIndustriesMapValue[
-                        //                                     index]
-                        //                                 .id]!
-                        //                         .currentContext!);
-                        //
-                        //
-                        //
-                        //                     // triggerAnimation(backvalgroundColor);
-                        //                   },
-                        //                   child: Container(
-                        //                     padding: EdgeInsets.all(3.h),
-                        //                     child: Column(
-                        //                       crossAxisAlignment:
-                        //                           CrossAxisAlignment.start,
-                        //                       children: [
-                        //                         Text(
-                        //                           templateIndustriesMapValue[
-                        //                                       index]
-                        //                                   .name ??
-                        //                               "",
-                        //                           style: TextStyle(
-                        //                               fontSize: 10.sp),
-                        //                         ),
-                        //                         const Divider()
-                        //                       ],
-                        //                     ),
-                        //                   ),
-                        //                 ),
-                        //               );
-                        //             }),
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
+                        Positioned(
+
+                          top: size.height / 200, // Adjust this value based on header's height
+                          // left: size.width /5,
+                          left: size.width/2.5,
+                          child: Container(
+                            width: size.width * 0.6,
+                            height: 300.h,
+                            padding: EdgeInsets.all(10.w),
+                            color: Colors.white,
+                            child: ListView.builder(
+                                padding: const EdgeInsets.all(0),
+                                itemCount: getTemplateManager.templateData.value.templateIndustriesMap.length,
+                                itemBuilder: (context, index) {
+                                  List<TemplateIndustriesMap> templateIndustriesMapValue = getTemplateManager.templateData.value.templateIndustriesMap;
+                                  return Visibility(
+                                    visible: getTemplateManager.filterTemplateIndustryMap[templateIndustriesMapValue[index].id]?.length != 0,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Scrollable.ensureVisible(_keyMap[
+                                        templateIndustriesMapValue[
+                                        index]
+                                            .id]!
+                                            .currentContext!);
+                          
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(3.h),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              templateIndustriesMapValue[
+                                              index]
+                                                  .name ??
+                                                  "",
+                                              style: TextStyle(
+                                                  fontSize: 10.sp),
+                                            ),
+                                            const Divider()
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          ).animate().slide(
+                              begin: const Offset(1, 0), // Start from right
+                              end: Offset.zero,
+                              duration: Duration(seconds: 1)
+                          ),
+                        ),
                       ],
                     ),
                   )

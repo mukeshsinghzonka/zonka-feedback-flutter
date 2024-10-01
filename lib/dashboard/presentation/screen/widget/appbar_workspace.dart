@@ -81,43 +81,48 @@ class _AppBarWorkSpaceState extends State<AppBarWorkSpace> {
                 ],
               ));
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GetBuilder(
-              init: workspaceController,
-              builder: (context) {
-                return Container(
-                  width: 150.w,
-                  alignment: Alignment.center,
-                  child: Text(
-                      workspaceController.selectedWorkspace?.value.workSpaceName ??"",
-                
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: ConstantSize.medium_2),
-                  ),
-                );
-              }
-            ),
-            SizedBox(
-              width: 10.w,
-            ),
-            Container(
-                width: 13.h,
-                height: 13.h,
-                padding: EdgeInsets.all(3.w),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(ColorConstant.arrowBackgroundColor),
+        child: Container(
+
+          width: size.width/2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 7,
+                child: GetBuilder(
+                  init: workspaceController,
+                  builder: (context) {
+                    return Container(
+
+                      alignment: Alignment.center,
+                      child: Text(
+                          workspaceController.selectedWorkspace?.value.workSpaceName ??"",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: ConstantSize.medium_1),
+                      ),
+                    );
+                  }
                 ),
-                child: SvgPicture.asset(
-                  ImageConstant.arrowDownLogo,
-                  width: 13.h,
-                  height: 13.h,
-                )),
-          ],
+              ),
+
+              Expanded(
+                child: Container(
+                    padding: EdgeInsets.all(5.w),
+                    decoration:const  BoxDecoration(
+                      shape: BoxShape.circle,
+                      color:  Color(ColorConstant.arrowBackgroundColor),
+                    ),
+                    child: SvgPicture.asset(
+                      ImageConstant.arrowDownLogo,
+                      width: 5.h,
+                      height: 5.h,
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     );

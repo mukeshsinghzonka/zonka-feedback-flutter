@@ -27,6 +27,7 @@ class UpdateSurveyDs {
         String surveyId = value[i];
         if(surveyId != HiveKey.updateSurveyKey){
          var modifiedDateValue = await HiveService().getData(HiveDirectoryUtil.updateHiveSurveyId, surveyId);
+         print("mofieddatetimevalue $modifiedDateValue $surveyId");
           updatedSurveyModel.add(UpdateSurveyModel(modifiedDate: modifiedDateValue, surveyId: surveyId));
         }
    

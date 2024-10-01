@@ -21,9 +21,9 @@ class _ScreenSwitchWidgetState extends State<ScreenSwitchWidget> with SingleTick
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-        decoration: BoxDecoration(
-    border: Border.all(color: Colors.blueAccent)
-  ),
+  //       decoration: BoxDecoration(
+  //   // border: Border.all(color: Colors.blueAccent)
+  // ),Ns
       child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
