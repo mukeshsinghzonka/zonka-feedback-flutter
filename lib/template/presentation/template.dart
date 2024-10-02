@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -29,11 +30,11 @@ class AddTemplateScreen extends StatefulWidget {
 class _AddTemplateScreenState extends State<AddTemplateScreen>
     with TickerProviderStateMixin {
   final getTemplateManager = Get.find<GetTemplateManager>();
-  bool backvalgroundColor = false;
-  final ScrollController _scrollController = ScrollController();
+
+  bool showFilter  = false;
   final ApplyTemplateManagerController applyTemplateManagerController = Get.find<ApplyTemplateManagerController>();
   final AddTemplateManagerController addTemplateManagerController = Get.find<AddTemplateManagerController>();
-
+  bool backvalgroundColor = false;
   final Map<String, GlobalKey> _keyMap = {};
   GlobalKey newKey = GlobalKey();
 
@@ -75,12 +76,16 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
     return Scaffold(
       body: Obx(() {
         return CustomScrollView(
-          controller: _scrollController,
 
           slivers: [
             SliverAppBar(
               title: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showFilter = !showFilter;
+                  setState(() {
+
+                  });
+                },
                 child: Text(
                   'Add Survey',
                   style: TextStyle(fontSize: 15.sp),
@@ -97,8 +102,18 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
               key: newKey,
               delegate: PinnedHeaderDelegate(
                 callbackFunction: (val) {
-                  Offset value = val;
-                  
+                  // Offset value = val;
+                  // setState(() {
+                  //   showFilter =val;
+                  // });
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    final renderSliver = newKey.currentContext?.findRenderObject() as RenderSliver?;
+                    if (renderSliver != null) {
+                      // Access the offset using geometry
+                      final offset = renderSliver.constraints.scrollOffset;
+                      print('Offset: $offset');
+                    }
+                  });
                 },
               ),
               pinned: true,
@@ -121,12 +136,9 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                           shrinkWrap: true,
                           padding: const EdgeInsets.all(0),
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: getTemplateManager
-                              .templateData.value.templateIndustriesMap.length,
+                          itemCount: getTemplateManager.templateData.value.templateIndustriesMap.length,
                           itemBuilder: (BuildContext context, int index) {
-                            List<TemplateIndustriesMap>
-                                templateIndustriesMapValue = getTemplateManager
-                                    .templateData.value.templateIndustriesMap;
+                            List<TemplateIndustriesMap> templateIndustriesMapValue = getTemplateManager.templateData.value.templateIndustriesMap;
                             String id =
                                 templateIndustriesMapValue[index].id ?? '';
                             final key = GlobalKey();
@@ -136,12 +148,7 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                               key: key,
                               padding: EdgeInsets.symmetric(horizontal: 12.h),
                               child: Visibility(
-                                visible: getTemplateManager
-                                        .filterTemplateIndustryMap[
-                                            templateIndustriesMapValue[index]
-                                                .id]
-                                        ?.length !=
-                                    0,
+                                visible: getTemplateManager.filterTemplateIndustryMap[templateIndustriesMapValue[index].id]?.length != 0,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -338,57 +345,53 @@ class _AddTemplateScreenState extends State<AddTemplateScreen>
                           },
                         ),
 
-                        Positioned(
-
-                          top: size.height / 200, // Adjust this value based on header's height
-                          // left: size.width /5,
-                          left: size.width/2.5,
-                          child: Container(
-                            width: size.width * 0.6,
-                            height: 300.h,
-                            padding: EdgeInsets.all(10.w),
-                            color: Colors.white,
-                            child: ListView.builder(
-                                padding: const EdgeInsets.all(0),
-                                itemCount: getTemplateManager.templateData.value.templateIndustriesMap.length,
-                                itemBuilder: (context, index) {
-                                  List<TemplateIndustriesMap> templateIndustriesMapValue = getTemplateManager.templateData.value.templateIndustriesMap;
-                                  return Visibility(
-                                    visible: getTemplateManager.filterTemplateIndustryMap[templateIndustriesMapValue[index].id]?.length != 0,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Scrollable.ensureVisible(_keyMap[
-                                        templateIndustriesMapValue[
-                                        index]
-                                            .id]!
-                                            .currentContext!);
-                          
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(3.h),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              templateIndustriesMapValue[
-                                              index]
-                                                  .name ??
-                                                  "",
-                                              style: TextStyle(
-                                                  fontSize: 10.sp),
-                                            ),
-                                            const Divider()
-                                          ],
+                        Visibility(
+                          visible:showFilter,
+                          child: Positioned(
+                            top: size.height / 200, // Adjust this value based on header's height
+                            left: size.width/2.5,
+                            child: Container(
+                              width: size.width * 0.6,
+                              height: 300.h,
+                              padding: EdgeInsets.all(10.w),
+                              color: Colors.white,
+                              child: ListView.builder(
+                                  padding: const EdgeInsets.all(0),
+                                  itemCount: getTemplateManager.templateData.value.templateIndustriesMap.length,
+                                  itemBuilder: (context, index) {
+                                    List<TemplateIndustriesMap> templateIndustriesMapValue = getTemplateManager.templateData.value.templateIndustriesMap;
+                                    return Visibility(
+                                      visible: getTemplateManager.filterTemplateIndustryMap[templateIndustriesMapValue[index].id]?.length != 0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                            Scrollable.ensureVisible(_keyMap[templateIndustriesMapValue[index].id]!.currentContext!);
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(3.h),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                templateIndustriesMapValue[
+                                                index]
+                                                    .name ??
+                                                    "",
+                                                style: TextStyle(
+                                                    fontSize: 10.sp),
+                                              ),
+                                              const Divider()
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                          ).animate().slide(
-                              begin: const Offset(1, 0), // Start from right
-                              end: Offset.zero,
-                              duration: Duration(seconds: 1)
+                                    );
+                                  }),
+                            ).animate().slide(
+                                begin: const Offset(1, 0), // Start from right
+                                end: Offset.zero,
+                                duration: Duration(seconds: 1)
+                            ),
                           ),
                         ),
                       ],

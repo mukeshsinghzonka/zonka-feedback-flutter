@@ -10,9 +10,10 @@ import 'package:zonka_feedback/utils/image_constant.dart';
 class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
   late BoolCallback callbackFunction;
  PinnedHeaderDelegate({required this.callbackFunction});
-   final key = GlobalKey();
+  bool showFilter = false;
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+
     return Container(
       height: 100.h,
       color: const Color(ColorConstant.signUpBackgroudColor),
@@ -28,12 +29,10 @@ class PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
                 Text('Browse Templates',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
                 GestureDetector(
                   onTap: () async {
-                     final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
-                     final offset = renderBox.localToGlobal(Offset.zero);
-                     callbackFunction(offset);
+                    showFilter = !showFilter;
+                    callbackFunction(showFilter);
                   },
                   child: SvgPicture.asset(
-                    key: key,
                     ImageConstant.imageTemplateFilter),
                   // child:Icon(Icons.add)
                 ),

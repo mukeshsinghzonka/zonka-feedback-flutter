@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zonka_feedback/dashboard/presentation/manager/workspace_controller.dart';
@@ -12,7 +10,6 @@ import 'package:zonka_feedback/surveys/presentation/manager/survey_manage_contro
 import 'package:zonka_feedback/template/presentation/manager/get_template_manager.dart';
 import 'package:zonka_feedback/utils/enum_util.dart';
 import '../../../feedback/presentation/manager/language_api_manager.dart';
-import '../../../services/workmanager_functions/work_manager_service.dart';
 
 class DashboardController extends BaseControllerWithOutParams<void> {
   final locationController = Get.put(LocationController());
